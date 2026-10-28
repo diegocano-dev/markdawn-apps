@@ -6,7 +6,7 @@ The first app of **MarkDawn Apps**: familiar Office-style tools that save everyt
 
 A lightweight, Word-style document editor that reads and writes plain Markdown. You never see a `#` or `**` while you write, and every document is saved as clean Markdown that people, tools and AI models can read.
 
-**[Try the live demo →](https://USERNAME.github.io/markdawn-apps/)**
+**[Try the live demo →](https://diegocano-dev.github.io/markdawn-apps/)**
 
 [Leer en español](README.es.md)
 
@@ -44,7 +44,7 @@ Markdown viewers hide the comment, so the file still looks normal everywhere, an
 
 ## Use it
 
-- **Online**: open the [live demo](https://USERNAME.github.io/markdawn-apps/).
+- **Online**: open the [live demo](https://diegocano-dev.github.io/markdawn-apps/).
 - **Offline**: download `index.html` and open it in any modern browser.
 - **In your own page**: the editor exposes a small API.
 
