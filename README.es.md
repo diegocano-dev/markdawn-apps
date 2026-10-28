@@ -6,7 +6,7 @@ La primera aplicación de **MarkDawn Apps**: herramientas con el aspecto de Offi
 
 Un editor de documentos ligero, con aspecto de Word, que lee y guarda Markdown puro. Nunca ves un `#` ni un `**` mientras escribes, y cada documento se guarda como Markdown limpio que pueden leer personas, herramientas e IA.
 
-**[Pruébalo en línea →](https://USERNAME.github.io/markdawn-apps/)**
+**[Pruébalo en línea →](https://diegocano-dev.github.io/markdawn-apps/)**
 
 [Read in English](README.md)
 
@@ -44,7 +44,7 @@ Los visores de Markdown ocultan el comentario, así que el archivo se sigue vien
 
 ## Cómo usarlo
 
-- **En línea**: abre la [demo](https://USERNAME.github.io/markdawn-apps/).
+- **En línea**: abre la [demo](https://diegocano-dev.github.io/markdawn-apps/).
 - **Sin conexión**: descarga `index.html` y ábrelo en cualquier navegador moderno.
 - **En tu propia página**: el editor ofrece una pequeña API.
 
