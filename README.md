@@ -10,8 +10,9 @@ Markdown is the format AI models understand best, and it works everywhere: GitHu
 | --- | --- | --- |
 | **MarkDawn Writer** | A Word-style document editor | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
 | **MarkDawn Slides** | A PowerPoint-style slide editor | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/slides/) |
+| **MarkDawn Mind** | Mind maps with an Office-style ribbon (English and Spanish) | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/mind/) |
 
-Both are single HTML files with no dependencies and no build step. The [home page](https://diegocano-dev.github.io/markdawn-apps/) links to both.
+Each one is a single HTML file with no dependencies and no build step. The [home page](https://diegocano-dev.github.io/markdawn-apps/) links to all three.
 
 ---
 
@@ -92,24 +93,68 @@ flowchart LR
 
 ---
 
+## MarkDawn Mind
+
+**Mind maps like in Office. Saved as Markdown any AI can read.**
+
+![MarkDawn Mind: an organic mind map with tapered branches](mind-screenshot.png)
+
+This repository has **MarkDawn Mind Lite**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
+
+- **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
+- **Organic maps** with tapered, curved branches, plus right-side and tree (folder-like) layouts
+- **Topics stay where you drop them**, branches included; drop one on another topic to move it there
+- **Navigation your way**: zoom towards the pointer, pan with the right or middle button or Space, all configurable (View → Mouse and zoom)
+- **Several sheets in one file**, notes, tasks, markers, links, relationships and floating topics
+- **Live Markdown pane** you can also edit, outline, minimap, dark mode, ribbon at the top, left or right
+- **Opens any Markdown**: headings and lists become branches
+- Built-in help: press **F1**
+
+The full edition adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches and formatting by level. It opens the same files.
+
+### How a mind map is saved
+
+The map is a plain nested list. Formatting and positions go in HTML comments that viewers don't show:
+
+```markdown
+<!-- markdawn-mind 0.3 · palette=vivo line=curve taper=all -->
+<!-- style main: shape=pill border=2 line=6 case=upper -->
+
+# Product launch
+<!-- map: structure=organic -->
+
+- Marketing <!-- color=#e8743b -->
+  - Social media
+  - Press release
+- Product
+  - [x] Beta version
+  - [ ] Customer testing
+```
+
+Files with several sheets start each one with `<!-- page: Name -->` and separate them with `---`.
+
+---
+
 ## Use them
 
 - **Online**: open the live demos linked above.
-- **Offline**: download `writer/index.html` (Writer) or `slides/index.html` (Slides) and open it in any modern browser.
-- **In your own page**: Writer exposes a small API.
+- **Offline**: download `writer/index.html` (Writer), `slides/index.html` (Slides) or `mind/index.html` (Mind) and open it in any modern browser.
+- **In your own page**: Writer and Mind expose a small API.
 
 ```js
 MarkDawn.getMarkdown();          // returns the document as Markdown
 MarkDawn.setMarkdown('# Hello'); // loads Markdown into the editor
+
+MarkDawnMind.getMarkdown();          // the whole mind map file
+MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 ```
 
 ## Roadmap
 
 - Open `.md` files in Slides
 - Themes: fonts and colors for a whole document or presentation, without changing the Markdown
-- English interface
+- English interface for Writer and Slides
 - Installable app (PWA) and a Windows desktop version
-- A mind map app built on the same idea
 - A renderer library and plugins to view MarkDawn files in Obsidian, VS Code and websites
 
 ## License
