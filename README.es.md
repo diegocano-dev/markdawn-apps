@@ -8,7 +8,7 @@ Markdown es el formato que mejor entienden las IA, y funciona en todas partes: G
 
 | Aplicación | Qué es | Pruébala |
 | --- | --- | --- |
-| **MarkDawn Writer** | Un editor de documentos con aspecto de Word | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
+| **MarkDawn Writer** | Un editor de documentos con aspecto de Word (en español e inglés) | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
 | **MarkDawn Slides** | Un editor de diapositivas con aspecto de PowerPoint | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/slides/) |
 | **MarkDawn Mind** | Mapas mentales con cinta tipo Office (en español e inglés) | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/mind/) |
 
@@ -33,6 +33,10 @@ Nunca ves un `#` ni un `**` mientras escribes, y cada documento se guarda como M
 - **Atajos de Markdown al escribir**: `# `, `- `, `1. `, `> `, `[ ] `, `**negrita**`, `` `código` ``
 - **Abre cualquier archivo `.md`** sin romperlo, y pega limpio desde Word, Google Docs y páginas web
 - Panel de navegación, buscar y reemplazar, zoom, deshacer y rehacer, contador de palabras
+- **Seis temas** para ver el documento (Word, Sobrio, Académico, Notion, GitHub y Lectura) y **modo oscuro**; el Markdown no cambia
+- **Exportar PDF** y **Copiar para Word** (pega con formato en Word, Google Docs u Outlook)
+- **Carpeta de trabajo** (Chrome y Edge): los documentos se guardan solos en tu carpeta, y exportar o importar la configuración
+- Interfaz en **español e inglés**, cinta plegable y ayuda incluida (**F1**)
 
 Markdown no tiene alineación, así que Writer la guarda como un comentario invisible encima del bloque:
 
@@ -156,7 +160,7 @@ MarkDawnMind.setMarkdown('# Idea\n- Uno\n- Dos');
 
 - Abrir archivos `.md` en Slides
 - Temas: tipos de letra y colores para todo el documento o la presentación, sin cambiar el Markdown
-- Interfaz en inglés para Writer y Slides
+- Interfaz en inglés para Slides
 - App instalable (PWA) y versión de escritorio para Windows
 - Una librería y plugins para ver los archivos MarkDawn en Obsidian, VS Code y páginas web
 

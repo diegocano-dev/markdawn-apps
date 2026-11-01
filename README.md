@@ -8,7 +8,7 @@ Markdown is the format AI models understand best, and it works everywhere: GitHu
 
 | App | What it is | Try it |
 | --- | --- | --- |
-| **MarkDawn Writer** | A Word-style document editor | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
+| **MarkDawn Writer** | A Word-style document editor (English and Spanish) | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
 | **MarkDawn Slides** | A PowerPoint-style slide editor | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/slides/) |
 | **MarkDawn Mind** | Mind maps with an Office-style ribbon (English and Spanish) | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/mind/) |
 
@@ -33,6 +33,10 @@ You never see a `#` or `**` while you write, and every document is saved as clea
 - **Markdown shortcuts while typing**: `# `, `- `, `1. `, `> `, `[ ] `, `**bold**`, `` `code` ``
 - **Opens any `.md` file** without breaking it, and pastes cleanly from Word, Google Docs and web pages
 - Navigation pane, find and replace, zoom, undo and redo, word count
+- **Six themes** to view the document (Word, Plain, Academic, Notion, GitHub and Reading) and **dark mode**; the Markdown doesn't change
+- **Export PDF** and **Copy for Word** (pastes with formatting into Word, Google Docs or Outlook)
+- **Working folder** (Chrome and Edge): documents save themselves to your folder, plus export or import your settings
+- **English and Spanish** interface, collapsible ribbon and built-in help (**F1**)
 
 Markdown has no alignment, so Writer stores it as an invisible comment above the block:
 
@@ -156,7 +160,7 @@ MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 
 - Open `.md` files in Slides
 - Themes: fonts and colors for a whole document or presentation, without changing the Markdown
-- English interface for Writer and Slides
+- English interface for Slides
 - Installable app (PWA) and a Windows desktop version
 - A renderer library and plugins to view MarkDawn files in Obsidian, VS Code and websites
 

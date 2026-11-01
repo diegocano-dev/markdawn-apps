@@ -166,7 +166,8 @@
   .pv-q { font-size: 13px; font-style: italic; color: #555; border-left: 2px solid var(--word); padding-left: 4px; }
   .pv-c { font-family: var(--mono); font-size: 12px; background: var(--code-bg); padding: 0 3px; }
 
-  .file-note { font-size: 12px; color: var(--muted); max-width: 290px; line-height: 1.45; align-self: center; padding: 0 4px; }
+  .file-note { font-size: 11.5px; color: var(--muted); max-width: 300px; line-height: 1.35; align-self: center; padding: 0 4px; margin: 0; }
+  .stack.tight { gap: 0; } .stack.tight .rb { height: 22px; }
 
   /* ---------- Zona principal ---------- */
   .main { flex: 1; display: flex; min-height: 0; }
@@ -364,6 +365,152 @@
   }
   .dropzone span { background: #fff; padding: 12px 20px; border-radius: 6px; font-size: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
 
+  /* ---------- Barra de título: idioma, modo oscuro y ayuda ---------- */
+  .qa.txt { width: auto; padding: 0 7px; font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+  .qa[aria-pressed="true"] { background: rgba(255,255,255,.22); }
+  .docname .state.link { cursor: pointer; text-decoration: underline dotted; opacity: 1; }
+
+  /* ---------- Cinta plegable (solo pestañas) ---------- */
+  .ribbon { position: relative; }
+  .tabs { align-items: flex-end; }
+  .tabs .tabs-sp { flex: 1; }
+  .tab-pin { flex: none; align-self: center; width: 26px; height: 24px; margin-bottom: 3px; border: 0; border-radius: 3px; background: none; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+  .tab-pin:hover { background: var(--hover); color: var(--ink); }
+  .tab-pin svg { width: 16px; height: 16px; }
+  .ribbon.min .panel { display: none; }
+  .ribbon.min.peek .panel:not([hidden]) { display: flex; position: absolute; left: 0; right: 0; top: 100%; z-index: 30; background: var(--panel); box-shadow: 0 10px 26px rgba(0,0,0,.16); border-bottom: 1px solid var(--line); }
+  .ribbon.min:not(.peek) .tab[aria-selected="true"] { background: none; border-color: transparent; font-weight: 400; color: var(--muted); margin-bottom: 0; }
+  .ribbon.min:not(.peek) .tab.file[aria-selected="true"] { background: var(--word); color: #fff; }
+
+  /* ---------- Galería de temas del documento ---------- */
+  .thm { width: 64px; height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 1px solid transparent; border-radius: 2px; background: none; cursor: pointer; padding: 0 3px; color: var(--ink); }
+  .thm:hover { border-color: var(--line); background: var(--hover); }
+  .thm[aria-pressed="true"] { border-color: var(--word); background: var(--word-tint); }
+  .thm b { font-size: 19px; line-height: 24px; font-weight: 600; }
+  .thm small { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .gpop { position: fixed; z-index: 46; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 8px 26px rgba(0,0,0,.18); padding: 10px 12px 12px; min-width: 220px; }
+  .gpop h4 { margin: 0 0 8px; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .gpop .opt { display: flex; width: 100%; align-items: center; gap: 8px; border: 0; background: none; padding: 6px 8px; border-radius: 4px; text-align: left; cursor: pointer; font-size: 13px; color: var(--ink); }
+  .gpop .opt:hover { background: var(--hover); }
+  .gpop hr { border: 0; border-top: 1px solid var(--line-soft); margin: 6px 0; }
+  .gpop label { display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin-top: 8px; cursor: pointer; }
+
+  /* Temas: cambian solo cómo se ve el documento; el Markdown no cambia */
+  body.t-sobrio, body.t-sobrio .page, body.t-academico, body.t-academico .page, body.t-notion, body.t-notion .page, body.t-github, body.t-github .page, body.t-lectura, body.t-lectura .page { --h1: var(--doc-ink); --h3: var(--doc-ink); }
+  body.t-sobrio { --doc: Calibri, Carlito, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+  body.t-sobrio #editor h1, body.t-sobrio #editor h2, body.t-sobrio #editor h3 { font-weight: 700; }
+  body.t-sobrio #editor h4 { font-style: normal; font-weight: 700; }
+  body.t-academico { --doc: "Charter", "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif; }
+  body.t-academico #editor { font-size: 16px; line-height: 1.55; hyphens: auto; }
+  body.t-academico #editor p { text-align: justify; }
+  body.t-academico #editor h1 { text-align: center; font-size: 26px; font-weight: 700; margin-bottom: .8em; }
+  body.t-academico #editor h2 { font-size: 19px; font-weight: 700; }
+  body.t-academico #editor h3 { font-size: 16px; font-weight: 700; }
+  body.t-academico #editor h4 { font-size: 15px; font-weight: 400; font-style: italic; }
+  body.t-academico #editor blockquote { background: none; border-left: 0; padding: 0 2.5em; font-style: normal; font-size: .95em; }
+  body.t-notion { --doc: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  body.t-notion #editor { font-size: 16px; line-height: 1.6; }
+  body.t-notion #editor h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; }
+  body.t-notion #editor h2 { font-size: 24px; font-weight: 700; }
+  body.t-notion #editor h3 { font-size: 19px; font-weight: 600; }
+  body.t-notion #editor h4 { font-style: normal; }
+  body.t-notion #editor blockquote { background: none; font-style: normal; border-left: 3px solid currentColor; color: inherit; }
+  body.t-notion #editor code { color: #eb5757; background: rgba(135,131,120,.15); }
+  body.t-notion #editor pre { background: rgba(135,131,120,.08); border: 0; }
+  body.t-notion #editor th { background: rgba(135,131,120,.08); }
+  body.t-notion #editor th, body.t-notion #editor td { border-color: rgba(135,131,120,.3); }
+  body.t-github { --doc: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif; --link: #0969da; }
+  body.t-github #editor { font-size: 16px; line-height: 1.5; }
+  body.t-github #editor h1, body.t-github #editor h2 { padding-bottom: .3em; border-bottom: 1px solid var(--line); }
+  body.t-github #editor h1 { font-size: 28px; font-weight: 600; }
+  body.t-github #editor h2 { font-size: 22px; font-weight: 600; }
+  body.t-github #editor h4 { font-style: normal; }
+  body.t-github #editor blockquote { background: none; font-style: normal; border-left: .25em solid var(--line); color: var(--muted); }
+  body.t-github #editor code { background: rgba(129,139,152,.15); }
+  body.t-github #editor pre { border: 0; background: var(--code-bg); }
+  body.t-lectura { --doc: Georgia, "Iowan Old Style", Cambria, "Times New Roman", serif; }
+  body.t-lectura #editor { font-size: 19px; line-height: 1.75; }
+  body.t-lectura #editor h1, body.t-lectura #editor h2, body.t-lectura #editor h3, body.t-lectura #editor h4 { font-family: var(--ui); font-weight: 700; }
+  body.t-lectura #editor h1 { font-size: 34px; letter-spacing: -.01em; }
+  body.t-lectura #editor h2 { font-size: 25px; }
+  body.t-lectura #editor h4 { font-style: normal; }
+  body.t-lectura #editor blockquote { background: none; border-left: 3px solid currentColor; color: inherit; }
+
+  /* ---------- Modo oscuro ---------- */
+  body.dark {
+    --word: #24497f; --word-dark: #1b3966; --word-tint: #22344d;
+    --tabs: #2a2c2e; --panel: #1f2123; --line: #3a3d40; --line-soft: #2e3134; --hover: #2d3033;
+    --pressed: #26405f; --pressed-line: #3d6aa1; --ink: #eef0f2; --muted: #bfc5ca; --canvas: #151719; --side: #1a1c1e;
+    --paper: #1d2023; --doc-ink: #e6e8ea; --h1: #8fb3e8; --h3: #a9c4ee; --code-bg: #25292d; --link: #7fb2ff;
+    color-scheme: dark;
+  }
+  body.dark.paper-light .page { --paper: #ffffff; --doc-ink: #1f1f1f; --h1: #2f5496; --h3: #1f3864; --code-bg: #f5f5f5; --link: #0563c1; --line: #d4d4d4; --muted: #605e5c; color-scheme: light; }
+  body.dark.paper-light.t-sobrio .page, body.dark.paper-light.t-academico .page, body.dark.paper-light.t-notion .page, body.dark.paper-light.t-github .page, body.dark.paper-light.t-lectura .page { --h1: #1f1f1f; --h3: #1f1f1f; }
+  body.dark .sty:hover { background: #2a2d30; }
+  body.dark .tab[aria-selected="true"]:not(.file) { color: #9cc0f2; }
+  body.dark .rb.big svg, body.dark .tab.ctx { color: #8fb3e8; }
+  body.dark .sty[aria-pressed="true"], body.dark .thm[aria-pressed="true"] { border-color: #5b8bd0; }
+  body.dark .dialog, body.dark .pop, body.dark .findbar { background: var(--panel); color: var(--ink); }
+  body.dark .mini, body.dark .btn-sec, body.dark .findbar input[type="text"], body.dark .fld input[type="text"], body.dark .fld input[type="url"] { background: #26292c; color: var(--ink); border-color: var(--line); }
+  body.dark .mini:hover, body.dark .btn-sec:hover { background: #303438; }
+  body.dark .tgrid button { background: #26292c; border-color: #4a4e52; }
+  body.dark #md-output { color: #d2d6da; }
+  body.dark .pv-q { color: #bbb; }
+  body.dark .tab:hover { background: rgba(255,255,255,.06); }
+  body.dark .toast { background: #e6e7e8; color: #1f2123; }
+  body.dark .dropzone span { background: var(--panel); }
+  body.dark .page { box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 18px rgba(0,0,0,.5); }
+  @media screen {
+    body.dark:not(.paper-light) #editor blockquote { background: #22262a; color: #c9ced3; }
+    body.dark:not(.paper-light) #editor code { background: #2a2e32; color: #e3e6e8; }
+    body.dark:not(.paper-light).t-notion #editor code { color: #ff8b8b; }
+    body.dark:not(.paper-light) #editor pre { border-color: #34383c; }
+    body.dark:not(.paper-light) #editor th { background: #26292c; }
+    body.dark:not(.paper-light) #editor th, body.dark:not(.paper-light) #editor td { border-color: #45494d; }
+    body.dark:not(.paper-light) #editor hr { border-top-color: #45494d; }
+    body.dark:not(.paper-light) #editor li.task::before { background: transparent; border-color: #8a8f94; }
+    body.dark:not(.paper-light) #editor li.task[data-checked="true"] { color: #9aa0a6; }
+    body.dark:not(.paper-light) #editor .md-raw { background: #1f2225; color: #aab0b6; border-color: #4a4e52; }
+    body.dark:not(.paper-light) #editor .md-raw-tag { background: var(--paper); border-color: #4a4e52; }
+  }
+
+  /* ---------- Ayuda (F1) ---------- */
+  .help { position: fixed; top: 36px; right: 0; bottom: 0; width: min(440px, 100%); z-index: 50; background: var(--panel); color: var(--ink); border-left: 1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+  .help-head { height: 44px; flex: none; display: flex; align-items: center; padding: 0 10px 0 18px; border-bottom: 1px solid var(--line-soft); font-size: 15px; }
+  .help-head .sp { flex: 1; }
+  .help-head button { border: 0; background: none; cursor: pointer; width: 30px; height: 30px; border-radius: 4px; color: var(--muted); }
+  .help-head button:hover { background: var(--hover); color: var(--ink); }
+  .help-nav { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 16px; border-bottom: 1px solid var(--line-soft); }
+  .help-nav a { font-size: 12px; padding: 3px 9px; border-radius: 12px; background: var(--word-tint); color: var(--word); text-decoration: none; }
+  body.dark .help-nav a { color: #9cc0f2; }
+  .help-body { flex: 1; overflow: auto; padding: 4px 20px 30px; font-size: 13.5px; line-height: 1.6; }
+  .help-body h3 { font-size: 15px; margin: 18px 0 6px; color: var(--word); }
+  body.dark .help-body h3 { color: #9cc0f2; }
+  .help-body p { margin: 0 0 8px; }
+  .help-body ul { margin: 0 0 8px; padding-left: 1.2em; }
+  .help-body table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  .help-body td { padding: 4px 6px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .help-body td:first-child { white-space: nowrap; width: 1%; }
+  .help-body kbd { display: inline-block; padding: 0 5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; font: 11.5px var(--ui); background: var(--side); }
+  .help-body code { font: 12px var(--mono); background: var(--side); padding: 0 3px; border-radius: 3px; }
+
+  /* ---------- Imprimir / PDF: solo la hoja ---------- */
+  @media print {
+    @page { margin: 18mm 16mm; }
+    html, body { height: auto !important; }
+    body { display: block; overflow: visible; background: #fff !important; }
+    body::before, .titlebar, .ribbon, .status, .navpane, .mdpane, .findbar, .modal, .pop, .gpop, .toast, .dropzone, .help { display: none !important; }
+    .main, .center, .docarea, .canvas { display: block !important; overflow: visible !important; padding: 0 !important; height: auto !important; }
+    .page { box-shadow: none !important; padding: 0 !important; width: auto !important; min-height: 0 !important; zoom: 1 !important; background: #fff !important; }
+    body.dark .page, body.dark { --paper: #fff; --doc-ink: #1f1f1f; --h1: #2f5496; --h3: #1f3864; --code-bg: #f5f5f5; --link: #0563c1; --line: #d4d4d4; --muted: #605e5c; }
+    body.dark.t-sobrio .page, body.dark.t-academico .page, body.dark.t-notion .page, body.dark.t-github .page, body.dark.t-lectura .page { --h1: #1f1f1f; --h3: #1f1f1f; }
+    #editor { min-height: 0 !important; caret-color: transparent; }
+    #editor pre, #editor table, #editor img, #editor blockquote, #editor li { break-inside: avoid; }
+    #editor h1, #editor h2, #editor h3, #editor h4 { break-after: avoid; }
+    #editor .md-raw { display: none; }
+    #editor a { color: inherit; }
+  }
+
   @media (max-width: 760px) {
     .main { flex-direction: column; }
     .mdpane, .main.bottom .mdpane { width: auto; max-width: none; min-width: 0; height: 42%; border-left: 0; border-top: 1px solid var(--line); }
@@ -378,6 +525,7 @@
 </style>
 </head>
 <body>
+
 <header class="titlebar">
   <div class="appmark" aria-hidden="true">M↓</div>
   <button class="qa" data-cmd="save" title="Guardar como .md (Ctrl+S)"><i data-i="save"></i></button>
@@ -389,6 +537,9 @@
     <span class="state" id="save-state">Guardado en este navegador</span>
   </div>
   <span class="appname">MarkDawn Writer</span>
+  <button class="qa txt" data-cmd="lang" id="lang-btn" title="Idioma · Language">ES</button>
+  <button class="qa" data-cmd="dark" id="dark-btn" title="Modo oscuro" aria-pressed="false"><i data-i="moon"></i></button>
+  <button class="qa" data-cmd="help" title="Ayuda (F1)" aria-pressed="false"><i data-i="help"></i></button>
 </header>
 
 <div class="ribbon">
@@ -398,6 +549,8 @@
     <button class="tab" role="tab" data-tab="insertar" aria-selected="false">Insertar</button>
     <button class="tab" role="tab" data-tab="vista" aria-selected="false">Vista</button>
     <button class="tab ctx" role="tab" data-tab="tabla" aria-selected="false" id="tab-tabla" hidden>Tabla</button>
+    <span class="tabs-sp"></span>
+    <button class="tab-pin" data-cmd="ribbonPin" id="ribbon-pin" title="Contraer la cinta: solo pestañas (Ctrl+F1)"><i data-i="chevUp"></i></button>
   </div>
 
   <!-- ARCHIVO -->
@@ -416,6 +569,23 @@
         <button class="rb big" data-cmd="sample"><i data-i="reset"></i><span>Documento de ejemplo</span></button>
       </div>
       <div class="grp-label">Markdown</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="print" title="Imprimir o guardar como PDF (Ctrl+P)"><i data-i="print"></i><span>Exportar PDF</span></button>
+        <button class="rb big" data-cmd="copyWord" title="Copia el documento con formato para pegarlo en Word, Google Docs u Outlook"><i data-i="word"></i><span>Copiar para Word</span></button>
+      </div>
+      <div class="grp-label">Compartir</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="workFolder" title="Trabajar en una carpeta: la configuración y los documentos se guardan solos (Chrome y Edge)"><i data-i="folder"></i><span>Carpeta de trabajo</span></button>
+        <div class="stack">
+          <button class="rb" data-cmd="cfgExport" title="Guarda tus preferencias en un archivo"><i data-i="save"></i><span>Exportar configuración</span></button>
+          <button class="rb" data-cmd="cfgImport" title="Carga la configuración desde un archivo"><i data-i="open"></i><span>Importar configuración</span></button>
+        </div>
+      </div>
+      <div class="grp-label">Configuración</div>
     </div>
     <div class="grp">
       <div class="grp-body">
@@ -562,6 +732,29 @@
       </div>
       <div class="grp-label">Zoom</div>
     </div>
+    <div class="grp">
+      <div class="grp-body">
+        <div class="gallery" role="group" aria-label="Tema del documento" id="themes">
+          <button class="thm" data-cmd="theme" data-arg="word" title="Como Word: títulos en azul"><b style="color:#2f5496;font-family:'Segoe UI',system-ui,sans-serif">Aa</b><small>Word</small></button>
+          <button class="thm" data-cmd="theme" data-arg="sobrio" title="Títulos en negro, letra tipo Calibri"><b style="font-family:Calibri,Carlito,'Segoe UI',sans-serif;font-weight:700">Aa</b><small>Sobrio</small></button>
+          <button class="thm" data-cmd="theme" data-arg="academico" title="Letra con serifa y texto justificado, como un artículo"><b style="font-family:Charter,'Palatino Linotype',Georgia,serif;font-weight:700">Aa</b><small>Académico</small></button>
+          <button class="thm" data-cmd="theme" data-arg="notion" title="Limpio y moderno, como Notion"><b style="font-family:ui-sans-serif,-apple-system,'Segoe UI',sans-serif;font-weight:700">Aa</b><small>Notion</small></button>
+          <button class="thm" data-cmd="theme" data-arg="github" title="Como los README de GitHub"><b style="font-family:-apple-system,'Segoe UI',sans-serif;text-decoration:underline;text-decoration-color:#bbb;text-underline-offset:4px">Aa</b><small>GitHub</small></button>
+          <button class="thm" data-cmd="theme" data-arg="lectura" title="Letra grande con serifa, cómoda para leer"><b style="font-family:Georgia,serif">Aa</b><small>Lectura</small></button>
+        </div>
+      </div>
+      <div class="grp-label">Tema del documento</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <div class="stack tight">
+          <button class="rb" data-cmd="dark" aria-pressed="false"><i data-i="moon"></i><span>Modo oscuro</span></button>
+          <button class="rb" data-cmd="darkMenu" title="Tono del modo oscuro y color de la hoja"><i data-i="tone"></i><span>Tono y hoja ▾</span></button>
+          <button class="rb" data-cmd="ribbonPin" aria-pressed="false" id="ribbon-mode-btn"><i data-i="chevUp"></i><span>Cinta: solo pestañas</span></button>
+        </div>
+      </div>
+      <div class="grp-label">Apariencia</div>
+    </div>
   </div>
 
   <!-- TABLA (contextual) -->
@@ -672,6 +865,12 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
+<div class="gpop" id="gpop" hidden></div>
+<aside class="help" id="help" hidden aria-label="Ayuda">
+  <div class="help-head"><b id="help-title">Ayuda</b><span class="sp"></span><button data-cmd="help" title="Cerrar (F1)">✕</button></div>
+  <nav class="help-nav" id="help-nav"></nav>
+  <div class="help-body" id="help-body"></div>
+</aside>
 <div class="dropzone" id="dropzone" hidden><span>Suelta el archivo para abrirlo</span></div>
 <input type="file" id="file-input" accept=".md,.markdown,.mdown,.txt,text/markdown,text/plain" hidden>
 
@@ -693,6 +892,7 @@ Este documento se edita igual que en un procesador de textos: seleccionas el tex
   - Mayús+Tab lo saca
 - Vínculos, como [la guía rápida de Markdown](https://commonmark.org/help/)
 - Tablas con alineación por columna
+- Temas y modo oscuro en *Vista*; PDF y *Copiar para Word* en *Archivo*
 
 ## Atajos mientras escribes
 
@@ -728,7 +928,7 @@ const texto = MarkDawn.getMarkdown();
 ---
 
 <!-- align: right -->
-Última revisión: 28 de octubre de 2026
+Pulsa F1 para ver la ayuda
 </script>
 
 <script>
@@ -784,7 +984,16 @@ const ICONS = {
   reset: '<path d="M4 10a6 6 0 1 0 1.8-4.3"/><path d="M4 3.5V6.5h3"/>',
   up: '<path d="m5 12.5 5-5 5 5"/>',
   down: '<path d="m5 7.5 5 5 5-5"/>',
-  close: '<path d="m5 5 10 10M15 5 5 15"/>'
+  close: '<path d="m5 5 10 10M15 5 5 15"/>',
+  chevUp: '<path d="m5 12.5 5-5 5 5"/>',
+  chevDown: '<path d="m5 7.5 5 5 5-5"/>',
+  moon: '<path d="M15.5 12.5A6.5 6.5 0 0 1 7.5 4.5a6.5 6.5 0 1 0 8 8z"/>',
+  sun: '<circle cx="10" cy="10" r="3.2"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/>',
+  help: '<circle cx="10" cy="10" r="7.5"/><path d="M7.8 7.8a2.3 2.3 0 1 1 3.2 2.1c-.6.3-1 .8-1 1.5v.4"/><circle cx="10" cy="14.4" r=".6" fill="currentColor" stroke="none"/>',
+  print: '<path d="M5.5 7.5V2.5h9v5"/><rect x="2.5" y="7.5" width="15" height="7" rx="1.2"/><path d="M5.5 12.5h9v5h-9z"/>',
+  word: '<rect x="5.5" y="2.5" width="12" height="15" rx="1"/><rect x="2.5" y="6" width="8" height="8" rx="1" fill="currentColor" stroke="none" opacity=".9"/><path d="m4.2 8 .8 4 .9-3 .9 3 .8-4" stroke="#fff" stroke-width="1.1"/><path d="M12.5 6.5h3M12.5 10h3M12.5 13.5h3"/>',
+  folder: '<path d="M2.5 5.5a1 1 0 0 1 1-1h4l1.5 1.5h7.5a1 1 0 0 1 1 1v8.5a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1z"/><path d="M2.5 8.5h15"/>',
+  tone: '<circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor" stroke="none"/>'
 };
 function svgIcon(name) {
   return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
@@ -899,7 +1108,7 @@ function parseBlocks(lines, refs) {
     if (i + 1 < lines.length && line.includes('|') && TABLE_DELIM.test(lines[i + 1]) && lines[i + 1].includes('-')) {
       const head = splitRow(line), delim = splitRow(lines[i + 1]);
       if (head.length === delim.length) {
-        const aligns = delim.map(d => { const l = d.startsWith(':'), r = d.endsWith(':'); return l && r ? 'center' : r ? 'right' : ''; });
+        const aligns = delim.map(d => { const l = d.startsWith(':'), r = d.endsWith(':'); return l && r ? 'center' : r ? 'right' : l ? 'left' : ''; });
         const al = j => aligns[j] ? ` style="text-align:${aligns[j]}"` : '';
         let h = '<table><thead><tr>' + head.map((c, j) => `<th${al(j)}>${inline(c, refs) || '<br>'}</th>`).join('') + '</tr></thead><tbody>';
         i += 2;
@@ -1464,7 +1673,7 @@ function tableMd(t, ctx) {
     return a;
   });
   const aligns = [];
-  for (let j = 0; j < cols; j++) { const c = rows[0].cells[j]; const a = c ? alignOf(c) : ''; aligns.push(a === 'justify' ? '' : a); }
+  for (let j = 0; j < cols; j++) { const c = rows[0].cells[j]; let a = c ? alignOf(c) : ''; if (!a && c && (c.style.textAlign || '').toLowerCase() === 'left') a = 'left'; aligns.push(a === 'justify' ? '' : a); }
   const len = s => [...s].length;
   const w = [];
   for (let j = 0; j < cols; j++) w[j] = Math.min(40, Math.max(3, ...data.map(r => len(r[j]))));
@@ -1473,6 +1682,7 @@ function tableMd(t, ctx) {
     const n = w[j];
     if (a === 'center') return ':' + '-'.repeat(n - 2) + ':';
     if (a === 'right') return '-'.repeat(n - 1) + ':';
+    if (a === 'left') return ':' + '-'.repeat(n - 1);
     return '-'.repeat(n);
   }).join(' | ') + ' |';
   return [line(data[0]), delim, ...data.slice(1).map(line)].join('\n');
@@ -2714,9 +2924,6 @@ function updateNav() {
     navpane.appendChild(b);
   });
 }
-function savePrefs() {
-  try { localStorage.setItem(STORE_KEY + '-prefs', JSON.stringify({ md: !mdpane.hidden, bottom: main.classList.contains('bottom'), nav: !navpane.hidden })); } catch (e) {}
-}
 
 /* ---------- Buscar y reemplazar ---------- */
 const findbar = $('#findbar'), fq = $('#find-q'), fr = $('#find-r');
@@ -2827,6 +3034,7 @@ function setMarkdown(md, opts) {
   afterChange();
 }
 async function saveFile() {
+  if (WF) return wfSave();
   const md = getMarkdown();
   const name = (fileName.value.trim() || 'Documento').replace(/[\\/:*?"<>|]+/g, '-') + '.md';
   const d = downloadsCap ? await downloadsCap : null;
@@ -2856,7 +3064,7 @@ function copyMarkdown() {
 function loadFile(file) {
   const fr2 = new FileReader();
   fr2.onload = () => {
-    fileName.value = file.name.replace(/\.(md|markdown|mdown|txt)$/i, '');
+    fileName.value = file.name.replace(/\.(md|markdown|mdown|txt)$/i, ''); if (WF) WF.file = null;
     setMarkdown(String(fr2.result));
     showTab('inicio');
     toast('Abierto: ' + file.name);
@@ -2867,7 +3075,7 @@ $('#file-input').addEventListener('change', e => { const f = e.target.files[0]; 
 async function newDoc() {
   const res = await dialog({ title: 'Documento nuevo', message: 'Se cerrará el documento actual. Puedes recuperarlo con Deshacer (Ctrl+Z).', ok: 'Crear documento' });
   if (!res) { ensureFocus(); return; }
-  fileName.value = 'Documento1';
+  fileName.value = DEF_NAME; if (WF) WF.file = null;
   setMarkdown('');
   showTab('inicio');
 }
@@ -2940,7 +3148,18 @@ const CMDS = {
   open: () => $('#file-input').click(),
   save: saveFile,
   copyMd: copyMarkdown,
-  sample: () => { fileName.value = 'Bienvenida'; setMarkdown($('#sample-md').textContent.trim()); showTab('inicio'); },
+  sample: () => { fileName.value = LANG === 'en' ? 'Welcome' : 'Bienvenida'; if (WF) WF.file = null; setMarkdown(sampleText()); showTab('inicio'); },
+  lang: switchLang,
+  dark: () => { PR.dark = !PR.dark; savePrefs(); applyAppearance(); },
+  darkMenu: () => darkMenu(document.querySelector('[data-cmd="darkMenu"]')),
+  theme: v => { PR.theme = v; savePrefs(); applyAppearance(); },
+  ribbonPin: () => { PR.ribbon = PR.ribbon === 'tabs' ? 'full' : 'tabs'; savePrefs(); applyAppearance(); },
+  help: () => toggleHelp(),
+  print: printDoc,
+  copyWord: copyForWord,
+  workFolder: () => workFolderMenu(document.querySelector('[data-cmd="workFolder"]')),
+  cfgExport: cfgExport,
+  cfgImport: cfgImport,
   mdpanel: () => setMdPanel(mdpane.hidden),
   mdSide: () => setMdPos(false),
   mdBottom: () => setMdPos(true),
@@ -2964,8 +3183,11 @@ document.addEventListener('click', e => {
   if (fn) fn(b.dataset.arg);
 });
 document.addEventListener('keydown', e => {
+  if (e.key === 'F1') { e.preventDefault(); if (e.ctrlKey || e.metaKey) CMDS.ribbonPin(); else toggleHelp(); return; }
+  if (e.key === 'Escape' && !$('#help').hidden && modal.hidden) { toggleHelp(false); return; }
   const mod = e.ctrlKey || e.metaKey;
   if (!mod || e.altKey) return;
+  if (e.key.toLowerCase() === 'p' && !e.shiftKey) { e.preventDefault(); printDoc(); return; }
   const k = e.key.toLowerCase();
   const inField = e.target !== editor && e.target.matches && e.target.matches('input,textarea');
   if (k === 's') { e.preventDefault(); saveFile(); }
@@ -3044,8 +3266,9 @@ function updateMd(force) {
     setState('Guardando…');
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
-      try { localStorage.setItem(STORE_KEY, JSON.stringify({ md, name: fileName.value })); setState('Guardado en este navegador'); }
+      try { localStorage.setItem(STORE_KEY, JSON.stringify({ md, name: fileName.value })); folderState(); }
       catch (e) { setState('Sin guardar'); }
+      wfAutoSave();
     }, 400);
   }
 }
@@ -3065,6 +3288,465 @@ mdArea.addEventListener('blur', () => updateMd(true));
 fileName.addEventListener('change', () => { lastMd = ''; updateMd(false); });
 fileName.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ensureFocus(); } });
 
+/* =====================================================================
+   Preferencias, idioma, apariencia, ayuda, carpeta de trabajo y exportar
+   ===================================================================== */
+const PKEY = STORE_KEY + '-prefs';
+let PR = { md: null, bottom: false, nav: false, lang: '', dark: false, darkTone: 0.35, paperLight: false, ribbon: 'full', theme: 'word' };
+try { const p = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (p) PR = { ...PR, ...p }; } catch (e) {}
+function savePrefs() {
+  PR.md = !mdpane.hidden; PR.bottom = main.classList.contains('bottom'); PR.nav = !navpane.hidden;
+  try { localStorage.setItem(PKEY, JSON.stringify(PR)); } catch (e) {}
+  try { cfgToFolderSoon(); } catch (e) {}
+}
+const LANG = PR.lang || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+document.documentElement.lang = LANG; editor.setAttribute('lang', LANG);
+
+/* ---------- Interfaz en inglés: el HTML está en español y se traduce al vuelo ---------- */
+const EN = {
+  "Archivo": "File", "Inicio": "Home", "Insertar": "Insert", "Vista": "View", "Tabla": "Table",
+  "Guardar como .md (Ctrl+S)": "Save as .md (Ctrl+S)", "Deshacer (Ctrl+Z)": "Undo (Ctrl+Z)", "Rehacer (Ctrl+Y)": "Redo (Ctrl+Y)",
+  "Nombre del documento": "Document name", "Guardado en este navegador": "Saved in this browser", "Guardando…": "Saving…", "Sin guardar": "Not saved",
+  "Modo oscuro": "Dark mode", "Modo claro": "Light mode", "Ayuda (F1)": "Help (F1)", "Ayuda": "Help", "Cerrar (F1)": "Close (F1)",
+  "Contraer la cinta: solo pestañas (Ctrl+F1)": "Collapse the ribbon: tabs only (Ctrl+F1)", "Fijar la cinta (Ctrl+F1)": "Pin the ribbon (Ctrl+F1)",
+  "Nuevo": "New", "Abrir": "Open", "Abrir un archivo .md (Ctrl+O)": "Open a .md file (Ctrl+O)", "Guardar .md": "Save .md", "Documento": "Document",
+  "Copiar Markdown": "Copy Markdown", "Documento de ejemplo": "Sample document", "Markdown": "Markdown",
+  "Exportar PDF": "Export PDF", "Imprimir o guardar como PDF (Ctrl+P)": "Print or save as PDF (Ctrl+P)", "Copiar para Word": "Copy for Word",
+  "Copia el documento con formato para pegarlo en Word, Google Docs u Outlook": "Copies the document with formatting to paste into Word, Google Docs or Outlook",
+  "Compartir": "Share", "Carpeta de trabajo": "Working folder", "Exportar configuración": "Export settings", "Importar configuración": "Import settings", "Configuración": "Settings",
+  "Trabajar en una carpeta: la configuración y los documentos se guardan solos (Chrome y Edge)": "Work in a folder: settings and documents are saved automatically (Chrome and Edge)",
+  "Guarda tus preferencias en un archivo": "Saves your preferences to a file", "Carga la configuración desde un archivo": "Loads settings from a file",
+  "El borrador se guarda solo en este navegador. También puedes arrastrar un archivo .md a la ventana para abrirlo.": "Your draft is saved automatically in this browser. You can also drag a .md file onto the window to open it.",
+  "Información": "Information",
+  "Pegar": "Paste", "Pegar (Ctrl+V)": "Paste (Ctrl+V)", "Cortar": "Cut", "Cortar (Ctrl+X)": "Cut (Ctrl+X)", "Copiar": "Copy", "Copiar (Ctrl+C)": "Copy (Ctrl+C)", "Portapapeles": "Clipboard",
+  "Negrita (Ctrl+B)": "Bold (Ctrl+B)", "Cursiva (Ctrl+I)": "Italic (Ctrl+I)", "Tachado (Ctrl+Mayús+X)": "Strikethrough (Ctrl+Shift+X)", "Código en línea (Ctrl+`)": "Inline code (Ctrl+`)",
+  "Vínculo (Ctrl+K)": "Link (Ctrl+K)", "Borrar todo el formato": "Clear all formatting", "Fuente": "Font",
+  "Viñetas (Ctrl+Mayús+8)": "Bullets (Ctrl+Shift+8)", "Numeración (Ctrl+Mayús+7)": "Numbering (Ctrl+Shift+7)", "Lista de tareas (Ctrl+Mayús+9)": "Task list (Ctrl+Shift+9)",
+  "Disminuir sangría (Mayús+Tab)": "Decrease indent (Shift+Tab)", "Aumentar sangría (Tab)": "Increase indent (Tab)",
+  "Alinear a la izquierda (Ctrl+L)": "Align left (Ctrl+L)", "Centrar (Ctrl+E)": "Center (Ctrl+E)", "Alinear a la derecha (Ctrl+R)": "Align right (Ctrl+R)", "Justificar (Ctrl+J)": "Justify (Ctrl+J)", "Párrafo": "Paragraph",
+  "Estilos": "Styles", "Normal": "Normal", "Normal (Ctrl+Alt+0)": "Normal (Ctrl+Alt+0)", "Título 1": "Heading 1", "Título 2": "Heading 2", "Título 3": "Heading 3", "Título 4": "Heading 4",
+  "Título 1 (Ctrl+Alt+1)": "Heading 1 (Ctrl+Alt+1)", "Título 2 (Ctrl+Alt+2)": "Heading 2 (Ctrl+Alt+2)", "Título 3 (Ctrl+Alt+3)": "Heading 3 (Ctrl+Alt+3)", "Título 4 (Ctrl+Alt+4)": "Heading 4 (Ctrl+Alt+4)",
+  "Cita": "Quote", "Bloque de código": "Code block", "Código": "Code", "Buscar": "Find", "Buscar (Ctrl+F)": "Find (Ctrl+F)", "Reemplazar": "Replace", "Reemplazar (Ctrl+H)": "Replace (Ctrl+H)", "Edición": "Editing",
+  "Tablas": "Tables", "Imagen": "Picture", "Ilustraciones": "Illustrations", "Vínculo": "Link", "Vínculos": "Links", "Lista de tareas": "Task list", "Línea horizontal": "Horizontal line", "Bloques": "Blocks",
+  "Panel de navegación": "Navigation pane", "Mostrar": "Show", "Lateral": "Side", "Abajo": "Bottom", "Panel Markdown": "Markdown pane",
+  "Acercar": "Zoom in", "Alejar": "Zoom out", "Ancho de página": "Page width", "Zoom": "Zoom",
+  "Tema del documento": "Document theme", "Sobrio": "Plain", "Académico": "Academic", "Lectura": "Reading",
+  "Como Word: títulos en azul": "Like Word: blue headings", "Títulos en negro, letra tipo Calibri": "Black headings, Calibri-like font",
+  "Letra con serifa y texto justificado, como un artículo": "Serif font and justified text, like a paper", "Limpio y moderno, como Notion": "Clean and modern, like Notion",
+  "Como los README de GitHub": "Like GitHub READMEs", "Letra grande con serifa, cómoda para leer": "Large serif font, comfortable to read",
+  "Tono y hoja ▾": "Tone and page ▾", "Tono del modo oscuro y color de la hoja": "Dark tone and page color", "Cinta: solo pestañas": "Ribbon: tabs only", "Apariencia": "Appearance",
+  "Insertar arriba": "Insert above", "Insertar debajo": "Insert below", "Insertar a la izquierda": "Insert left", "Insertar a la derecha": "Insert right", "Filas y columnas": "Rows & columns",
+  "Eliminar fila": "Delete row", "Eliminar columna": "Delete column", "Eliminar tabla": "Delete table", "Eliminar": "Delete",
+  "Izquierda": "Left", "Centro": "Center", "Derecha": "Right", "Alinear columna": "Align column",
+  "Buscar en el documento": "Find in document", "Reemplazar con": "Replace with", "Mayúsculas y minúsculas": "Match case",
+  "Anterior (Mayús+Intro)": "Previous (Shift+Enter)", "Siguiente (Intro)": "Next (Enter)", "Cerrar (Esc)": "Close (Esc)", "Reemplazar todo": "Replace all",
+  "Se actualiza al escribir. También puedes editarlo aquí.": "Updates as you type. You can also edit it here.", "Cambiar posición": "Change position", "Cerrar": "Close",
+  "Código Markdown": "Markdown code", "Mostrar Markdown": "Show Markdown", "Cancelar": "Cancel", "Aceptar": "OK", "Insertar tabla": "Insert table",
+  "Suelta el archivo para abrirlo": "Drop the file to open it", "Navegación": "Navigation", "(título vacío)": "(empty heading)",
+  "Aplica estilos de título al texto para que aparezca aquí el esquema del documento.": "Apply heading styles to your text and the document outline will appear here.",
+  "Ctrl + clic para abrir el vínculo": "Ctrl + click to open the link", "Bloque de código: pulsa Intro dos veces al final para salir": "Code block: press Enter twice at the end to leave",
+  "Tab: siguiente celda · Intro: celda de abajo": "Tab: next cell · Enter: cell below", "Tab y Mayús+Tab cambian el nivel de la lista": "Tab and Shift+Tab change the list level",
+  "Markdown no tiene subrayado. Usa negrita o cursiva.": "Markdown has no underline. Use bold or italic.",
+  "Editar vínculo": "Edit link", "Insertar vínculo": "Insert link", "Texto que se muestra": "Text to display", "Dirección": "Address", "Quitar vínculo": "Remove link",
+  "Insertar imagen": "Insert picture", "Dirección de la imagen": "Picture address", "O desde tu equipo": "Or from your computer", "Elegir archivo…": "Choose file…", "Se incrusta en el Markdown": "It's embedded in the Markdown",
+  "Texto alternativo (lo que lee la IA)": "Alt text (what the AI reads)", "Describe la imagen": "Describe the picture",
+  "Lenguaje del bloque de código": "Code block language", "Insertar bloque de código": "Insert code block", "Lenguaje (opcional)": "Language (optional)",
+  "Documento nuevo": "New document", "Se cerrará el documento actual. Puedes recuperarlo con Deshacer (Ctrl+Z).": "The current document will close. You can get it back with Undo (Ctrl+Z).", "Crear documento": "Create document",
+  "No se pudo guardar el archivo. Usa «Copiar Markdown».": "Couldn't save the file. Use «Copy Markdown».", "Markdown copiado": "Markdown copied", "Markdown copiado al portapapeles": "Markdown copied to the clipboard",
+  "Selecciona el texto del panel y cópialo con Ctrl+C": "Select the text in the pane and copy it with Ctrl+C",
+  "Para pegar, usa Ctrl+V. El navegador no deja leer el portapapeles desde un botón.": "To paste, use Ctrl+V. The browser doesn't allow reading the clipboard from a button.",
+  "Idioma · Language": "Idioma · Language",
+  "Tono oscuro": "Dark tone", "negro ↔ gris": "black ↔ grey", "Hoja blanca en modo oscuro": "White page in dark mode",
+  "Copiado: pégalo en Word, Google Docs u Outlook": "Copied: paste it into Word, Google Docs or Outlook", "No se pudo copiar. Selecciona el texto y usa Ctrl+C.": "Couldn't copy. Select the text and use Ctrl+C.",
+  "Ese archivo no es una configuración de MarkDawn Writer.": "That file isn't a MarkDawn Writer settings file.", "Combinar": "Merge", "Sustituir": "Replace",
+  "Configuración importada": "Settings imported", "Elige una carpeta una vez y MarkDawn Writer trabajará en ella.": "Choose a folder once and MarkDawn Writer will work in it.",
+  "Elegir carpeta…": "Choose folder…", "Disponible en Chrome y Edge.": "Available in Chrome and Edge.", "Entendido": "Got it",
+  "Este navegador no deja elegir una carpeta aquí. Descarga el archivo y ábrelo en Chrome o Edge.": "This browser can't choose a folder here. Download the file and open it in Chrome or Edge.",
+  "Ya existe ese archivo": "That file already exists", "No se pudo guardar en la carpeta.": "Couldn't save to the folder.",
+  "Buscando documentos…": "Looking for documents…", "Aún no hay documentos en esta carpeta.": "There are no documents in this folder yet.", "Guardar como un documento nuevo": "Save as a new document",
+  "Guardar la configuración ahora": "Save settings now", "Cambiar de carpeta…": "Change folder…", "Dejar de usar la carpeta": "Stop using the folder", "Configuración guardada en la carpeta": "Settings saved to the folder",
+  "Ya no se usa la carpeta. Todo sigue guardado en el navegador.": "The folder is no longer used. Everything is still saved in the browser.",
+  "Volver a conectar la carpeta de trabajo": "Reconnect the working folder", "No se encontró contenido en el archivo.": "No content found in the file."
+};
+const EN_RX = [
+  [/^([\d.,]+) palabras?$/, (m, n) => n.replace(/\./g, ',') + (n === '1' ? ' word' : ' words')],
+  [/^(\d+) de (\d+)$/, (m, a, b) => a + ' of ' + b],
+  [/^(\d+) reemplazos?$/, (m, n) => n + (n === '1' ? ' replacement' : ' replacements')],
+  [/^Tabla de (\d+) × (\d+)$/, (m, a, b) => a + ' × ' + b + ' table'],
+  [/^Guardado: (.+)$/, (m, v) => 'Saved: ' + v], [/^Guardado como (.+)$/, (m, v) => 'Saved as ' + v],
+  [/^Descargado: (.+)$/, (m, v) => 'Downloaded: ' + v], [/^Abierto: (.+)$/, (m, v) => 'Opened: ' + v],
+  [/^Guardado en la carpeta «(.*)»$/, (m, v) => 'Saved in the folder «' + v + '»'],
+  [/^Carpeta «(.*)» · aún sin guardar$/, (m, v) => 'Folder «' + v + '» · not saved yet'],
+  [/^Pulsa para volver a la carpeta «(.*)»$/, (m, v) => 'Click to reconnect the folder «' + v + '»'],
+  [/^Carpeta de trabajo: «(.*)»$/, (m, v) => 'Working folder: «' + v + '»'],
+  [/^Carpeta «(.*)»$/, (m, v) => 'Folder «' + v + '»'],
+  [/^Configuración guardada en la carpeta «(.*)»$/, (m, v) => 'Settings saved to the folder «' + v + '»'],
+  [/^En la carpeta «(.*)» ya hay un «(.*)»\. ¿Quieres sustituirlo por este documento\?$/, (m, a, b) => 'The folder «' + a + '» already has «' + b + '». Do you want to replace it with this document?'],
+  [/^💾 Guardar aquí(.*)$/, (m, v) => '💾 Save here' + v],
+];
+function trStr(s) {
+  if (LANG !== 'en' || s == null) return s;
+  const k = String(s).trim(); if (!k || !/[A-Za-zÀ-ÿ]/.test(k)) return s;
+  let v = EN[k];
+  if (v == null) for (const [re, f] of EN_RX) { if (re.test(k)) { v = k.replace(re, f); break; } }
+  return v == null ? s : String(s).replace(k, v);
+}
+const I18N_SKIP = '#editor, #md-output, .no-tr, script, style';
+function trText(n) { const pe = n.parentElement; if (!pe || pe.closest(I18N_SKIP)) return; const v = trStr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; }
+function trAttrs(el) { if (el.closest(I18N_SKIP)) return; for (const a of ['title', 'placeholder', 'aria-label']) { const v = el.getAttribute(a); if (v) { const t = trStr(v); if (t !== v) el.setAttribute(a, t); } } }
+function trTree(root) {
+  if (LANG !== 'en' || !root) return;
+  if (root.nodeType === 3) { trText(root); return; }
+  if (root.nodeType !== 1 || root.closest(I18N_SKIP)) return;
+  trAttrs(root); root.querySelectorAll('[title], [placeholder], [aria-label]').forEach(trAttrs);
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) trText(n);
+}
+if (LANG === 'en') new MutationObserver(ms => {
+  for (const m of ms) {
+    if (m.type === 'childList') m.addedNodes.forEach(trTree);
+    else if (m.type === 'characterData') trText(m.target);
+    else if (m.type === 'attributes') trAttrs(m.target);
+  }
+}).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['title', 'placeholder', 'aria-label'] });
+const DEF_NAME = LANG === 'en' ? 'Document1' : 'Documento1';
+const SAMPLE_EN = `<!-- align: center -->
+# Welcome to MarkDawn Writer
+
+<!-- align: center -->
+*Write like in Word. Save as Markdown.*
+
+This document works just like a word processor: select some text, click **Bold** and you're done. Underneath, every change is saved as clean Markdown, the format AI understands best. Open the *View* tab and click **Markdown** to see it live.
+
+## What you can do
+
+- Four heading levels from the **Styles** gallery
+- **Bold**, *italic*, ~~strikethrough~~ and \`inline code\`
+- Bulleted, numbered and task lists
+  - Tab moves an item one level in
+  - Shift+Tab moves it back out
+- Links, like [the Markdown quick guide](https://commonmark.org/help/)
+- Tables with per-column alignment
+- Themes and dark mode in *View*, PDF and *Copy for Word* in *File*
+
+## Shortcuts while you type
+
+If you already know Markdown, type it and the formatting applies by itself:
+
+1. \`# \` at the start of a line makes a heading
+2. \`- \` starts a list and \`1. \` a numbered list
+3. \`> \` makes a quote and \`[ ] \` a task
+4. \`**text**\` makes bold and \`\` \`text\` \`\` marks it as code
+5. \` \`\`\` \` followed by Enter opens a code block
+
+### Project tasks
+
+- [x] Word-like editor that saves Markdown
+- [x] Open any \`.md\` file
+- [ ] PowerPoint-like version
+- [ ] Embed it in other apps
+
+### Format comparison
+
+| Format   | Easy for AI to read | Editable without know-how |
+| -------- | :-----------------: | ------------------------: |
+| .docx    | So-so               | Yes                       |
+| Markdown | Very well           | With MarkDawn             |
+
+> Alignment is saved as an invisible comment, for example \`<!-- align: center -->\` right above the paragraph. Markdown viewers don't show it, and an AI understands it without getting confused.
+
+\`\`\`js
+// Code blocks keep their language
+const text = MarkDawn.getMarkdown();
+\`\`\`
+
+---
+
+<!-- align: right -->
+Press F1 for help`;
+const sampleText = () => LANG === 'en' ? SAMPLE_EN : $('#sample-md').textContent.trim();
+
+$('#lang-btn').textContent = LANG.toUpperCase();
+function switchLang() {
+  PR.lang = LANG === 'en' ? 'es' : 'en'; savePrefs();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ md: getMarkdown(), name: fileName.value })); } catch (e) {}
+  location.reload();
+}
+
+/* ---------- Apariencia: modo oscuro, tono, tema del documento y cinta ---------- */
+const THEMES = ['word', 'sobrio', 'academico', 'notion', 'github', 'lectura'];
+function applyAppearance() {
+  const b = document.body;
+  b.classList.toggle('dark', !!PR.dark); b.classList.toggle('paper-light', !!PR.paperLight);
+  THEMES.forEach(t => b.classList.toggle('t-' + t, PR.theme === t && t !== 'word'));
+  ['--tabs', '--panel', '--side', '--canvas', '--hover', '--line-soft', '--line', '--paper'].forEach(k => b.style.removeProperty(k));
+  if (PR.dark) {
+    const t = Math.max(0, Math.min(1, +PR.darkTone || 0)), hsl = l => `hsl(210 ${Math.round(6 + t * 4)}% ${l.toFixed(1)}%)`, base = 3 + t * 15;
+    b.style.setProperty('--canvas', hsl(base)); b.style.setProperty('--side', hsl(base + 2)); b.style.setProperty('--panel', hsl(base + 4));
+    b.style.setProperty('--paper', hsl(base + 5)); b.style.setProperty('--tabs', hsl(base + 7)); b.style.setProperty('--hover', hsl(base + 10));
+    b.style.setProperty('--line-soft', hsl(base + 9)); b.style.setProperty('--line', hsl(base + 14));
+  }
+  document.querySelectorAll('[data-cmd="dark"]').forEach(x => x.setAttribute('aria-pressed', PR.dark ? 'true' : 'false'));
+  const db = $('#dark-btn'); if (db) { db.innerHTML = svgIcon(PR.dark ? 'sun' : 'moon'); db.title = trStr(PR.dark ? 'Modo claro' : 'Modo oscuro'); }
+  document.querySelectorAll('.thm').forEach(x => x.setAttribute('aria-pressed', x.dataset.arg === (PR.theme || 'word') ? 'true' : 'false'));
+  applyRibbon();
+}
+const ribbon = document.querySelector('.ribbon');
+function applyRibbon() {
+  const min = PR.ribbon === 'tabs';
+  ribbon.classList.toggle('min', min); if (!min) ribbon.classList.remove('peek');
+  const pin = $('#ribbon-pin'); pin.innerHTML = svgIcon(min ? 'chevDown' : 'chevUp'); pin.title = trStr(min ? 'Fijar la cinta (Ctrl+F1)' : 'Contraer la cinta: solo pestañas (Ctrl+F1)');
+  $('#ribbon-mode-btn').setAttribute('aria-pressed', min ? 'true' : 'false');
+}
+// Con la cinta contraída, una pestaña abre sus comandos encima del documento; se cierran al salir con el ratón o al escribir
+let peekT = 0;
+function closePeekSoon() { clearTimeout(peekT); peekT = setTimeout(() => { if (!ribbon.matches(':hover') && gpop.hidden && $('#table-pop').hidden && modal.hidden) ribbon.classList.remove('peek'); }, 700); }
+ribbon.addEventListener('mouseleave', () => { if (ribbon.classList.contains('peek')) closePeekSoon(); });
+ribbon.addEventListener('mouseenter', () => clearTimeout(peekT));
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  if (!ribbon.classList.contains('min')) return;
+  if (ribbon.classList.contains('peek') && t.dataset.tab === activeTab && t._wasActive) ribbon.classList.remove('peek'); else ribbon.classList.add('peek');
+  document.querySelectorAll('.tab').forEach(x => x._wasActive = x === t);
+}));
+$('#canvas').addEventListener('mousedown', () => ribbon.classList.remove('peek'));
+
+// Ventanita genérica junto a un botón
+const gpop = $('#gpop');
+function openGPop(btn, html) {
+  gpop.innerHTML = html; gpop.hidden = false;
+  const r = btn.getBoundingClientRect(), w = gpop.offsetWidth;
+  gpop.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + 'px'; gpop.style.top = (r.bottom + 4) + 'px';
+}
+function hideGPop() { gpop.hidden = true; gpop.onclick = null; if (ribbon.classList.contains('peek')) closePeekSoon(); }
+document.addEventListener('mousedown', e => { if (!gpop.hidden && !gpop.contains(e.target) && !e.target.closest('[data-cmd$="Menu"], [data-cmd="workFolder"]')) hideGPop(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !gpop.hidden) hideGPop(); });
+function darkMenu(btn) {
+  openGPop(btn, `<div style="width:230px"><h4>Tono oscuro <span style="font-weight:400">negro ↔ gris</span></h4>
+    <input type="range" min="0" max="1" step="0.05" value="${+PR.darkTone || 0}" id="tone-in" style="width:100%;accent-color:var(--word)">
+    <label><input type="checkbox" id="paper-in"${PR.paperLight ? ' checked' : ''}>Hoja blanca en modo oscuro</label></div>`);
+  $('#tone-in').oninput = e => { PR.darkTone = +e.target.value; if (!PR.dark) PR.dark = true; savePrefs(); applyAppearance(); };
+  $('#paper-in').onchange = e => { PR.paperLight = e.target.checked; savePrefs(); applyAppearance(); };
+}
+
+/* ---------- Ayuda (F1) ---------- */
+const HELP = { es: `
+<section id="h-start"><h3>Empezar</h3>
+<p>Escribe como en Word: selecciona el texto y usa los botones de la cinta. Por debajo, el documento se guarda como <b>Markdown</b>, el formato que mejor entienden las IA. Ábrelo en <b>Vista → Markdown</b> para verlo en directo; también puedes editarlo ahí.</p>
+<p>Todo se guarda solo en este navegador. Para tener el archivo, usa <b>Archivo → Guardar .md</b>. Puedes abrir cualquier archivo .md o arrastrarlo a la ventana.</p></section>
+<section id="h-keys"><h3>Teclado</h3><table>
+<tr><td><kbd>Ctrl</kbd>+<kbd>B</kbd> · <kbd>I</kbd></td><td>Negrita · cursiva</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td>Vínculo</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>1</kbd>…<kbd>4</kbd></td><td>Títulos 1 a 4 (<kbd>0</kbd>: normal)</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Mayús</kbd>+<kbd>7</kbd> · <kbd>8</kbd> · <kbd>9</kbd></td><td>Lista numerada · viñetas · tareas</td></tr>
+<tr><td><kbd>Tab</kbd> · <kbd>Mayús</kbd>+<kbd>Tab</kbd></td><td>Cambiar el nivel de la lista; en tablas, siguiente celda</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> · <kbd>H</kbd></td><td>Buscar · reemplazar</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd> · <kbd>O</kbd> · <kbd>P</kbd></td><td>Guardar · abrir · imprimir o PDF</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> · <kbd>Y</kbd></td><td>Deshacer · rehacer</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>F1</kbd></td><td>Contraer o fijar la cinta</td></tr>
+<tr><td><kbd>F1</kbd></td><td>Esta ayuda</td></tr></table></section>
+<section id="h-md"><h3>Atajos de Markdown</h3>
+<p>Si ya conoces Markdown, úsalo al escribir y el formato se aplica solo: <code># </code> título, <code>- </code> lista, <code>1. </code> lista numerada, <code>&gt; </code> cita, <code>[ ] </code> tarea, <code>**negrita**</code>, <code>\`código\`</code> y <code>\`\`\`</code> + Intro para un bloque de código.</p></section>
+<section id="h-folder"><h3>Guardar y carpeta de trabajo</h3>
+<p>En Chrome y Edge, <b>Archivo → Carpeta de trabajo</b> te deja elegir una carpeta: los documentos que guardes ahí se actualizan con cada cambio y tu configuración se guarda sola en <code>markdawn-writer-config.json</code>.</p>
+<p>En cualquier navegador, <b>Exportar configuración</b> te da una copia de tus preferencias para llevarla a otro ordenador.</p></section>
+<section id="h-share"><h3>Exportar y compartir</h3>
+<ul><li><b>Exportar PDF</b>: imprime solo la hoja; elige «Guardar como PDF» como impresora.</li>
+<li><b>Copiar para Word</b>: copia el documento con su formato para pegarlo en Word, Google Docs u Outlook.</li>
+<li><b>Copiar Markdown</b>: para pegarlo en ChatGPT, Claude, GitHub u Obsidian.</li></ul></section>
+<section id="h-look"><h3>Temas y modo oscuro</h3>
+<p>En <b>Vista</b> eliges cómo se ve el documento (Word, Sobrio, Académico, Notion, GitHub o Lectura). Es solo la vista: el Markdown no cambia. El modo oscuro tiene tono ajustable y puedes dejar la hoja en blanco.</p></section>`,
+en: `
+<section id="h-start"><h3>Getting started</h3>
+<p>Type like in Word: select text and use the ribbon buttons. Underneath, the document is saved as <b>Markdown</b>, the format AI understands best. Open <b>View → Markdown</b> to see it live; you can also edit it there.</p>
+<p>Everything is saved automatically in this browser. To get the file, use <b>File → Save .md</b>. You can open any .md file or drag it onto the window.</p></section>
+<section id="h-keys"><h3>Keyboard</h3><table>
+<tr><td><kbd>Ctrl</kbd>+<kbd>B</kbd> · <kbd>I</kbd></td><td>Bold · italic</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td>Link</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>1</kbd>…<kbd>4</kbd></td><td>Headings 1 to 4 (<kbd>0</kbd>: normal)</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>7</kbd> · <kbd>8</kbd> · <kbd>9</kbd></td><td>Numbered list · bullets · tasks</td></tr>
+<tr><td><kbd>Tab</kbd> · <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Change list level; in tables, next cell</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> · <kbd>H</kbd></td><td>Find · replace</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd> · <kbd>O</kbd> · <kbd>P</kbd></td><td>Save · open · print or PDF</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> · <kbd>Y</kbd></td><td>Undo · redo</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>F1</kbd></td><td>Collapse or pin the ribbon</td></tr>
+<tr><td><kbd>F1</kbd></td><td>This help</td></tr></table></section>
+<section id="h-md"><h3>Markdown shortcuts</h3>
+<p>If you know Markdown, type it and the formatting applies by itself: <code># </code> heading, <code>- </code> list, <code>1. </code> numbered list, <code>&gt; </code> quote, <code>[ ] </code> task, <code>**bold**</code>, <code>\`code\`</code> and <code>\`\`\`</code> + Enter for a code block.</p></section>
+<section id="h-folder"><h3>Saving and working folder</h3>
+<p>In Chrome and Edge, <b>File → Working folder</b> lets you choose a folder: documents you save there are updated with every change, and your settings are saved automatically in <code>markdawn-writer-config.json</code>.</p>
+<p>In any browser, <b>Export settings</b> gives you a copy of your preferences to take to another computer.</p></section>
+<section id="h-share"><h3>Export and share</h3>
+<ul><li><b>Export PDF</b>: prints only the page; choose «Save as PDF» as the printer.</li>
+<li><b>Copy for Word</b>: copies the document with its formatting to paste into Word, Google Docs or Outlook.</li>
+<li><b>Copy Markdown</b>: to paste into ChatGPT, Claude, GitHub or Obsidian.</li></ul></section>
+<section id="h-look"><h3>Themes and dark mode</h3>
+<p>In <b>View</b> you choose how the document looks (Word, Plain, Academic, Notion, GitHub or Reading). It's only the view: the Markdown doesn't change. Dark mode has an adjustable tone and you can keep the page white.</p></section>` };
+function toggleHelp(force) {
+  const h = $('#help'), show = force != null ? force : h.hidden;
+  if (show && !h._built) {
+    $('#help').classList.add('no-tr'); $('#help-title').textContent = LANG === 'en' ? 'Help' : 'Ayuda';
+    $('#help-body').innerHTML = HELP[LANG === 'en' ? 'en' : 'es'];
+    $('#help-nav').innerHTML = [...$('#help-body').querySelectorAll('section')].map(sc => `<a href="#${sc.id}">${sc.querySelector('h3').textContent}</a>`).join('');
+    $('#help-nav').onclick = e => { const a = e.target.closest('a'); if (!a) return; e.preventDefault(); const t = $(a.getAttribute('href')); t && t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    h._built = true;
+  }
+  h.hidden = !show; document.querySelectorAll('.qa[data-cmd="help"]').forEach(b => b.setAttribute('aria-pressed', show ? 'true' : 'false'));
+}
+
+/* ---------- Configuración: exportar / importar y carpeta de trabajo (Chrome y Edge) ---------- */
+const CFG_NAME = 'markdawn-writer-config.json';
+const cfgData = () => ({ app: 'markdawn-writer', version: 1, saved: new Date().toISOString(), prefs: JSON.parse(JSON.stringify(PR)) });
+function flushDraft() { try { localStorage.setItem(STORE_KEY, JSON.stringify({ md: getMarkdown(), name: fileName.value })); } catch (e) {} }
+function cfgApply(data) {
+  if (!data || data.app !== 'markdawn-writer' || !data.prefs || typeof data.prefs !== 'object') { toast('Ese archivo no es una configuración de MarkDawn Writer.'); return false; }
+  const langBefore = LANG; PR = { ...PR, ...data.prefs };
+  try { localStorage.setItem(PKEY, JSON.stringify(PR)); } catch (e) {}
+  const lang = PR.lang || LANG;
+  if (lang !== langBefore) { flushDraft(); setTimeout(() => location.reload(), 250); return true; }
+  applyAppearance(); setMdPos(!!PR.bottom); setMdPanel(!!PR.md); setNav(!!PR.nav); return true;
+}
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+async function cfgExport() {
+  if (WF) { await cfgToFolder(); toast(`Configuración guardada en la carpeta «${WF.name}»`); return; }
+  const txt = JSON.stringify(cfgData(), null, 2), d = downloadsCap ? await downloadsCap : null;
+  if (d) { try { await d.save({ filename: CFG_NAME, data: txt }); toast('Guardado: ' + CFG_NAME); return; } catch (e) { if (e && e.code === 'declined') return; } }
+  downloadBlob(new Blob([txt], { type: 'application/json' }), CFG_NAME); toast('Descargado: ' + CFG_NAME);
+}
+function cfgImport() {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json,application/json';
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return;
+    let data = null; try { data = JSON.parse(await f.text()); } catch (e) {}
+    if (cfgApply(data)) toast('Configuración importada');
+  };
+  inp.click();
+}
+const FS_OK = typeof window.showDirectoryPicker === 'function';
+let WF = null, WF_PENDING = null;
+const kv = (() => {
+  let p = null; const db = () => p || (p = new Promise((res, rej) => { const r = indexedDB.open('markdawn-writer', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+  const tx = (mode, fn) => db().then(d => new Promise((res, rej) => { const t = d.transaction('kv', mode), q = fn(t.objectStore('kv')); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }));
+  return { get: k => tx('readonly', s => s.get(k)), set: (k, v) => tx('readwrite', s => s.put(v, k)), del: k => tx('readwrite', s => s.delete(k)) };
+})();
+async function writeText(fh, text) { const w = await fh.createWritable(); await w.write(text); await w.close(); }
+async function cfgToFolder() { if (!WF) return; try { await writeText(await WF.dir.getFileHandle(CFG_NAME, { create: true }), JSON.stringify(cfgData(), null, 2)); } catch (e) {} }
+let cfgT = 0; function cfgToFolderSoon() { if (!WF) return; clearTimeout(cfgT); cfgT = setTimeout(cfgToFolder, 600); }
+const docFileName = () => (fileName.value.trim() || DEF_NAME).replace(/[\\/:*?"<>|]+/g, '-') + '.md';
+function folderState() {
+  const st = $('#save-state'); st.classList.toggle('link', !!WF_PENDING); st.title = WF_PENDING ? trStr('Volver a conectar la carpeta de trabajo') : '';
+  if (WF_PENDING) return setState(`Pulsa para volver a la carpeta «${WF_PENDING.name}»`);
+  if (WF) return setState(WF.file ? `Guardado en la carpeta «${WF.name}»` : `Carpeta «${WF.name}» · aún sin guardar`);
+  setState('Guardado en este navegador');
+}
+async function wfConnect(dir) {
+  WF = { dir, name: dir.name, file: null }; WF_PENDING = null;
+  try { await kv.set('workdir', dir); } catch (e) {}
+  try { const fh = await dir.getFileHandle(CFG_NAME); const data = JSON.parse(await (await fh.getFile()).text()); if (data && data.app === 'markdawn-writer' && JSON.stringify(data.prefs) !== JSON.stringify(PR)) cfgApply(data); }
+  catch (e) { await cfgToFolder(); }
+  try { const last = await kv.get('workfile'); if (last && last === docFileName()) WF.file = await dir.getFileHandle(last); } catch (e) {}
+  folderState();
+}
+async function wfRestore() {
+  if (!FS_OK) return;
+  let dir = null; try { dir = await kv.get('workdir'); } catch (e) {} if (!dir) return;
+  try { if ((await dir.queryPermission({ mode: 'readwrite' })) === 'granted') { await wfConnect(dir); return; } } catch (e) { return; }
+  WF_PENDING = dir; folderState();
+}
+async function wfPick() {
+  try { const dir = await window.showDirectoryPicker({ id: 'markdawn-writer', mode: 'readwrite' }); await wfConnect(dir); toast(`Carpeta de trabajo: «${dir.name}»`); }
+  catch (e) { if (e && e.name === 'AbortError') return; toast('Este navegador no deja elegir una carpeta aquí. Descarga el archivo y ábrelo en Chrome o Edge.'); }
+}
+async function wfReconnect() {
+  const dir = WF_PENDING; if (!dir) return wfPick();
+  try { if ((await dir.requestPermission({ mode: 'readwrite' })) === 'granted') { await wfConnect(dir); toast(`Carpeta de trabajo: «${dir.name}»`); } } catch (e) { wfPick(); }
+}
+$('#save-state').addEventListener('click', () => { if (WF_PENDING) wfReconnect(); });
+async function wfList() { const out = []; for await (const [n, h] of WF.dir.entries()) if (h.kind === 'file' && /\.(md|markdown|mdown|txt)$/i.test(n)) out.push(h); return out.sort((a, b) => a.name.localeCompare(b.name)); }
+async function wfOpen(fh) {
+  const t = await (await fh.getFile()).text();
+  fileName.value = fh.name.replace(/\.(md|markdown|mdown|txt)$/i, ''); setMarkdown(t); showTab('inicio');
+  WF.file = /\.(md|markdown|mdown)$/i.test(fh.name) ? fh : null; try { await kv.set('workfile', WF.file ? fh.name : ''); } catch (e) {}
+  lastMd = getMarkdown(); folderState(); toast('Abierto: ' + fh.name);
+}
+async function wfSaveTo(name) {
+  try { const fh = await WF.dir.getFileHandle(name, { create: true }); await writeText(fh, getMarkdown()); WF.file = fh; await kv.set('workfile', name); folderState(); toast('Guardado: ' + name); }
+  catch (e) { toast('No se pudo guardar en la carpeta.'); }
+}
+async function wfSave(asNew) {
+  const name = docFileName();
+  if (!asNew && WF.file && WF.file.name === name) { try { await writeText(WF.file, getMarkdown()); folderState(); toast('Guardado: ' + name); } catch (e) { toast('No se pudo guardar en la carpeta.'); } return; }
+  let exists = false; try { await WF.dir.getFileHandle(name); exists = true; } catch (e) {}
+  if (exists) {
+    const res = await dialog({ title: 'Ya existe ese archivo', message: `En la carpeta «${WF.name}» ya hay un «${name}». ¿Quieres sustituirlo por este documento?`, ok: 'Sustituir' });
+    if (!res) { ensureFocus(); return; }
+  }
+  wfSaveTo(name);
+}
+// Con el documento guardado en la carpeta, cada cambio se guarda solo
+let wfT = 0;
+function wfAutoSave() {
+  if (!WF || !WF.file) return;
+  if (WF.file.name !== docFileName()) { WF.file = null; folderState(); return; }
+  clearTimeout(wfT); wfT = setTimeout(() => writeText(WF.file, getMarkdown()).then(folderState).catch(() => {}), 1200);
+}
+async function workFolderMenu(btn) {
+  if (!FS_OK) { await dialog({ title: 'Carpeta de trabajo', message: trStr('Disponible en Chrome y Edge.') + ' ' + (LANG === 'en' ? 'In this browser your documents and settings are saved here, in the browser. Use Save .md and Export settings to keep a copy.' : 'En este navegador tus documentos y tu configuración se guardan aquí, en el navegador. Usa Guardar .md y Exportar configuración para tener copia.'), ok: 'Entendido' }); return; }
+  if (!WF) {
+    if (WF_PENDING) { wfReconnect(); return; }
+    const res = await dialog({ title: 'Carpeta de trabajo', message: LANG === 'en' ? 'Choose a folder once and MarkDawn Writer will work in it: your settings are saved there automatically, you open its documents in one click, and once a document is saved there every change is saved by itself.' : 'Elige una carpeta una vez y MarkDawn Writer trabajará en ella: tu configuración se guarda ahí sola, abres sus documentos con un clic y, al guardar un documento ahí, cada cambio se guarda solo.', ok: 'Elegir carpeta…' });
+    if (res) wfPick(); return;
+  }
+  const en = LANG === 'en';
+  openGPop(btn, `<div style="width:270px"><h4>${esc(trStr(`Carpeta «${WF.name}»`))}</h4><div id="wf-list" style="max-height:220px;overflow:auto"><p style="margin:0;font-size:12px;color:var(--muted)">${trStr('Buscando documentos…')}</p></div>
+    <hr><button class="opt" data-wf="save">${esc(trStr('💾 Guardar aquí' + (WF.file ? ` (${WF.file.name})` : '')))}</button><button class="opt" data-wf="saveas">${trStr('Guardar como un documento nuevo')}</button>
+    <button class="opt" data-wf="cfg">${trStr('Guardar la configuración ahora')}</button><button class="opt" data-wf="change">${trStr('Cambiar de carpeta…')}</button><button class="opt" data-wf="off">${trStr('Dejar de usar la carpeta')}</button></div>`);
+  let list = [];
+  try { list = await wfList(); } catch (e) {}
+  const box = $('#wf-list'); if (box) box.innerHTML = list.length ? list.map((h, i) => `<button class="opt" data-wfo="${i}">📄 ${esc(h.name)}${WF.file && WF.file.name === h.name ? ' ✓' : ''}</button>`).join('') : `<p style="margin:0;font-size:12px;color:var(--muted)">${trStr('Aún no hay documentos en esta carpeta.')}</p>`;
+  gpop.onclick = async e => {
+    const o = e.target.closest('[data-wfo]'); if (o) { hideGPop(); wfOpen(list[+o.dataset.wfo]); return; }
+    const b = e.target.closest('[data-wf]'); if (!b) return; hideGPop();
+    const a = b.dataset.wf;
+    if (a === 'save') wfSave(); else if (a === 'saveas') wfSave(true); else if (a === 'cfg') { await cfgToFolder(); toast('Configuración guardada en la carpeta'); }
+    else if (a === 'change') wfPick(); else if (a === 'off') { WF = null; WF_PENDING = null; try { await kv.del('workdir'); await kv.del('workfile'); } catch (er) {} folderState(); toast('Ya no se usa la carpeta. Todo sigue guardado en el navegador.'); }
+  };
+}
+
+/* ---------- Exportar: PDF (imprimir solo la hoja) y copiar con formato para Word ---------- */
+function printDoc() { if (!findbar.hidden) closeFind(); window.print(); }
+const WORD_H = { word: ['#2f5496', '#2f5496', '#1f3864', '#2f5496'] };
+async function copyForWord() {
+  const clone = editor.cloneNode(true);
+  clone.querySelectorAll('.md-raw').forEach(e => e.remove());
+  // Letra y tamaño reales de cada bloque; los colores, siempre los de la versión clara
+  const src = editor.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th'), dst = clone.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th');
+  const hc = WORD_H[PR.theme || 'word'] || ['#1f1f1f', '#1f1f1f', '#1f1f1f', '#1f1f1f'];
+  src.forEach((el, i) => {
+    const cs = getComputedStyle(el), d = dst[i]; if (!d) return;
+    d.style.fontFamily = cs.fontFamily; d.style.fontSize = cs.fontSize; d.style.fontWeight = cs.fontWeight; d.style.fontStyle = cs.fontStyle; d.style.lineHeight = cs.lineHeight;
+    const h = /^H([1-6])$/.exec(el.tagName); d.style.color = h ? hc[Math.min(+h[1], 4) - 1] : '#1f1f1f';
+    if (el.style.textAlign) d.style.textAlign = el.style.textAlign;
+  });
+  clone.querySelectorAll('li.task').forEach(li => { li.style.listStyle = 'none'; li.insertBefore(document.createTextNode(li.dataset.checked === 'true' ? '☑ ' : '☐ '), li.firstChild); });
+  clone.querySelectorAll('blockquote').forEach(q => { q.style.borderLeft = '3px solid #2b579a'; q.style.paddingLeft = '10px'; q.style.marginLeft = '0'; q.style.color = '#3d3d3d'; });
+  clone.querySelectorAll('pre').forEach(p => { p.style.fontFamily = 'Consolas, "Courier New", monospace'; p.style.fontSize = '10pt'; p.style.background = '#f5f5f5'; p.style.padding = '8px'; p.style.border = '1px solid #ddd'; p.style.whiteSpace = 'pre-wrap'; });
+  clone.querySelectorAll('code').forEach(c => { if (!c.closest('pre')) { c.style.fontFamily = 'Consolas, "Courier New", monospace'; c.style.background = '#f0f0f0'; } });
+  clone.querySelectorAll('table').forEach(t => { t.setAttribute('border', '1'); t.setAttribute('cellpadding', '5'); t.style.borderCollapse = 'collapse'; t.querySelectorAll('th').forEach(c => { c.style.background = '#f2f2f2'; c.style.border = '1px solid #bfbfbf'; }); t.querySelectorAll('td').forEach(c => c.style.border = '1px solid #bfbfbf'); });
+  clone.querySelectorAll('a').forEach(a => a.style.color = '#0563c1');
+  const html = `<html><head><meta charset="utf-8"></head><body>${clone.innerHTML}</body></html>`;
+  try {
+    if (!navigator.clipboard || !window.ClipboardItem) throw 0;
+    await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([getMarkdown()], { type: 'text/plain' }) })]);
+    toast('Copiado: pégalo en Word, Google Docs u Outlook');
+  } catch (e) {
+    // Sin permiso de portapapeles: se copia la selección del documento tal cual
+    try { const r = document.createRange(); r.selectNodeContents(editor); setSel(r); document.execCommand('copy'); toast('Copiado: pégalo en Word, Google Docs u Outlook'); }
+    catch (er) { toast('No se pudo copiar. Selecciona el texto y usa Ctrl+C.'); }
+  }
+}
+
 /* ---------- API para integrar el editor ---------- */
 window.MarkDawn = {
   getMarkdown,
@@ -3077,13 +3759,13 @@ window.MarkDawn = {
 (function init() {
   let draft = null, prefs = null;
   try { draft = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) {}
-  try { prefs = JSON.parse(localStorage.getItem(STORE_KEY + '-prefs') || 'null'); } catch (e) {}
+  prefs = PR.md == null ? null : PR;
   if (draft && typeof draft.md === 'string' && draft.md.trim()) {
-    fileName.value = draft.name || 'Documento1';
+    fileName.value = draft.name || DEF_NAME;
     editor.innerHTML = mdToHtml(draft.md);
   } else {
-    fileName.value = 'Bienvenida';
-    editor.innerHTML = mdToHtml($('#sample-md').textContent.trim());
+    fileName.value = LANG === 'en' ? 'Welcome' : 'Bienvenida';
+    editor.innerHTML = mdToHtml(sampleText());
   }
   normalizeEditor();
   lastMd = getMarkdown();
@@ -3093,10 +3775,15 @@ window.MarkDawn = {
   setMdPanel(prefs ? !!prefs.md : wide);
   setNav(prefs ? !!prefs.nav : false);
   setZoom(100);
+  applyAppearance();
+  trTree(document.body);
+  if (LANG === 'en') mdArea.setAttribute('aria-label', 'Markdown code');
   updateMd(true);
   updateUI();
+  wfRestore();
 })();
 })();
 </script>
+
 </body>
 </html>
