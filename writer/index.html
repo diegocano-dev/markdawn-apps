@@ -294,11 +294,18 @@
   }
   .mdhead strong { font-size: 13px; font-weight: 600; }
   .mdhead .hint { font-size: 11.5px; color: var(--muted); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #md-output {
-    flex: 1; min-height: 0; width: 100%; border: 0; resize: none; padding: 14px 16px;
-    font-family: var(--mono); font-size: 13px; line-height: 1.6; background: transparent; color: #2b2b2b;
-    outline: none; tab-size: 4; white-space: pre-wrap;
+  .mdwrap { position: relative; flex: 1; min-height: 0; }
+  #md-output, .md-hl {
+    position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; padding: 14px 16px;
+    font-family: var(--mono); font-size: 13px; line-height: 1.6; tab-size: 4; white-space: pre-wrap; overflow-wrap: break-word;
+    overflow-y: scroll; box-sizing: border-box;
   }
+  #md-output { resize: none; background: transparent; color: #2b2b2b; outline: none; z-index: 1; }
+  /* Capa de fondo con el mismo texto (invisible): resalta las líneas del bloque donde está el cursor */
+  .md-hl { color: transparent; pointer-events: none; scrollbar-color: transparent transparent; z-index: 0; }
+  .md-hl::-webkit-scrollbar { background: transparent; }
+  .md-hl mark { display: block; margin: 0 -16px; padding: 0 16px; background: #fff3c4; color: transparent; border-left: 3px solid #e3b400; }
+  body.dark .md-hl mark { background: #3a3420; border-left-color: #b8932a; }
 
   /* ---------- Barra de estado ---------- */
   .status {
@@ -830,7 +837,7 @@
       <button class="mini icon" data-cmd="mdToggleSide" title="Cambiar posición"><i data-i="bottom" id="md-pos-icon"></i></button>
       <button class="mini icon" data-cmd="mdpanel" title="Cerrar"><i data-i="close"></i></button>
     </div>
-    <textarea id="md-output" spellcheck="false" aria-label="Código Markdown"></textarea>
+    <div class="mdwrap"><div class="md-hl" id="md-hl" aria-hidden="true"></div><textarea id="md-output" spellcheck="false" aria-label="Código Markdown"></textarea></div>
   </aside>
 </div>
 
@@ -2689,8 +2696,59 @@ editor.addEventListener('click', e => {
 });
 document.addEventListener('selectionchange', () => {
   const r = getRange();
-  if (r) { savedRange = r.cloneRange(); scheduleUI(); }
+  if (r) { savedRange = r.cloneRange(); scheduleUI(); scheduleMdHl(); }
 });
+
+/* ---------- El panel Markdown resalta las líneas del bloque donde está el cursor ---------- */
+// Línea inicial y final de cada bloque del documento dentro del Markdown (mismo orden que htmlToMd)
+function mdLineMap() {
+  const clone = editor.cloneNode(true); clone.querySelectorAll('[data-sel]').forEach(n => n.remove()); mergeAdjacent(clone);
+  const map = new Map(), src = [...editor.children], cl = [...clone.children]; let line = 0, first = true;
+  cl.forEach((n, i) => {
+    const wrap = document.createElement('div'); wrap.appendChild(n.cloneNode(true));
+    let md = serializeContainer(wrap, {}).map(b => b.md).join('\n\n'); if (!md.trim()) return;
+    if (first) { md = md.replace(/^\s+/, ''); first = false; }
+    const k = md.split('\n').length; map.set(src[i], [line, line + k - 1]); line += k + 1;
+  });
+  return map;
+}
+let mdHlRaf = 0, mdHlKey = '';
+function scheduleMdHl() { if (mdpane.hidden || mdHlRaf) return; mdHlRaf = requestAnimationFrame(() => { mdHlRaf = 0; paintMdHl(); }); }
+function paintMdHl(scroll = true) {
+  const hl = $('#md-hl'); if (!hl || mdpane.hidden) return;
+  const r = getRange(), b = r && editor.contains(r.startContainer) ? topBlock(r.startContainer) : null;
+  const lines = mdArea.value.split('\n'); let a = -1, z = -1;
+  if (b && document.activeElement !== mdArea) {
+    const span = mdLineMap().get(b);
+    if (span) {
+      a = span[0]; z = Math.min(span[1], lines.length - 1);
+      // Dentro de una lista o una tabla, solo la línea del elemento o de la fila
+      const n = r.startContainer, li = closestIn(n, 'li'), tr = closestIn(n, 'tr');
+      const plain = t => t.replace(/<!--.*?-->/g, '').replace(/^\s*([-*+]|\d+[.)])\s+(\[[ xX]\]\s+)?/, '').replace(/\\(.)/g, '$1').replace(/[*_`~]|\]\([^)]*\)|\[/g, '').trim();
+      if (li) {
+        const want = liOwnText(li).trim().slice(0, 24);
+        for (let i = a; i <= z && want; i++) if (/^\s*([-*+]|\d+[.)])\s/.test(lines[i]) && plain(lines[i]).startsWith(want)) { a = z = i; break; }
+      } else if (tr && b.tagName === 'TABLE') {
+        const ri = [...b.rows].indexOf(tr); if (ri >= 0) { const L = span[0] + (ri === 0 ? 0 : ri + 1); if (L <= z) a = z = L; }
+      }
+    }
+  }
+  const key = a + ':' + z + ':' + mdArea.value.length;
+  if (key !== mdHlKey) {
+    mdHlKey = key;
+    const E = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    hl.innerHTML = a < 0 ? E(mdArea.value) + '\n' : (a > 0 ? E(lines.slice(0, a).join('\n')) + '\n' : '') + `<mark>${E(lines.slice(a, z + 1).join('\n')) || ' '}</mark>` + E(lines.slice(z + 1).join('\n')) + '\n';
+    const m = hl.querySelector('mark');
+    if (m && scroll) {
+      const top = m.offsetTop, bottom = top + m.offsetHeight, view = mdArea.clientHeight;
+      if (top < mdArea.scrollTop + 20 || bottom > mdArea.scrollTop + view - 20) mdArea.scrollTop = Math.max(0, top - Math.round(view * 0.3));
+    }
+  }
+  hl.scrollTop = mdArea.scrollTop;
+}
+mdArea.addEventListener('scroll', () => { $('#md-hl').scrollTop = mdArea.scrollTop; });
+mdArea.addEventListener('focus', () => { mdHlKey = ''; paintMdHl(false); });
+mdArea.addEventListener('input', () => { mdHlKey = ''; paintMdHl(false); });
 
 /* =====================================================================
    Interfaz
@@ -3256,6 +3314,7 @@ function updateMd(force) {
   const md = getMarkdown();
   if (!mdpane.hidden && (force || document.activeElement !== mdArea)) {
     if (mdArea.value !== md) mdArea.value = md;
+    mdHlKey = ''; paintMdHl();
   }
   const text = editor.innerText || '';
   const words = (text.replace(/​/g, '').match(/[^\s]+/g) || []).length;
@@ -3602,7 +3661,7 @@ function cfgApply(data) {
   try { localStorage.setItem(PKEY, JSON.stringify(PR)); } catch (e) {}
   const lang = PR.lang || LANG;
   if (lang !== langBefore) { flushDraft(); setTimeout(() => location.reload(), 250); return true; }
-  applyAppearance(); setMdPos(!!PR.bottom); setMdPanel(!!PR.md); setNav(!!PR.nav); return true;
+  const v = { ...PR }; applyAppearance(); setMdPos(!!v.bottom); setMdPanel(!!v.md); setNav(!!v.nav); return true;
 }
 function downloadBlob(blob, name) {
   const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = name;
@@ -3759,7 +3818,7 @@ window.MarkDawn = {
 (function init() {
   let draft = null, prefs = null;
   try { draft = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) {}
-  prefs = PR.md == null ? null : PR;
+  prefs = PR.md == null ? null : { ...PR };   // copia: setMdPos/setMdPanel guardan y cambian PR
   if (draft && typeof draft.md === 'string' && draft.md.trim()) {
     fileName.value = draft.name || DEF_NAME;
     editor.innerHTML = mdToHtml(draft.md);
