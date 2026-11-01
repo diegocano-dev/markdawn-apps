@@ -107,10 +107,13 @@ This repository has **MarkDawn Mind Lite**, the free edition. Its interface is i
 - **Navigation your way**: zoom towards the pointer, pan with the right or middle button or Space, all configurable (View → Mouse and zoom)
 - **Several sheets in one file**, notes, tasks, markers, links, relationships and floating topics
 - **Live Markdown pane** you can also edit, outline, minimap, dark mode, ribbon at the top, left or right
-- **Opens any Markdown**: headings and lists become branches
+- **Open or paste any outline**: Markdown, indented text (like what XMind copies), bulleted lists or OPML; each level becomes a branch
+- **Reveal the map level by level** with a slider, and shorten long topics with "…"
+- **Export as an image**: PNG or JPG (up to Full HD), or copy and paste it anywhere
+- **Background textures**: paper, linen and notebook
 - Built-in help: press **F1**
 
-The full edition adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches and formatting by level. It opens the same files.
+The **full edition** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, images inside topics, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
 
 ### How a mind map is saved
 
@@ -156,6 +159,10 @@ MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 - English interface for Writer and Slides
 - Installable app (PWA) and a Windows desktop version
 - A renderer library and plugins to view MarkDawn files in Obsidian, VS Code and websites
+
+## Contributing
+
+This project **does not accept code contributions** (pull requests). If you have an idea or find a bug, please tell us in [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): every suggestion is read.
 
 ## License
 

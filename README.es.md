@@ -107,10 +107,13 @@ Este repositorio tiene **MarkDawn Mind Lite**, la edición gratuita. La interfaz
 - **Navegación a tu gusto**: zoom hacia el puntero, mover con el botón derecho, el central o Espacio, todo configurable (Vista → Ratón y zoom)
 - **Varias hojas en un archivo**, notas, tareas, marcadores, vínculos, relaciones y temas flotantes
 - **Panel Markdown en directo** que también puedes editar, esquema, minimapa, modo oscuro y cinta arriba, a la izquierda o a la derecha
-- **Abre cualquier Markdown**: los títulos y las listas se convierten en ramas
+- **Abre o pega cualquier esquema**: Markdown, texto con sangrías (como el que copia XMind), listas con viñetas u OPML; cada nivel se convierte en una rama
+- **Muestra el mapa nivel a nivel** con una barra, y acorta los temas largos con «…»
+- **Exporta como imagen** PNG o JPG (hasta Full HD), o cópialo y pégalo donde quieras
+- **Texturas de fondo**: papel, lino y cuaderno
 - Ayuda incluida: pulsa **F1**
 
-La edición completa añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D y formato por niveles. Abre los mismos archivos.
+La **edición completa** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, imágenes dentro de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
 
 ### Cómo se guarda un mapa mental
 
@@ -156,6 +159,10 @@ MarkDawnMind.setMarkdown('# Idea\n- Uno\n- Dos');
 - Interfaz en inglés para Writer y Slides
 - App instalable (PWA) y versión de escritorio para Windows
 - Una librería y plugins para ver los archivos MarkDawn en Obsidian, VS Code y páginas web
+
+## Contribuciones
+
+Este proyecto **no acepta contribuciones de código** (pull requests). Si tienes una idea o encuentras un error, cuéntalo en [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): todas las sugerencias se leen.
 
 ## Licencia
 
