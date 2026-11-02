@@ -105,6 +105,8 @@ flowchart LR
 
 Este repositorio tiene **MarkDawn Mind Lite**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
 
+> La **versión completa** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, imágenes dentro de los temas y estilos propios por niveles. Está disponible en [Gumroad](https://diegocanodev.gumroad.com/l/markdawn-mind).
+
 - **Pensada para el teclado**: Tab crea un tema hijo, Intro uno hermano, y basta con escribir para editar
 - **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha y árbol (tipo carpetas)
 - **Los temas se quedan donde los sueltas**, con sus ramas; si lo sueltas sobre otro tema, pasa a esa rama

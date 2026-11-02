@@ -105,6 +105,8 @@ flowchart LR
 
 This repository has **MarkDawn Mind Lite**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
 
+> The **full version** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, images inside topics and custom per-level styles. Get it on [Gumroad](https://diegocanodev.gumroad.com/l/markdawn-mind).
+
 - **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
 - **Organic maps** with tapered, curved branches, plus right-side and tree (folder-like) layouts
 - **Topics stay where you drop them**, branches included; drop one on another topic to move it there
