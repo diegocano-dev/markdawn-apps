@@ -60,69 +60,76 @@
   pre .c { color: var(--muted); }
   footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; gap: 18px; flex-wrap: wrap; justify-content: space-between; color: var(--muted); font-size: 14px; }
   footer a { color: inherit; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .lang { font: 600 13px var(--ui); color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 6px; height: 32px; padding: 0 12px; cursor: pointer; }
+  .lang:hover { border-color: var(--muted); }
+  .btn.pro { background: #f6c453; color: #3d2a00; border: 1px solid #e0a82e; }
+  .btn.pro:hover { background: #f8d06e; }
+  @media (prefers-color-scheme: dark) { .btn.pro { background: #e3b13f; color: #2b1d00; border-color: #e3b13f; } }
   @media (max-width: 720px) { section.next { grid-template-columns: 1fr; } .wrap { padding-block: 36px 28px; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <span class="mark"><b>M↓</b> MarkDawn Apps</span>
-    <h1>Trabaja como en Office. Guarda en Markdown.</h1>
-    <p class="lead">Editores con el aspecto de Word y PowerPoint, y mapas mentales, que nunca te enseñan un <code>#</code> ni un <code>**</code>, y lo guardan todo en Markdown: el formato que mejor entienden las IA y que funciona en GitHub, Obsidian y cualquier visor.</p>
+    <div class="top"><span class="mark"><b>M↓</b> MarkDawn Apps</span><button type="button" class="lang" id="lang" aria-label="Idioma · Language">EN</button></div>
+    <h1 data-en="Work like in Office. Save as Markdown.">Trabaja como en Office. Guarda en Markdown.</h1>
+    <p class="lead" data-en="Editors that look like Word and PowerPoint, and mind maps, that never show you a &lt;code&gt;#&lt;/code&gt; or a &lt;code&gt;**&lt;/code&gt;, and save everything as Markdown: the format AI understands best, which works in GitHub, Obsidian and any viewer.">Editores con el aspecto de Word y PowerPoint, y mapas mentales, que nunca te enseñan un <code>#</code> ni un <code>**</code>, y lo guardan todo en Markdown: el formato que mejor entienden las IA y que funciona en GitHub, Obsidian y cualquier visor.</p>
   </header>
 
   <main class="apps">
     <article class="app writer">
       <div class="bar"></div>
-      <img src="screenshot.png" alt="MarkDawn Writer: un documento con formato a la izquierda y su Markdown a la derecha" width="1600" height="900">
+      <img src="screenshot.png" alt="MarkDawn Writer: un documento con formato a la izquierda y su Markdown a la derecha" data-en-alt="MarkDawn Writer: a formatted document on the left and its Markdown on the right" width="1600" height="900">
       <div class="body">
-        <h2>MarkDawn Writer <small>Documentos</small></h2>
-        <p>Escribe como en Word: estilos, listas, tablas, imágenes y vínculos. Abre cualquier archivo .md sin romperlo.</p>
+        <h2 data-en="MarkDawn Writer &lt;small&gt;Documents&lt;/small&gt;">MarkDawn Writer <small>Documentos</small></h2>
+        <p data-en="Write like in Word: styles, lists, tables, images and links. Opens any .md file without breaking it. In English and Spanish.">Escribe como en Word: estilos, listas, tablas, imágenes y vínculos. Abre cualquier archivo .md sin romperlo. En español e inglés.</p>
         <ul>
-          <li>Cinta de Word y galería de estilos</li>
-          <li>Panel con el Markdown en directo, también editable</li>
-          <li>Pegado limpio desde Word y Google Docs</li>
+          <li data-en="Page view like in Word, with thumbnails and a PDF that matches the screen">Vista de páginas como en Word, con miniaturas y PDF igual que en pantalla</li>
+          <li data-en="Tables you edit on the page, with colors, callouts, formulas and diagrams">Tablas que se editan en la hoja, con colores, avisos, fórmulas y diagramas</li>
+          <li data-en="Live Markdown panel you can also edit · dark mode">Panel con el Markdown en directo, también editable · modo oscuro</li>
         </ul>
         <div class="actions">
-          <a class="btn primary" href="writer/">Abrir Writer →</a>
-          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/writer">Código</a>
+          <a class="btn primary" href="writer/" data-en="Open Writer →">Abrir Writer →</a>
+          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/writer" data-en="Code">Código</a>
+          <a class="btn pro" href="https://diegocanodev.gumroad.com/l/markdawn-writer-pro" data-en="Get Writer Pro →">Conseguir Writer Pro →</a>
         </div>
       </div>
     </article>
 
     <article class="app slides">
       <div class="bar"></div>
-      <img src="slides-screenshot.png" alt="MarkDawn Slides: un diagrama de flujo en una diapositiva y el Mermaid que genera" width="1600" height="900">
+      <img src="slides-screenshot.png" alt="MarkDawn Slides: un diagrama de flujo en una diapositiva y el Mermaid que genera" data-en-alt="MarkDawn Slides: a flowchart slide and the Mermaid it produces" width="1600" height="900">
       <div class="body">
-        <h2>MarkDawn Slides <small>Presentaciones</small></h2>
-        <p>Diseña como en PowerPoint y obtén un Markdown que una IA puede leer y volver a construir.</p>
+        <h2 data-en="MarkDawn Slides &lt;small&gt;Presentations&lt;/small&gt;">MarkDawn Slides <small>Presentaciones</small></h2>
+        <p data-en="Design like in PowerPoint and get Markdown an AI can read and rebuild.">Diseña como en PowerPoint y obtén un Markdown que una IA puede leer y volver a construir.</p>
         <ul>
-          <li>Más de 90 formas, conectores, tablas y gráficos</li>
-          <li>Diagramas de flujo guardados en Mermaid</li>
-          <li>Orden de lectura automático, secciones y modo presentación</li>
+          <li data-en="90+ shapes, connectors, tables and charts">Más de 90 formas, conectores, tablas y gráficos</li>
+          <li data-en="Flowcharts saved as Mermaid">Diagramas de flujo guardados en Mermaid</li>
+          <li data-en="Automatic reading order, sections and presenter mode">Orden de lectura automático, secciones y modo presentación</li>
         </ul>
         <div class="actions">
-          <a class="btn primary" href="slides/">Abrir Slides →</a>
-          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/slides">Código</a>
+          <a class="btn primary" href="slides/" data-en="Open Slides →">Abrir Slides →</a>
+          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/slides" data-en="Code">Código</a>
         </div>
       </div>
     </article>
 
     <article class="app mind">
       <div class="bar"></div>
-      <img src="mind-screenshot.png" alt="MarkDawn Mind: un mapa mental orgánico con ramas cónicas y su Markdown" width="1600" height="900">
+      <img src="mind-screenshot.png" alt="MarkDawn Mind: un mapa mental orgánico con ramas cónicas y su Markdown" data-en-alt="MarkDawn Mind: an organic mind map with tapered branches and its Markdown" width="1600" height="900">
       <div class="body">
-        <h2>MarkDawn Mind <small>Mapas mentales</small></h2>
-        <p>Crea mapas mentales con el teclado y guárdalos como una lista de Markdown que cualquier IA entiende.</p>
+        <h2 data-en="MarkDawn Mind &lt;small&gt;Mind maps&lt;/small&gt;">MarkDawn Mind <small>Mapas mentales</small></h2>
+        <p data-en="Build mind maps with the keyboard and save them as a Markdown list any AI understands.">Crea mapas mentales con el teclado y guárdalos como una lista de Markdown que cualquier IA entiende.</p>
         <ul>
-          <li>Ramas orgánicas y cónicas, árbol y mapa lateral</li>
-          <li>Zoom hacia el ratón y controles configurables</li>
-          <li>Varias hojas, notas, tareas y relaciones · en español e inglés</li>
+          <li data-en="Organic and tapered branches, tree and side map">Ramas orgánicas y cónicas, árbol y mapa lateral</li>
+          <li data-en="Zoom toward the mouse and configurable controls">Zoom hacia el ratón y controles configurables</li>
+          <li data-en="Several sheets, notes, tasks and relationships · in English and Spanish">Varias hojas, notas, tareas y relaciones · en español e inglés</li>
         </ul>
         <div class="actions">
-          <a class="btn primary" href="mind/">Abrir Mind →</a>
-          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/mind">Código</a>
-          <a class="btn ghost" href="https://diegocanodev.gumroad.com/l/markdawn-mind">Versión completa</a>
+          <a class="btn primary" href="mind/" data-en="Open Mind →">Abrir Mind →</a>
+          <a class="btn ghost" href="https://github.com/diegocano-dev/markdawn-apps/tree/main/mind" data-en="Code">Código</a>
+          <a class="btn pro" href="https://diegocanodev.gumroad.com/l/markdawn-mind" data-en="Get Mind Pro →">Conseguir Mind Pro →</a>
         </div>
       </div>
     </article>
@@ -130,8 +137,8 @@
 
   <section class="next">
     <div>
-      <h3>Cómo se guarda</h3>
-      <p>El formato de la página, como la alineación o la posición de cada cuadro, va en comentarios que los visores no muestran. El contenido queda como Markdown normal, en orden de lectura.</p>
+      <h3 data-en="How it is saved">Cómo se guarda</h3>
+      <p data-en="Page formatting, such as alignment or the position of each box, goes in comments that viewers do not show. The content stays as normal Markdown, in reading order.">El formato de la página, como la alineación o la posición de cada cuadro, va en comentarios que los visores no muestran. El contenido queda como Markdown normal, en orden de lectura.</p>
     </div>
 <pre><span class="c">&lt;!-- text: x=50 y=10 w=45 h=20 --&gt;</span>
 # Resultados del trimestre
@@ -143,19 +150,40 @@
 
   <section class="next">
     <div>
-      <h3>Próximamente</h3>
-      <p>Abrir archivos .md en Slides, temas de colores y tipos de letra para Writer y Slides, interfaz en inglés en Writer y Slides y plugins para ver estos archivos en Obsidian y VS Code.</p>
+      <h3 data-en="Coming soon">Próximamente</h3>
+      <p data-en="Installable apps and Microsoft Store versions, custom themes with fonts and a two-page view in Writer, opening .md files in Slides, an English interface for Slides, and plugins to view these files in Obsidian and VS Code.">Apps instalables y en la Microsoft Store, temas propios con tipos de letra y vista de dos páginas en Writer, abrir archivos .md en Slides, interfaz en inglés en Slides y plugins para ver estos archivos en Obsidian y VS Code.</p>
     </div>
     <div>
-      <h3>Código abierto</h3>
-      <p>Cada aplicación es un único archivo HTML, sin dependencias. Código abierto con licencia GPL v3: puedes usarlas, estudiarlas y modificarlas. MarkDawn Mind es la edición gratuita (Lite); la <a href="https://diegocanodev.gumroad.com/l/markdawn-mind">completa</a> añade más estilos, formas y estructuras.</p>
+      <h3 data-en="Open source">Código abierto</h3>
+      <p data-en="Each app is a single HTML file, nothing to install. Open source under the GPL v3 license: you can use, study and modify them. The paid versions add more: &lt;a href=&quot;https://diegocanodev.gumroad.com/l/markdawn-writer-pro&quot;&gt;Writer Pro&lt;/a&gt; (Notion-style block dragging, columns and editable mind maps) and &lt;a href=&quot;https://diegocanodev.gumroad.com/l/markdawn-mind&quot;&gt;Mind Pro&lt;/a&gt; (more styles, shapes and structures).">Cada aplicación es un único archivo HTML, sin instalar nada. Código abierto con licencia GPL v3: puedes usarlas, estudiarlas y modificarlas. Las versiones de pago añaden más funciones: <a href="https://diegocanodev.gumroad.com/l/markdawn-writer-pro">Writer Pro</a> (mover bloques como en Notion, columnas y mapas mentales editables) y <a href="https://diegocanodev.gumroad.com/l/markdawn-mind">Mind Pro</a> (más estilos, formas y estructuras).</p>
     </div>
   </section>
 
   <footer>
-    <span>© 2026 Diego Cano · Licencia GPL v3</span>
-    <span><a href="https://github.com/diegocano-dev/markdawn-apps">GitHub</a> · <a href="https://github.com/diegocano-dev/markdawn-apps/issues">Ideas y errores</a></span>
+    <span data-en="© 2026 Diego Cano · GPL v3 license">© 2026 Diego Cano · Licencia GPL v3</span>
+    <span><a href="https://github.com/diegocano-dev/markdawn-apps">GitHub</a> · <a href="https://github.com/diegocano-dev/markdawn-apps/issues" data-en="Ideas and bugs">Ideas y errores</a></span>
   </footer>
 </div>
+<script>
+// Español o inglés: según el navegador, o lo que elija el visitante (se recuerda)
+(function () {
+  const els = [...document.querySelectorAll('[data-en]')], imgs = [...document.querySelectorAll('[data-en-alt]')];
+  els.forEach(e => e.dataset.es = e.innerHTML); imgs.forEach(i => i.dataset.esAlt = i.alt);
+  const meta = document.querySelector('meta[name=description]'), metaEs = meta.content;
+  function set(l) {
+    const en = l === 'en';
+    document.documentElement.lang = l;
+    els.forEach(e => e.innerHTML = en ? e.dataset.en : e.dataset.es);
+    imgs.forEach(i => i.alt = en ? i.dataset.enAlt : i.dataset.esAlt);
+    meta.content = en ? 'Office-style tools that save everything as Markdown: MarkDawn Writer, MarkDawn Slides and MarkDawn Mind.' : metaEs;
+    document.getElementById('lang').textContent = en ? 'ES' : 'EN';
+    try { localStorage.setItem('mdapps-lang', l); } catch (e) {}
+  }
+  let l = null; try { l = localStorage.getItem('mdapps-lang'); } catch (e) {}
+  if (!l) l = (navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en';
+  set(l);
+  document.getElementById('lang').onclick = () => set(document.documentElement.lang === 'en' ? 'es' : 'en');
+})();
+</script>
 </body>
 </html>
