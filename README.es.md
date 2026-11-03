@@ -2,6 +2,10 @@
 
 **Herramientas con el aspecto de Office de siempre que lo guardan todo en Markdown.**
 
+https://github.com/user-attachments/assets/0dd5594a-afc6-4b17-8f99-285445e0a284
+
+*En el vídeo: MarkDawn Writer Pro. La versión gratuita incluye páginas, tablas editables, avisos, diagramas y modo oscuro; mover bloques, columnas y los mapas editables son de [Writer Pro](https://diegocanodev.gumroad.com/l/markdawn-writer-pro).*
+
 Markdown es el formato que mejor entienden las IA, y funciona en todas partes: GitHub, Obsidian, wikis, sitios de documentación. Pero pedirle a alguien sin conocimientos técnicos que escriba en él es una barrera real. MarkDawn Apps mantienen la interfaz que la gente ya conoce y solo guardan Markdown.
 
 [Read in English](README.md)
