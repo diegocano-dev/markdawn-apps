@@ -184,21 +184,62 @@
     font-size: 12.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .navpane button:hover { background: var(--hover); }
-  .navpane button.l1 { font-weight: 600; }
-  .navpane button.l2 { padding-left: 18px; }
-  .navpane button.l3 { padding-left: 30px; color: var(--muted); }
-  .navpane button.l4 { padding-left: 42px; color: var(--muted); }
+  .navpane button.l1 { font-weight: 700; font-size: 14px; margin-top: 6px; }
+  .navpane button.l2 { padding-left: 16px; font-weight: 600; font-size: 13px; }
+  .navpane button.l3 { padding-left: 28px; font-size: 12.5px; }
+  .navpane button.l4 { padding-left: 40px; font-size: 12px; font-style: italic; opacity: .85; }
+  .navpane button[class^="l"] { border-left: 2px solid transparent; }
+  .navpane button.l1 { border-left-color: currentColor; border-radius: 0 3px 3px 0; }
+  .navpane { position: relative; }
+  .navsplit { flex: none; width: 5px; margin-left: -3px; margin-right: -2px; cursor: col-resize; z-index: 3; position: relative; }
+  .navsplit:hover, .navsplit.on { background: var(--word); opacity: .35; }
+  .thsize { display: flex; align-items: center; gap: 6px; margin: 0 6px 6px; font-size: 11.5px; color: var(--muted); }
+  .thsize input { flex: 1; accent-color: var(--word); }
 
   .docarea { position: relative; flex: 1; min-width: 0; display: flex; }
   .canvas {
-    flex: 1; overflow: auto; display: flex; justify-content: center; align-items: flex-start;
+    flex: 1; overflow: auto; display: flex; justify-content: safe center; align-items: flex-start;
     padding-block: 24px 56px; padding-left: var(--gutter-l); padding-right: var(--gutter-r);
   }
   .page {
-    flex: none; width: 816px; max-width: 100%; min-height: 1056px; background: var(--paper);
+    --pw: 794px; --ph: 1123px; --pt: 94px; --pr: 94px; --pb: 94px; --pl: 94px;
+    flex: none; width: var(--pw); max-width: 100%; min-height: var(--ph); background: var(--paper);
     box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.08), 0 4px 14px rgba(0,0,0,.08);
-    padding: 72px 92px;
+    padding: var(--pt) var(--pr) var(--pb) var(--pl);
   }
+  /* Resaltado (rotulador) */
+  #editor mark { background: #fff176; color: inherit; padding: 0 1px; border-radius: 2px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.dark:not(.paper-light) #editor mark { color: #1f1f1f; }
+  .rb.hl { position: relative; }
+  .rb.hl .hlbar { position: absolute; left: 6px; right: 6px; bottom: 3px; height: 3px; border-radius: 1px; background: var(--hlc, #fff176); box-shadow: 0 0 0 .5px rgba(0,0,0,.25); }
+  .rb.hldrop { width: 14px; min-width: 14px; padding: 0; font-size: 9px; }
+  .hlpal { display: grid; grid-template-columns: repeat(6, 26px); gap: 6px; padding: 4px 2px 8px; }
+  .hlpal button { width: 26px; height: 26px; border-radius: 4px; border: 1px solid rgba(0,0,0,.15); cursor: pointer; }
+  .hlpal button:hover { outline: 2px solid var(--word); outline-offset: 1px; }
+  /* Vista de páginas: hojas de tamaño fijo, como el Diseño de impresión de Word */
+  body.pv .page { background: transparent; box-shadow: none; max-width: none; }
+  body.pv #editor { position: relative; z-index: 1; min-height: 0; }
+  .sheets { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .sheet { position: absolute; left: 0; right: 0; background: var(--paper); box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.08), 0 4px 14px rgba(0,0,0,.08); }
+  body.dark .sheet { box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 18px rgba(0,0,0,.5); }
+  .status .pginfo { color: inherit; opacity: .9; white-space: nowrap; }
+  .pgopt { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 6px 8px; border: 0; background: none; border-radius: 4px; cursor: pointer; color: var(--ink); font: inherit; }
+  .pgopt:hover { background: var(--hover); }
+  .pgopt[aria-pressed="true"] { background: var(--sel, rgba(43,87,154,.12)); }
+  .pgopt svg { flex: none; width: 34px; height: 34px; color: var(--muted); }
+  .pgopt b { display: block; font-weight: 600; font-size: 12.5px; }
+  .pgopt small { display: block; color: var(--muted); font-size: 11.5px; }
+  .navtabs { display: flex; gap: 2px; margin: 0 4px 10px; border-bottom: 1px solid var(--line); }
+  .navpane .navtabs button { flex: 1; border-radius: 4px 4px 0 0; text-align: center; padding: 6px 4px; font-weight: 400; color: var(--muted); }
+  .navpane .navtabs button[aria-selected="true"] { color: var(--word); font-weight: 600; box-shadow: inset 0 -2px 0 var(--word); }
+  body.dark .navpane .navtabs button[aria-selected="true"] { color: #9cc0f2; box-shadow: inset 0 -2px 0 #9cc0f2; }
+  .thumbs { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 12px 10px; padding: 4px 0 20px; }
+  .thumb { all: unset; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .thumb .tv { position: relative; overflow: hidden; background: var(--paper); box-shadow: 0 0 0 1px var(--line), 0 1px 4px rgba(0,0,0,.12); border-radius: 1px; }
+  .thumb .tv > div { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; }
+  .thumb.on .tv { box-shadow: 0 0 0 2px var(--word), 0 1px 4px rgba(0,0,0,.12); }
+  .thumb:hover .tv { box-shadow: 0 0 0 2px var(--line), 0 2px 6px rgba(0,0,0,.18); }
+  .thumb.on span { color: var(--word); font-weight: 600; }
 
   /* ---------- Contenido del documento ---------- */
   #editor {
@@ -206,6 +247,15 @@
     color: var(--doc-ink); caret-color: var(--word); overflow-wrap: break-word;
   }
   #editor > :first-child { margin-top: 0; }
+  /* Columnas (<!-- columns -->): se ven lado a lado; en otros visores, una detrás de otra */
+  #editor .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; margin: .9em 0; align-items: start; position: relative; }
+  #editor .col { min-width: 0; position: relative; }
+  #editor .col > :first-child { margin-top: 0; } #editor .col > :last-child { margin-bottom: 0; }
+  #editor .col::after { content: ""; position: absolute; inset: -6px -10px; border: 1px dashed var(--line); border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity .15s; }
+  @media print { #editor .col::after { display: none; } }
+  
+  @media (max-width: 760px) { #editor .cols { grid-template-columns: 1fr !important; row-gap: .9em; } }
+  @media print { #editor .cols { break-inside: avoid; } }
   #editor p { margin: 0 0 .7em; }
   #editor h1, #editor h2, #editor h3, #editor h4, #editor h5, #editor h6 { margin: 1.15em 0 .4em; line-height: 1.25; text-wrap: balance; }
   #editor h1 { font-size: 27px; font-weight: 600; color: var(--h1); }
@@ -228,10 +278,45 @@
     background: var(--word) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2 5 8.6l4.5-5.2' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 85% no-repeat;
   }
   #editor blockquote {
-    margin: .9em 0; padding: .35em 0 .35em 1em; border-left: 3px solid var(--word);
-    color: #3d3d3d; font-style: italic; background: #f7f9fc;
+    margin: 1em 0; padding: .7em 1.1em .7em 2.6em; border-left: 4px solid var(--word); border-radius: 0 6px 6px 0;
+    color: #2d3a4f; font-style: italic; background: #edf3fb; font-size: 1.04em; position: relative;
   }
+  #editor blockquote:not([data-callout])::before { content: "\201C"; position: absolute; left: .32em; top: .05em; font: 700 2.4em/1 Georgia, serif; color: var(--word); opacity: .35; font-style: normal; }
   #editor blockquote p:last-child { margin-bottom: 0; }
+  /* Fórmulas y diagramas */
+  #editor .math { font-family: var(--mono); font-size: .92em; cursor: pointer; border-radius: 3px; padding: 0 2px; }
+  #editor .math[data-r] { font-family: inherit; font-size: 1em; }
+  #editor .math:hover, #editor .mathblock:hover { background: rgba(43,87,154,.08); }
+  #editor .mathblock { margin: .9em 0; padding: 8px; text-align: center; cursor: pointer; border-radius: 4px; font-family: var(--mono); font-size: 13.5px; overflow-x: auto; }
+  #editor .mathblock[data-r] { font-family: inherit; font-size: 1.05em; }
+  #editor .mathblock:not([data-r])::before, #editor .math:not([data-r])::before { content: "∑ "; opacity: .6; }
+  /* Avisos (callouts): caja de color con su icono, como en Notion; se guardan como en GitHub y Obsidian */
+  #editor blockquote[data-callout][data-callout] { --co: #2f6fd6; --cobg: #e3eefc; --coi: "📝"; position: relative; font-style: normal; color: inherit; background: var(--cobg); border: 0; border-radius: 6px; padding: .75em 1em .75em 2.85em; }
+  #editor blockquote[data-callout][data-callout]::before { content: var(--coi); position: absolute; left: .8em; top: .7em; font-size: 1.1em; line-height: 1.45; font-style: normal; }
+  #editor blockquote[data-callout] > p.co-t { font-weight: 600; color: var(--co); margin-bottom: .3em; }
+  body.dark:not(.paper-light) #editor blockquote[data-callout][data-callout] { background: color-mix(in srgb, var(--co) 22%, #1d2023); }
+  body.dark:not(.paper-light) #editor blockquote[data-callout] > p.co-t { color: color-mix(in srgb, var(--co) 55%, white); }
+  #editor blockquote:is([data-callout="note"])[data-callout] { --co: #2f6fd6; --cobg: #e3eefc; --coi: "📝"; }
+  #editor blockquote:is([data-callout="info"])[data-callout] { --co: #0b7fa8; --cobg: #dcf1f7; --coi: "ℹ️"; }
+  #editor blockquote:is([data-callout="tip"],[data-callout="hint"])[data-callout] { --co: #2f8a4e; --cobg: #e1f3e6; --coi: "💡"; }
+  #editor blockquote:is([data-callout="success"],[data-callout="check"],[data-callout="done"])[data-callout] { --co: #2f8a4e; --cobg: #e1f3e6; --coi: "✅"; }
+  #editor blockquote:is([data-callout="important"])[data-callout] { --co: #8250df; --cobg: #efe7fb; --coi: "❗"; }
+  #editor blockquote:is([data-callout="question"],[data-callout="help"],[data-callout="faq"])[data-callout] { --co: #c0650a; --cobg: #fde8d4; --coi: "❓"; }
+  #editor blockquote:is([data-callout="warning"],[data-callout="attention"])[data-callout] { --co: #a86f00; --cobg: #fcf1cc; --coi: "⚠️"; }
+  #editor blockquote:is([data-callout="caution"])[data-callout] { --co: #cf2e2e; --cobg: #fde3e3; --coi: "🛑"; }
+  #editor blockquote:is([data-callout="bug"],[data-callout="error"])[data-callout] { --co: #cf2e2e; --cobg: #fde3e3; --coi: "🐞"; }
+  #editor blockquote:is([data-callout="example"])[data-callout] { --co: #8250df; --cobg: #efe7fb; --coi: "📌"; }
+  #editor blockquote:is([data-callout="quote"],[data-callout="cite"])[data-callout] { --co: #6b6b66; --cobg: #ecece9; --coi: "💬"; }
+  #editor blockquote:is([data-callout="abstract"],[data-callout="summary"],[data-callout="tldr"])[data-callout] { --co: #0b7fa8; --cobg: #dcf1f7; --coi: "📋"; }
+  #editor blockquote:is([data-callout="todo"])[data-callout] { --co: #2f6fd6; --cobg: #e3eefc; --coi: "☑️"; }
+  #editor blockquote:is([data-callout="danger"])[data-callout] { --co: #cf2e2e; --cobg: #fde3e3; --coi: "⚡"; }
+  #editor blockquote:is([data-callout="failure"],[data-callout="fail"],[data-callout="missing"])[data-callout] { --co: #cf2e2e; --cobg: #fde3e3; --coi: "❌"; }
+  /* Notas al pie */
+  #editor sup.fnref { font-size: .72em; color: var(--link, #0563c1); cursor: pointer; padding: 0 1px; user-select: all; }
+  #editor sup.fnref::before { content: "["; } #editor sup.fnref::after { content: "]"; }
+  #editor p.fndef { font-size: .87em; margin: 0 0 .35em; color: var(--doc-ink); }
+  #editor p.fndef::before { content: attr(data-fn) ". "; font-weight: 600; color: var(--link, #0563c1); cursor: pointer; }
+  #editor :not(.fndef) + p.fndef { margin-top: 1.6em; padding-top: .7em; border-top: 1px solid var(--line); }
   #editor code {
     font-family: var(--mono); font-size: .87em; background: #f0f0f0; border-radius: 3px; padding: .1em .35em; color: #2b2b2b;
   }
@@ -270,6 +355,33 @@
   #editor table { border-collapse: collapse; margin: .9em 0; width: 100%; font-variant-numeric: tabular-nums; }
   #editor th, #editor td { border: 1px solid #bfbfbf; padding: 5px 9px; text-align: left; vertical-align: top; min-width: 48px; }
   #editor th { background: #f2f2f2; font-weight: 600; }
+  /* Estilos de tabla (<!-- table: blue striped -->) */
+  #editor table[data-ts] { --tc: 128,128,128; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #editor table[data-ts~="blue"] { --tc: 43,87,154; } #editor table[data-ts~="green"] { --tc: 46,125,50; } #editor table[data-ts~="teal"] { --tc: 0,121,107; }
+  #editor table[data-ts~="orange"] { --tc: 214,110,20; } #editor table[data-ts~="red"] { --tc: 190,50,50; } #editor table[data-ts~="purple"] { --tc: 110,70,160; }
+  #editor table[data-ts][data-ts] th { background: rgba(var(--tc), .16); border-color: rgba(var(--tc), .45); }
+  #editor table[data-ts][data-ts] td { border-color: rgba(var(--tc), .32); }
+  #editor table[data-ts~="solid"][data-ts~="solid"] th { background: rgb(var(--tc)); color: #fff; border-color: rgb(var(--tc)); }
+  #editor table[data-ts~="striped"] tbody tr:nth-child(even) td { background: rgba(var(--tc), .07); }
+  #editor table[data-ts~="firstcol"] td:first-child { background: rgba(var(--tc), .12); font-weight: 600; }
+  #editor table[data-ts~="firstcol"][data-ts~="solid"] td:first-child { background: rgba(var(--tc), .22); }
+  /* Controles de tabla sobre el documento */
+  .tblui button { position: absolute; z-index: 6; display: grid; place-items: center; padding: 0; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; font: 600 14px/1 var(--ui); border-radius: 4px; opacity: .55; transition: opacity .12s, background .12s; }
+  .tblui button:hover { opacity: 1; color: #fff; background: var(--word); border-color: var(--word); }
+  .tblui .tb-addc { width: 14px; } .tblui .tb-addr { height: 11px; font-size: 12px; }
+  .tblui .tb-row { width: 14px; } .tblui .tb-col { width: 26px; height: 14px; }
+  .tblui .tb-row:hover, .tblui .tb-col:hover { color: #fff; }
+  .tblmenu .opt { display: flex; width: 100%; align-items: center; gap: 8px; border: 0; background: none; padding: 5px 8px; border-radius: 4px; text-align: left; cursor: pointer; font-size: 13px; color: var(--ink); }
+  .tblmenu .opt:hover:not(:disabled) { background: var(--hover, rgba(0,0,0,.06)); } .tblmenu .opt:disabled { opacity: .4; cursor: default; }
+  .tblmenu .opt svg { width: 16px; height: 16px; flex: none; } .tblmenu .opt .chk { width: 16px; text-align: center; color: var(--word); font-weight: 700; }
+  .tblmenu .sep { height: 1px; background: var(--line-soft, #eee); margin: 4px 2px; }
+  .tblmenu h4 { margin: 4px 8px 6px; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+  .tspal { display: flex; gap: 6px; padding: 0 8px 6px; }
+  .tspal button { width: 22px; height: 22px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(var(--c), .6); background: linear-gradient(rgba(var(--c), .9) 0 38%, rgba(var(--c), .14) 38%); }
+  .tspal button.none { background: linear-gradient(135deg, transparent 46%, #c62828 46% 54%, transparent 54%), var(--panel); }
+  .tspal button[aria-pressed="true"] { outline: 2px solid var(--word); outline-offset: 1px; }
+  @media (hover: none) { .tblui { display: none !important; } }
+  @media print { .tblui { display: none !important; } }
   #editor .md-raw {
     position: relative; margin: .8em 0; padding: 10px 12px; border: 1px dashed #b9b9b9; border-radius: 4px;
     background: #fbfbfb; color: #555; font-size: 13px; user-select: none;
@@ -281,6 +393,15 @@
   #editor .md-raw-body.comment { font-family: var(--mono); font-size: 12.5px; white-space: pre-wrap; }
 
   ::highlight(find) { background-color: #ffe58f; }
+  /* Colores del código (sin tocar el documento: CSS Custom Highlight API) */
+  ::highlight(tk-kw) { color: #8f2fb3; } ::highlight(tk-str) { color: #b5401f; } ::highlight(tk-com) { color: #6a7a6a; }
+  ::highlight(tk-num) { color: #0b7a5a; } ::highlight(tk-fn) { color: #1f5fbf; } ::highlight(tk-tag) { color: #1d4ea6; }
+  ::highlight(tk-attr) { color: #9a5b00; } ::highlight(tk-key) { color: #1d4ea6; } ::highlight(tk-lit) { color: #0b62a8; }
+  body.dark:not(.paper-light) { --tk: 1; }
+  body.dark:not(.paper-light) ::highlight(tk-kw) { color: #d29bff; } body.dark:not(.paper-light) ::highlight(tk-str) { color: #f0a07a; }
+  body.dark:not(.paper-light) ::highlight(tk-com) { color: #8a9a8a; } body.dark:not(.paper-light) ::highlight(tk-num) { color: #7fd6b0; }
+  body.dark:not(.paper-light) ::highlight(tk-fn) { color: #8fb8ff; } body.dark:not(.paper-light) ::highlight(tk-tag) { color: #8fb8ff; }
+  body.dark:not(.paper-light) ::highlight(tk-attr) { color: #f0c27a; } body.dark:not(.paper-light) ::highlight(tk-key) { color: #8fb8ff; } body.dark:not(.paper-light) ::highlight(tk-lit) { color: #7fc3ff; }
   ::highlight(find-cur) { background-color: #f7a21b; color: #000; }
 
   /* ---------- Buscar ---------- */
@@ -309,7 +430,17 @@
     display: flex; flex-direction: column; background: var(--side); border-left: 1px solid var(--line);
     width: 40%; min-width: 300px; max-width: 640px; flex: none; min-height: 0;
   }
-  .main.bottom .mdpane { width: auto; max-width: none; min-width: 0; height: 38%; border-left: 0; border-top: 1px solid var(--line); }
+  .main.bottom .mdpane { width: auto; max-width: none; min-width: 0; height: 38%; min-height: 110px; max-height: 80%; border-left: 0; border-top: 1px solid var(--line); }
+  .mdpane { max-width: 80%; }
+  /* A la izquierda, el panel va después de la navegación y con más aire a los lados */
+  .main.mdleft:not(.bottom) .mdpane { border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  .main.mdleft:not(.bottom) .mdhead { padding-left: 22px; }
+  .main.mdleft:not(.bottom) :is(#md-output, .md-hl) { padding-left: 26px; padding-right: 20px; }
+  .main.mdleft:not(.bottom) .navpane:not([hidden]) ~ .mdpane { border-left-color: var(--line-soft); }
+  .mdsplit { flex: none; width: 5px; margin: 0 -2px 0 -3px; cursor: col-resize; z-index: 3; position: relative; touch-action: none; }
+  .main.mdleft:not(.bottom) .mdsplit { margin: 0 -3px 0 -2px; }
+  .main.bottom .mdsplit { width: auto; height: 5px; margin: -3px 0 -2px; cursor: row-resize; }
+  .mdsplit:hover, .mdsplit.on { background: var(--word); opacity: .35; }
   .mdhead {
     display: flex; align-items: center; gap: 6px; padding: 7px 10px 7px 14px; border-bottom: 1px solid var(--line-soft); flex: none;
   }
@@ -318,15 +449,29 @@
   .mdwrap { position: relative; flex: 1; min-height: 0; }
   #md-output, .md-hl {
     position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; padding: 14px 16px;
-    font-family: var(--mono); font-size: 13px; line-height: 1.6; tab-size: 4; white-space: pre-wrap; overflow-wrap: break-word;
+    font-family: var(--mono); font-size: var(--mdfs, 13px); line-height: 1.6; tab-size: 4; white-space: pre-wrap; overflow-wrap: break-word;
     overflow-y: scroll; box-sizing: border-box;
   }
-  #md-output { resize: none; background: transparent; color: #2b2b2b; outline: none; z-index: 1; }
+  #md-output { resize: none; background: transparent; color: transparent; caret-color: var(--ink); outline: none; z-index: 1; }
+  #md-output::selection { background: rgba(43,87,154,.22); color: transparent; }
   /* Capa de fondo con el mismo texto (invisible): resalta las líneas del bloque donde está el cursor */
-  .md-hl { color: transparent; pointer-events: none; scrollbar-color: transparent transparent; z-index: 0; }
+  .md-hl { color: #2b2b2b; pointer-events: none; scrollbar-color: transparent transparent; z-index: 0; }
+  /* Colores del Markdown (solo color: el ancho de cada letra no cambia, así el texto coincide con el cuadro de edición) */
+  .md-hl .m-h { color: #1f4e9c; } .md-hl .m-hm { color: #8aa4cf; } .md-hl .m-com { color: #8a8f94; } .md-hl .m-mk { color: #c0650a; }
+  .md-hl .m-code { color: #8f2fb3; } .md-hl .m-fence { color: #8f2fb3; background: rgba(143,47,179,.06); }
+  .md-hl .m-b { color: #111; text-shadow: .35px 0 0 currentColor; } .md-hl .m-i { color: #4a4f57; } .md-hl .m-link { color: #0b62a8; } .md-hl .m-url { color: #8a9bb0; }
+  .md-hl .m-hl { background: #fff59d; } .md-hl .m-fn { color: #0b7a5a; } .md-hl .m-math { color: #b5401f; } .md-hl .m-tbl { color: #8a8f94; }
+  body.dark .md-hl { color: #d2d6da; }
+  body.dark .md-hl .m-h { color: #8fb8ff; } body.dark .md-hl .m-hm { color: #5f7aa6; } body.dark .md-hl .m-com { color: #7c8187; } body.dark .md-hl .m-mk { color: #f0a868; }
+  body.dark .md-hl .m-code, body.dark .md-hl .m-fence { color: #d29bff; } body.dark .md-hl .m-b { color: #fff; } body.dark .md-hl .m-i { color: #b9bec4; }
+  body.dark .md-hl .m-link { color: #7fb2ff; } body.dark .md-hl .m-url { color: #6f7f94; } body.dark .md-hl .m-hl { background: #5c5320; } body.dark .md-hl .m-fn { color: #7fd6b0; } body.dark .md-hl .m-math { color: #f0a07a; }
+  body.dark #md-output::selection { background: rgba(143,184,255,.25); }
   .md-hl::-webkit-scrollbar { background: transparent; }
-  .md-hl mark { display: block; margin: 0 -16px; padding: 0 16px; background: #fff3c4; color: transparent; border-left: 3px solid #e3b400; }
-  body.dark .md-hl mark { background: #3a3420; border-left-color: #b8932a; }
+  .md-hl mark.cur { display: block; margin: 0 -16px; padding: 0 16px; background: #fff3c4; color: inherit; border-left: 3px solid #e3b400; }
+  body.dark .md-hl mark.cur { background: #3a3420; border-left-color: #b8932a; }
+  .mdhead .fs { min-width: 26px; font-weight: 600; }
+  body.md-plain .md-hl span { color: inherit !important; background: none !important; text-shadow: none !important; }
+  .mdhead .mdcol[aria-pressed="true"] { color: var(--word); border-color: var(--word); }
 
   /* ---------- Barra de estado ---------- */
   .status {
@@ -435,14 +580,15 @@
   body.t-academico #editor h2 { font-size: 19px; font-weight: 700; }
   body.t-academico #editor h3 { font-size: 16px; font-weight: 700; }
   body.t-academico #editor h4 { font-size: 15px; font-weight: 400; font-style: italic; }
-  body.t-academico #editor blockquote { background: none; border-left: 0; padding: 0 2.5em; font-style: normal; font-size: .95em; }
+  body.t-academico #editor blockquote:not([data-callout])::before, body.t-github #editor blockquote:not([data-callout])::before { display: none; }
+  body.t-academico #editor blockquote:not([data-callout]) { background: none; border-left: 0; padding: 0 2.5em; font-style: normal; font-size: .95em; }
   body.t-notion { --doc: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
   body.t-notion #editor { font-size: 16px; line-height: 1.6; }
   body.t-notion #editor h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; }
   body.t-notion #editor h2 { font-size: 24px; font-weight: 700; }
   body.t-notion #editor h3 { font-size: 19px; font-weight: 600; }
   body.t-notion #editor h4 { font-style: normal; }
-  body.t-notion #editor blockquote { background: none; font-style: normal; border-left: 3px solid currentColor; color: inherit; }
+  body.t-notion #editor blockquote:not([data-callout]) { background: none; font-style: normal; border-left: 3px solid currentColor; color: inherit; }
   body.t-notion #editor code { color: #eb5757; background: rgba(135,131,120,.15); }
   body.t-notion #editor pre { background: rgba(135,131,120,.08); border: 0; }
   body.t-notion #editor th { background: rgba(135,131,120,.08); }
@@ -453,7 +599,7 @@
   body.t-github #editor h1 { font-size: 28px; font-weight: 600; }
   body.t-github #editor h2 { font-size: 22px; font-weight: 600; }
   body.t-github #editor h4 { font-style: normal; }
-  body.t-github #editor blockquote { background: none; font-style: normal; border-left: .25em solid var(--line); color: var(--muted); }
+  body.t-github #editor blockquote:not([data-callout]) { background: none; font-style: normal; border-left: .25em solid var(--line); color: var(--muted); }
   body.t-github #editor code { background: rgba(129,139,152,.15); }
   body.t-github #editor pre { border: 0; background: var(--code-bg); }
   body.t-lectura { --doc: Georgia, "Iowan Old Style", Cambria, "Times New Roman", serif; }
@@ -462,7 +608,7 @@
   body.t-lectura #editor h1 { font-size: 34px; letter-spacing: -.01em; }
   body.t-lectura #editor h2 { font-size: 25px; }
   body.t-lectura #editor h4 { font-style: normal; }
-  body.t-lectura #editor blockquote { background: none; border-left: 3px solid currentColor; color: inherit; }
+  body.t-lectura #editor blockquote:not([data-callout]) { background: none; border-left: 3px solid currentColor; color: inherit; }
 
   /* ---------- Modo oscuro ---------- */
   body.dark {
@@ -482,14 +628,14 @@
   body.dark .mini, body.dark .btn-sec, body.dark .findbar input[type="text"], body.dark .fld input[type="text"], body.dark .fld input[type="url"] { background: #26292c; color: var(--ink); border-color: var(--line); }
   body.dark .mini:hover, body.dark .btn-sec:hover { background: #303438; }
   body.dark .tgrid button { background: #26292c; border-color: #4a4e52; }
-  body.dark #md-output { color: #d2d6da; }
+  body.dark #md-output { color: transparent; caret-color: #e6e8ea; }
   body.dark .pv-q { color: #bbb; }
   body.dark .tab:hover { background: rgba(255,255,255,.06); }
   body.dark .toast { background: #e6e7e8; color: #1f2123; }
   body.dark .dropzone span { background: var(--panel); }
   body.dark .page { box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 18px rgba(0,0,0,.5); }
   @media screen {
-    body.dark:not(.paper-light) #editor blockquote { background: #22262a; color: #c9ced3; }
+    body.dark:not(.paper-light) #editor blockquote:not([data-callout]) { background: #22262a; color: #c9ced3; }
     body.dark:not(.paper-light) #editor code { background: #2a2e32; color: #e3e6e8; }
     body.dark:not(.paper-light).t-notion #editor code { color: #ff8b8b; }
     body.dark:not(.paper-light) #editor pre { border-color: #34383c; }
@@ -527,7 +673,7 @@
     @page { margin: 18mm 16mm; }
     html, body { height: auto !important; }
     body { display: block; overflow: visible; background: #fff !important; }
-    body::before, .titlebar, .ribbon, .status, .navpane, .mdpane, .findbar, .modal, .pop, .gpop, .toast, .dropzone, .help { display: none !important; }
+    body::before, .titlebar, .ribbon, .status, .navpane, .mdpane, .findbar, .modal, .pop, .gpop, .toast, .dropzone, .help, .sheets { display: none !important; }
     .main, .center, .docarea, .canvas { display: block !important; overflow: visible !important; padding: 0 !important; height: auto !important; }
     .page { box-shadow: none !important; padding: 0 !important; width: auto !important; min-height: 0 !important; zoom: 1 !important; background: #fff !important; }
     body.dark .page, body.dark { --paper: #fff; --doc-ink: #1f1f1f; --h1: #2f5496; --h3: #1f3864; --code-bg: #f5f5f5; --link: #0563c1; --line: #d4d4d4; --muted: #605e5c; }
@@ -542,9 +688,10 @@
   @media (max-width: 760px) {
     .main { flex-direction: column; }
     #editor > :is(h1,h2,h3,h4,h5,h6)::before { left: -22px; width: 22px; -webkit-mask-position: 3px center; mask-position: 3px center; }
-    .mdpane, .main.bottom .mdpane { width: auto; max-width: none; min-width: 0; height: 42%; border-left: 0; border-top: 1px solid var(--line); }
+    .mdpane, .main.bottom .mdpane, .main.mdleft .mdpane { width: auto !important; max-width: none; min-width: 0; height: 42% !important; order: 0 !important; border-left: 0; border-right: 0; border-top: 1px solid var(--line); }
+    .mdsplit { display: none; }
     .navpane { display: none; }
-    .page { padding: 28px 22px; min-height: 0; }
+    body:not(.pv) .page { padding: 28px 22px; min-height: 0; }
     #editor { min-height: 360px; }
     .appname, .docname .state, .zoom input { display: none; }
     .docname { justify-content: flex-start; }
@@ -595,7 +742,8 @@
     <span class="ext">.md</span>
     <span class="state" id="save-state">Guardado en este navegador</span>
   </div>
-  <span class="appname no-tr">MarkDawn Writer · 0.9.1 beta</span>
+  <span class="appname no-tr">MarkDawn Writer · 0.9.2 beta</span>
+
   <button class="qa txt" data-cmd="lang" id="lang-btn" title="Idioma · Language">ES</button>
   <button class="qa" data-cmd="dark" id="dark-btn" title="Modo oscuro" aria-pressed="false"><i data-i="moon"></i></button>
   <button class="qa" data-cmd="help" title="Ayuda (F1)" aria-pressed="false"><i data-i="help"></i></button>
@@ -606,6 +754,7 @@
     <button class="tab file" role="tab" data-tab="archivo" aria-selected="false">Archivo</button>
     <button class="tab" role="tab" data-tab="inicio" aria-selected="true">Inicio</button>
     <button class="tab" role="tab" data-tab="insertar" aria-selected="false">Insertar</button>
+    <button class="tab" role="tab" data-tab="disposicion" aria-selected="false">Disposición</button>
     <button class="tab" role="tab" data-tab="vista" aria-selected="false">Vista</button>
     <button class="tab ctx" role="tab" data-tab="tabla" aria-selected="false" id="tab-tabla" hidden>Tabla</button>
     <span class="tabs-sp"></span>
@@ -678,6 +827,7 @@
             <button class="rb" data-cmd="bold" aria-pressed="false" title="Negrita (Ctrl+B)"><span class="glyph b">N</span></button>
             <button class="rb" data-cmd="italic" aria-pressed="false" title="Cursiva (Ctrl+I)"><span class="glyph i">K</span></button>
             <button class="rb" data-cmd="strike" aria-pressed="false" title="Tachado (Ctrl+Mayús+X)"><span class="glyph s">abc</span></button>
+            <button class="rb hl" data-cmd="highlight" aria-pressed="false" title="Resaltar (Ctrl+Alt+H)"><i data-i="marker"></i><span class="hlbar"></span></button><button class="rb hldrop" data-cmd="highlightMenu" title="Color de resaltado">▾</button>
           </div>
           <div class="row">
             <button class="rb" data-cmd="code" aria-pressed="false" title="Código en línea (Ctrl+`)"><i data-i="code"></i></button>
@@ -763,13 +913,48 @@
         <button class="rb big" data-cmd="codeblock"><i data-i="codeblock"></i><span>Bloque de código</span></button>
         <button class="rb big" data-cmd="task"><i data-i="task"></i><span>Lista de tareas</span></button>
         <button class="rb big" data-cmd="hr"><i data-i="hr"></i><span>Línea horizontal</span></button>
+        <button class="rb big" data-cmd="calloutMenu" title="Aviso de color: nota, consejo, importante, atención o precaución"><i data-i="callout"></i><span>Aviso&nbsp;▾</span></button>
       </div>
       <div class="grp-label">Bloques</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="footnote" title="Insertar una nota al pie numerada"><i data-i="footnote"></i><span>Nota al pie</span></button>
+        <button class="rb big" data-cmd="equation" title="Insertar una fórmula (LaTeX)"><i data-i="equation"></i><span>Ecuación</span></button>
+        <button class="rb big" data-cmd="diagram" title="Insertar un diagrama: flujo, mapa mental, secuencia, Gantt, tarta o línea de tiempo"><i data-i="diagram"></i><span>Diagrama&nbsp;▾</span></button>
+      </div>
+      <div class="grp-label">Referencias</div>
+    </div>
+  </div>
+
+  <!-- DISPOSICIÓN -->
+  <div class="panel" data-panel="disposicion" hidden>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="marginsMenu" title="Márgenes de la página"><i data-i="margins"></i><span>Márgenes&nbsp;▾</span></button>
+        <button class="rb big" data-cmd="orientMenu" title="Página vertical u horizontal (apaisada)"><i data-i="orient"></i><span>Orientación&nbsp;▾</span></button>
+        <button class="rb big" data-cmd="sizeMenu" title="Tamaño del papel"><i data-i="psize"></i><span>Tamaño&nbsp;▾</span></button>
+      </div>
+      <div class="grp-label">Configurar página</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="viewPages" aria-pressed="false" title="Ver el documento en hojas, como al imprimir"><i data-i="vPages"></i><span>Páginas</span></button>
+        <button class="rb big" data-cmd="viewCont" aria-pressed="false" title="Ver el documento seguido, sin cortes de página"><i data-i="vCont"></i><span>Continua</span></button>
+      </div>
+      <div class="grp-label">Vistas</div>
     </div>
   </div>
 
   <!-- VISTA -->
   <div class="panel" data-panel="vista" hidden>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="viewPages" aria-pressed="false" title="Ver el documento en hojas, como al imprimir"><i data-i="vPages"></i><span>Páginas</span></button>
+        <button class="rb big" data-cmd="viewCont" aria-pressed="false" title="Ver el documento seguido, sin cortes de página"><i data-i="vCont"></i><span>Continua</span></button>
+      </div>
+      <div class="grp-label">Vistas</div>
+    </div>
     <div class="grp">
       <div class="grp-body">
         <button class="rb big" data-cmd="mdpanel" aria-pressed="false"><i data-i="markdown"></i><span>Markdown</span></button>
@@ -780,12 +965,14 @@
     <div class="grp">
       <div class="grp-body">
         <div class="stack">
-          <button class="rb" data-cmd="mdSide" aria-pressed="true"><i data-i="side"></i><span>Lateral</span></button>
-          <button class="rb" data-cmd="mdBottom" aria-pressed="false"><i data-i="bottom"></i><span>Abajo</span></button>
+          <button class="rb" data-cmd="mdSide" aria-pressed="true" title="Markdown a la derecha del documento"><i data-i="side"></i><span>Derecha</span></button>
+          <button class="rb" data-cmd="mdLeft" aria-pressed="false" title="Markdown a la izquierda del documento"><i data-i="sideleft"></i><span>Izquierda</span></button>
+          <button class="rb" data-cmd="mdBottom" aria-pressed="false" title="Markdown debajo del documento"><i data-i="bottom"></i><span>Abajo</span></button>
         </div>
       </div>
       <div class="grp-label">Panel Markdown</div>
     </div>
+
     <div class="grp">
       <div class="grp-body">
         <button class="rb big" data-cmd="zoomIn"><i data-i="zoomIn"></i><span>Acercar</span></button>
@@ -859,6 +1046,12 @@
       </div>
       <div class="grp-label">Alinear columna</div>
     </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="tableStyle" title="Color del encabezado y filas alternas"><i data-i="table"></i><span>Estilo&nbsp;▾</span></button>
+      </div>
+      <div class="grp-label">Diseño</div>
+    </div>
   </div>
 </div>
 
@@ -893,10 +1086,14 @@
       </div>
     </div>
   </div>
+  <div class="mdsplit" id="mdsplit" hidden title="Arrastra para cambiar el tamaño"></div>
   <aside class="mdpane" id="mdpane" hidden aria-label="Markdown">
     <div class="mdhead">
       <strong>Markdown</strong>
       <span class="hint">Se actualiza al escribir. También puedes editarlo aquí.</span>
+      <button class="mini mdcol" data-cmd="mdColors" aria-pressed="true" title="Markdown en colores o todo en negro">Colores</button>
+      <button class="mini fs" data-cmd="mdFontDown" title="Letra más pequeña">A−</button>
+      <button class="mini fs" data-cmd="mdFontUp" title="Letra más grande">A+</button>
       <button class="mini" data-cmd="copyMd">Copiar</button>
       <button class="mini icon" data-cmd="mdToggleSide" title="Cambiar posición"><i data-i="bottom" id="md-pos-icon"></i></button>
       <button class="mini icon" data-cmd="mdpanel" title="Cerrar"><i data-i="close"></i></button>
@@ -907,6 +1104,7 @@
 
 <footer class="status">
   <span class="counts" id="counts">0 palabras</span>
+  <span class="pginfo" id="pginfo" hidden></span>
   <span class="msg" id="status-msg"></span>
   <button class="sb" data-cmd="mdpanel" aria-pressed="false" title="Mostrar Markdown"><i data-i="markdown"></i><span>Markdown</span></button>
   <div class="zoom">
@@ -957,7 +1155,7 @@ Este documento se edita igual que en un procesador de textos: seleccionas el tex
 ## Lo que puedes hacer
 
 - Títulos de cuatro niveles desde la galería de **Estilos**
-- **Negrita**, *cursiva*, ~~tachado~~ y `código en línea`
+- **Negrita**, *cursiva*, ~~tachado~~, ==resaltado== y `código en línea`
 - Listas con viñetas, numeradas y de tareas
   - Tab mete un elemento un nivel hacia dentro
   - Mayús+Tab lo saca
@@ -1040,6 +1238,9 @@ const ICONS = {
   markdown: '<rect x="1.5" y="4.5" width="17" height="11" rx="1.5"/><path d="M4.5 12.5v-5l2 2.5 2-2.5v5M13.5 7.5v5m-2-2 2 2 2-2"/>',
   nav: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M7 3.5v13M9.5 7h5.5M9.5 10h5.5M9.5 13h3.5"/>',
   side: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M11.5 3.5v13"/>',
+  play: '<circle cx="10" cy="10" r="7.5"/><path d="M8.3 6.8v6.4l5-3.2z" fill="currentColor"/>',
+  columns: '<rect x="2.5" y="3.5" width="6.5" height="13" rx="1"/><rect x="11" y="3.5" width="6.5" height="13" rx="1"/><path d="M4.3 6.5h3M4.3 9h3M4.3 11.5h2M12.8 6.5h3M12.8 9h3M12.8 11.5h2" opacity=".6"/>',
+  sideleft: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M8.5 3.5v13"/>',
   bottom: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M2.5 11h15"/>',
   zoomIn: '<circle cx="8.5" cy="8.5" r="4.8"/><path d="m12.2 12.2 4.6 4.6M6.5 8.5h4M8.5 6.5v4"/>',
   zoomOut: '<circle cx="8.5" cy="8.5" r="4.8"/><path d="m12.2 12.2 4.6 4.6M6.5 8.5h4"/>',
@@ -1064,6 +1265,16 @@ const ICONS = {
   print: '<path d="M5.5 7.5V2.5h9v5"/><rect x="2.5" y="7.5" width="15" height="7" rx="1.2"/><path d="M5.5 12.5h9v5h-9z"/>',
   word: '<rect x="5.5" y="2.5" width="12" height="15" rx="1"/><rect x="2.5" y="6" width="8" height="8" rx="1" fill="currentColor" stroke="none" opacity=".9"/><path d="m4.2 8 .8 4 .9-3 .9 3 .8-4" stroke="#fff" stroke-width="1.1"/><path d="M12.5 6.5h3M12.5 10h3M12.5 13.5h3"/>',
   folder: '<path d="M2.5 5.5a1 1 0 0 1 1-1h4l1.5 1.5h7.5a1 1 0 0 1 1 1v8.5a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1z"/><path d="M2.5 8.5h15"/>',
+  equation: '<path d="M14.5 4.5h-9l5 5.5-5 5.5h9"/>',
+  diagram: '<rect x="2.5" y="3" width="6" height="4" rx=".8"/><rect x="11.5" y="13" width="6" height="4" rx=".8"/><rect x="11.5" y="3" width="6" height="4" rx=".8"/><path d="M8.5 5h3M5.5 7v8h6"/>',
+  callout: '<rect x="2.5" y="4" width="15" height="12" rx="1.5"/><path d="M2.5 4v12" stroke-width="3"/><path d="M7 8h7M7 11.5h5"/>',
+  footnote: '<path d="M3 5h9M3 8.5h9M3 12h6"/><path d="M14 13.5h2.5M15.2 13.5V9.5l-1.2.8" stroke-width="1.3"/><path d="M3 16h14" opacity=".45"/>',
+  marker: '<path d="m11.5 3.5 5 5-6.5 6.5H5v-5z"/><path d="m8.5 6.5 5 5"/><path d="M3 17.5h6" opacity=".5"/>',
+  margins: '<rect x="3.5" y="2.5" width="13" height="15" rx=".8"/><path d="M3.5 5.5h13M3.5 14.5h13M6.5 2.5v15M13.5 2.5v15" stroke-dasharray="1.3 1.3" opacity=".7"/>',
+  orient: '<rect x="2.5" y="5.5" width="10" height="12" rx=".8"/><rect x="7.5" y="2.5" width="10" height="7" rx=".8" opacity=".55"/>',
+  psize: '<rect x="4.5" y="2.5" width="11" height="15" rx=".8"/><path d="M7 6h6M7 9h6M7 12h4"/>',
+  vPages: '<rect x="4.5" y="1.5" width="11" height="7.5" rx=".6"/><rect x="4.5" y="11" width="11" height="7.5" rx=".6"/>',
+  vCont: '<rect x="4.5" y="1.5" width="11" height="17" rx=".6"/><path d="M7 5h6M7 8h6M7 11h6M7 14h4"/>',
   tabsTop: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M2.5 7.5h15"/><path d="M4.5 7.5V5.5h3v2M8.5 7.5V5.5h3v2" stroke-width="1.2"/>',
   undoBig: '<path d="M7.5 5 4 8.5 7.5 12"/><path d="M4 8.5h8a4 4 0 0 1 0 8H9"/>',
   tone: '<circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor" stroke="none"/>'
@@ -1079,6 +1290,15 @@ document.querySelectorAll('i[data-i]').forEach(i => { i.outerHTML = svgIcon(i.da
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const ALIGN_RE = /^\s*<!--\s*align\s*:\s*(left|center|right|justify)\s*-->\s*$/i;
 const FOLD_RE = /^\s*<!--\s*fold\s*-->\s*$/i;
+const PAGE_RE = /^\s*<!--\s*page\s*:\s*(.*?)\s*-->\s*$/i;
+const TSTYLE_RE = /^\s*<!--\s*table\s*:\s*([\w\s-]*?)\s*-->\s*$/i;
+// Columnas: <!-- columns --> (o <!-- columns: 40 60 -->) … <!-- column --> … <!-- /columns -->
+const COLS_RE = /^\s*<!--\s*columns\s*(?::\s*([\d\s.,]+))?\s*-->\s*$/i, COL_RE = /^\s*<!--\s*column\s*-->\s*$/i, COLEND_RE = /^\s*<!--\s*\/\s*columns\s*-->\s*$/i;
+function colsWidths(ws, n) { const w = (ws || []).map(Number).filter(x => x > 0); return w.length === n ? w : null; }
+function colsHtml(inner, ws) {
+  const w = colsWidths(ws, inner.length);
+  return `<div class="cols"${w ? ` data-w="${w.join(' ')}" style="grid-template-columns:${w.map(x => x + 'fr').join(' ')}"` : ` style="grid-template-columns:repeat(${inner.length},1fr)"`}>${inner.map(h => `<div class="col">${h || '<p><br></p>'}</div>`).join('')}</div>`;
+}
 const LIST_RE = /^( {0,3})([-*+]|\d{1,9}[.)])([ \t]+|$)/;
 const HR_RE = /^ {0,3}([-*_])([ \t]*\1){2,}[ \t]*$/;
 const FENCE_RE = /^( {0,3})(`{3,}|~{3,})[ \t]*([^\s`]*)[^`]*$/;
@@ -1099,7 +1319,7 @@ function mdToHtml(src) {
       else if (f[1][0] === fence[0] && f[1].length >= fence.length && /^ {0,3}(`{3,}|~{3,})\s*$/.test(l)) fence = null;
     }
     if (!fence) {
-      const d = l.match(/^ {0,3}\[([^\]]+)\]:\s*<?([^\s>]+)>?(?:\s+(?:"([^"]*)"|'([^']*)'|\(([^)]*)\)))?\s*$/);
+      const d = l.match(/^ {0,3}\[(?!\^)([^\]]+)\]:\s*<?([^\s>]+)>?(?:\s+(?:"([^"]*)"|'([^']*)'|\(([^)]*)\)))?\s*$/);
       if (d) { refs[normLabel(d[1])] = { href: d[2], title: d[3] || d[4] || d[5] || '' }; continue; }
     }
     lines.push(l);
@@ -1110,14 +1330,14 @@ const normLabel = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
 const blank = l => /^\s*$/.test(l);
 
 function startsBlock(l) {
-  return ATX_RE.test(l) || FENCE_RE.test(l) || HR_RE.test(l) || /^ {0,3}>/.test(l) ||
+  return ATX_RE.test(l) || FENCE_RE.test(l) || HR_RE.test(l) || /^ {0,3}>/.test(l) || /^ {0,3}\$\$/.test(l) ||
     /^ {0,3}<!--/.test(l) || HTML_BLOCK_RE.test(l) ||
     /^ {0,3}[-*+][ \t]+\S/.test(l) || /^ {0,3}1[.)][ \t]+\S/.test(l);
 }
 
 function parseBlocks(lines, refs) {
   const out = [];
-  let i = 0, align = null, fold = false;
+  let i = 0, align = null, fold = false, tstyle = null;
   const A = () => { const a = align; align = null; return a && a !== 'left' ? ` style="text-align:${a}"` : ''; };
   while (i < lines.length) {
     const line = lines[i];
@@ -1125,6 +1345,20 @@ function parseBlocks(lines, refs) {
     if (blank(line)) { i++; continue; }
 
     if ((m = line.match(ALIGN_RE))) { align = m[1].toLowerCase(); i++; continue; }
+    if (PAGE_RE.test(line)) { i++; continue; }
+    if ((m = line.match(TSTYLE_RE))) { tstyle = m[1].toLowerCase().replace(/[^\w\s-]/g, '').trim(); i++; continue; }
+    if ((m = line.match(COLS_RE))) {
+      const parts = [[]]; let j = i + 1, fence = null, closed = false;
+      while (j < lines.length) {
+        const L = lines[j], f = L.match(/^ {0,3}(`{3,}|~{3,})/);
+        if (f) { if (!fence) fence = f[1]; else if (f[1][0] === fence[0] && f[1].length >= fence.length && /^ {0,3}(`{3,}|~{3,})\s*$/.test(L)) fence = null; }
+        if (!fence && COLEND_RE.test(L)) { closed = true; j++; break; }
+        if (!fence && COL_RE.test(L)) { parts.push([]); j++; continue; }
+        parts[parts.length - 1].push(L); j++;
+      }
+      if (closed && parts.length > 1) { out.push(colsHtml(parts.map(pl => parseBlocks(pl, refs)), m[1] ? m[1].trim().split(/[\s,]+/) : null)); i = j; continue; }
+      if (closed) { out.push(parseBlocks(parts[0], refs)); i = j; continue; }
+    }
     if (FOLD_RE.test(line)) { let j = i + 1; while (j < lines.length && blank(lines[j])) j++; if (j < lines.length && FENCE_RE.test(lines[j])) { fold = true; i = j; continue; } }
 
     if ((m = line.match(FENCE_RE))) {
@@ -1170,7 +1404,9 @@ function parseBlocks(lines, refs) {
         else if (!blank(l) && buf.length && !blank(buf[buf.length - 1]) && !startsBlock(l)) { buf.push(l); i++; }
         else break;
       }
-      out.push(`<blockquote${A()}>${parseBlocks(buf, refs) || '<p><br></p>'}</blockquote>`);
+      const co = buf.length && buf[0].match(/^\[!([A-Za-z]+)\]([+-]?)[ \t]*(.*)$/);
+      if (co) out.push(`<blockquote data-callout="${esc(co[1].toLowerCase())}"${A()}>${co[3].trim() ? `<p class="co-t">${inline(co[3].trim(), refs)}</p>` : ''}${parseBlocks(buf.slice(1), refs) || '<p><br></p>'}</blockquote>`);
+      else out.push(`<blockquote${A()}>${parseBlocks(buf, refs) || '<p><br></p>'}</blockquote>`);
       continue;
     }
 
@@ -1192,8 +1428,8 @@ function parseBlocks(lines, refs) {
           h += '<tr>' + head.map((_, j) => `<td${al(j)}>${inline(cells[j] || '', refs) || '<br>'}</td>`).join('') + '</tr>';
           i++;
         }
-        out.push(h + '</tbody></table>');
-        align = null; continue;
+        out.push((tstyle ? h.replace('<table>', `<table data-ts="${esc(tstyle)}">`) : h) + '</tbody></table>');
+        align = null; tstyle = null; continue;
       }
     }
 
@@ -1205,6 +1441,23 @@ function parseBlocks(lines, refs) {
       align = null; continue;
     }
 
+    // Fórmula en bloque: $$ … $$
+    if (/^ {0,3}\$\$/.test(line)) {
+      const one = line.match(/^ {0,3}\$\$(.+)\$\$\s*$/);
+      let tex;
+      if (one) { tex = one[1].trim(); i++; }
+      else { const fb = [line.replace(/^ {0,3}\$\$/, '')]; i++; while (i < lines.length && !/\$\$\s*$/.test(lines[i])) { fb.push(lines[i]); i++; } if (i < lines.length) { fb.push(lines[i].replace(/\$\$\s*$/, '')); i++; } tex = fb.join('\n').trim(); }
+      out.push(`<div class="mathblock" contenteditable="false" data-tex="${esc(tex)}">${esc(tex)}</div>`);
+      continue;
+    }
+    // Nota al pie: [^id]: texto (las líneas siguientes con sangría continúan la nota)
+    const fnd = line.match(/^ {0,3}\[\^([^\]\s]+)\]:[ \t]?(.*)$/);
+    if (fnd) {
+      const fb = [fnd[2]]; i++;
+      while (i < lines.length && /^( {4}|\t)\S/.test(lines[i])) { fb.push(lines[i].trim()); i++; }
+      out.push(`<p class="fndef" data-fn="${esc(fnd[1])}">${inline(fb.join('\n'), refs) || '<br>'}</p>`);
+      continue;
+    }
     // Párrafo (con títulos setext)
     const buf = [line];
     i++;
@@ -1363,6 +1616,10 @@ function renderInline(s, refs, noAuto) {
       if (m) { pushHtml(`<a href="mailto:${esc(m[1])}">${esc(m[1])}</a>`); i += m[0].length; continue; }
       m = rest.match(/^<br\s*\/?>/i);
       if (m) { pushHtml('<br>'); i += m[0].length; continue; }
+      m = rest.match(/^<mark(?:\s+style\s*=\s*"([^"]*)")?\s*>/i);
+      if (m) { const bg = ((m[1] || '').match(/background(?:-color)?\s*:\s*(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|[a-z]+)/i) || [])[1]; pushHtml(bg ? `<mark style="background:${esc(bg)}">` : '<mark>'); i += m[0].length; continue; }
+      m = rest.match(/^<\/mark\s*>/i);
+      if (m) { pushHtml('</mark>'); i += m[0].length; continue; }
       m = rest.match(/^<!--[\s\S]*?-->/);
       if (m) { i += m[0].length; continue; }
       text += c; i++; continue;
@@ -1374,6 +1631,14 @@ function renderInline(s, refs, noAuto) {
         i = r.end; continue;
       }
     }
+    if (c === '$') {
+      const mm = s.slice(i).match(/^\$(?=[^\s$])((?:[^$\\\n]|\\.)+?)\$(?!\d)/);
+      if (mm && !/\s$/.test(mm[1])) { pushHtml(`<span class="math" contenteditable="false" data-tex="${esc(mm[1])}">${esc(mm[1])}</span>`); i += mm[0].length; continue; }
+    }
+    if (c === '[' && s[i + 1] === '^') {
+      const fm = s.slice(i).match(/^\[\^([^\]\s]+)\](?!:)/);
+      if (fm) { pushHtml(`<sup class="fnref" contenteditable="false" data-fn="${esc(fm[1])}">${esc(fm[1])}</sup>`); i += fm[0].length; continue; }
+    }
     if (c === '[') {
       const r = parseLinkAt(s, i, refs);
       if (r) {
@@ -1381,8 +1646,8 @@ function renderInline(s, refs, noAuto) {
         i = r.end; continue;
       }
     }
-    if (c === '*' || c === '_' || c === '~') {
-      const run = s.slice(i).match(c === '*' ? /^\*+/ : c === '_' ? /^_+/ : /^~+/)[0];
+    if (c === '*' || c === '_' || c === '~' || c === '=') {
+      const run = s.slice(i).match(c === '*' ? /^\*+/ : c === '_' ? /^_+/ : c === '=' ? /^=+/ : /^~+/)[0];
       const prev = i > 0 ? s[i - 1] : ' ';
       const next = i + run.length < s.length ? s[i + run.length] : ' ';
       const ws = x => /\s/.test(x), pu = x => PUNCT.test(x);
@@ -1390,7 +1655,7 @@ function renderInline(s, refs, noAuto) {
       const rf = !ws(prev) && (!pu(prev) || ws(next) || pu(next));
       let open = lf, close = rf;
       if (c === '_') { open = lf && (!rf || pu(prev)); close = rf && (!lf || pu(next)); }
-      if (c === '~' && run.length !== 2) { text += run; i += run.length; continue; }
+      if ((c === '~' || c === '=') && run.length !== 2) { text += run; i += run.length; continue; }
       pushText();
       toks.push({ t: 'd', ch: c, n: run.length, orig: run.length, open, close, ot: [], ct: [] });
       i += run.length; continue;
@@ -1415,10 +1680,10 @@ function renderInline(s, refs, noAuto) {
     while (cl.n > 0 && o >= 0) {
       const op = toks[o];
       if (op.t === 'd' && op.ch === cl.ch && op.open && op.n > 0) {
-        if (cl.ch === '~') { if (!(op.n === 2 && cl.n === 2)) { o--; continue; } }
+        if (cl.ch === '~' || cl.ch === '=') { if (!(op.n === 2 && cl.n === 2)) { o--; continue; } }
         else if ((op.close || cl.open) && (op.orig + cl.orig) % 3 === 0 && !(op.orig % 3 === 0 && cl.orig % 3 === 0)) { o--; continue; }
-        const use = cl.ch === '~' ? 2 : (op.n >= 2 && cl.n >= 2 ? 2 : 1);
-        const tag = cl.ch === '~' ? 'del' : use === 2 ? 'strong' : 'em';
+        const use = (cl.ch === '~' || cl.ch === '=') ? 2 : (op.n >= 2 && cl.n >= 2 ? 2 : 1);
+        const tag = cl.ch === '~' ? 'del' : cl.ch === '=' ? 'mark' : use === 2 ? 'strong' : 'em';
         op.n -= use; cl.n -= use;
         op.ot.unshift(tag); cl.ct.push(tag);
         for (let k = o + 1; k < c; k++) if (toks[k].t === 'd') { toks[k].open = false; toks[k].close = false; }
@@ -1548,16 +1813,33 @@ const withAlign = (n, md) => { const a = alignOf(n); return a ? `<!-- align: ${a
 function blockMd(n, ctx) {
   const tag = n.tagName;
   if (n.classList.contains('md-raw')) return { md: n.getAttribute('data-raw') || '' };
+  if (n.classList.contains('mathblock')) return { md: '$$\n' + (n.dataset.tex || '') + '\n$$' };
+  if (n.classList.contains('cols')) {
+    const cols = [...n.children].filter(c => c.classList.contains('col'));
+    if (cols.length < 2) return cols[0] ? serializeContainer(cols[0], ctx) : null;
+    const parts = cols.map(c => serializeContainer(c, ctx).map(b => b.md).join('\n\n'));
+    const w = colsWidths((n.dataset.w || '').split(/\s+/), cols.length);
+    return { md: `<!-- columns${w ? ': ' + w.join(' ') : ''} -->\n\n` + (parts.map(x => x.trim() ? x : '').join('\n\n<!-- column -->\n\n') + '\n\n<!-- /columns -->').replace(/\n{3,}/g, '\n\n') };
+  }
   if (/^H[1-6]$/.test(tag)) {
     const t = inlineMd([...n.childNodes], Object.assign({}, ctx, { heading: true })).replace(/\s+/g, ' ').trim();
     return t ? { md: withAlign(n, '#'.repeat(+tag[1]) + ' ' + t) } : null;
   }
   switch (tag) {
     case 'P': {
+      if (n.classList.contains('fndef')) { const t = paraMd([...n.childNodes], ctx).split('\n').join('\n    '); return { md: `[^${n.dataset.fn || '1'}]: ${t}` }; }
       const md = paraMd([...n.childNodes], ctx);
       return md.trim() ? { md: withAlign(n, md) } : null;
     }
     case 'BLOCKQUOTE': {
+      if (n.dataset.callout) {
+        const tt = n.querySelector(':scope > p.co-t'), w = document.createElement('div');
+        [...n.childNodes].forEach(c => { if (c !== tt) w.appendChild(c.cloneNode(true)); });
+        const title = tt ? inlineMd([...tt.childNodes], ctx).replace(/\s+/g, ' ').trim() : '';
+        const body = serializeContainer(w, ctx).map(b => b.md).join('\n\n');
+        const head = `[!${n.dataset.callout.toUpperCase()}]${title ? ' ' + title : ''}`;
+        return { md: withAlign(n, [head, ...(body.trim() ? body.split('\n') : [])].map(l => l ? '> ' + l : '>').join('\n')) };
+      }
       const inner = serializeContainer(n, ctx).map(b => b.md).join('\n\n');
       if (!inner.trim()) return null;
       return { md: withAlign(n, inner.split('\n').map(l => l ? '> ' + l : '>').join('\n')) };
@@ -1567,7 +1849,7 @@ function blockMd(n, ctx) {
       return md ? { md: withAlign(n, md), list: true } : null;
     }
     case 'PRE': return { md: codeMd(n) };
-    case 'TABLE': { const md = tableMd(n, ctx); return md ? { md } : null; }
+    case 'TABLE': { const md = tableMd(n, ctx); const ts = (n.dataset.ts || '').replace(/[^\w\s-]/g, '').trim(); return md ? { md: (ts ? `<!-- table: ${ts} -->\n` : '') + md } : null; }
     case 'HR': return { md: '---' };
     case 'LI': {
       const inner = serializeContainer(n, ctx).map(b => b.md).join('\n\n');
@@ -1625,6 +1907,14 @@ function inlineNode(n, ctx) {
       return `[${inner || escText(href, ctx)}](${urlMd(href)}${t ? ` "${t.replace(/"/g, '\\"')}"` : ''})`;
     }
     case 'INPUT': case 'SCRIPT': case 'STYLE': case 'TEMPLATE': return '';
+    case 'SPAN': if (n.classList.contains('math')) return '$' + (n.dataset.tex || '') + '$'; break;
+    case 'SUP': if (n.classList.contains('fnref')) return `[^${n.dataset.fn || n.textContent.trim()}]`; break;
+  }
+  // Resaltado: ==texto== en amarillo; otros colores con <mark style="background:…">. También el de Word al pegar (mso-highlight)
+  const hlc = tag === 'MARK' ? hlHex(n.style.backgroundColor || n.style.background || '') || HL_DEF : (tag === 'SPAN' && /mso-highlight\s*:/i.test(n.getAttribute('style') || '')) ? (HL_WORD[((n.getAttribute('style') || '').match(/mso-highlight\s*:\s*([a-z]+)/i) || [])[1]?.toLowerCase()] || HL_DEF) : null;
+  if (hlc && !ctx.m) {
+    const inner = inlineMd([...n.childNodes], Object.assign({}, ctx, { m: true }));
+    return hlc === HL_DEF ? wrapMark(inner, '==') : (() => { const r = inner.match(/^(\s*)([\s\S]*?)(\s*)$/); return r[2] ? `${r[1]}<mark style="background: ${hlc}">${r[2]}</mark>${r[3]}` : inner; })();
   }
   if (isBlockEl(n)) {
     const inner = inlineMd([...n.childNodes], ctx);
@@ -1656,6 +1946,8 @@ function escText(s, ctx) {
   s = s.replace(/​/g, '').replace(/ /g, ' ').replace(/[ \t\n\r]+/g, ' ');
   s = s.replace(/[\\`*\[]/g, '\\$&')
     .replace(/~~/g, '\\~\\~')
+    .replace(/\$/g, (m, o, str) => (/\S/.test(str[o + 1] || ' ') && str.indexOf('$', o + 1) > 0) ? '\\$' : '$')
+    .replace(/==/g, (m, o, str) => (/\s/.test(str[o - 1] || ' ') && /\s/.test(str[o + 2] || ' ')) ? '==' : '\\=\\=')
     .replace(/_/g, (m, o, str) => (WORDCH.test(str[o - 1] || '') && WORDCH.test(str[o + 1] || '')) ? '_' : '\\_')
     .replace(/<(?=[A-Za-z\/!?])/g, '\\<')
     .replace(/&(?=#?\w+;)/g, '\\&');
@@ -1817,7 +2109,10 @@ function ensureFocus() {
   if (savedRange && editor.contains(savedRange.startContainer)) setSel(savedRange);
   else if (!getRange()) caretEnd();
 }
-function topBlock(n) { while (n && n.parentNode !== editor) n = n.parentNode; return n; }
+const inCol = n => n && n.parentNode && n.parentNode.nodeType === 1 && n.parentNode.classList.contains('col');
+function topBlock(n) { while (n && n.parentNode !== editor && !inCol(n)) n = n.parentNode; return n; }
+// Bloques de primer nivel, contando por separado los que están dentro de columnas
+function flatBlocks() { const out = []; for (const c of editor.children) { if (c.classList.contains('cols')) { for (const col of c.children) out.push(...col.children); } else out.push(c); } return out; }
 function closestIn(n, sel) {
   if (!n) return null;
   const e = n.nodeType === 1 ? n : n.parentElement;
@@ -1856,7 +2151,7 @@ function markedRange() {
   if (e) r.setEndAfter(e); else if (s) r.setEndAfter(s); else r.setEnd(editor, editor.childNodes.length);
   return r;
 }
-const markedTopBlocks = () => { const r = markedRange(); return [...editor.children].filter(c => r.intersectsNode(c)); };
+const markedTopBlocks = () => { const r = markedRange(); return flatBlocks().filter(c => r.intersectsNode(c)); };
 
 /* ---------- Historial propio (deshacer / rehacer) ---------- */
 function pathOf(node) {
@@ -1930,7 +2225,39 @@ function retag(b, tag) {
   b.replaceWith(n);
   return n;
 }
+// Columnas: solo .col dentro de .cols, cada columna con bloques; con una sola columna, se deshace
+function normalizeCols() {
+  for (const cs of [...editor.querySelectorAll('.cols')]) {
+    if (cs.parentElement !== editor) { cs.replaceWith(...[...cs.querySelectorAll(':scope > .col')].flatMap(c => [...c.childNodes])); continue; }
+    for (const c of [...cs.childNodes]) {
+      if (c.nodeType === 1 && c.classList.contains('col')) continue;
+      if ((c.nodeType === 3 && c.data.trim()) || (c.nodeType === 1 && (c.textContent.trim() || c.querySelector('img')))) { const prev = c.previousElementSibling; if (prev && prev.classList.contains('col')) prev.appendChild(c); else { const d = document.createElement('div'); d.className = 'col'; c.before(d); d.appendChild(c); } }
+      else c.remove();
+    }
+    for (const col of cs.children) {
+      let p = null;
+      for (const c of [...col.childNodes]) {
+        if (c.nodeType === 3 && !c.data.trim() && !p) { c.remove(); continue; }
+        if (c.nodeType === 1 && c.tagName === 'DIV' && !c.classList.contains('md-raw') && !c.classList.contains('mathblock')) { p = null; if (![...c.children].some(isBlockEl)) retag(c, 'p'); else c.replaceWith(...c.childNodes); continue; }
+        if (c.nodeType === 1 && isBlockEl(c)) { p = null; continue; }
+        if (c.nodeType === 1 && c.tagName === 'BR' && !p && col.childNodes.length > 1) { c.remove(); continue; }
+        if (!p) { p = document.createElement('p'); c.before(p); }
+        p.appendChild(c);
+      }
+      if (!col.firstElementChild) col.innerHTML = '<p><br></p>';
+    }
+    const n = cs.children.length;
+    if (n < 2) { cs.replaceWith(...(cs.firstElementChild ? cs.firstElementChild.childNodes : [])); continue; }
+    if (!colsWidths((cs.dataset.w || '').split(/\s+/), n)) { delete cs.dataset.w; cs.style.gridTemplateColumns = `repeat(${n},1fr)`; }
+  }
+  const last = editor.lastElementChild; if (last && last.classList.contains('cols')) last.after(newP());   // siempre se puede escribir debajo
+}
+// Mientras el cursor está en unas columnas, se ven sus bordes (solo en pantalla)
+const colsHintStyle = document.createElement('style'); document.head.appendChild(colsHintStyle);
+function setColsHint(c) { const t = c && editor.contains(c) ? `@media screen { ${pgSelector(c)} > .col::after { opacity: .9; } }` : ''; if (colsHintStyle.textContent !== t) colsHintStyle.textContent = t; }
+document.addEventListener('selectionchange', () => { const r = getRange(); setColsHint(r && editor.contains(r.startContainer) ? closestIn(r.startContainer, '.cols') : null); });
 function normalizeEditor() {
+  try { normalizeCols(); } catch (e) { console.error(e); }
   if (!editor.firstChild || (editor.childNodes.length === 1 && editor.firstChild.nodeName === 'BR') || (!editor.firstElementChild && !editor.textContent.trim())) {
     editor.innerHTML = '<p><br></p>';
     if (document.activeElement === editor) setCaret(editor.firstChild, 0);
@@ -1938,7 +2265,7 @@ function normalizeEditor() {
   }
   let needs = false;
   for (const c of editor.childNodes) {
-    if (c.nodeType === 3 ? c.data.trim() !== '' : (c.nodeType === 1 && (!isBlockEl(c) || (c.tagName === 'DIV' && !c.classList.contains('md-raw'))))) { needs = true; break; }
+    if (c.nodeType === 3 ? c.data.trim() !== '' : (c.nodeType === 1 && (!isBlockEl(c) || (c.tagName === 'DIV' && !c.classList.contains('md-raw') && !c.classList.contains('mathblock') && !c.classList.contains('cols'))))) { needs = true; break; }
   }
   if (!needs) return;
   const had = !!getRange();
@@ -1946,7 +2273,7 @@ function normalizeEditor() {
   let p = null;
   for (const c of [...editor.childNodes]) {
     if (c.nodeType === 3 && !c.data.trim() && !p) { c.remove(); continue; }
-    if (c.nodeType === 1 && c.tagName === 'DIV' && !c.classList.contains('md-raw')) {
+    if (c.nodeType === 1 && c.tagName === 'DIV' && !c.classList.contains('md-raw') && !c.classList.contains('mathblock') && !c.classList.contains('cols')) {
       p = null;
       if (![...c.children].some(isBlockEl)) retag(c, 'p'); else c.replaceWith(...c.childNodes);
       continue;
@@ -2678,6 +3005,8 @@ function inlineAuto(e) {
     if ((m = before.match(/(^|[^`\\])`([^`]+)$/))) { tag = 'code'; start = m.index + m[1].length; m = [m[0], m[2]]; }
   } else if (e.key === '~') {
     if ((m = before.match(/~~([^~\s](?:[^~]*[^~\s])?)~$/))) { tag = 'del'; start = m.index; }
+  } else if (e.key === '=') {
+    if ((m = before.match(/==([^=\s](?:[^=]*[^=\s])?)=$/))) { tag = 'mark'; start = m.index; }
   }
   if (!tag) return false;
   e.preventDefault();
@@ -2694,6 +3023,24 @@ function inlineAuto(e) {
   return true;
 }
 
+// En los bordes de una columna, Retroceso y Supr no mezclan columnas
+editor.addEventListener('keydown', e => {
+  if (e.isComposing || (e.key !== 'Backspace' && e.key !== 'Delete') || e.ctrlKey || e.metaKey || e.altKey) return;
+  const r = getRange(); if (!r || !r.collapsed || !editor.contains(r.startContainer)) return;
+  const b = topBlock(r.startContainer); if (!b) return;
+  const col = inCol(b) ? b.parentNode : null;
+  if (e.key === 'Backspace') {
+    if (textBefore(b, r) !== '' ) return;
+    if (col && b === col.firstElementChild) { e.preventDefault(); if (b.tagName !== 'P' && !b.textContent.trim()) run(() => { const p = newP(); b.replaceWith(p); setCaret(p, 0); }); return; }
+    const prev = !col && b.previousElementSibling;
+    if (prev && prev.classList.contains('cols')) { e.preventDefault(); if (isEmptyEl(b)) run(() => { const last = prev.lastElementChild.lastElementChild; b.remove(); const rr = document.createRange(); rr.selectNodeContents(last); rr.collapse(false); setSel(rr); }); }
+  } else {
+    if (textAfter(b, r) !== '') return;
+    if (col && b === col.lastElementChild) { e.preventDefault(); return; }
+    const next = !col && b.nextElementSibling;
+    if (next && next.classList.contains('cols')) { e.preventDefault(); if (isEmptyEl(b)) run(() => { const first = next.firstElementChild.firstElementChild; b.remove(); setCaret(first, 0); }); }
+  }
+}, true);
 editor.addEventListener('keydown', e => {
   if (e.isComposing) return;
   const mod = e.ctrlKey || e.metaKey;
@@ -2724,7 +3071,7 @@ editor.addEventListener('keydown', e => {
   if (e.key === 'Enter') { handleEnter(e); return; }
   if (e.key === 'Backspace') { handleBackspace(e); return; }
   if (e.key === ' ') { handleSpace(e); return; }
-  if (e.key === '*' || e.key === '`' || e.key === '~') { inlineAuto(e); }
+  if (e.key === '*' || e.key === '`' || e.key === '~' || e.key === '=') { inlineAuto(e); }
 });
 editor.addEventListener('beforeinput', e => {
   if (e.inputType === 'historyUndo') { e.preventDefault(); H.undo(); }
@@ -2772,16 +3119,67 @@ document.addEventListener('selectionchange', () => {
 // Línea inicial y final de cada bloque del documento dentro del Markdown (mismo orden que htmlToMd)
 function mdLineMap() {
   const clone = editor.cloneNode(true); clone.querySelectorAll('[data-sel]').forEach(n => n.remove()); mergeAdjacent(clone);
-  const map = new Map(), src = [...editor.children], cl = [...clone.children]; let line = 0, first = true;
+  const map = new Map(), src = [...editor.children], cl = [...clone.children]; let line = pageComment() ? 2 : 0, first = true;
   cl.forEach((n, i) => {
     const wrap = document.createElement('div'); wrap.appendChild(n.cloneNode(true));
     let md = serializeContainer(wrap, {}).map(b => b.md).join('\n\n'); if (!md.trim()) return;
     if (first) { md = md.replace(/^\s+/, ''); first = false; }
-    const k = md.split('\n').length; map.set(src[i], [line, line + k - 1]); line += k + 1;
+    const k = md.split('\n').length; map.set(src[i], [line, line + k - 1]);
+    // Columnas: cada bloque de dentro tiene sus propias líneas
+    if (n.classList && n.classList.contains('cols') && src[i].classList.contains('cols')) {
+      let L = line + 2; const sc = [...src[i].children], cc = [...n.children];
+      cc.forEach((col, j) => {
+        const sb = sc[j] ? [...sc[j].children] : [];
+        [...col.children].forEach((c, q) => {
+          const w = document.createElement('div'); w.appendChild(c.cloneNode(true));
+          const m2 = serializeContainer(w, {}).map(x => x.md).join('\n\n'); if (!m2.trim()) return;
+          const kk = m2.split('\n').length; if (sb[q]) map.set(sb[q], [L, L + kk - 1]); L += kk + 1;
+        });
+        if (j < cc.length - 1) L += 2;
+      });
+    }
+    line += k + 1;
   });
   return map;
 }
 let mdHlRaf = 0, mdHlKey = '';
+// Colorea el Markdown línea a línea (solo colores: no cambia el ancho del texto)
+function mdColorLines(lines) {
+  const E = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const S = (cls, t) => `<span class="${cls}">${t}</span>`;
+  const inl = t => {
+    let o = '', i = 0;
+    const re = /(`+)([^`]*?)\1|(\*\*|__)(?=\S)(.+?)\3|(==)(?=\S)(.+?)==|\[\^([^\]\s]+)\]|(!?\[)([^\]]*)\]\(([^)\s]*)(?:\s+"[^"]*")?\)|(\$)(?=[^\s$])([^$\n]+?)\$|(?<![*\w])\*(?=[^\s*])([^*\n]+?)\*(?!\*)|<!--.*?-->|<\/?mark[^>]*>/g;
+    let m;
+    while ((m = re.exec(t))) {
+      o += E(t.slice(i, m.index)); const x = m[0];
+      if (m[1]) o += S('m-code', E(x));
+      else if (m[3]) o += S('m-mk', m[3]) + S('m-b', E(m[4])) + S('m-mk', m[3]);
+      else if (m[5]) o += S('m-mk', '==') + S('m-hl', E(m[6])) + S('m-mk', '==');
+      else if (m[7]) o += S('m-fn', E(x));
+      else if (m[8]) o += S('m-mk', E(m[8])) + S('m-link', E(m[9])) + S('m-mk', '](') + S('m-url', E(m[10] + x.slice(m[8].length + m[9].length + 2 + m[10].length, -1))) + S('m-mk', ')');
+      else if (m[11]) o += S('m-math', E(x));
+      else if (m[13]) o += S('m-mk', '*') + S('m-i', E(m[13])) + S('m-mk', '*');
+      else o += S('m-com', E(x));
+      i = m.index + x.length;
+    }
+    return o + E(t.slice(i));
+  };
+  const out = []; let fence = null;
+  for (const l of lines) {
+    const f = l.match(/^ {0,3}(`{3,}|~{3,})/);
+    if (fence) { out.push(S('m-fence', E(l) || ' ')); if (f && f[1][0] === fence[0] && f[1].length >= fence.length) fence = null; continue; }
+    if (f) { fence = f[1]; out.push(S('m-fence', E(l))); continue; }
+    if (/^\s*<!--.*-->\s*$/.test(l)) { out.push(S('m-com', E(l))); continue; }
+    let m = l.match(/^( {0,3})(#{1,6})(\s.*|$)/);
+    if (m) { out.push(E(m[1]) + S('m-hm', m[2]) + S('m-h', inl(m[3]))); continue; }
+    if (/^\s*\|.*\|\s*$/.test(l)) { out.push(l.split('|').map((c, k) => k ? inl(c) : E(c)).join(S('m-tbl', '|'))); continue; }
+    if (/^ {0,3}([-*_])( *\1){2,} *$/.test(l)) { out.push(S('m-mk', E(l))); continue; }
+    m = l.match(/^(\s*(?:>\s?)*)(\s*(?:[-*+]|\d+[.)])\s+(?:\[[ xX]\]\s+)?)?(\[\^[^\]]+\]:)?(.*)$/);
+    out.push((m[1] ? S('m-mk', E(m[1])) : '') + (m[2] ? S('m-mk', E(m[2])) : '') + (m[3] ? S('m-fn', E(m[3])) : '') + inl(m[4]));
+  }
+  return out;
+}
 function scheduleMdHl() { if (mdpane.hidden || mdHlRaf) return; mdHlRaf = requestAnimationFrame(() => { mdHlRaf = 0; paintMdHl(); }); }
 function paintMdHl(scroll = true) {
   const hl = $('#md-hl'); if (!hl || mdpane.hidden) return;
@@ -2798,7 +3196,7 @@ function paintMdHl(scroll = true) {
         const want = liOwnText(li).trim().slice(0, 24);
         for (let i = a; i <= z && want; i++) if (/^\s*([-*+]|\d+[.)])\s/.test(lines[i]) && plain(lines[i]).startsWith(want)) { a = z = i; break; }
       } else if (tr && b.tagName === 'TABLE') {
-        const ri = [...b.rows].indexOf(tr); if (ri >= 0) { const L = span[0] + (ri === 0 ? 0 : ri + 1); if (L <= z) a = z = L; }
+        const ri = [...b.rows].indexOf(tr), t0 = span[0] + (/^<!--\s*table\s*:/.test(lines[span[0]] || '') ? 1 : 0); if (ri >= 0) { const L = t0 + (ri === 0 ? 0 : ri + 1); if (L <= z) a = z = L; }
       }
     }
   }
@@ -2806,8 +3204,9 @@ function paintMdHl(scroll = true) {
   if (key !== mdHlKey) {
     mdHlKey = key;
     const E = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    hl.innerHTML = a < 0 ? E(mdArea.value) + '\n' : (a > 0 ? E(lines.slice(0, a).join('\n')) + '\n' : '') + `<mark>${E(lines.slice(a, z + 1).join('\n')) || ' '}</mark>` + E(lines.slice(z + 1).join('\n')) + '\n';
-    const m = hl.querySelector('mark');
+    const C = mdColorLines(lines);
+    hl.innerHTML = a < 0 ? C.join('\n') + '\n' : (a > 0 ? C.slice(0, a).join('\n') + '\n' : '') + `<mark class="cur">${C.slice(a, z + 1).join('\n') || ' '}</mark>` + C.slice(z + 1).join('\n') + '\n';
+    const m = hl.querySelector('mark.cur');
     if (m && scroll) {
       const top = m.offsetTop, bottom = top + m.offsetHeight, view = mdArea.clientHeight;
       if (top < mdArea.scrollTop + 20 || bottom > mdArea.scrollTop + view - 20) mdArea.scrollTop = Math.max(0, top - Math.round(view * 0.3));
@@ -2850,7 +3249,7 @@ function applyHeadFold() {
 }
 function toggleHeadFold(h) {
   if (h.dataset.collapsed) delete h.dataset.collapsed; else h.dataset.collapsed = '1';
-  applyHeadFold(); scheduleUI(); try { scheduleCodebar(); } catch (e) {}
+  applyHeadFold(); scheduleUI(); try { scheduleCodebar(); } catch (e) {} try { schedulePaginate(); } catch (e) {}
 }
 function revealCaret() {   // si el cursor cae en una parte contraída (buscar, flechas, Intro…), se despliega
   const r = getRange(); if (!r || !editor.contains(r.startContainer)) return;
@@ -2897,14 +3296,16 @@ function placeCodebar() {
   cbFold.title = folded ? (LANG === 'en' ? `Show all ${preLines(pre)} lines` : `Mostrar las ${preLines(pre)} líneas`) : trStr('Contraer el bloque (solo en la vista; el Markdown guarda todo el código)');
   codebar.hidden = false;
   codebar.style.top = (pre.offsetTop + 4) + 'px';
+  try { if (codebarHook) codebarHook(pre); } catch (e) {}
   codebar.style.left = (pre.offsetLeft + pre.offsetWidth - codebar.offsetWidth - 6) + 'px';
 }
+let codebarHook = null;
 let cbRaf = 0; const scheduleCodebar = () => { if (!cbRaf) cbRaf = requestAnimationFrame(() => { cbRaf = 0; placeCodebar(); }); };
 editor.addEventListener('mousemove', e => { const p = e.target.closest && e.target.closest('pre'); if (p !== cbHover) { cbHover = p; scheduleCodebar(); } });
 editor.addEventListener('mouseleave', e => { if (!codebar.contains(e.relatedTarget)) { cbHover = null; scheduleCodebar(); } });
 codebar.addEventListener('mouseleave', e => { if (!(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('pre') === cbPre)) { cbHover = null; scheduleCodebar(); } });
 codebar.addEventListener('mouseenter', () => { cbHover = cbPre; });
-codebar.addEventListener('mousedown', e => { if (e.target !== cbLang) e.preventDefault(); });
+codebar.addEventListener('mousedown', e => { if (e.target.tagName !== 'SELECT') e.preventDefault(); });
 cbLang.addEventListener('change', async () => {
   const pre = cbPre; if (!pre) return;
   let v = cbLang.value;
@@ -3119,32 +3520,87 @@ function setZoom(z) {
   page.style.zoom = zoom / 100;
   $('#zoom').value = zoom;
   $('#zoom-pct').textContent = zoom + ' %';
+  try { schedulePaginate(); } catch (e) {}
 }
 $('#zoom').addEventListener('input', e => setZoom(+e.target.value));
 function setMdPanel(open) {
-  mdpane.hidden = !open;
+  mdpane.hidden = !open; $('#mdsplit').hidden = !open;
   document.querySelectorAll('[data-cmd="mdpanel"]').forEach(b => { if (b.hasAttribute('aria-pressed')) b.setAttribute('aria-pressed', open ? 'true' : 'false'); });
   if (open) updateMd(true);
   savePrefs();
 }
-function setMdPos(bottom) {
-  main.classList.toggle('bottom', bottom);
-  document.querySelector('[data-cmd="mdSide"]').setAttribute('aria-pressed', bottom ? 'false' : 'true');
+// Posición del panel Markdown: derecha, izquierda o abajo. El tamaño se guarda aparte para el lateral y para abajo.
+function mdPosNow() { return main.classList.contains('bottom') ? 'bottom' : main.classList.contains('mdleft') ? 'left' : 'right'; }
+function setMdPos(pos) {
+  if (pos === true) pos = 'bottom'; else if (pos === false || !pos) pos = 'right';
+  const bottom = pos === 'bottom';
+  main.classList.toggle('bottom', bottom); main.classList.toggle('mdleft', pos === 'left');
+  if (PR) PR.mdLeft = pos === 'left';
+  placeMd();
+  document.querySelector('[data-cmd="mdSide"]').setAttribute('aria-pressed', pos === 'right' ? 'true' : 'false');
+  document.querySelector('[data-cmd="mdLeft"]').setAttribute('aria-pressed', pos === 'left' ? 'true' : 'false');
   document.querySelector('[data-cmd="mdBottom"]').setAttribute('aria-pressed', bottom ? 'true' : 'false');
+  mdpane.style.width = !bottom && PR && PR.mdW ? PR.mdW + 'px' : '';
+  mdpane.style.height = bottom && PR && PR.mdH ? PR.mdH + 'px' : '';
   const ic = document.querySelector('[data-cmd="mdToggleSide"]');
-  ic.innerHTML = svgIcon(bottom ? 'side' : 'bottom');
-  savePrefs();
+  ic.innerHTML = svgIcon(pos === 'right' ? 'sideleft' : pos === 'left' ? 'bottom' : 'side');
+  ic.title = trStr(pos === 'right' ? 'Pasar el Markdown a la izquierda' : pos === 'left' ? 'Pasar el Markdown abajo' : 'Pasar el Markdown a la derecha');
+  savePrefs(); try { schedulePaginate(); } catch (e) {}
+}
+// A la izquierda, el panel va dentro de la zona central: después de la navegación y antes del documento
+function placeMd() {
+  const sp = $('#mdsplit'), left = main.classList.contains('mdleft') && !main.classList.contains('bottom') && window.innerWidth > 760;
+  if (left) { const da = document.querySelector('.docarea'); if (mdpane.nextElementSibling !== da) { da.before(mdpane); da.before(sp); } }
+  else if (mdpane.parentElement !== main) { main.append(sp); main.append(mdpane); }
+}
+window.addEventListener('resize', placeMd);
+// El panel Markdown se ensancha, estrecha (o sube y baja) arrastrando su borde
+(function () {
+  const sp = $('#mdsplit');
+  sp.addEventListener('pointerdown', e => {
+    e.preventDefault(); sp.classList.add('on'); sp.setPointerCapture(e.pointerId);
+    const pos = mdPosNow(), x0 = e.clientX, y0 = e.clientY, w0 = mdpane.offsetWidth, h0 = mdpane.offsetHeight;
+    const mv = ev => {
+      if (pos === 'bottom') { const h = Math.max(110, Math.min(main.clientHeight - 140, h0 - (ev.clientY - y0))); mdpane.style.height = h + 'px'; }
+      else { const dx = ev.clientX - x0, w = Math.max(240, Math.min(main.clientWidth - 280, pos === 'left' ? w0 + dx : w0 - dx)); mdpane.style.width = w + 'px'; }
+      scheduleMdHl();
+    };
+    const up = () => { sp.classList.remove('on'); sp.removeEventListener('pointermove', mv);
+      if (pos === 'bottom') PR.mdH = mdpane.offsetHeight; else PR.mdW = mdpane.offsetWidth;
+      savePrefs(); try { schedulePaginate(); } catch (e) {} };
+    sp.addEventListener('pointermove', mv); sp.addEventListener('pointerup', up, { once: true });
+  });
+  sp.addEventListener('dblclick', () => { if (mdPosNow() === 'bottom') { PR.mdH = 0; mdpane.style.height = ''; } else { PR.mdW = 0; mdpane.style.width = ''; } savePrefs(); });
+})();
+// El panel de navegación se ensancha o estrecha arrastrando su borde derecho
+function makeNavSplit() {
+  const sp = document.createElement('div'); sp.className = 'navsplit'; sp.title = trStr('Arrastra para cambiar el ancho');
+  sp.addEventListener('pointerdown', e => {
+    e.preventDefault(); sp.classList.add('on'); sp.setPointerCapture(e.pointerId);
+    const x0 = e.clientX, w0 = navpane.offsetWidth;
+    const mv = ev => { const w = Math.max(160, Math.min(560, w0 + ev.clientX - x0)); navpane.style.width = w + 'px'; };
+    const up = () => { sp.classList.remove('on'); sp.removeEventListener('pointermove', mv); PR.navW = navpane.offsetWidth; savePrefs(); scheduleThumbs(); };
+    sp.addEventListener('pointermove', mv); sp.addEventListener('pointerup', up, { once: true });
+  });
+  navpane._split = sp; return sp;
 }
 function setNav(open) {
-  navpane.hidden = !open;
+  navpane.hidden = !open; if (navpane._split) navpane._split.hidden = !open;
   document.querySelector('[data-cmd="nav"]').setAttribute('aria-pressed', open ? 'true' : 'false');
   if (open) updateNav();
   savePrefs();
 }
 function updateNav() {
   if (navpane.hidden) return;
+  navpane.innerHTML = '<h2>Navegación</h2>'; if (!navpane._split) navpane.after(makeNavSplit()); navpane._split.hidden = false; if (PR.navW) navpane.style.width = PR.navW + 'px';
+  const tabs = document.createElement('div'); tabs.className = 'navtabs'; tabs.setAttribute('role', 'tablist');
+  [['heads', 'Títulos'], ['pages', 'Páginas']].forEach(([k, t]) => {
+    const b = document.createElement('button'); b.textContent = trStr(t); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', (PR.navTab || 'heads') === k ? 'true' : 'false');
+    b.onclick = () => { PR.navTab = k; savePrefs(); updateNav(); }; tabs.appendChild(b);
+  });
+  navpane.appendChild(tabs);
+  if (PR.navTab === 'pages') { renderThumbs(); return; }
   const hs = [...editor.querySelectorAll('h1,h2,h3,h4')];
-  navpane.innerHTML = '<h2>Navegación</h2>';
   if (!hs.length) {
     const p = document.createElement('p'); p.className = 'empty';
     p.textContent = 'Aplica estilos de título al texto para que aparezca aquí el esquema del documento.';
@@ -3154,6 +3610,8 @@ function updateNav() {
     const b = document.createElement('button');
     b.className = 'l' + h.tagName[1];
     b.textContent = h.textContent.replace(/​/g, '') || '(título vacío)';
+    // El mismo tipo de letra y color que el título en el documento
+    const cs = getComputedStyle(h); b.style.fontFamily = cs.fontFamily; b.style.color = cs.color;
     b.onclick = () => { h.scrollIntoView({ block: 'start', behavior: 'smooth' }); editor.focus({ preventScroll: true }); placeEnd(h); };
     navpane.appendChild(b);
   });
@@ -3257,10 +3715,37 @@ $('#rep-all').onclick = () => {
 /* ---------- Archivo ---------- */
 let downloadsCap = null;
 try { if (window.claude && typeof window.claude.use === 'function') downloadsCap = window.claude.use('downloads').catch(() => null); } catch (e) {}
-function getMarkdown() { return htmlToMd(editor); }
+function getMarkdown() { const pc = pageComment(), body = htmlToMd(editor); return pc ? pc + '\n\n' + body : body; }
+// Configuración de la página del documento: se guarda como comentario invisible al principio del Markdown
+const PG_SIZES = { A4: [210, 297], A5: [148, 210], A3: [297, 420], Letter: [215.9, 279.4], Legal: [215.9, 355.6] };
+const PG_MARGINS = { normal: [25, 25, 25, 25], narrow: [12.7, 12.7, 12.7, 12.7], moderate: [25.4, 19.1, 25.4, 19.1], wide: [25.4, 50.8, 25.4, 50.8] };
+const PG_DEF = { size: 'A4', orient: 'portrait', margins: 'normal' };
+let PG = { ...PG_DEF };
+function parsePage(t) {
+  const g = { ...PG_DEF }, low = t.toLowerCase();
+  const sz = Object.keys(PG_SIZES).find(k => new RegExp('\\b' + k.toLowerCase() + '\\b').test(low)) || (/\bcarta\b/.test(low) ? 'Letter' : null);
+  if (sz) g.size = sz;
+  if (/landscape|horizontal|apaisad/.test(low)) g.orient = 'landscape';
+  const mg = low.match(/margins?\s*[:=]\s*(\w+)/); if (mg && PG_MARGINS[mg[1]]) g.margins = mg[1];
+  return g;
+}
+function pageComment() {
+  if (PG.size === PG_DEF.size && PG.orient === PG_DEF.orient && PG.margins === PG_DEF.margins) return '';
+  return `<!-- page: ${PG.size} ${PG.orient}${PG.margins !== 'normal' ? ' · margins: ' + PG.margins : ''} -->`;
+}
+// Separa el comentario de página (si lo hay) del resto del documento
+function docToHtml(md) {
+  const lines = String(md || '').replace(/^\uFEFF/, '').split('\n'); let i = 0;
+  while (i < lines.length && !lines[i].trim()) i++;
+  const m = i < lines.length && lines[i].match(PAGE_RE);
+  PG = m ? parsePage(m[1]) : { ...PG_DEF };
+  if (m) { lines.splice(0, i + 1); while (lines.length && !lines[0].trim()) lines.shift(); }
+  try { applyPageGeom(); } catch (e) {}
+  return mdToHtml(lines.join('\n'));
+}
 function setMarkdown(md, opts) {
   opts = opts || {};
-  editor.innerHTML = mdToHtml(md);
+  editor.innerHTML = docToHtml(md);
   normalizeEditor();
   if (opts.resetHistory) H.reset(); else H.push();
   if (opts.focus !== false) { editor.focus({ preventScroll: true }); setCaret(editor.firstElementChild || editor, 0); }
@@ -3351,6 +3836,15 @@ const CMDS = {
   italic: exec('italic'),
   strike: exec('strikeThrough'),
   code: () => run(toggleInlineCode),
+  highlight: () => applyHighlight(PR.hlColor || HL_DEF),
+  calloutMenu: () => calloutMenu(document.querySelector('[data-cmd="calloutMenu"]')),
+  footnote: () => insertFootnote(),
+  mdFontUp: () => setMdFont((PR.mdfs || 13) + 1),
+  mdColors: () => { PR.mdPlain = !PR.mdPlain; savePrefs(); applyMdColors(); },
+  mdFontDown: () => setMdFont((PR.mdfs || 13) - 1),
+  equation: () => insertEquation(),
+  diagram: () => diagramMenu(),
+  highlightMenu: () => highlightMenu(document.querySelector('[data-cmd="highlightMenu"]')),
   clear: () => run(clearFormat),
   ul: () => run(() => toggleList('ul')),
   ol: () => run(() => toggleList('ol')),
@@ -3388,6 +3882,12 @@ const CMDS = {
   darkMenu: () => darkMenu(document.querySelector('[data-cmd="darkMenu"]')),
   theme: v => { PR.theme = v; savePrefs(); applyAppearance(); },
   ribbonPin: () => { PR.ribbon = PR.ribbon === 'tabs' ? 'full' : 'tabs'; savePrefs(); applyAppearance(); },
+  tableStyle: () => tableStyleMenu(),
+  marginsMenu: () => pageMenu(document.querySelector('[data-cmd="marginsMenu"]'), 'margins'),
+  orientMenu: () => pageMenu(document.querySelector('[data-cmd="orientMenu"]'), 'orient'),
+  sizeMenu: () => pageMenu(document.querySelector('[data-cmd="sizeMenu"]'), 'size'),
+  viewPages: () => setPageView(true),
+  viewCont: () => setPageView(false),
   tabsTitle: () => { PR.tabsTitle = !PR.tabsTitle; savePrefs(); applyAppearance(); },
   help: () => toggleHelp(),
   print: printDoc,
@@ -3396,14 +3896,15 @@ const CMDS = {
   cfgExport: cfgExport,
   cfgImport: cfgImport,
   mdpanel: () => setMdPanel(mdpane.hidden),
-  mdSide: () => setMdPos(false),
-  mdBottom: () => setMdPos(true),
-  mdToggleSide: () => setMdPos(!main.classList.contains('bottom')),
+  mdSide: () => setMdPos('right'),
+  mdLeft: () => setMdPos('left'),
+  mdBottom: () => setMdPos('bottom'),
+  mdToggleSide: () => setMdPos({ right: 'left', left: 'bottom', bottom: 'right' }[mdPosNow()]),
   nav: () => setNav(navpane.hidden),
   zoomIn: () => setZoom(zoom + 10),
   zoomOut: () => setZoom(zoom - 10),
   zoom100: () => setZoom(100),
-  pageWidth: () => { const w = $('#canvas').clientWidth - 48; setZoom(Math.floor((w / 816) * 10) * 10); }
+  pageWidth: () => { const w = $('#canvas').clientWidth - 48; setZoom(Math.floor((w / pageGeom().W) * 10) * 10); }
 };
 for (const op of Object.keys(TABLE_OPS)) CMDS[op] = () => { const c = tableCtx(); if (c) run(() => TABLE_OPS[op](c)); };
 
@@ -3418,6 +3919,7 @@ document.addEventListener('click', e => {
   if (fn) fn(b.dataset.arg);
 });
 document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'h' || e.key === 'H')) { e.preventDefault(); applyHighlight(PR.hlColor || HL_DEF); return; }
   if (e.key === 'F1') { e.preventDefault(); if (e.ctrlKey || e.metaKey) CMDS.ribbonPin(); else toggleHelp(); return; }
   if (e.key === 'Escape' && !$('#help').hidden && modal.hidden) { toggleHelp(false); return; }
   const mod = e.ctrlKey || e.metaKey;
@@ -3487,6 +3989,9 @@ function afterChange() {
   scheduleUI();
   try { scheduleCodebar(); } catch (e) {}
   try { applyHeadFold(); } catch (e) {}
+  try { paintTblColors(); } catch (e) {}
+  try { schedulePaginate(); } catch (e) {}
+  try { scheduleCodeColors(); scheduleMath(); scheduleMermaid(); } catch (e) {}
   if (!findbar.hidden && fq.value) computeMatches();
 }
 function updateMd(force) {
@@ -3515,7 +4020,7 @@ mdArea.addEventListener('input', () => {
   clearTimeout(panelTimer);
   panelTimer = setTimeout(() => {
     H.flush();
-    editor.innerHTML = mdToHtml(mdArea.value);
+    editor.innerHTML = docToHtml(mdArea.value);
     normalizeEditor();
     savedRange = null;
     H.push();
@@ -3533,7 +4038,7 @@ const PKEY = STORE_KEY + '-prefs';
 let PR = { md: null, bottom: false, nav: false, lang: '', dark: false, darkTone: 0.35, paperLight: false, ribbon: 'full', theme: 'word', tabsTitle: false };
 try { const p = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (p) PR = { ...PR, ...p }; } catch (e) {}
 function savePrefs() {
-  PR.md = !mdpane.hidden; PR.bottom = main.classList.contains('bottom'); PR.nav = !navpane.hidden;
+  PR.md = !mdpane.hidden; PR.bottom = main.classList.contains('bottom'); PR.mdLeft = main.classList.contains("mdleft"); PR.nav = !navpane.hidden;
   try { localStorage.setItem(PKEY, JSON.stringify(PR)); } catch (e) {}
   try { cfgToFolderSoon(); } catch (e) {}
 }
@@ -3572,13 +4077,13 @@ const EN = {
   "Como Word: títulos en azul": "Like Word: blue headings", "Títulos en negro, letra tipo Calibri": "Black headings, Calibri-like font",
   "Letra con serifa y texto justificado, como un artículo": "Serif font and justified text, like a paper", "Limpio y moderno, como Notion": "Clean and modern, like Notion",
   "Como los README de GitHub": "Like GitHub READMEs", "Letra grande con serifa, cómoda para leer": "Large serif font, comfortable to read",
-  "Tono y hoja ▾": "Tone and page ▾", "Tono del modo oscuro y color de la hoja": "Dark tone and page color", "Cinta: solo pestañas": "Ribbon: tabs only", "Pestañas arriba": "Tabs on top", "Las pestañas pasan a la barra de color de arriba y la cinta ocupa menos": "The tabs move to the colored bar at the top and the ribbon takes less space", "Cinta": "Ribbon", "Deshacer": "Undo", "Rehacer": "Redo", "Apariencia": "Appearance",
+  "Tono y hoja ▾": "Tone and page ▾", "Tono del modo oscuro y color de la hoja": "Dark tone and page color", "Cinta: solo pestañas": "Ribbon: tabs only", "Disposición": "Layout", "Letra más pequeña": "Smaller text", "Colores": "Colors", "Markdown en colores o todo en negro": "Colored Markdown or plain black", "Letra más grande": "Larger text", "Tamaño": "Size", "Tamaño de las miniaturas": "Thumbnail size", "Arrastra para cambiar el ancho": "Drag to change the width", "Ecuación": "Equation", "Insertar una fórmula (LaTeX)": "Insert a formula (LaTeX)", "Diagrama": "Diagram", "Insertar un diagrama Mermaid": "Insert a Mermaid diagram", "Fórmula (LaTeX)": "Formula (LaTeX)", "Escribe la fórmula en LaTeX, por ejemplo: E = mc^2": "Type the formula in LaTeX, for example: E = mc^2", "El diagrama tiene un error": "The diagram has an error", "Aviso ▾": "Callout ▾", "Aviso de color: nota, consejo, importante, atención o precaución": "Colored callout: note, tip, important, warning or caution", "Nota al pie": "Footnote", "Insertar una nota al pie numerada": "Insert a numbered footnote", "Referencias": "References", "Nota": "Note", "Consejo": "Tip", "Importante": "Important", "Atención": "Warning", "Precaución": "Caution", "Quitar el aviso": "Remove callout", "Información": "Info", "Hecho": "Success", "Ejemplo": "Example", "Pregunta": "Question", "Error": "Bug", "Cita destacada": "Quote", "Resumen": "Summary", "Obsidian los muestra todos en color; GitHub, los de Nota, Consejo, Importante, Atención y Precaución.": "Obsidian shows them all in color; GitHub shows Note, Tip, Important, Warning and Caution.", "Resaltar (Ctrl+Alt+H)": "Highlight (Ctrl+Alt+H)", "Color de resaltado": "Highlight color", "Sin resaltado": "No highlight", "Amarillo": "Yellow", "Verde": "Green", "Azul": "Blue", "Rosa": "Pink", "Naranja": "Orange", "Lila": "Lilac", "Selecciona el texto que quieres resaltar.": "Select the text you want to highlight.", "Configurar página": "Page setup", "Márgenes ▾": "Margins ▾", "Orientación ▾": "Orientation ▾", "Tamaño ▾": "Size ▾", "Márgenes de la página": "Page margins", "Página vertical u horizontal (apaisada)": "Portrait or landscape page", "Tamaño del papel": "Paper size", "Páginas": "Pages", "Continua": "Continuous", "Vistas": "Views", "Ver el documento en hojas, como al imprimir": "View the document as pages, like when printing", "Ver el documento seguido, sin cortes de página": "View the document as one continuous page", "Títulos": "Headings", "Normal": "Normal", "Estrecho": "Narrow", "Moderado": "Moderate", "Ancho": "Wide", "Superior": "Top", "Izquierdo": "Left", "Vertical": "Portrait", "Horizontal": "Landscape", "Apaisada": "Wide page", "Carta": "Letter", "Las miniaturas aparecen en la vista Páginas.": "Thumbnails appear in Pages view.", "Ver en páginas": "Switch to Pages", "Se verá en la vista Páginas y al exportar a PDF.": "You will see it in Pages view and when exporting to PDF.", "Pestañas arriba": "Tabs on top", "Las pestañas pasan a la barra de color de arriba y la cinta ocupa menos": "The tabs move to the colored bar at the top and the ribbon takes less space", "Cinta": "Ribbon", "Deshacer": "Undo", "Rehacer": "Redo", "Apariencia": "Appearance",
   "Insertar arriba": "Insert above", "Insertar debajo": "Insert below", "Insertar a la izquierda": "Insert left", "Insertar a la derecha": "Insert right", "Filas y columnas": "Rows & columns",
   "Eliminar fila": "Delete row", "Eliminar columna": "Delete column", "Eliminar tabla": "Delete table", "Eliminar": "Delete",
   "Izquierda": "Left", "Centro": "Center", "Derecha": "Right", "Alinear columna": "Align column",
   "Buscar en el documento": "Find in document", "Reemplazar con": "Replace with", "Mayúsculas y minúsculas": "Match case",
   "Anterior (Mayús+Intro)": "Previous (Shift+Enter)", "Siguiente (Intro)": "Next (Enter)", "Cerrar (Esc)": "Close (Esc)", "Reemplazar todo": "Replace all",
-  "Se actualiza al escribir. También puedes editarlo aquí.": "Updates as you type. You can also edit it here.", "Cambiar posición": "Change position", "Cerrar": "Close",
+  "Se actualiza al escribir. También puedes editarlo aquí.": "Updates as you type. You can also edit it here.", "Cambiar posición": "Change position", "Gris": "Gray", "Activar Pro": "Activate Pro", "Licencia de Writer Pro": "Writer Pro license", "Activar Writer Pro con tu clave": "Activate Writer Pro with your key", "Activar Writer Pro": "Activate Writer Pro", "Escribe la clave de licencia que recibiste por correo al comprar en Gumroad. Solo hace falta internet para activarla; después, Writer Pro funciona sin conexión.": "Enter the license key you received by email when you bought it on Gumroad. You only need internet to activate it; afterwards Writer Pro works offline.", "Clave de licencia": "License key", "Activar": "Activate", "Comprar Writer Pro": "Buy Writer Pro", "Comprobando la clave…": "Checking the key…", "No se pudo activar": "Could not activate", "No se pudo comprobar la clave. Comprueba la conexión a internet e inténtalo de nuevo.": "The key could not be checked. Check your internet connection and try again.", "Esa clave no es válida. Cópiala tal cual del correo de compra de Gumroad.": "That key is not valid. Copy it exactly from your Gumroad purchase email.", "Esa compra se ha devuelto o anulado, así que la clave ya no es válida.": "That purchase was refunded or cancelled, so the key is no longer valid.", "Esta copia de Writer Pro no está configurada para activarse. Descarga la última versión desde Gumroad.": "This copy of Writer Pro is not set up for activation. Download the latest version from Gumroad.", "Esta clave ya está activada en 3 equipos, el máximo por compra. Si cambiaste de equipo, escríbeme y la libero.": "This key is already active on 3 devices, the maximum per purchase. If you changed devices, write to me and I will free it.", "¡Writer Pro activado!": "Writer Pro activated!", "Empezar": "Start", "Cerrar": "Close", "Desactivar en este equipo": "Deactivate on this device", "Writer Pro desactivado en este equipo": "Writer Pro deactivated on this device", "Función de Writer Pro": "Writer Pro feature", "es una función de Writer Pro. Actívala con tu clave o cómprala en Gumroad: un solo pago, con todas las actualizaciones de la versión 1.": "is a Writer Pro feature. Activate it with your key or buy it on Gumroad: one payment, with every version 1 update.", "Activar con mi clave": "Activate with my key", "Ahora no": "Not now", "Ver Writer Pro": "See Writer Pro", "Mover bloques": "Moving blocks", "Poner columnas": "Making columns", "La licencia de Writer Pro ya no es válida en este equipo.": "The Writer Pro license is no longer valid on this device.", "Y se editan en el propio mapa": "And you edit them right on the map", "Tab crea un subtema; arrastra un tema para moverlo": "Tab adds a subtopic; drag a topic to move it", "Subtema": "Subtopic", "Tema": "Topic", "Intro": "Enter", "Borrar": "Delete", "Listo": "Done", "Tema nuevo": "New topic", "Doble clic para escribir · Tab: subtema · Intro: tema · Supr: borrar · arrastra un tema para moverlo": "Double-click to type · Tab: subtopic · Enter: topic · Del: delete · drag a topic to move it", "Orgánico": "Organic", "Tarjetas": "Cards", "Boceto": "Sketch", "Estilo del diagrama": "Diagram style", "Estilo": "Style", "Arrastra el asa ⋮⋮ y suelta donde quieras": "Drag the ⋮⋮ handle and drop it anywhere", "Demostración": "Demo", "Vídeo": "Video", "Recorrido automático por las funciones, para grabar un vídeo": "Automatic tour of the features, to record a video", "Demostración de MarkDawn Writer Pro": "MarkDawn Writer Pro demo", "Un recorrido automático de algo más de un minuto, para grabar un vídeo.": "An automatic tour of just over a minute, to record a video.", "Pon el navegador a pantalla completa (F11).": "Put the browser in full screen (F11).", "Empieza a grabar y pulsa «Empezar»: habrá una cuenta atrás.": "Start recording and click Start: there will be a countdown.", "Esc detiene la demostración. Al terminar, tu documento y tus ajustes vuelven a estar como antes.": "Esc stops the demo. When it ends, your document and settings are restored.", "Empezar": "Start", "Escribe como en Word. Guarda en Markdown.": "Write like in Word. Save as Markdown.", "Escribe como en Word": "Write like in Word", "El Markdown se escribe solo, a la derecha": "The Markdown writes itself, on the right", "Avisos de color y tablas": "Colored callouts and tables", "Las tablas se editan en la propia hoja": "Tables are edited right on the page", "Mapas mentales con el estilo de MarkDawn Mind": "Mind maps in the MarkDawn Mind style", "Se guardan como Mermaid: los lee GitHub, Obsidian y cualquier IA": "Saved as Mermaid: GitHub, Obsidian and any AI can read them", "Mueve bloques como en Notion": "Move blocks like in Notion", "Arrastra el asa ⋮⋮; un título se lleva toda su sección": "Drag the ⋮⋮ handle; a heading takes its whole section", "Columnas arrastrando": "Drag to make columns", "Suelta un bloque en el borde derecho de otro": "Drop a block on the right edge of another", "Seis temas con un clic": "Six themes, one click", "Solo cambia la vista: el Markdown es el mismo": "Only the look changes: the Markdown stays the same", "Modo oscuro": "Dark mode", "Con la hoja oscura o blanca, como prefieras": "With a dark or white page, as you like", "Páginas como en Word": "Pages like in Word", "Tamaño, orientación, márgenes y miniaturas; el PDF sale igual": "Size, orientation, margins and thumbnails; the PDF matches", "Todo es Markdown": "Everything is Markdown", "Lo entienden GitHub, Obsidian y cualquier IA": "GitHub, Obsidian and any AI understand it", "Estilo MarkDawn": "MarkDawn style", "Aspecto Mermaid": "Mermaid look", "Dibujar el mapa con el estilo de MarkDawn Mind": "Draw the map in the MarkDawn Mind style", "Ver el mapa con el aspecto normal de Mermaid": "Show the map with the standard Mermaid look", "Diagrama\u00a0▾": "Diagram ▾", "Insertar un diagrama: flujo, mapa mental, secuencia, Gantt, tarta o línea de tiempo": "Insert a diagram: flowchart, mind map, sequence, Gantt, pie or timeline", "Diagrama de flujo": "Flowchart", "Pasos y decisiones": "Steps and decisions", "Mapa mental": "Mind map", "Ideas alrededor de un tema": "Ideas around a topic", "Secuencia": "Sequence", "Mensajes entre personas o sistemas": "Messages between people or systems", "Tareas en el tiempo": "Tasks over time", "Tarta": "Pie", "Partes de un total": "Parts of a whole", "Línea de tiempo": "Timeline", "Hitos por fechas": "Milestones by date", "Se guarda como Mermaid: lo leen GitHub, Obsidian y las IA.": "Saved as Mermaid: GitHub, Obsidian and AI can read it.", "Primera columna destacada": "Highlight first column", "Color de esta columna": "Color of this column", "Sin color": "No color", "Turquesa": "Teal", "Rojo": "Red", "Estilo de la tabla": "Table style", "Encabezado de color intenso": "Solid header color", "Filas alternas": "Banded rows", "Insertar fila arriba": "Insert row above", "Insertar fila debajo": "Insert row below", "Subir fila": "Move row up", "Bajar fila": "Move row down", "Insertar columna a la izquierda": "Insert column left", "Insertar columna a la derecha": "Insert column right", "Mover a la izquierda": "Move left", "Mover a la derecha": "Move right", "Alinear a la izquierda": "Align left", "Centrar": "Center", "Alinear a la derecha": "Align right", "Estilo ▾": "Style ▾", "Color del encabezado y filas alternas": "Header color and banded rows", "Diseño": "Design", "Añadir una columna": "Add a column", "Añadir una fila": "Add a row", "Opciones de la fila": "Row options", "Opciones de la columna": "Column options", "Columnas ▾": "Columns ▾", "Nueva columna": "New column", "Arrastra para cambiar el ancho de las columnas · doble clic: iguales": "Drag to change the column widths · double-click: equal", "Poner el texto en columnas, como en Notion": "Put text in columns, like in Notion", "Una": "One", "Dos": "Two", "Tres": "Three", "Estrecha a la izquierda": "Narrow on the left", "Estrecha a la derecha": "Narrow on the right", "También puedes arrastrar un bloque por su asa ⋮⋮ y soltarlo en el borde derecho de otro.": "You can also drag a block by its ⋮⋮ handle and drop it on the right edge of another one.", "Tabla": "Table", "Código": "Code", "Arrastra para cambiar el tamaño": "Drag to resize", "Markdown a la derecha del documento": "Markdown to the right of the document", "Markdown a la izquierda del documento": "Markdown to the left of the document", "Markdown debajo del documento": "Markdown below the document", "Pasar el Markdown a la izquierda": "Move Markdown to the left", "Pasar el Markdown abajo": "Move Markdown to the bottom", "Pasar el Markdown a la derecha": "Move Markdown to the right", "Cerrar": "Close",
   "Código Markdown": "Markdown code", "Mostrar Markdown": "Show Markdown", "Cancelar": "Cancel", "Aceptar": "OK", "Insertar tabla": "Insert table",
   "Suelta el archivo para abrirlo": "Drop the file to open it", "Navegación": "Navigation", "(título vacío)": "(empty heading)",
   "Aplica estilos de título al texto para que aparezca aquí el esquema del documento.": "Apply heading styles to your text and the document outline will appear here.",
@@ -3629,7 +4134,7 @@ function trStr(s) {
   if (v == null) for (const [re, f] of EN_RX) { if (re.test(k)) { v = k.replace(re, f); break; } }
   return v == null ? s : String(s).replace(k, v);
 }
-const I18N_SKIP = '#editor, #md-output, .no-tr, script, style';
+const I18N_SKIP = '#editor, #md-output, #md-hl, .thumb, .no-tr, script, style, svg, [id^="mdmmd"], [id^="dmdmmd"]';
 function trText(n) { const pe = n.parentElement; if (!pe || pe.closest(I18N_SKIP)) return; const v = trStr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; }
 function trAttrs(el) { if (el.closest(I18N_SKIP)) return; for (const a of ['title', 'placeholder', 'aria-label']) { const v = el.getAttribute(a); if (v) { const t = trStr(v); if (t !== v) el.setAttribute(a, t); } } }
 function trTree(root) {
@@ -3658,7 +4163,7 @@ This document works just like a word processor: select some text, click **Bold**
 ## What you can do
 
 - Four heading levels from the **Styles** gallery
-- **Bold**, *italic*, ~~strikethrough~~ and \`inline code\`
+- **Bold**, *italic*, ~~strikethrough~~, ==highlight== and \`inline code\`
 - Bulleted, numbered and task lists
   - Tab moves an item one level in
   - Shift+Tab moves it back out
@@ -3713,6 +4218,7 @@ function switchLang() {
 /* ---------- Apariencia: modo oscuro, tono, tema del documento y cinta ---------- */
 const THEMES = ['word', 'sobrio', 'academico', 'notion', 'github', 'lectura'];
 function applyAppearance() {
+  try { scheduleMermaid(); } catch (e) {}
   const b = document.body;
   b.classList.toggle('dark', !!PR.dark); b.classList.toggle('paper-light', !!PR.paperLight);
   THEMES.forEach(t => b.classList.toggle('t-' + t, PR.theme === t && t !== 'word'));
@@ -3727,6 +4233,7 @@ function applyAppearance() {
   const db = $('#dark-btn'); if (db) { db.innerHTML = svgIcon(PR.dark ? 'sun' : 'moon'); db.title = trStr(PR.dark ? 'Modo claro' : 'Modo oscuro'); }
   document.querySelectorAll('.thm').forEach(x => x.setAttribute('aria-pressed', x.dataset.arg === (PR.theme || 'word') ? 'true' : 'false'));
   applyRibbon();
+  try { if (!navpane.hidden) { if (PR.navTab === 'pages') scheduleThumbs(); else updateNav(); } } catch (e) {}
 }
 const ribbon = document.querySelector('.ribbon');
 function applyRibbon() {
@@ -3784,7 +4291,7 @@ function darkMenu(btn) {
 /* ---------- Ayuda (F1) ---------- */
 const HELP = { es: `
 <section id="h-start"><h3>Empezar</h3>
-<p>Escribe como en Word: selecciona el texto y usa los botones de la cinta. Por debajo, el documento se guarda como <b>Markdown</b>, el formato que mejor entienden las IA. Ábrelo en <b>Vista → Markdown</b> para verlo en directo; también puedes editarlo ahí.</p>
+<p>Escribe como en Word: selecciona el texto y usa los botones de la cinta. Por debajo, el documento se guarda como <b>Markdown</b>, el formato que mejor entienden las IA. Ábrelo en <b>Vista → Markdown</b> para verlo en directo; también puedes editarlo ahí. El panel puede ir a la derecha, a la izquierda o abajo (Vista → Panel Markdown) y se ensancha arrastrando su borde.</p>
 <p>Todo se guarda solo en este navegador. Para tener el archivo, usa <b>Archivo → Guardar .md</b>. Puedes abrir cualquier archivo .md o arrastrarlo a la ventana.</p></section>
 <section id="h-keys"><h3>Teclado</h3><table>
 <tr><td><kbd>Ctrl</kbd>+<kbd>B</kbd> · <kbd>I</kbd></td><td>Negrita · cursiva</td></tr>
@@ -3805,15 +4312,21 @@ const HELP = { es: `
 <section id="h-share"><h3>Exportar y compartir</h3>
 <ul><li><b>Exportar PDF</b>: imprime solo la hoja; elige «Guardar como PDF» como impresora.</li>
 <li><b>Copiar para Word</b>: copia el documento con su formato para pegarlo en Word, Google Docs u Outlook; los títulos llegan como Título 1, 2, 3…</li>
+<li><b>Diagramas</b> (Insertar → Diagrama): se escriben en Mermaid, el formato que dibujan GitHub y Obsidian. Clic en el diagrama para ver y editar su código. <b>Ecuaciones</b> (Insertar → Ecuación): fórmulas en LaTeX, como <code>$E = mc^2$</code>. Para verlos sin internet, deja la carpeta <code>libs</code> junto al archivo HTML.</li>
+<li><b>Avisos</b> (Insertar → Aviso): cajas de color para notas, consejos o advertencias. Se guardan como <code>&gt; [!NOTE]</code>, igual que en GitHub y Obsidian.</li>
+<li><b>Notas al pie</b> (Insertar → Nota al pie): pone un número en el texto y la nota al final; se guardan como <code>[^1]</code>. Clic en el número para ir de una a otra.</li>
+<li><b>Resaltar</b> (Inicio → Fuente, o Ctrl+Alt+H): como un rotulador. El amarillo se guarda como <code>==texto==</code> (como en Obsidian) y los otros colores como <code>&lt;mark&gt;</code>. También puedes escribir <code>==texto==</code> directamente.</li>
+<li><b>Vista de páginas</b> (Vista o Disposición → Páginas): el documento se ve en hojas, como en Word, y pasa a la siguiente cuando se llena. En <b>Disposición</b> eliges márgenes, orientación (vertical u horizontal) y tamaño (A4, A5, A3, Carta, Legal). El PDF sale igual que lo ves, y el Markdown solo guarda una línea invisible con el tamaño. En el panel de navegación, la pestaña <b>Páginas</b> muestra las miniaturas.</li>
 <li><b>Pestañas arriba</b> (Vista → Cinta): las pestañas pasan a la barra azul y la cinta ocupa menos; en el móvil, Deshacer y Rehacer están en Inicio.</li>
 <li><b>Contraer un título</b>: pasa el ratón por el título y pulsa la cuña pequeña de su izquierda. Oculta lo que hay debajo hasta el siguiente título del mismo nivel; solo cambia la vista, el Markdown no se toca.</li>
 <li><b>Contraer un bloque de código</b>: botón «Contraer» en la barra del bloque. El Markdown guarda el código completo.</li>
+<li><b>Tablas</b>: Insertar → Tabla. Al pasar el ratón por la tabla, el <b>+</b> de la derecha añade una columna y el de abajo una fila. Los tiradores de cada fila (a la izquierda) y de cada columna (arriba) abren un menú para insertar, mover, alinear o eliminar, y para elegir el <b>estilo</b>: color del encabezado y filas alternas. El estilo se guarda como un comentario invisible (<code>&lt;!-- table: blue striped --&gt;</code>).</li>
 <li><b>Copiar Markdown</b>: para pegarlo en ChatGPT, Claude, GitHub u Obsidian.</li></ul></section>
 <section id="h-look"><h3>Temas y modo oscuro</h3>
 <p>En <b>Vista</b> eliges cómo se ve el documento (Word, Sobrio, Académico, Notion, GitHub o Lectura). Es solo la vista: el Markdown no cambia. El modo oscuro tiene tono ajustable y puedes dejar la hoja en blanco.</p></section>`,
 en: `
 <section id="h-start"><h3>Getting started</h3>
-<p>Type like in Word: select text and use the ribbon buttons. Underneath, the document is saved as <b>Markdown</b>, the format AI understands best. Open <b>View → Markdown</b> to see it live; you can also edit it there.</p>
+<p>Type like in Word: select text and use the ribbon buttons. Underneath, the document is saved as <b>Markdown</b>, the format AI understands best. Open <b>View → Markdown</b> to see it live; you can also edit it there. The pane can go on the right, left or bottom (View → Markdown pane) and you can drag its edge to resize it.</p>
 <p>Everything is saved automatically in this browser. To get the file, use <b>File → Save .md</b>. You can open any .md file or drag it onto the window.</p></section>
 <section id="h-keys"><h3>Keyboard</h3><table>
 <tr><td><kbd>Ctrl</kbd>+<kbd>B</kbd> · <kbd>I</kbd></td><td>Bold · italic</td></tr>
@@ -3834,9 +4347,15 @@ en: `
 <section id="h-share"><h3>Export and share</h3>
 <ul><li><b>Export PDF</b>: prints only the page; choose «Save as PDF» as the printer.</li>
 <li><b>Copy for Word</b>: copies the document with its formatting to paste into Word, Google Docs or Outlook; headings arrive as Heading 1, 2, 3…</li>
+<li><b>Diagrams</b> (Insert → Diagram): written in Mermaid, the format GitHub and Obsidian draw. Click the diagram to see and edit its code. <b>Equations</b> (Insert → Equation): LaTeX formulas, like <code>$E = mc^2$</code>. To see them offline, keep the <code>libs</code> folder next to the HTML file.</li>
+<li><b>Callouts</b> (Insert → Callout): colored boxes for notes, tips or warnings. Saved as <code>&gt; [!NOTE]</code>, just like GitHub and Obsidian.</li>
+<li><b>Footnotes</b> (Insert → Footnote): a number in the text and the note at the end; saved as <code>[^1]</code>. Click the number to jump between them.</li>
+<li><b>Highlight</b> (Home → Font, or Ctrl+Alt+H): like a marker pen. Yellow is saved as <code>==text==</code> (as in Obsidian) and other colors as <code>&lt;mark&gt;</code>. You can also type <code>==text==</code> directly.</li>
+<li><b>Pages view</b> (View or Layout → Pages): the document is shown as sheets, like in Word, and flows to the next one when it is full. In <b>Layout</b> you choose margins, orientation (portrait or landscape) and size (A4, A5, A3, Letter, Legal). The PDF comes out exactly as you see it, and the Markdown only keeps one invisible line with the page size. In the navigation pane, the <b>Pages</b> tab shows thumbnails.</li>
 <li><b>Tabs on top</b> (View → Ribbon): the tabs move to the blue bar and the ribbon takes less space; on mobile, Undo and Redo are in Home.</li>
 <li><b>Collapse a heading</b>: hover over the heading and click the small arrow on its left. It hides everything below it up to the next heading of the same level; it only changes the view, the Markdown is untouched.</li>
 <li><b>Collapse a code block</b>: «Collapse» button in the block's bar. The Markdown keeps all the code.</li>
+<li><b>Tables</b>: Insert → Table. When you hover over a table, the <b>+</b> on the right adds a column and the one below adds a row. The grips on each row (left) and column (top) open a menu to insert, move, align or delete, and to choose the <b>style</b>: header color and banded rows. The style is saved as an invisible comment (<code>&lt;!-- table: blue striped --&gt;</code>).</li>
 <li><b>Copy Markdown</b>: to paste into ChatGPT, Claude, GitHub or Obsidian.</li></ul></section>
 <section id="h-look"><h3>Themes and dark mode</h3>
 <p>In <b>View</b> you choose how the document looks (Word, Plain, Academic, Notion, GitHub or Reading). It's only the view: the Markdown doesn't change. Dark mode has an adjustable tone and you can keep the page white.</p></section>` };
@@ -3862,7 +4381,7 @@ function cfgApply(data) {
   try { localStorage.setItem(PKEY, JSON.stringify(PR)); } catch (e) {}
   const lang = PR.lang || LANG;
   if (lang !== langBefore) { flushDraft(); setTimeout(() => location.reload(), 250); return true; }
-  const v = { ...PR }; applyAppearance(); setMdPos(!!v.bottom); setMdPanel(!!v.md); setNav(!!v.nav); return true;
+  const v = { ...PR }; applyAppearance(); setMdPos(v.bottom ? 'bottom' : v.mdLeft ? 'left' : 'right'); setMdPanel(!!v.md); setNav(!!v.nav); return true;
 }
 function downloadBlob(blob, name) {
   const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = name;
@@ -3994,6 +4513,8 @@ const WORD_HPT = [20, 16, 13, 12, 11, 11];
 const pxToPt = px => Math.round(parseFloat(px) * 0.75 * 2) / 2 + 'pt';
 function wordHtml() {
   const clone = editor.cloneNode(true);
+  if (document.body.classList.contains('pv')) pgPushed.forEach(el => { const path = []; let e = el; while (e && e !== editor) { path.unshift([...e.parentElement.children].indexOf(e)); e = e.parentElement; }
+    let c = clone; path.forEach(i => { c = c && c.children[i]; }); if (c) c.setAttribute('data-pgbreak', ''); });
   clone.querySelectorAll('.md-raw').forEach(e => e.remove());
   clone.querySelectorAll('[data-hfh],[data-hfshow],[data-collapsed],[data-fold],[data-open]').forEach(e => { e.removeAttribute('data-hfh'); e.removeAttribute('data-hfshow'); e.removeAttribute('data-collapsed'); e.removeAttribute('data-fold'); e.removeAttribute('data-open'); });
   const src = editor.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th'), dst = clone.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th');
@@ -4019,7 +4540,18 @@ function wordHtml() {
   clone.querySelectorAll('code').forEach(c => { if (!c.closest('pre')) { c.style.fontFamily = 'Consolas, "Courier New", monospace'; c.style.background = '#f0f0f0'; } });
   clone.querySelectorAll('table').forEach(t => { t.setAttribute('border', '1'); t.setAttribute('cellpadding', '5'); t.style.borderCollapse = 'collapse'; t.querySelectorAll('th').forEach(c => { c.style.background = '#f2f2f2'; c.style.border = '1px solid #bfbfbf'; }); t.querySelectorAll('td').forEach(c => c.style.border = '1px solid #bfbfbf'); });
   clone.querySelectorAll('a').forEach(a => a.style.color = '#0563c1');
+  clone.querySelectorAll('.math,.mathblock').forEach(m => { m.textContent = m.dataset.tex || m.textContent; m.removeAttribute('contenteditable'); });
+  clone.querySelectorAll('mark').forEach(m => { if (!m.style.background) m.style.background = HL_DEF; m.style.color = '#1f1f1f'; });
+  clone.querySelectorAll('[data-pgbreak]').forEach(n => { n.removeAttribute('data-pgbreak'); n.style.pageBreakBefore = 'always'; n.style.breakBefore = 'page'; });
   const css = WORD_HPT.map((pt, i) => `h${i + 1}{mso-style-name:"Heading ${i + 1}";mso-outline-level:${i + 1};font-size:${pt}pt;color:${hc[Math.min(i + 1, 4) - 1]};}`).join('');
+  // Columnas: en Word, una tabla sin bordes
+  clone.querySelectorAll('.cols').forEach(cs => {
+    const cols = [...cs.children], tot = cols.reduce((a, _, i) => a + (colsWidths((cs.dataset.w || '').split(/\s+/), cols.length) || cols.map(() => 1))[i], 0), ws = colsWidths((cs.dataset.w || '').split(/\s+/), cols.length) || cols.map(() => 1);
+    const t = document.createElement('table'); t.setAttribute('style', 'border-collapse:collapse;width:100%;border:none;mso-table-lspace:0;mso-yfti-tbllook:0'); t.setAttribute('border', '0');
+    const tr = t.insertRow();
+    cols.forEach((c, i) => { const td = tr.insertCell(); td.setAttribute('style', `border:none;vertical-align:top;padding:0 ${i < cols.length - 1 ? '14pt' : '0'} 0 0;width:${Math.round(ws[i] / tot * 100)}%`); td.setAttribute('valign', 'top'); while (c.firstChild) td.appendChild(c.firstChild); });
+    cs.replaceWith(t);
+  });
   return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>${css}</style></head><body>${clone.innerHTML}</body></html>`;
 }
 async function copyForWord() {
@@ -4040,6 +4572,584 @@ async function copyForWord() {
   } catch (e) { toast('No se pudo copiar. Selecciona el texto y usa Ctrl+C.'); }
 }
 
+/* ---------- Colores en los bloques de código ----------
+   Un resaltador pequeño propio. Pinta con la CSS Custom Highlight API, así el texto del bloque no cambia y se puede editar. */
+const TK_C = 'abstract as async await bool boolean break byte case catch char class const continue def default delete do double else enum export extends final finally float fn for from func function go goto if impl implements import in instanceof int interface let long match mod mut namespace new package private protected pub public readonly return self short static struct super switch this throw throws trait try type typeof union unsafe use using var void volatile where while with yield';
+const TK_LANGS = {
+  c: { kw: TK_C, lit: 'true false null undefined nil NaN Infinity', line: '//', block: ['/*', '*/'], str: '"\'`', fn: true },
+  py: { kw: 'and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield match case print self', lit: 'True False None', line: '#', str: '"\'', fn: true },
+  sh: { kw: 'if then else elif fi for while until do done case esac function in return export local echo cd exit set unset source alias sudo', lit: 'true false', line: '#', str: '"\'', fn: false },
+  sql: { kw: 'select from where insert into values update set delete create table drop alter add column join left right inner outer full on group by order having limit offset as and or not is in like between distinct union all primary key foreign references index view case when then else end with exists returning default unique check', lit: 'null true false', line: '--', block: ['/*', '*/'], str: '\'"', ci: true },
+  css: { css: true, line: null, block: ['/*', '*/'], str: '"\'' },
+  html: { html: true }, json: { json: true }, yaml: { yaml: true },
+};
+const TK_ALIAS = { js: 'c', javascript: 'c', ts: 'c', typescript: 'c', jsx: 'c', tsx: 'c', java: 'c', c: 'c', cpp: 'c', 'c++': 'c', csharp: 'c', cs: 'c', go: 'c', rust: 'c', rs: 'c', php: 'c', kotlin: 'c', kt: 'c', swift: 'c', dart: 'c', scala: 'c',
+  python: 'py', py: 'py', bash: 'sh', sh: 'sh', shell: 'sh', zsh: 'sh', powershell: 'sh', ps1: 'sh', sql: 'sql', css: 'css', scss: 'css', less: 'css', html: 'html', xml: 'html', svg: 'html', vue: 'html', json: 'json', yaml: 'yaml', yml: 'yaml', toml: 'yaml', ini: 'yaml' };
+const tkEsc = x => x.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+function tokenize(text, lang) {
+  const L = TK_LANGS[TK_ALIAS[(lang || '').toLowerCase()]]; if (!L) return [];
+  const out = [], add = (a, b, k) => { if (b > a) out.push([a, b, k]); };
+  let re;
+  if (L.html) { re = /(<!--[\s\S]*?-->)|(<\/?)([\w:-]+)|([\w:-]+)(?==)|("[^"]*"|'[^']*')/g;
+    let m; while ((m = re.exec(text))) { const i = m.index; if (m[1]) add(i, i + m[1].length, 'com'); else if (m[3]) add(i + m[2].length, i + m[0].length, 'tag'); else if (m[4]) add(i, i + m[4].length, 'attr'); else if (m[5]) add(i, i + m[5].length, 'str'); } return out; }
+  if (L.json) { re = /("(?:[^"\\\n]|\\.)*")(\s*:)?|(-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)|\b(true|false|null)\b/g;
+    let m; while ((m = re.exec(text))) { const i = m.index; if (m[1]) add(i, i + m[1].length, m[2] ? 'key' : 'str'); else if (m[3]) add(i, i + m[3].length, 'num'); else add(i, i + m[0].length, 'lit'); } return out; }
+  if (L.yaml) { re = /(#[^\n]*)|^(\s*-?\s*)([\w.$-][\w .$-]*?)(?=\s*[:=])|("(?:[^"\\\n]|\\.)*"|'[^'\n]*')|(\b-?\d+(?:\.\d+)?\b)|\b(true|false|null|yes|no)\b/gm;
+    let m; while ((m = re.exec(text))) { const i = m.index; if (m[1]) add(i, i + m[1].length, 'com'); else if (m[3]) add(i + m[2].length, i + m[2].length + m[3].length, 'key'); else if (m[4]) add(i, i + m[4].length, 'str'); else if (m[5]) add(i, i + m[5].length, 'num'); else if (m[6]) add(i, i + m[6].length, 'lit'); if (m[0] === '') re.lastIndex++; } return out; }
+  if (L.css) { re = /(\/\*[\s\S]*?\*\/)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|([\w-]+)(?=\s*:[^{]*;)|(#[0-9a-fA-F]{3,8}\b|-?\b\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms|deg)?\b)|(@[\w-]+)/g;
+    let m; while ((m = re.exec(text))) { const i = m.index; if (m[1]) add(i, i + m[1].length, 'com'); else if (m[2]) add(i, i + m[2].length, 'str'); else if (m[3]) add(i, i + m[3].length, 'attr'); else if (m[4]) add(i, i + m[4].length, 'num'); else add(i, i + m[5].length, 'kw'); } return out; }
+  const parts = [];
+  if (L.block) parts.push(tkEsc(L.block[0]) + '[\\s\\S]*?(?:' + tkEsc(L.block[1]) + '|$)');
+  if (L.line) parts.push(tkEsc(L.line) + '[^\\n]*');
+  const com = parts.length ? '(' + parts.join('|') + ')' : '(\\b\\B)';
+  const strs = '(' + [...L.str].map(q => q === '`' ? '`(?:[^`\\\\]|\\\\[\\s\\S])*`' : tkEsc(q) + '(?:[^' + tkEsc(q) + '\\\\\\n]|\\\\.)*' + tkEsc(q)).join('|') + ')';
+  re = new RegExp(com + '|' + strs + '|(\\b\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b|\\b0x[0-9a-fA-F]+\\b)|([A-Za-z_$][\\w$]*)(\\s*\\()?', 'g' + (L.ci ? 'i' : ''));
+  const KW = new Set((L.ci ? L.kw.toLowerCase() : L.kw).split(' ')), LIT = new Set((L.lit || '').split(' '));
+  let m; while ((m = re.exec(text))) {
+    const i = m.index;
+    if (m[1]) add(i, i + m[1].length, 'com'); else if (m[2]) add(i, i + m[2].length, 'str'); else if (m[3]) add(i, i + m[3].length, 'num');
+    else if (m[4]) { const w = L.ci ? m[4].toLowerCase() : m[4]; if (KW.has(w)) add(i, i + m[4].length, 'kw'); else if (LIT.has(m[4])) add(i, i + m[4].length, 'lit'); else if (m[5] && L.fn) add(i, i + m[4].length, 'fn'); }
+  }
+  return out;
+}
+const TK_KINDS = ['kw', 'str', 'com', 'num', 'fn', 'tag', 'attr', 'key', 'lit'];
+let tkT = 0;
+function scheduleCodeColors() { clearTimeout(tkT); tkT = setTimeout(paintCodeColors, 200); }
+function paintCodeColors() {
+  if (!(typeof CSS !== 'undefined' && CSS.highlights && typeof Highlight !== 'undefined')) return;
+  const sets = {}; TK_KINDS.forEach(k => sets[k] = []);
+  editor.querySelectorAll('pre[data-lang]').forEach(pre => {
+    const toks = tokenize(pre.textContent, pre.dataset.lang); if (!toks.length) return;
+    const nodes = []; let pos = 0; const w = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) { nodes.push([n, pos]); pos += n.data.length; }
+    const at = off => { for (let k = nodes.length - 1; k >= 0; k--) if (off >= nodes[k][1]) return [nodes[k][0], Math.min(off - nodes[k][1], nodes[k][0].data.length)]; return null; };
+    toks.forEach(([a, b, k]) => { const s0 = at(a), s1 = at(b); if (!s0 || !s1) return; const r = new Range(); try { r.setStart(s0[0], s0[1]); r.setEnd(s1[0], s1[1]); sets[k].push(r); } catch (e) {} });
+  });
+  TK_KINDS.forEach(k => { if (sets[k].length) CSS.highlights.set('tk-' + k, new Highlight(...sets[k])); else CSS.highlights.delete('tk-' + k); });
+}
+
+/* ---------- Librerías opcionales: Mermaid (diagramas) y KaTeX (fórmulas) ----------
+   1) carpeta libs/ junto al HTML (sin internet y sin conectarse a nadie); 2) internet, solo si el documento lo necesita;
+   3) si no hay ninguna de las dos, se ve el código. */
+const LIB_CDN = { mermaid: 'https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js', katex: 'https://cdn.jsdelivr.net/npm/katex@0.18.10/dist/' };
+const libP = {};
+const loadScript = src => new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = src; sc.onload = res; sc.onerror = () => { sc.remove(); rej(new Error(src)); }; document.head.appendChild(sc); });
+function loadLib(name) {
+  if (name in libP) return libP[name];
+  return libP[name] = (async () => {
+    if (name === 'mermaid') { if (!window.mermaid) { try { await loadScript('libs/mermaid.min.js'); } catch (e) { await loadScript(LIB_CDN.mermaid); } } return window.mermaid || null; }
+    if (name === 'katex') {
+      if (!window.katex) { let base = 'libs/katex/'; try { await loadScript(base + 'katex.min.js'); } catch (e) { base = LIB_CDN.katex; await loadScript(base + 'katex.min.js'); }
+        const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = base + 'katex.min.css'; document.head.appendChild(l); }
+      return window.katex || null;
+    }
+    return null;
+  })().catch(() => null);
+}
+// Fórmulas
+let mathT = 0;
+function scheduleMath() { clearTimeout(mathT); mathT = setTimeout(renderMath, 250); }
+async function renderMath() {
+  const els = [...editor.querySelectorAll('.math[data-tex], .mathblock[data-tex]')].filter(el => el.dataset.r !== el.dataset.tex);
+  if (!els.length) return;
+  const K = await loadLib('katex'); if (!K) return;
+  els.forEach(el => { try { K.render(el.dataset.tex, el, { throwOnError: false, displayMode: el.classList.contains('mathblock') }); el.dataset.r = el.dataset.tex; } catch (e) {} });
+  try { schedulePaginate(); } catch (e) {}
+}
+async function editMath(el) {
+  const res = await dialog({ title: trStr('Fórmula (LaTeX)'), fields: [{ id: 'tex', label: trStr('Escribe la fórmula en LaTeX, por ejemplo: E = mc^2'), value: el.dataset.tex || '' }], ok: 'Aplicar', extra: el.isConnected ? null : null });
+  if (!res) { ensureFocus(); return; }
+  commit(() => { if (!res.tex.trim()) { el.remove(); return; } el.dataset.tex = res.tex.trim(); delete el.dataset.r; el.textContent = el.dataset.tex; });
+  scheduleMath();
+}
+editor.addEventListener('click', e => { const m = e.target.closest && e.target.closest('.math, .mathblock'); if (m && editor.contains(m)) { e.preventDefault(); editMath(m); } });
+function insertEquation() {
+  ensureFocus(); const r = getRange(); if (!r) return;
+  let el;
+  commit(() => {
+    const b = topBlock(r.startContainer) || editor.lastElementChild;
+    el = document.createElement('div'); el.className = 'mathblock'; el.contentEditable = 'false'; el.dataset.tex = 'E = mc^2'; el.textContent = el.dataset.tex;
+    b.after(el); if (!el.nextElementSibling) { const p = document.createElement('p'); p.appendChild(document.createElement('br')); el.after(p); }
+  });
+  if (el) editMath(el);
+}
+// Diagramas Mermaid: el bloque de código guarda el texto; la imagen se dibuja aparte (no toca el documento)
+const mmdStyle = document.createElement('style'); document.head.appendChild(mmdStyle);
+const mmdCache = new Map(); let mmdT = 0, mmdN = 0, mmdTheme = '';
+function scheduleMermaid() { clearTimeout(mmdT); mmdT = setTimeout(renderMermaid, 400); }
+function svgToImg(svg, maxW) {
+  const vb = (svg.match(/viewBox="([\d.\s-]+)"/) || [])[1]; let w = 600, h = 300;
+  if (vb) { const v = vb.trim().split(/\s+/).map(Number); w = v[2]; h = v[3]; }
+  const sc = Math.min(1, maxW / w), W = Math.round(w * sc), Hh = Math.round(h * sc);
+  svg = svg.replace(/<svg([^>]*?)\swidth="[^"]*"/, '<svg$1').replace(/<svg([^>]*?)\sstyle="[^"]*"/, '<svg$1').replace(/<svg/, `<svg width="${W}" height="${Hh}"`);
+  return { url: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg), w: W, h: Hh };
+}
+// Writer Pro dibuja algunos diagramas con su propio estilo (customDiagram); el resto, con la librería Mermaid
+let customDiagram = null;
+async function renderMermaid() {
+  const pres = [...editor.querySelectorAll('pre[data-lang]')].filter(p => /^mermaid$/i.test(p.dataset.lang));
+  if (!pres.length) { mmdStyle.textContent = ''; return; }
+  const dark = document.body.classList.contains('dark') && !document.body.classList.contains('paper-light'), theme = dark ? 'dark' : 'default';
+  const needLib = pres.some(p => !(customDiagram && customDiagram(preText(p).replace(/​/g, '').trim(), dark, 0, true)));
+  const mm = needLib ? await loadLib('mermaid') : null;
+  if (needLib && !mm && !customDiagram) { mmdStyle.textContent = ''; return; }
+  if (mm && theme !== mmdTheme) {
+    const pie = { pie1: '#4e79a7', pie2: '#f28e2b', pie3: '#59a14f', pie4: '#e15759', pie5: '#76b7b2', pie6: '#edc948', pie7: '#b07aa1', pie8: '#ff9da7', pieStrokeColor: dark ? '#1d2023' : '#ffffff', pieOuterStrokeColor: dark ? '#1d2023' : '#ffffff', pieSectionTextColor: '#ffffff', pieTitleTextSize: '20px', pieSectionTextSize: '15px' };
+    const tv = Object.assign(pie, dark ? { primaryColor: '#24364f', primaryBorderColor: '#6f9be0', primaryTextColor: '#e6e8ea', lineColor: '#8fa3bd', secondaryColor: '#2a3340', tertiaryColor: '#1f262e', edgeLabelBackground: '#1d2023', clusterBkg: '#22272e', clusterBorder: '#3b4552', fontSize: '15px' }
+      : { primaryColor: '#e8f0fb', primaryBorderColor: '#2b579a', primaryTextColor: '#1f2d42', lineColor: '#5a6b80', secondaryColor: '#fdf1dc', tertiaryColor: '#f4f6f9', edgeLabelBackground: '#ffffff', clusterBkg: '#f4f7fb', clusterBorder: '#c9d5e6', fontSize: '15px' });
+    mm.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: Object.assign({ fontFamily: 'Segoe UI, system-ui, sans-serif' }, tv), htmlLabels: false, flowchart: { htmlLabels: false, curve: 'basis', padding: 14 } });
+    mmdTheme = theme;
+  }
+  const maxW = Math.max(200, editor.clientWidth - 30), rules = [];
+  for (const pre of pres) {
+    const code = preText(pre).replace(/​/g, '').trim(); if (!code) continue;
+    const key = theme + '|' + maxW + '|' + (pre.closest('.col') ? pre.closest('.col').clientWidth : 0) + '|' + code; let v = mmdCache.get(key);
+    if (!v) {
+      const id = 'mdmmd' + (++mmdN), mw = pre.closest('.col') ? Math.max(160, pre.closest('.col').clientWidth - 30) : maxW;
+      let cs = null; try { cs = customDiagram && customDiagram(code, dark, mw); } catch (e) { console.error(e); }
+      if (cs) v = svgToImg(cs, mw);
+      else if (!mm) continue;
+      else try { const { svg } = await mm.render(id, code); v = svgToImg(svg, mw); } catch (e) { v = { err: true }; }
+      document.getElementById(id)?.remove(); document.getElementById('d' + id)?.remove();
+      mmdCache.set(key, v); if (mmdCache.size > 60) mmdCache.delete(mmdCache.keys().next().value);
+    }
+    if (!pre.isConnected) continue;
+    const sel = pgSelector(pre);
+    if (v.err) { rules.push(`${sel}::before{content:"⚠ ${trStr('El diagrama tiene un error')}";display:block;font:12px var(--ui);color:#b5401f;margin-bottom:6px}`); continue; }
+    rules.push(`${sel}:not([data-open]){font-size:0;line-height:0;color:transparent;padding:12px;margin:14px 0;text-align:center;cursor:pointer}${sel}:not([data-open])::after{display:none}${sel}::before{content:url("${v.url}");display:block;text-align:center;line-height:0}${sel}[data-open]::before{margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--line)}`);
+  }
+  mmdStyle.textContent = rules.join('\n');
+  try { schedulePaginate(); scheduleCodebar(); } catch (e) {}
+  try { if (afterMermaidHook) afterMermaidHook(); } catch (e) {}
+}
+let afterMermaidHook = null;
+editor.addEventListener('mousedown', e => { const p = e.target.closest && e.target.closest('pre[data-lang]'); if (p && /^mermaid$/i.test(p.dataset.lang) && !p.dataset.open) { p.dataset.open = '1'; scheduleCodebar(); } });
+// Plantillas de Mermaid (en el idioma de la interfaz)
+const DIAGRAMS = [
+  ['flow', 'Diagrama de flujo', 'Pasos y decisiones', 'flowchart LR\n  A[Idea] --> B{¿Funciona?}\n  B -- Sí --> C[Publicar]\n  B -- No --> A', 'flowchart LR\n  A[Idea] --> B{Does it work?}\n  B -- Yes --> C[Publish]\n  B -- No --> A'],
+  ['mind', 'Mapa mental', 'Ideas alrededor de un tema', 'mindmap\n  root((Mi proyecto))\n    Diseño\n      Bocetos\n      Prototipo\n    Desarrollo\n      Web\n      App móvil\n    Marketing\n      Redes sociales\n      Vídeo\n    Lanzamiento', 'mindmap\n  root((My project))\n    Design\n      Sketches\n      Prototype\n    Development\n      Web\n      Mobile app\n    Marketing\n      Social media\n      Video\n    Launch'],
+  ['seq', 'Secuencia', 'Mensajes entre personas o sistemas', 'sequenceDiagram\n  Cliente->>Tienda: Pedido\n  Tienda->>Almacén: ¿Hay stock?\n  Almacén-->>Tienda: Sí\n  Tienda-->>Cliente: Confirmado', 'sequenceDiagram\n  Customer->>Shop: Order\n  Shop->>Warehouse: In stock?\n  Warehouse-->>Shop: Yes\n  Shop-->>Customer: Confirmed'],
+  ['gantt', 'Gantt', 'Tareas en el tiempo', 'gantt\n  dateFormat YYYY-MM-DD\n  title Plan\n  section Diseño\n    Bocetos :a1, 2026-01-05, 7d\n    Prototipo :after a1, 10d\n  section Desarrollo\n    Web :2026-01-20, 20d', 'gantt\n  dateFormat YYYY-MM-DD\n  title Plan\n  section Design\n    Sketches :a1, 2026-01-05, 7d\n    Prototype :after a1, 10d\n  section Development\n    Web :2026-01-20, 20d'],
+  ['pie', 'Tarta', 'Partes de un total', 'pie title Ventas por canal\n  "Web" : 45\n  "Tienda" : 30\n  "Distribuidores" : 25', 'pie title Sales by channel\n  "Web" : 45\n  "Store" : 30\n  "Resellers" : 25'],
+  ['time', 'Línea de tiempo', 'Hitos por fechas', 'timeline\n  title Proyecto\n  Enero : Idea\n  Febrero : Prototipo\n  Marzo : Lanzamiento', 'timeline\n  title Project\n  January : Idea\n  February : Prototype\n  March : Launch']
+];
+const DIAG_IC = {
+  flow: '<rect x="3" y="11" width="8" height="6" rx="1"/><path d="M15 9l4 5-4 5-4-5z"/><rect x="23" y="11" width="8" height="6" rx="1"/><path d="M11 14h1M19 14h4"/>',
+  mind: '<ellipse cx="17" cy="17" rx="5" ry="3.5"/><path d="M12 16c-3-3-5-4-8-4M12 18c-3 3-5 4-8 4M22 16c3-3 5-4 8-4M22 18c3 3 5 4 8 4"/>',
+  seq: '<rect x="4" y="5" width="8" height="4" rx="1"/><rect x="22" y="5" width="8" height="4" rx="1"/><path d="M8 9v20M26 9v20M8 15h17M23 13l2 2-2 2M26 22H9M11 20l-2 2 2 2"/>',
+  gantt: '<path d="M4 6v22h26"/><rect x="7" y="9" width="10" height="4" rx="1"/><rect x="13" y="16" width="12" height="4" rx="1"/><rect x="19" y="23" width="9" height="3" rx="1"/>',
+  pie: '<circle cx="17" cy="17" r="11"/><path d="M17 6v11l9 6"/>',
+  time: '<path d="M4 17h26"/><circle cx="9" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="25" cy="17" r="2"/><path d="M9 15V9M17 19v6M25 15V9"/>'
+};
+function diagramMenu() {
+  const btn = document.querySelector('[data-cmd="diagram"]');
+  openGPop(btn, `<div style="width:250px">${DIAGRAMS.map(([k, t, sub]) => `<button class="pgopt" data-k="${k}"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4">${DIAG_IC[k]}</svg><span><b>${esc(trStr(t))}</b><small>${esc(trStr(sub))}</small></span></button>`).join('')}<div class="pghint">${esc(trStr('Se guarda como Mermaid: lo leen GitHub, Obsidian y las IA.'))}</div></div>`);
+  gpop.onclick = e => { const b = e.target.closest('[data-k]'); if (!b) return; hideGPop(); insertDiagram(b.dataset.k); };
+}
+function insertDiagram(kind) {
+  ensureFocus(); const r = getRange(); if (!r) return;
+  const d = DIAGRAMS.find(x => x[0] === kind) || DIAGRAMS[0];
+  let pre;
+  commit(() => {
+    const b = topBlock(r.startContainer) || editor.lastElementChild;
+    pre = document.createElement('pre'); pre.dataset.lang = 'mermaid';
+    pre.textContent = LANG === 'en' ? d[4] : d[3];
+    b.after(pre); if (!pre.nextElementSibling) { const p = document.createElement('p'); p.appendChild(document.createElement('br')); pre.after(p); }
+  });
+  if (pre) { setCaret(pre.nextElementSibling || pre, 0); scheduleMermaid(); }
+}
+
+/* ---------- Tamaño de letra del panel Markdown ---------- */
+function setMdFont(v) { PR.mdfs = Math.max(10, Math.min(24, Math.round(v))); document.body.style.setProperty('--mdfs', PR.mdfs + 'px'); savePrefs(); mdHlKey = ''; try { paintMdHl(false); } catch (e) {} }
+if (PR.mdfs) document.body.style.setProperty('--mdfs', PR.mdfs + 'px');
+function applyMdColors() { document.body.classList.toggle('md-plain', !!PR.mdPlain); document.querySelectorAll('[data-cmd="mdColors"]').forEach(b => b.setAttribute('aria-pressed', PR.mdPlain ? 'false' : 'true')); }
+applyMdColors();
+$('.mdwrap').addEventListener('wheel', e => { if (e.ctrlKey) { e.preventDefault(); setMdFont((PR.mdfs || 13) + (e.deltaY < 0 ? 1 : -1)); } }, { passive: false });
+
+/* ---------- Avisos (callouts) y notas al pie ---------- */
+const CO_TYPES = [['note', 'Nota', '📝', '#e3eefc'], ['info', 'Información', 'ℹ️', '#dcf1f7'], ['tip', 'Consejo', '💡', '#e1f3e6'], ['success', 'Hecho', '✅', '#e1f3e6'], ['important', 'Importante', '❗', '#efe7fb'], ['example', 'Ejemplo', '📌', '#efe7fb'], ['question', 'Pregunta', '❓', '#fde8d4'], ['warning', 'Atención', '⚠️', '#fcf1cc'], ['caution', 'Precaución', '🛑', '#fde3e3'], ['bug', 'Error', '🐞', '#fde3e3'], ['quote', 'Cita destacada', '💬', '#ecece9'], ['abstract', 'Resumen', '📋', '#dcf1f7']];
+function calloutMenu(btn) {
+  const r = getRange(), q = r && closestIn(r.startContainer, 'blockquote');
+  openGPop(btn, `<div style="width:300px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">${CO_TYPES.map(([k, t, ic, bg]) => `<button class="pgopt" data-co="${k}" aria-pressed="${q && q.dataset.callout === k}" style="padding:5px 6px"><span style="width:26px;height:26px;flex:none;display:grid;place-items:center;background:${bg};border-radius:5px;font-size:14px">${ic}</span><span><b>${esc(trStr(t))}</b><small>[!${k.toUpperCase()}]</small></span></button>`).join('')}</div>${q && q.dataset.callout ? `<button class="pgopt" data-co="" style="justify-content:center">${esc(trStr('Quitar el aviso'))}</button>` : ''}<p style="margin:6px 4px 2px;font-size:11px;color:var(--muted);line-height:1.4">${esc(trStr('Obsidian los muestra todos en color; GitHub, los de Nota, Consejo, Importante, Atención y Precaución.'))}</p></div>`);
+  gpop.onclick = e => { const b = e.target.closest('[data-co]'); if (!b) return; hideGPop(); setCallout(b.dataset.co); };
+}
+function setCallout(type) {
+  ensureFocus();
+  const r = getRange(); if (!r) return;
+  commit(() => {
+    let q = closestIn(r.startContainer, 'blockquote');
+    if (!type) { if (q) { delete q.dataset.callout; q.querySelectorAll(':scope > p.co-t').forEach(p => p.classList.remove('co-t')); } return; }
+    if (!q) { const b = topBlock(r.startContainer); if (!b) return; q = document.createElement('blockquote'); b.before(q); q.appendChild(b); if (!/^(P|UL|OL|PRE|TABLE|H[1-6])$/.test(b.tagName)) { const p = document.createElement('p'); p.appendChild(document.createElement('br')); q.appendChild(p); } }
+    q.dataset.callout = type;
+  });
+}
+function insertFootnote() {
+  ensureFocus();
+  const r = getRange(); if (!r || !editor.contains(r.startContainer)) return;
+  const used = [...editor.querySelectorAll('[data-fn]')].map(x => parseInt(x.dataset.fn, 10)).filter(n => !isNaN(n));
+  const id = String((used.length ? Math.max(...used) : 0) + 1);
+  let def;
+  commit(() => {
+    const rg = getRange(); rg.collapse(false);
+    const sup = document.createElement('sup'); sup.className = 'fnref'; sup.contentEditable = 'false'; sup.dataset.fn = id; sup.textContent = id;
+    rg.insertNode(sup);
+    def = document.createElement('p'); def.className = 'fndef'; def.dataset.fn = id; def.appendChild(document.createElement('br'));
+    const defs = editor.querySelectorAll(':scope > p.fndef'); (defs.length ? defs[defs.length - 1] : editor.lastElementChild).after(def);
+  });
+  if (def) { setCaret(def, 0); def.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+}
+// Clic en el número: salta de la llamada a la nota y de la nota a la llamada
+editor.addEventListener('mousedown', e => {
+  const ref = e.target.closest && e.target.closest('sup.fnref');
+  if (ref) { const d = [...editor.querySelectorAll('p.fndef')].find(p => p.dataset.fn === ref.dataset.fn); if (d) { e.preventDefault(); d.scrollIntoView({ block: 'center', behavior: 'smooth' }); setCaret(d, 0); } return; }
+  const def = e.target.closest && e.target.closest('p.fndef');
+  if (def && e.clientX < def.getBoundingClientRect().left + 18) { const rf = [...editor.querySelectorAll('sup.fnref')].find(s => s.dataset.fn === def.dataset.fn); if (rf) { e.preventDefault(); rf.scrollIntoView({ block: 'center', behavior: 'smooth' }); } }
+});
+
+/* ---------- Resaltado (rotulador) ---------- */
+const HL_DEF = '#fff176';
+const HL_COLORS = [['#fff176', 'Amarillo'], ['#b9f6ca', 'Verde'], ['#b3e5fc', 'Azul'], ['#f8bbd0', 'Rosa'], ['#ffcc80', 'Naranja'], ['#d1c4e9', 'Lila']];
+const HL_WORD = { yellow: '#fff176', green: '#b9f6ca', brightgreen: '#b9f6ca', cyan: '#b3e5fc', turquoise: '#b3e5fc', blue: '#b3e5fc', magenta: '#f8bbd0', pink: '#f8bbd0', red: '#ffcc80', darkyellow: '#ffcc80', violet: '#d1c4e9' };
+function hlHex(c) {
+  c = String(c || '').trim().toLowerCase(); if (!c || c === 'transparent' || c === 'initial' || c === 'inherit') return '';
+  const m = c.match(/rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)(?:[\s,\/]+([\d.]+))?/);
+  if (m) { if (m[4] !== undefined && +m[4] === 0) return ''; return '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join(''); }
+  if (/^#[0-9a-f]{3}$/.test(c)) return '#' + c.slice(1).split('').map(x => x + x).join('');
+  if (/^#[0-9a-f]{6}/.test(c)) return c.slice(0, 7);
+  return HL_WORD[c] || (c === 'yellow' ? HL_DEF : c);
+}
+function setHlBar() { const b = document.querySelector('.rb.hl'); if (b) b.style.setProperty('--hlc', PR.hlColor || HL_DEF); }
+function applyHighlight(color) {
+  const r0 = getRange();
+  if (!r0 || r0.collapsed || !editor.contains(r0.commonAncestorContainer)) { toast(trStr('Selecciona el texto que quieres resaltar.')); return; }
+  run(() => {
+    const r = getRange();
+    if (!color) { editor.querySelectorAll('mark').forEach(m => { if (r.intersectsNode(m)) m.replaceWith(...m.childNodes); }); return; }
+    try { document.execCommand('styleWithCSS', false, true); document.execCommand('hiliteColor', false, color); } catch (e) {}
+    try { document.execCommand('styleWithCSS', false, false); } catch (e) {}
+    const before = new Set(editor.querySelectorAll('mark')), fresh = [];
+    editor.querySelectorAll('span[style*="background"]').forEach(sp => {
+      const hex = hlHex(sp.style.backgroundColor); if (!hex) return;
+      const mk = document.createElement('mark'); if (hex !== HL_DEF) mk.style.background = hex;
+      sp.style.removeProperty('background-color'); sp.style.removeProperty('background');
+      if (!sp.getAttribute('style')) { while (sp.firstChild) mk.appendChild(sp.firstChild); sp.replaceWith(mk); } else { while (sp.firstChild) mk.appendChild(sp.firstChild); sp.appendChild(mk); }
+      fresh.push(mk);
+    });
+    // El navegador a veces cambia el color del propio <mark>: se deja solo «background» limpio
+    editor.querySelectorAll('mark').forEach(m => {
+      const hex = hlHex(m.style.backgroundColor) || HL_DEF;
+      if (!before.has(m) && !fresh.includes(m)) fresh.push(m);
+      if (hex === HL_DEF) m.removeAttribute('style'); else m.setAttribute('style', 'background: ' + hex);
+    });
+    // El color nuevo manda: quita los resaltados antiguos de dentro y parte el antiguo que lo rodea
+    fresh.forEach(mk => {
+      if (!editor.contains(mk)) return;
+      mk.querySelectorAll('mark').forEach(o => o.replaceWith(...o.childNodes));
+      const outer = mk.parentElement && mk.parentElement.closest('mark');
+      if (outer && editor.contains(outer)) {
+        const a = document.createRange(); a.setStart(outer, 0); a.setEndBefore(mk); const fa = a.extractContents();
+        const z = document.createRange(); z.setStartAfter(mk); z.setEnd(outer, outer.childNodes.length); const fz = z.extractContents();
+        const o1 = outer.cloneNode(false), o2 = outer.cloneNode(false); o1.append(fa); o2.append(fz);
+        outer.before(o1); outer.after(o2); outer.replaceWith(...outer.childNodes);
+        [o1, o2].forEach(o => { if (!o.textContent) o.remove(); });
+      }
+    });
+    // Une resaltados seguidos del mismo color
+    editor.querySelectorAll('mark').forEach(m => { let nx = m.nextSibling; while (nx && nx.nodeType === 1 && nx.tagName === 'MARK' && (nx.getAttribute('style') || '') === (m.getAttribute('style') || '')) { while (nx.firstChild) m.appendChild(nx.firstChild); const d = nx; nx = nx.nextSibling; d.remove(); } });
+    editor.querySelectorAll('mark mark').forEach(inner => { const outer = inner.parentElement.closest('mark'); if (outer && (outer.style.background || '') === (inner.style.background || '')) inner.replaceWith(...inner.childNodes); });
+  });
+}
+function highlightMenu(btn) {
+  openGPop(btn, `<div style="width:204px"><h4>${esc(trStr('Color de resaltado'))}</h4><div class="hlpal">${HL_COLORS.map(([c, t]) => `<button data-hl="${c}" title="${esc(trStr(t))}" style="background:${c}"></button>`).join('')}</div><button class="pgopt" data-hl="">${esc(trStr('Sin resaltado'))}</button></div>`);
+  gpop.onclick = e => { const b = e.target.closest('[data-hl]'); if (!b) return; hideGPop(); if (b.dataset.hl) { PR.hlColor = b.dataset.hl; savePrefs(); setHlBar(); } applyHighlight(b.dataset.hl || null); };
+}
+setHlBar();
+
+/* ---------- Tablas en el propio documento (como en Notion o Google Docs) ----------
+   Al pasar el ratón por una tabla: «+» a la derecha (columna) y abajo (fila), un tirador en cada fila y en cada columna
+   con su menú, y un estilo de color que se guarda como comentario invisible: <!-- table: blue striped --> */
+const TS_COLORS = [['', 'Gris', '128,128,128'], ['blue', 'Azul', '43,87,154'], ['green', 'Verde', '46,125,50'], ['teal', 'Turquesa', '0,121,107'], ['orange', 'Naranja', '214,110,20'], ['red', 'Rojo', '190,50,50'], ['purple', 'Lila', '110,70,160']];
+const tUI = document.createElement('div'); tUI.className = 'tblui'; tUI.hidden = true; tUI.setAttribute('aria-hidden', 'true');
+tUI.innerHTML = '<button type="button" class="tb-addc" tabindex="-1">+</button><button type="button" class="tb-addr" tabindex="-1">+</button>' +
+  '<button type="button" class="tb-row" tabindex="-1"><svg viewBox="0 0 6 14" width="6" height="14"><g fill="currentColor"><circle cx="3" cy="2.5" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="3" cy="11.5" r="1.3"/></g></svg></button>' +
+  '<button type="button" class="tb-col" tabindex="-1"><svg viewBox="0 0 14 6" width="14" height="6"><g fill="currentColor"><circle cx="2.5" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="11.5" cy="3" r="1.3"/></g></svg></button>';
+page.appendChild(tUI);
+const tbAddC = tUI.querySelector('.tb-addc'), tbAddR = tUI.querySelector('.tb-addr'), tbRow = tUI.querySelector('.tb-row'), tbCol = tUI.querySelector('.tb-col');
+let tHov = null;
+function pageRel(rc) { const pr = page.getBoundingClientRect(), sc = (pr.height / page.offsetHeight) || 1; return { left: (rc.left - pr.left) / sc, top: (rc.top - pr.top) / sc, right: (rc.right - pr.left) / sc, bottom: (rc.bottom - pr.top) / sc, width: rc.width / sc, height: rc.height / sc }; }
+function placeTblUI() {
+  if (!tHov || !editor.contains(tHov.table)) { tUI.hidden = true; tHov = null; return; }
+  const t = tHov.table, tr = pageRel(t.getBoundingClientRect()), px = v => v.toFixed(1) + 'px';
+  tUI.hidden = false;
+  tbAddC.title = trStr('Añadir una columna'); tbAddR.title = trStr('Añadir una fila'); tbRow.title = trStr('Opciones de la fila'); tbCol.title = trStr('Opciones de la columna');
+  Object.assign(tbAddC.style, { left: px(tr.right + 4), top: px(tr.top), height: px(tr.height) });
+  Object.assign(tbAddR.style, { left: px(tr.left), top: px(tr.bottom + 2), width: px(tr.width) });
+  const row = t.rows[tHov.ri], cell = t.rows[0] && t.rows[0].cells[tHov.ci];
+  if (row) { const r = pageRel(row.getBoundingClientRect()); Object.assign(tbRow.style, { left: px(tr.left - 7), top: px(r.top + 3), height: px(Math.max(14, r.height - 6)) }); tbRow.hidden = false; } else tbRow.hidden = true;
+  if (cell) { const r = pageRel(cell.getBoundingClientRect()); Object.assign(tbCol.style, { left: px(r.left + r.width / 2 - 13), top: px(tr.top - 7) }); tbCol.hidden = false; } else tbCol.hidden = true;
+}
+page.addEventListener('mousemove', e => {
+  if (e.buttons || document.body.classList.contains('blkdragging')) return;
+  if (tUI.contains(e.target) || !gpop.hidden) return;
+  let t = e.target.closest && e.target.closest('table');
+  if (t && !editor.contains(t)) t = null;
+  if (!t && tHov) {   // cerca de la tabla (donde están los «+» y los tiradores) se mantiene
+    const r = tHov.table.getBoundingClientRect();
+    if (e.clientX > r.left - 24 && e.clientX < r.right + 34 && e.clientY > r.top - 22 && e.clientY < r.bottom + 34) return;
+  }
+  if (!t) { if (tHov) { tHov = null; placeTblUI(); } return; }
+  let ri = [...t.rows].findIndex(r => { const q = r.getBoundingClientRect(); return e.clientY >= q.top && e.clientY <= q.bottom; });
+  let ci = t.rows[0] ? [...t.rows[0].cells].findIndex(c => { const q = c.getBoundingClientRect(); return e.clientX >= q.left && e.clientX <= q.right; }) : -1;
+  if (ri < 0) ri = tHov && tHov.table === t ? tHov.ri : 0; if (ci < 0) ci = tHov && tHov.table === t ? tHov.ci : 0;
+  if (!tHov || tHov.table !== t || tHov.ri !== ri || tHov.ci !== ci) { tHov = { table: t, ri, ci }; placeTblUI(); }
+});
+page.addEventListener('mouseleave', e => { if (!tUI.contains(e.relatedTarget) && (!gpop || gpop.hidden)) { tHov = null; placeTblUI(); } });
+editor.addEventListener('input', () => { if (tHov) requestAnimationFrame(placeTblUI); });
+tUI.addEventListener('mousedown', e => e.preventDefault());
+// Ejecuta una operación de tabla sobre la fila o columna indicada
+function tblDo(fn, hh) { const h = hh || tHov; if (!h || !editor.contains(h.table)) return; editor.focus({ preventScroll: true }); commit(() => fn(h)); requestAnimationFrame(placeTblUI); }
+function tblCtxAt(h, ri, ci) { const t = h.table, row = t.rows[ri] || t.rows[0]; return { table: t, row, ri: row.rowIndex, ci, cell: row.cells[ci] || row.cells[0] }; }
+tbAddC.onclick = () => tblDo(h => { const t = h.table; for (const row of t.rows) row.appendChild(makeCell(row.parentElement.tagName === 'THEAD' ? 'th' : 'td')); setCaret(t.rows[0].cells[t.rows[0].cells.length - 1], 0); });
+tbAddR.onclick = () => tblDo(h => { const t = h.table, tr = insertRowAt(t, t.rows[t.rows.length - 1], true); setCaret(tr.cells[0], 0); });
+function setColAlign(t, ci, a) { for (const row of t.rows) { const c = row.cells[ci]; if (!c) continue; if (a) c.style.textAlign = a; else c.style.removeProperty('text-align'); if (!c.getAttribute('style')) c.removeAttribute('style'); } }
+function moveRow(t, ri, d) { const row = t.rows[ri], other = t.rows[ri + d]; if (!row || !other || row.parentElement.tagName === 'THEAD' || other.parentElement.tagName === 'THEAD') return; if (d < 0) other.before(row); else other.after(row); }
+function moveCol(t, ci, d) { const n = t.rows[0].cells.length; if (ci + d < 0 || ci + d >= n) return; for (const row of t.rows) { const a = row.cells[ci], b = row.cells[ci + d]; if (!a || !b) continue; if (d < 0) b.before(a); else b.after(a); } }
+function tsMenuHtml(t) {
+  const ts = (t.dataset.ts || '').split(/\s+/), col = TS_COLORS.find(c => c[0] && ts.includes(c[0])), cur = col ? col[0] : '';
+  return `<h4>${esc(trStr('Estilo de la tabla'))}</h4><div class="tspal">${TS_COLORS.map(([k, n, rgb]) => `<button data-tc="${k}" title="${esc(trStr(n))}" aria-pressed="${k === cur}" style="--c:${rgb}"></button>`).join('')}</div>` +
+    `<button class="opt" data-tt="solid" aria-pressed="${ts.includes('solid')}"><span class="chk">${ts.includes('solid') ? '✓' : ''}</span>${esc(trStr('Encabezado de color intenso'))}</button>` +
+    `<button class="opt" data-tt="striped" aria-pressed="${ts.includes('striped')}"><span class="chk">${ts.includes('striped') ? '✓' : ''}</span>${esc(trStr('Filas alternas'))}</button>` +
+    `<button class="opt" data-tt="firstcol" aria-pressed="${ts.includes('firstcol')}"><span class="chk">${ts.includes('firstcol') ? '✓' : ''}</span>${esc(trStr('Primera columna destacada'))}</button>`;
+}
+// Color de una columna: token «c2-green» (columna 2 en verde)
+function colColorHtml(t, ci) {
+  const ts = (t.dataset.ts || '').split(/\s+/), tok = ts.find(x => x.startsWith('c' + (ci + 1) + '-')), cur = tok ? tok.split('-')[1] : '';
+  return `<h4>${esc(trStr('Color de esta columna'))}</h4><div class="tspal">${TS_COLORS.map(([k, n, rgb]) => `<button data-cc="${k}" title="${esc(trStr(k ? n : 'Sin color'))}" aria-pressed="${k === cur}" style="--c:${k ? rgb : '200,200,200'}"${k ? '' : ' class="none"'}></button>`).join('')}</div>`;
+}
+function setColColor(t, ci, k) {
+  let ts = (t.dataset.ts || '').split(/\s+/).filter(x => x && !x.startsWith('c' + (ci + 1) + '-'));
+  if (k) ts.push('c' + (ci + 1) + '-' + k);
+  if (ts.length) t.dataset.ts = ts.join(' '); else delete t.dataset.ts;
+}
+// Al insertar, borrar o mover columnas, los colores de columna se mueven con ellas
+function shiftColColors(t, f) {
+  if (!t.dataset.ts || !/\bc\d+-/.test(t.dataset.ts)) return;
+  const ts = t.dataset.ts.split(/\s+/).map(x => { const m = /^c(\d+)-(\w+)$/.exec(x); if (!m) return x; const n = f(+m[1]); return n ? 'c' + n + '-' + m[2] : null; }).filter(Boolean);
+  if (ts.length) t.dataset.ts = ts.join(' '); else delete t.dataset.ts;
+}
+{ const o = { ...TABLE_OPS };
+  TABLE_OPS.colLeft = c => { shiftColColors(c.table, n => n >= c.ci + 1 ? n + 1 : n); o.colLeft(c); };
+  TABLE_OPS.colRight = c => { shiftColColors(c.table, n => n >= c.ci + 2 ? n + 1 : n); o.colRight(c); };
+  TABLE_OPS.delCol = c => { if (c.table.rows[0].cells.length > 1) shiftColColors(c.table, n => n === c.ci + 1 ? null : n > c.ci + 1 ? n - 1 : n); o.delCol(c); }; }
+const tblColStyle = document.createElement('style'); document.head.appendChild(tblColStyle);
+function paintTblColors() {
+  const rules = [];
+  editor.querySelectorAll('table[data-ts]').forEach(t => {
+    const toks = t.dataset.ts.split(/\s+/).filter(x => /^c\d+-\w+$/.test(x)); if (!toks.length) return;
+    const sel = pgSelector(t), solid = /\bsolid\b/.test(t.dataset.ts);
+    toks.forEach(x => { const [, n, k] = /^c(\d+)-(\w+)$/.exec(x), c = TS_COLORS.find(q => q[0] === k); if (!c) return;
+      rules.push(`${sel} td:nth-child(${n}){background:rgba(${c[2]},.13)!important}${sel} th:nth-child(${n}){background:${solid ? `rgb(${c[2]})` : `rgba(${c[2]},.3)`}!important;${solid ? 'color:#fff;' : ''}}`); });
+  });
+  const txt = rules.join('\n'); if (tblColStyle.textContent !== txt) tblColStyle.textContent = txt;
+}
+function applyTs(t, b) {
+  let ts = (t.dataset.ts || '').split(/\s+/).filter(Boolean);
+  if (b.dataset.tc !== undefined) { ts = ts.filter(x => !TS_COLORS.some(c => c[0] === x)); if (b.dataset.tc) ts.unshift(b.dataset.tc); }
+  if (b.dataset.tt) ts = ts.includes(b.dataset.tt) ? ts.filter(x => x !== b.dataset.tt) : [...ts, b.dataset.tt];
+  if (ts.length) t.dataset.ts = ts.join(' '); else delete t.dataset.ts;
+}
+function tblMenu(btn, kind, hFix) {
+  const h = hFix || (tHov && { ...tHov }); if (!h) return;
+  const t = h.table, I = (k, ic, txt, dis) => `<button class="opt" data-op="${k}"${dis ? ' disabled' : ''}><i data-i="${ic}"></i>${esc(trStr(txt))}</button>`;
+  const head = t.rows[h.ri] && t.rows[h.ri].parentElement.tagName === 'THEAD', nr = t.rows.length, nc = t.rows[0].cells.length;
+  const items = kind === 'row'
+    ? I('rowAbove', 'rowAbove', 'Insertar fila arriba', head) + I('rowBelow', 'rowBelow', 'Insertar fila debajo') + I('rowUp', 'up', 'Subir fila', head || h.ri <= 1) + I('rowDown', 'down', 'Bajar fila', head || h.ri >= nr - 1) + I('delRow', 'delRow', 'Eliminar fila')
+    : I('colLeft', 'colLeft', 'Insertar columna a la izquierda') + I('colRight', 'colRight', 'Insertar columna a la derecha') + I('colMoveL', 'outdent', 'Mover a la izquierda', h.ci <= 0) + I('colMoveR', 'indent', 'Mover a la derecha', h.ci >= nc - 1) +
+      `<div class="sep"></div>` + colColorHtml(t, h.ci) + `<div class="sep"></div>` + I('aL', 'alignLeft', 'Alinear a la izquierda') + I('aC', 'alignCenter', 'Centrar') + I('aR', 'alignRight', 'Alinear a la derecha') + `<div class="sep"></div>` + I('delCol', 'delCol', 'Eliminar columna');
+  openGPop(btn, `<div class="tblmenu" style="width:236px">${items}<div class="sep"></div>${tsMenuHtml(t)}<div class="sep"></div>${I('delTable', 'delTable', 'Eliminar tabla')}</div>`);
+  gpop.querySelectorAll('[data-i]').forEach(i => { i.innerHTML = svgIcon(i.dataset.i); });
+  gpop.onclick = e => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    if (b.dataset.cc !== undefined) { tblDo(hh => setColColor(hh.table, hh.ci, b.dataset.cc), h); tblMenu(btn, kind, h); return; }
+    if (b.dataset.tc !== undefined || b.dataset.tt) { tblDo(hh => applyTs(hh.table, b), h); tblMenu(btn, kind, h); return; }
+    const op = b.dataset.op; if (!op) return; hideGPop();
+    tblDo(hh => {
+      const c = tblCtxAt(hh, hh.ri, hh.ci);
+      if (TABLE_OPS[op]) TABLE_OPS[op](c);
+      else if (op === 'rowUp') moveRow(hh.table, hh.ri, -1); else if (op === 'rowDown') moveRow(hh.table, hh.ri, 1);
+      else if (op === 'colMoveL' || op === 'colMoveR') { const d = op === 'colMoveL' ? -1 : 1, a = hh.ci + 1, b2 = a + d; moveCol(hh.table, hh.ci, d); shiftColColors(hh.table, n => n === a ? b2 : n === b2 ? a : n); hh.ci += d; }
+      else if (op === 'aL') setColAlign(hh.table, hh.ci, ''); else if (op === 'aC') setColAlign(hh.table, hh.ci, 'center'); else if (op === 'aR') setColAlign(hh.table, hh.ci, 'right');
+      if (op === 'delTable') tHov = null;
+    }, h);
+  };
+}
+tbRow.onclick = () => tblMenu(tbRow, 'row');
+tbCol.onclick = () => tblMenu(tbCol, 'col');
+// Botón «Estilo» de la pestaña Tabla (con el cursor en la tabla)
+function tableStyleMenu() {
+  const c = tableCtx(); if (!c) return; const btn = document.querySelector('[data-cmd="tableStyle"]');
+  openGPop(btn, `<div class="tblmenu" style="width:236px">${tsMenuHtml(c.table)}</div>`);
+  gpop.onclick = e => { const b = e.target.closest('button'); if (!b) return; commit(() => applyTs(c.table, b)); hideGPop(); };
+}
+
+/* ---------- Vista de páginas ----------
+   La paginación es por bloques: si un párrafo, una imagen, una tabla o un elemento de lista no cabe en lo que queda
+   de hoja, pasa entero a la siguiente. Los desplazamientos se escriben en una hoja de estilos aparte, así el documento
+   (y el deshacer) no se toca. Al imprimir, cada desplazamiento se convierte en un salto de página real. */
+const PG_GAP = 28, MM = 96 / 25.4;
+function pageGeom() {
+  const [w, h] = PG_SIZES[PG.size] || PG_SIZES.A4, land = PG.orient === 'landscape';
+  const [t, r, b, l] = PG_MARGINS[PG.margins] || PG_MARGINS.normal;
+  return { W: (land ? h : w) * MM, H: (land ? w : h) * MM, t: t * MM, r: r * MM, b: b * MM, l: l * MM, wmm: land ? h : w, hmm: land ? w : h, mm: [t, r, b, l] };
+}
+const pgStyle = document.createElement('style'); document.head.appendChild(pgStyle);
+const pgPrint = document.createElement('style'); document.head.appendChild(pgPrint);
+const sheetsEl = document.createElement('div'); sheetsEl.className = 'sheets'; sheetsEl.setAttribute('aria-hidden', 'true');
+page.insertBefore(sheetsEl, page.firstChild); page.style.position = 'relative';
+let pgPushed = [], pgCount = 1;
+function applyPageGeom() {
+  const g = pageGeom(), px = v => v.toFixed(2) + 'px';
+  page.style.setProperty('--pw', px(g.W)); page.style.setProperty('--ph', px(g.H));
+  page.style.setProperty('--pt', px(g.t)); page.style.setProperty('--pr', px(g.r)); page.style.setProperty('--pb', px(g.b)); page.style.setProperty('--pl', px(g.l));
+  pgPrint.textContent = `@page { size: ${g.wmm}mm ${g.hmm}mm; margin: ${g.mm.map(v => v + 'mm').join(' ')}; }`;
+  schedulePaginate();
+}
+function pgUnits(C) {
+  const out = [], sc = (page.getBoundingClientRect().height / page.offsetHeight) || 1;
+  for (const el of editor.children) {
+    if (!el.getClientRects().length) continue;
+    if (/^(UL|OL)$/.test(el.tagName) && el.children.length > 1) { for (const li of el.children) if (li.getClientRects().length) out.push(li); }
+    // Avisos y citas pasan enteros a la hoja siguiente; solo se parten si son más altos que una hoja
+    else if (el.tagName === 'BLOCKQUOTE' && el.children.length > 1 && C && el.getBoundingClientRect().height / sc > C) { for (const c of el.children) if (c.getClientRects().length) out.push(c); }
+    else out.push(el);
+  }
+  return out;
+}
+function pgSelector(el) {
+  const path = []; let e = el;
+  while (e && e !== editor) { path.unshift(`:nth-child(${[...e.parentElement.children].indexOf(e) + 1})`); e = e.parentElement; }
+  return '#editor > ' + path.join(' > ');
+}
+function paginate() {
+  pgStyle.textContent = ''; pgPushed = [];
+  const pv = document.body.classList.contains('pv');
+  if (!pv) { sheetsEl.innerHTML = ''; page.style.minHeight = ''; pgCount = 1; updatePageInfo(); return; }
+  const g = pageGeom(), P = g.H + PG_GAP, C = g.H - g.t - g.b;
+  const pr = page.getBoundingClientRect(), sc = (pr.height / page.offsetHeight) || 1;
+  const rows = pgUnits(C).map(u => { const r = u.getBoundingClientRect(); return { u, top: (r.top - pr.top) / sc, bot: (r.bottom - pr.top) / sc }; });
+  let S = 0, prevBot = g.t; const rules = [];
+  for (const x of rows) {
+    const top = x.top + S, bot = x.bot + S, h = x.bot - x.top;
+    const p = Math.floor(top / P), ps = p * P + g.t, pe = p * P + g.H - g.b;
+    let target = null;
+    if (top >= pe - 0.5) target = (p + 1) * P + g.t;                                  // empieza en el margen inferior o entre hojas
+    else if (bot > pe + 0.5 && top > ps + 1 && h <= C) target = (p + 1) * P + g.t;      // no cabe: pasa entero a la hoja siguiente
+    else if (bot > pe + 0.5 && h > C && top > ps + C * 0.3) target = (p + 1) * P + g.t; // más alto que una hoja: empieza en hoja nueva
+    if (target !== null) { const d = target - top; rules.push([x.u, Math.max(0, x.top - prevBot) + d]); S += d; }
+    prevBot = x.bot;
+  }
+  const last = rows.length ? rows[rows.length - 1].bot + S : g.t;
+  const lp = Math.floor(last / P); pgCount = Math.max(1, last - lp * P > g.H - g.b + 0.5 ? lp + 2 : lp + 1);
+  pgPushed = rules.map(r => r[0]);
+  pgStyle.textContent = rules.map(([el, m]) => `${pgSelector(el)}{margin-top:${m.toFixed(2)}px !important}`).join('\n') +
+    (rules.length ? `\n@media print { ${rules.map(([el]) => pgSelector(el)).join(',')} { margin-top: 0 !important; break-before: page; } }` : '');
+  page.style.minHeight = (pgCount * P - PG_GAP) + 'px';
+  if (sheetsEl.childElementCount !== pgCount) sheetsEl.innerHTML = Array.from({ length: pgCount }, (_, i) => `<div class="sheet" style="top:${(i * P).toFixed(2)}px;height:${g.H.toFixed(2)}px"></div>`).join('');
+  else [...sheetsEl.children].forEach((sh, i) => { sh.style.top = (i * P).toFixed(2) + 'px'; sh.style.height = g.H.toFixed(2) + 'px'; });
+  updatePageInfo();
+  if (!navpane.hidden && PR.navTab === 'pages') scheduleThumbs();
+}
+let pgRaf = 0;
+function schedulePaginate() { if (!pgRaf) pgRaf = requestAnimationFrame(() => { pgRaf = 0; paginate(); try { scheduleCodebar(); } catch (e) {} }); }
+function currentPage() {
+  if (!document.body.classList.contains('pv')) return 1;
+  const g = pageGeom(), P = g.H + PG_GAP, pr = page.getBoundingClientRect(), sc = (pr.height / page.offsetHeight) || 1;
+  const r = getRange(); let y;
+  const cv = $('#canvas').getBoundingClientRect();
+  if (r && editor.contains(r.startContainer)) { const rr = r.getBoundingClientRect(); y = rr.top || (r.startContainer.nodeType === 1 ? r.startContainer : r.startContainer.parentElement).getBoundingClientRect().top; }
+  if (y == null || y < cv.top || y > cv.bottom) y = cv.top + cv.height / 3;   // el cursor no está a la vista: la hoja que se ve
+  return Math.min(pgCount, Math.max(1, Math.floor(((y - pr.top) / sc) / P) + 1));
+}
+function updatePageInfo() {
+  const el = $('#pginfo'), pv = document.body.classList.contains('pv'); el.hidden = !pv;
+  if (pv) el.textContent = LANG === 'en' ? `Page ${currentPage()} of ${pgCount}` : `Página ${currentPage()} de ${pgCount}`;
+  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('on', i + 1 === currentPage()));
+}
+document.addEventListener('selectionchange', () => { if (document.body.classList.contains('pv')) updatePageInfo(); });
+$('#canvas').addEventListener('scroll', () => { if (document.body.classList.contains('pv')) updatePageInfo(); }, { passive: true });
+window.addEventListener('resize', schedulePaginate);
+editor.addEventListener('load', schedulePaginate, true);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedulePaginate);
+function setPageView(on, quiet) {
+  PR.pview = !!on; document.body.classList.toggle('pv', !!on);
+  document.querySelectorAll('[data-cmd="viewPages"]').forEach(b => b.setAttribute('aria-pressed', on ? 'true' : 'false'));
+  document.querySelectorAll('[data-cmd="viewCont"]').forEach(b => b.setAttribute('aria-pressed', on ? 'false' : 'true'));
+  if (!quiet) savePrefs();
+  // En pantallas estrechas, la hoja se ajusta al ancho
+  if (on && window.innerWidth < 760) { const w = $('#canvas').clientWidth - 24; setZoom(Math.max(50, Math.floor((w / pageGeom().W) * 10) * 10)); }
+  paginate(); updateNav();
+}
+// Menús de Márgenes, Orientación y Tamaño
+function pageMenu(btn, kind) {
+  const sv = (w, h, m) => { const s = 30 / Math.max(w, h), W = w * s, Hh = h * s, x = (34 - W) / 2, y = (34 - Hh) / 2;
+    return `<svg viewBox="0 0 34 34" fill="none" stroke="currentColor"><rect x="${x}" y="${y}" width="${W}" height="${Hh}" rx="1" fill="var(--paper)"/>${m ? `<rect x="${x + m[3] * s}" y="${y + m[0] * s}" width="${W - (m[1] + m[3]) * s}" height="${Hh - (m[0] + m[2]) * s}" stroke-dasharray="1.5 1.5" opacity=".7"/>` : ''}</svg>`; };
+  const [w, h] = PG_SIZES[PG.size], land = PG.orient === 'landscape', W = land ? h : w, Hh = land ? w : h, cm = v => (v / 10).toLocaleString(LANG === 'en' ? 'en' : 'es', { maximumFractionDigits: 2 }) + ' cm';
+  let items = [];
+  if (kind === 'margins') items = [['normal', 'Normal'], ['narrow', 'Estrecho'], ['moderate', 'Moderado'], ['wide', 'Ancho']].map(([k, t]) => { const m = PG_MARGINS[k]; return [k, t, `${trStr('Superior')}: ${cm(m[0])} · ${trStr('Izquierdo')}: ${cm(m[3])}`, sv(W, Hh, m), PG.margins === k]; });
+  if (kind === 'orient') items = [['portrait', 'Vertical', '', sv(Math.min(w, h), Math.max(w, h)), !land], ['landscape', 'Horizontal', trStr('Apaisada'), sv(Math.max(w, h), Math.min(w, h)), land]];
+  if (kind === 'size') items = Object.keys(PG_SIZES).map(k => { const [a, b] = PG_SIZES[k]; return [k, k === 'Letter' ? trStr('Carta') : k, `${(a / 10).toLocaleString(LANG === 'en' ? 'en' : 'es')} × ${(b / 10).toLocaleString(LANG === 'en' ? 'en' : 'es')} cm`, sv(a, b), PG.size === k]; });
+  openGPop(btn, `<div style="width:236px">${items.map(([k, t, sub, ic, on]) => `<button class="pgopt" data-k="${k}" aria-pressed="${on}">${ic}<span><b>${esc(trStr(t))}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span></button>`).join('')}</div>`);
+  gpop.onclick = e => {
+    const o = e.target.closest('[data-k]'); if (!o) return;
+    if (kind === 'margins') PG.margins = o.dataset.k; else if (kind === 'orient') PG.orient = o.dataset.k; else PG.size = o.dataset.k;
+    applyPageGeom(); afterChange(); hideGPop();
+    if (!document.body.classList.contains('pv')) toast(trStr('Se verá en la vista Páginas y al exportar a PDF.'));
+  };
+}
+// Miniaturas de las páginas en el panel de navegación
+let thT = 0;
+function scheduleThumbs() { clearTimeout(thT); thT = setTimeout(renderThumbs, 500); }
+// Solo se dibujan las miniaturas que se ven (documentos largos)
+const thObs = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting && en.target._fill) { en.target._fill(); thObs.unobserve(en.target); } }), { root: null, rootMargin: '300px' });
+function renderThumbs() {
+  if (navpane.hidden || PR.navTab !== 'pages') return;
+  let box = navpane.querySelector('.thumbs');
+  if (!box) { box = document.createElement('div'); box.className = 'thumbs'; navpane.appendChild(box); }
+  if (!document.body.classList.contains('pv')) {
+    box.innerHTML = `<p class="empty">${esc(trStr('Las miniaturas aparecen en la vista Páginas.'))}</p><button class="pgopt" style="justify-content:center;font-weight:600" data-go>${esc(trStr('Ver en páginas'))}</button>`;
+    box.querySelector('[data-go]').onclick = () => setPageView(true); return;
+  }
+  const g = pageGeom(), P = g.H + PG_GAP, tw = Math.max(50, Math.min(PR.thumbW || 110, navpane.clientWidth - 30)), s = tw / g.W;
+  if (!navpane.querySelector('.thsize')) {
+    const z = document.createElement('label'); z.className = 'thsize';
+    z.innerHTML = `${esc(trStr('Tamaño'))}<input type="range" min="50" max="260" step="10" value="${PR.thumbW || 110}" aria-label="${esc(trStr('Tamaño de las miniaturas'))}">`;
+    z.querySelector('input').oninput = e => {
+      PR.thumbW = +e.target.value;
+      // Cambio en directo: solo se reescala lo que ya está dibujado
+      const gg = pageGeom(), PP = gg.H + PG_GAP, w = Math.max(50, Math.min(PR.thumbW, navpane.clientWidth - 30)), sc = w / gg.W;
+      navpane.querySelectorAll('.thumb').forEach((t, i) => { const tv = t.firstChild; tv.style.width = w + 'px'; tv.style.height = (gg.H * sc).toFixed(1) + 'px'; const h = tv.firstChild; if (h) h.style.transform = `scale(${sc}) translateY(${-i * PP}px)`; });
+    };
+    z.querySelector('input').onchange = () => savePrefs();
+    navpane.insertBefore(z, box);
+  }
+  // Cada miniatura es una copia del documento dentro de un shadow DOM, con los mismos estilos y desplazamientos de página
+  const css = [...document.querySelectorAll('style')].map(x => x.textContent).join('\n').replace(/(^|[\s,{}(>+~])body(?=[.\s:{>,[])/g, '$1.bodym');
+  const sheet = new CSSStyleSheet(); try { sheet.replaceSync(css); } catch (e) {}
+  const src = page.cloneNode(true); src.style.zoom = 1; src.querySelector('.sheets')?.remove(); src.querySelectorAll('.codebar').forEach(n => n.remove());
+  const ed = src.querySelector('#editor'); if (ed) { ed.removeAttribute('contenteditable'); ed.removeAttribute('tabindex'); }
+  const html = `<div class="bodym ${document.body.className}" style="background:transparent">${src.outerHTML}</div>`;
+  box.innerHTML = '';
+  for (let i = 0; i < pgCount; i++) {
+    const t = document.createElement('button'); t.className = 'thumb'; t.title = (LANG === 'en' ? 'Page ' : 'Página ') + (i + 1);
+    t.innerHTML = `<div class="tv" style="width:${tw}px;height:${(g.H * s).toFixed(1)}px"></div><span>${i + 1}</span>`;
+    const holder = document.createElement('div'); holder.style.cssText = `all:initial;display:block;position:absolute;left:0;top:0;transform-origin:0 0;width:${g.W}px;transform:scale(${s}) translateY(${-i * P}px)`;
+    t.firstChild.appendChild(holder); thObs.observe(t); t._fill = () => { if (holder.shadowRoot) return; const root = holder.attachShadow({ mode: 'open' }); root.adoptedStyleSheets = [sheet]; root.innerHTML = html; };
+    t.onclick = () => { const cv = $('#canvas'), sc = (page.getBoundingClientRect().height / page.offsetHeight) || 1; cv.scrollTop = page.offsetTop + i * P * sc - 12; updatePageInfo(); };
+    box.appendChild(t);
+  }
+  updatePageInfo();
+}
+
 /* ---------- API para integrar el editor ---------- */
 window.MarkDawn = {
   getMarkdown,
@@ -4055,20 +5165,21 @@ window.MarkDawn = {
   prefs = PR.md == null ? null : { ...PR };   // copia: setMdPos/setMdPanel guardan y cambian PR
   if (draft && typeof draft.md === 'string' && draft.md.trim()) {
     fileName.value = draft.name || DEF_NAME;
-    editor.innerHTML = mdToHtml(draft.md);
+    editor.innerHTML = docToHtml(draft.md);
   } else {
     fileName.value = LANG === 'en' ? 'Welcome' : 'Bienvenida';
-    editor.innerHTML = mdToHtml(sampleText());
+    editor.innerHTML = docToHtml(sampleText());
   }
   normalizeEditor();
   lastMd = getMarkdown();
   H.reset();
   const wide = window.innerWidth > 1100;
-  setMdPos(prefs ? !!prefs.bottom : false);
+  setMdPos(prefs ? (prefs.bottom ? 'bottom' : prefs.mdLeft ? 'left' : 'right') : 'right');
   setMdPanel(prefs ? !!prefs.md : wide);
   setNav(prefs ? !!prefs.nav : false);
   setZoom(100);
   applyAppearance();
+  setPageView(PR.pview == null ? window.innerWidth >= 1000 : !!PR.pview, true);
   trTree(document.body);
   if (LANG === 'en') mdArea.setAttribute('aria-label', 'Markdown code');
   updateMd(true);

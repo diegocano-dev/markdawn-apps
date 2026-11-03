@@ -24,19 +24,24 @@ Cada una es un único archivo HTML, sin dependencias ni compilación. La [págin
 
 Nunca ves un `#` ni un `**` mientras escribes, y cada documento se guarda como Markdown limpio que pueden leer personas, herramientas e IA.
 
-- **Cinta tipo Word** con las pestañas Archivo, Inicio, Insertar y Vista, y una pestaña Tabla al estar dentro de una tabla
-- **Galería de estilos**: Normal, Título 1–4, Cita y Código
-- **Formato**: negrita, cursiva, tachado, código en línea, vínculos y borrar formato
+- **Cinta tipo Word** con las pestañas Archivo, Inicio, Insertar, Disposición y Vista, y una pestaña Tabla al estar dentro de una tabla
+- **Galería de estilos**: Normal, Título 1–4, Cita y Código, además de negrita, cursiva, tachado, **resaltado**, código en línea y vínculos
 - **Listas** con viñetas, numeradas y de tareas, con Tab y Mayús+Tab para cambiar de nivel
-- **Tablas**, imágenes, bloques de código, citas y líneas horizontales
-- **Panel Markdown en directo**, en el lateral o abajo, que también puedes editar
-- **Atajos de Markdown al escribir**: `# `, `- `, `1. `, `> `, `[ ] `, `**negrita**`, `` `código` ``
+- **Vista de páginas como en Word**: tamaño del papel, orientación, márgenes y miniaturas de las hojas; el PDF sale igual que en pantalla
+- **Tablas que se editan en la propia hoja**: un **+** para añadir filas y columnas, menús para insertar, mover, alinear o borrar, y colores para el encabezado, filas alternas, la primera columna o cualquier columna
+- **Avisos de color** (`> [!TIP]`), **notas al pie**, **código con colores**, **fórmulas** (KaTeX) y **diagramas** (Mermaid: flujo, mapa mental, secuencia, Gantt, tarta, línea de tiempo)
+- **Panel Markdown en directo** a la derecha, a la izquierda o abajo, con tamaño ajustable, en colores o en negro, que también puedes editar
+- **Atajos de Markdown al escribir**: `# `, `- `, `1. `, `> `, `[ ] `, `**negrita**`, `==resaltado==`, `` `código` ``
 - **Abre cualquier archivo `.md`** sin romperlo, y pega limpio desde Word, Google Docs y páginas web
-- Panel de navegación, buscar y reemplazar, zoom, deshacer y rehacer, contador de palabras
+- Panel de navegación, títulos plegables, buscar y reemplazar, zoom, deshacer y rehacer, contador de palabras
 - **Seis temas** para ver el documento (Word, Sobrio, Académico, Notion, GitHub y Lectura) y **modo oscuro**; el Markdown no cambia
 - **Exportar PDF** y **Copiar para Word** (pega con formato en Word, Google Docs u Outlook)
 - **Carpeta de trabajo** (Chrome y Edge): los documentos se guardan solos en tu carpeta, y exportar o importar la configuración
 - Interfaz en **español e inglés**, cinta plegable y ayuda incluida (**F1**)
+
+Descarga la carpeta con el HTML y su carpeta `libs/` (Mermaid y KaTeX) desde [Releases](https://github.com/diegocano-dev/markdawn-apps/releases) para usarlo sin conexión.
+
+**[Writer Pro](https://diegocanodev.gumroad.com/l/markdawn-writer-pro)** añade mover bloques como en Notion, columnas, mapas mentales y diagramas de flujo con tres estilos propios, y mapas mentales que se editan en el propio documento.
 
 Markdown no tiene alineación, así que Writer la guarda como un comentario invisible encima del bloque:
 
@@ -163,7 +168,7 @@ MarkDawnMind.setMarkdown('# Idea\n- Uno\n- Dos');
 - Abrir archivos `.md` en Slides
 - Temas: tipos de letra y colores para todo el documento o la presentación, sin cambiar el Markdown
 - Interfaz en inglés para Slides
-- App instalable (PWA) y versión de escritorio para Windows
+- App instalable (PWA) y versión para la Microsoft Store
 - Una librería y plugins para ver los archivos MarkDawn en Obsidian, VS Code y páginas web
 
 ## Contribuciones
@@ -172,4 +177,6 @@ Este proyecto **no acepta contribuciones de código** (pull requests). Si tienes
 
 ## Licencia
 
-[MIT](LICENSE) © 2026 Diego Cano
+© 2026 Diego Cano. Desde noviembre de 2026, las versiones nuevas se publican con la licencia [GNU General Public License v3](LICENSE): puedes usarlas, estudiarlas, compartirlas y modificarlas libremente, pero cualquier versión que distribuyas también debe ser GPL v3, con su código fuente. Las versiones publicadas antes siguen con la licencia MIT.
+
+**MarkDawn** y su logotipo son marcas del autor: las versiones modificadas deben usar otro nombre.

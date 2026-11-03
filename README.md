@@ -24,19 +24,24 @@ Each one is a single HTML file with no dependencies and no build step. The [home
 
 You never see a `#` or `**` while you write, and every document is saved as clean Markdown that people, tools and AI models can read.
 
-- **Word-style ribbon** with File, Home, Insert and View tabs, plus a Table tab when you are inside a table
-- **Styles gallery**: Normal, Heading 1–4, Quote and Code
-- **Formatting**: bold, italic, strikethrough, inline code, links, clear formatting
+- **Word-style ribbon** with File, Home, Insert, Layout and View tabs, plus a Table tab when you are inside a table
+- **Styles gallery**: Normal, Heading 1–4, Quote and Code, plus bold, italic, strikethrough, **highlight**, inline code and links
 - **Lists**: bulleted, numbered and task lists, with Tab and Shift+Tab to change levels
-- **Tables**, images, code blocks, quotes and horizontal rules
-- **Live Markdown panel**, at the side or at the bottom, that you can also edit directly
-- **Markdown shortcuts while typing**: `# `, `- `, `1. `, `> `, `[ ] `, `**bold**`, `` `code` ``
+- **Page view like in Word**: paper size, orientation, margins and page thumbnails; the PDF matches the screen
+- **Tables you edit right on the page**: a **+** to add rows and columns, menus to insert, move, align or delete, and colors for the header, banded rows, the first column or any column
+- **Colored callouts** (`> [!TIP]`), **footnotes**, **code with colors**, **formulas** (KaTeX) and **diagrams** (Mermaid: flowchart, mind map, sequence, Gantt, pie, timeline)
+- **Live Markdown panel** on the right, left or bottom, resizable, with colors or plain text, that you can also edit directly
+- **Markdown shortcuts while typing**: `# `, `- `, `1. `, `> `, `[ ] `, `**bold**`, `==highlight==`, `` `code` ``
 - **Opens any `.md` file** without breaking it, and pastes cleanly from Word, Google Docs and web pages
-- Navigation pane, find and replace, zoom, undo and redo, word count
+- Navigation pane, collapsible headings, find and replace, zoom, undo and redo, word count
 - **Six themes** to view the document (Word, Plain, Academic, Notion, GitHub and Reading) and **dark mode**; the Markdown doesn't change
 - **Export PDF** and **Copy for Word** (pastes with formatting into Word, Google Docs or Outlook)
 - **Working folder** (Chrome and Edge): documents save themselves to your folder, plus export or import your settings
 - **English and Spanish** interface, collapsible ribbon and built-in help (**F1**)
+
+Download the folder with the HTML and its `libs/` folder (Mermaid and KaTeX) from [Releases](https://github.com/diegocano-dev/markdawn-apps/releases) to use it offline.
+
+**[Writer Pro](https://diegocanodev.gumroad.com/l/markdawn-writer-pro)** adds Notion-style block dragging, columns, mind maps and flowcharts in three styles of its own, and mind maps you edit right on the page.
 
 Markdown has no alignment, so Writer stores it as an invisible comment above the block:
 
@@ -163,7 +168,7 @@ MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 - Open `.md` files in Slides
 - Themes: fonts and colors for a whole document or presentation, without changing the Markdown
 - English interface for Slides
-- Installable app (PWA) and a Windows desktop version
+- Installable app (PWA) and Microsoft Store version
 - A renderer library and plugins to view MarkDawn files in Obsidian, VS Code and websites
 
 ## Contributing
@@ -172,4 +177,6 @@ This project **does not accept code contributions** (pull requests). If you have
 
 ## License
 
-[MIT](LICENSE) © 2026 Diego Cano
+© 2026 Diego Cano. From November 2026, new versions are released under the [GNU General Public License v3](LICENSE): you can use, study, share and modify them freely, but any version you distribute must also be GPL v3, with its source code. Versions published before then remain under the MIT license.
+
+**MarkDawn** and its logo are the author's trademarks: modified versions must use a different name.
