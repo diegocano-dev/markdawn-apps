@@ -2,12 +2,6 @@
 
 **Herramientas con el aspecto de Office de siempre que lo guardan todo en Markdown.**
 
-
-
-https://github.com/user-attachments/assets/0dd5594a-afc6-4b17-8f99-285445e0a284
-
-*En el vídeo: MarkDawn Writer Pro. La versión gratuita incluye páginas, tablas editables, avisos, diagramas y modo oscuro; mover bloques, columnas y los mapas editables son de [Writer Pro](https://diegocanodev.gumroad.com/l/markdawn-writer-pro).*
-
 Markdown es el formato que mejor entienden las IA, y funciona en todas partes: GitHub, Obsidian, wikis, sitios de documentación. Pero pedirle a alguien sin conocimientos técnicos que escriba en él es una barrera real. MarkDawn Apps mantienen la interfaz que la gente ya conoce y solo guardan Markdown.
 
 [Read in English](README.md)
@@ -114,9 +108,9 @@ flowchart LR
 
 ![MarkDawn Mind: un mapa mental orgánico con ramas cónicas](mind-screenshot.png)
 
-Este repositorio tiene **MarkDawn Mind Lite**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
+Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
 
-> La **versión completa** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, imágenes dentro de los temas y estilos propios por niveles. Está disponible en [Gumroad](https://diegocanodev.gumroad.com/l/markdawn-mind).
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, imágenes dentro de los temas y estilos propios por niveles.
 
 - **Pensada para el teclado**: Tab crea un tema hijo, Intro uno hermano, y basta con escribir para editar
 - **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha y árbol (tipo carpetas)
@@ -130,7 +124,7 @@ Este repositorio tiene **MarkDawn Mind Lite**, la edición gratuita. La interfaz
 - **Texturas de fondo**: papel, lino y cuaderno
 - Ayuda incluida: pulsa **F1**
 
-La **edición completa** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, imágenes dentro de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
+**Mind Pro** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, imágenes dentro de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
 
 ### Cómo se guarda un mapa mental
 

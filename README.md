@@ -2,12 +2,6 @@
 
 **Familiar Office-style tools that save everything as Markdown.**
 
-
-
-https://github.com/user-attachments/assets/b67082ba-e65e-4b73-922d-beafaa7a6ed3
-
-*Shown: MarkDawn Writer Pro. The free version includes pages, editable tables, callouts, diagrams and dark mode; block dragging, columns and editable mind maps are part of [Writer Pro](https://diegocanodev.gumroad.com/l/markdawn-writer-pro).*
-
 Markdown is the format AI models understand best, and it works everywhere: GitHub, Obsidian, wikis, documentation sites. But asking someone without technical knowledge to write in it is a real barrier. MarkDawn Apps keep the interface people already know and save only Markdown.
 
 [Leer en español](README.es.md)
@@ -114,9 +108,9 @@ flowchart LR
 
 ![MarkDawn Mind: an organic mind map with tapered branches](mind-screenshot.png)
 
-This repository has **MarkDawn Mind Lite**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
+This repository has **MarkDawn Mind**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
 
-> The **full version** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, images inside topics and custom per-level styles. Get it on [Gumroad](https://diegocanodev.gumroad.com/l/markdawn-mind).
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, images inside topics and custom per-level styles.
 
 - **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
 - **Organic maps** with tapered, curved branches, plus right-side and tree (folder-like) layouts
@@ -130,7 +124,7 @@ This repository has **MarkDawn Mind Lite**, the free edition. Its interface is i
 - **Background textures**: paper, linen and notebook
 - Built-in help: press **F1**
 
-The **full edition** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, images inside topics, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
+**Mind Pro** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, images inside topics, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
 
 ### How a mind map is saved
 
