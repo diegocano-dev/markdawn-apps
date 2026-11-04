@@ -345,6 +345,8 @@
   .codebar button:hover { border-color: var(--word); color: var(--word); }
   body.dark .codebar button:hover { color: #9cc0f2; }
   @media print { .codebar { display: none !important; } #editor pre[data-fold] { max-height: none !important; } #editor pre[data-fold]::before { display: none; } }
+  #editor pre[data-fm] { border-left: 3px solid var(--muted); }
+  #editor pre[data-fm]::after { content: "Front matter" !important; text-transform: uppercase; letter-spacing: .05em; }
   #editor pre[data-lang]::after {
     content: attr(data-lang); position: absolute; top: 4px; right: 8px; font: 11px var(--ui); color: var(--muted);
     pointer-events: none;
@@ -743,7 +745,7 @@
     <span class="ext">.md</span>
     <span class="state" id="save-state">Guardado en este navegador</span>
   </div>
-  <span class="appname no-tr">MarkDawn Writer · 0.9.2 beta</span>
+  <span class="appname no-tr">MarkDawn Writer · 0.9.3 beta</span>
 
   <button class="qa txt" data-cmd="lang" id="lang-btn" title="Idioma · Language">ES</button>
   <button class="qa" data-cmd="dark" id="dark-btn" title="Modo oscuro" aria-pressed="false"><i data-i="moon"></i></button>
@@ -2022,6 +2024,8 @@ function codeMd(n) {
   if (t.endsWith('\n')) t = t.slice(0, -1);
   const codeEl = n.querySelector('code');
   const lang = n.dataset.lang || ((codeEl && codeEl.className.match(/language-(\S+)/)) || [])[1] || '';
+  // Front matter (YAML entre ---): solo al principio del documento; en otro sitio se guarda como bloque de código YAML
+  if (n.dataset.fm && !n.previousElementSibling && !/^(---|\.\.\.)\s*$/m.test(t)) return '---\n' + t + (t ? '\n' : '') + '---';
   let f = '```';
   while (t.includes(f)) f += '`';
   return (n.dataset.fold ? '<!-- fold -->\n' : '') + f + lang + '\n' + t + '\n' + f;
@@ -3296,9 +3300,12 @@ function placeCodebar() {
   cbFold.textContent = trStr(folded ? 'Mostrar todo' : 'Contraer');
   cbFold.title = folded ? (LANG === 'en' ? `Show all ${preLines(pre)} lines` : `Mostrar las ${preLines(pre)} líneas`) : trStr('Contraer el bloque (solo en la vista; el Markdown guarda todo el código)');
   codebar.hidden = false;
-  codebar.style.top = (pre.offsetTop + 4) + 'px';
+  cbLang.hidden = !!pre.dataset.fm;
+  // Posición respecto a la hoja (#page), sea cual sea el contenedor del bloque (vista de páginas, columnas…) y el zoom
+  const pr = cbPage.getBoundingClientRect(), sc = (pr.height / cbPage.offsetHeight) || 1, rr = pre.getBoundingClientRect();
+  codebar.style.top = ((rr.top - pr.top) / sc - cbPage.clientTop + 4) + 'px';
   try { if (codebarHook) codebarHook(pre); } catch (e) {}
-  codebar.style.left = (pre.offsetLeft + pre.offsetWidth - codebar.offsetWidth - 6) + 'px';
+  codebar.style.left = ((rr.right - pr.left) / sc - cbPage.clientLeft - codebar.offsetWidth - 6) + 'px';
 }
 let codebarHook = null;
 let cbRaf = 0; const scheduleCodebar = () => { if (!cbRaf) cbRaf = requestAnimationFrame(() => { cbRaf = 0; placeCodebar(); }); };
@@ -3716,7 +3723,14 @@ $('#rep-all').onclick = () => {
 /* ---------- Archivo ---------- */
 let downloadsCap = null;
 try { if (window.claude && typeof window.claude.use === 'function') downloadsCap = window.claude.use('downloads').catch(() => null); } catch (e) {}
-function getMarkdown() { const pc = pageComment(), body = htmlToMd(editor); return pc ? pc + '\n\n' + body : body; }
+function getMarkdown() {
+  const pc = pageComment(), body = htmlToMd(editor);
+  if (!pc) return body;
+  // El front matter tiene que ser lo primero del archivo: el comentario de página va después
+  const fm = editor.firstElementChild && editor.firstElementChild.dataset.fm && body.match(/^---\n[\s\S]*?\n---(?=\n|$)|^---\n---(?=\n|$)/);
+  if (fm) { const rest = body.slice(fm[0].length).replace(/^\n+/, ''); return fm[0] + '\n\n' + pc + (rest ? '\n\n' + rest : ''); }
+  return pc + '\n\n' + body;
+}
 // Configuración de la página del documento: se guarda como comentario invisible al principio del Markdown
 const PG_SIZES = { A4: [210, 297], A5: [148, 210], A3: [297, 420], Letter: [215.9, 279.4], Legal: [215.9, 355.6] };
 const PG_MARGINS = { normal: [25, 25, 25, 25], narrow: [12.7, 12.7, 12.7, 12.7], moderate: [25.4, 19.1, 25.4, 19.1], wide: [25.4, 50.8, 25.4, 50.8] };
@@ -3736,13 +3750,24 @@ function pageComment() {
 }
 // Separa el comentario de página (si lo hay) del resto del documento
 function docToHtml(md) {
-  const lines = String(md || '').replace(/^\uFEFF/, '').split('\n'); let i = 0;
+  const lines = String(md || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n'); let i = 0;
+  // Front matter (YAML entre --- al principio del archivo, como en Obsidian, Hugo o Jekyll): se guarda tal cual
+  let fmHtml = '';
+  if (/^---\s*$/.test(lines[0] || '')) {
+    let j = 1; while (j < lines.length && !/^(---|\.\.\.)\s*$/.test(lines[j])) j++;
+    const t = lines.slice(1, j).join('\n'), first = (t.match(/^\s*(\S.*)$/m) || [])[1];
+    // Solo si parece YAML (clave: valor) o está vacío; si no, el --- del principio es una línea horizontal
+    if (j < lines.length && (!first || /^(#|-\s|[\w$"'][^:]*:(\s|$))/.test(first))) {
+      fmHtml = `<pre data-lang="yaml" data-fm="1">${t ? esc(t) : '<br>'}</pre>`;
+      lines.splice(0, j + 1);
+    }
+  }
   while (i < lines.length && !lines[i].trim()) i++;
   const m = i < lines.length && lines[i].match(PAGE_RE);
   PG = m ? parsePage(m[1]) : { ...PG_DEF };
   if (m) { lines.splice(0, i + 1); while (lines.length && !lines[0].trim()) lines.shift(); }
   try { applyPageGeom(); } catch (e) {}
-  return mdToHtml(lines.join('\n'));
+  return fmHtml + mdToHtml(lines.join('\n'));
 }
 function setMarkdown(md, opts) {
   opts = opts || {};
