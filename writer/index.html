@@ -729,6 +729,7 @@
   @media (max-width: 420px) { body.tabs-title .titlebar .qa[data-cmd="save"] { display: none; } }
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
+<!-- pwa --><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#2b579a"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Writer"><!-- /pwa -->
 </head>
 <body>
 
@@ -3790,6 +3791,8 @@ function loadFile(file) {
   };
   fr2.readAsText(file);
 }
+// Abrir archivos desde el sistema: con la app instalada, doble clic en un .md (o «Abrir con») lo abre aquí
+if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (lp.files && lp.files.length) { try { loadFile(await lp.files[0].getFile()); } catch (e) {} } });
 $('#file-input').addEventListener('change', e => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ''; });
 async function newDoc() {
   const res = await dialog({ title: 'Documento nuevo', message: 'Se cerrará el documento actual. Puedes recuperarlo con Deshacer (Ctrl+Z).', ok: 'Crear documento' });
@@ -5189,5 +5192,6 @@ window.MarkDawn = {
 })();
 </script>
 
+<!-- pwa --><script>if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script><!-- /pwa -->
 </body>
 </html>
