@@ -3,7 +3,7 @@
   "short_name": "Writer",
   "description": "Escribe como en Word, guarda en Markdown.",
   "lang": "es",
-  "id": "./",
+  "id": "markdawn-writer",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
