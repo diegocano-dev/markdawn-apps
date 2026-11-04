@@ -3,7 +3,7 @@
   "short_name": "Mind",
   "description": "Mapas mentales como en Office, guardados en Markdown.",
   "lang": "es",
-  "id": "./",
+  "id": "markdawn-mind",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
