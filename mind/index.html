@@ -546,6 +546,7 @@
     .mini { width: 140px; height: 92px; }
   }
 </style>
+<!-- pwa --><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0d767a"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mind"><!-- /pwa -->
 </head>
 <body>
 
@@ -4036,6 +4037,8 @@ function fallbackCopy(t, done) { const ta = document.createElement('textarea'); 
 function confirmLose() { return true; }
 // Soltar un archivo .md sobre la ventana
 document.addEventListener('dragover', e => { if (e.dataTransfer && [...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
+// Abrir archivos desde el sistema: con la app instalada, doble clic en un .md (o «Abrir con») lo abre aquí
+if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (!lp.files || !lp.files.length) return; try { const f = await lp.files[0].getFile(), p = parseAny(await f.text(), f.name); if (p) { loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); } } catch (e) {} });
 document.addEventListener('drop', e => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (!f) return; e.preventDefault(); const fr = new FileReader(); fr.onload = () => { const p = parseAny(String(fr.result), f.name); if (p) { loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); } }; fr.readAsText(f); });
 
 /* ---------- Divisores de paneles ---------- */
@@ -4101,5 +4104,6 @@ window.MarkDawnMind = {
 })();
 </script>
 
+<!-- pwa --><script>if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script><!-- /pwa -->
 </body>
 </html>
