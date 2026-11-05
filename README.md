@@ -12,11 +12,11 @@ Markdown is the format AI models understand best, and it works everywhere: GitHu
 
 | App | What it is | Try it |
 | --- | --- | --- |
-| **MarkDawn Writer** | A Word-style document editor (English and Spanish) | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
-| **MarkDawn Slides** | A PowerPoint-style slide editor | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/slides/) |
-| **MarkDawn Mind** | Mind maps with an Office-style ribbon (English and Spanish) | [Live demo →](https://diegocano-dev.github.io/markdawn-apps/mind/) |
+| **MarkDawn Writer** | A Word-style document editor (English and Spanish) | [Live demo →](https://markdawn.net/writer/) |
+| **MarkDawn Slides** | A PowerPoint-style slide editor | [Live demo →](https://markdawn.net/slides/) |
+| **MarkDawn Mind** | Mind maps with an Office-style ribbon (English and Spanish) | [Live demo →](https://markdawn.net/mind/) |
 
-Each one is a single HTML file with no dependencies and no build step. The [home page](https://diegocano-dev.github.io/markdawn-apps/) links to all three.
+Each one is a single HTML file with no dependencies and no build step. The [home page](https://markdawn.net/) links to all three. Writer and Mind can also be **installed as apps** from Chrome, Edge or Safari: they get their own window and icon and work offline.
 
 ---
 
@@ -177,7 +177,7 @@ MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 
 ## Contributing
 
-This project **does not accept code contributions** (pull requests). If you have an idea or find a bug, please tell us in [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): every suggestion is read.
+This project **does not accept code contributions** (pull requests). If you have an idea or find a bug, please tell us in [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): every suggestion is read. You can also write to [hello@markdawn.net](mailto:hello@markdawn.net).
 
 ## License
 

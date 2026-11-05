@@ -12,11 +12,11 @@ Markdown es el formato que mejor entienden las IA, y funciona en todas partes: G
 
 | Aplicación | Qué es | Pruébala |
 | --- | --- | --- |
-| **MarkDawn Writer** | Un editor de documentos con aspecto de Word (en español e inglés) | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/writer/) |
-| **MarkDawn Slides** | Un editor de diapositivas con aspecto de PowerPoint | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/slides/) |
-| **MarkDawn Mind** | Mapas mentales con cinta tipo Office (en español e inglés) | [Demo en línea →](https://diegocano-dev.github.io/markdawn-apps/mind/) |
+| **MarkDawn Writer** | Un editor de documentos con aspecto de Word (en español e inglés) | [Demo en línea →](https://markdawn.net/writer/) |
+| **MarkDawn Slides** | Un editor de diapositivas con aspecto de PowerPoint | [Demo en línea →](https://markdawn.net/slides/) |
+| **MarkDawn Mind** | Mapas mentales con cinta tipo Office (en español e inglés) | [Demo en línea →](https://markdawn.net/mind/) |
 
-Cada una es un único archivo HTML, sin dependencias ni compilación. La [página de inicio](https://diegocano-dev.github.io/markdawn-apps/) enlaza a las tres.
+Cada una es un único archivo HTML, sin dependencias ni compilación. La [página de inicio](https://markdawn.net/) enlaza a las tres. Writer y Mind también se pueden **instalar como apps** desde Chrome, Edge o Safari: tienen su propia ventana e icono y funcionan sin internet.
 
 ---
 
@@ -177,7 +177,7 @@ MarkDawnMind.setMarkdown('# Idea\n- Uno\n- Dos');
 
 ## Contribuciones
 
-Este proyecto **no acepta contribuciones de código** (pull requests). Si tienes una idea o encuentras un error, cuéntalo en [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): todas las sugerencias se leen.
+Este proyecto **no acepta contribuciones de código** (pull requests). Si tienes una idea o encuentras un error, cuéntalo en [Issues](https://github.com/diegocano-dev/markdawn-apps/issues): todas las sugerencias se leen. También puedes escribir a [hello@markdawn.net](mailto:hello@markdawn.net).
 
 ## Licencia
 
