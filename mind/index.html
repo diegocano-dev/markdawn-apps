@@ -383,8 +383,8 @@
   .ytw .yyt { transform-origin: 100% 100%; } .ytw .ystop { transform-origin: 100% 0; } .ytw .ych { transform-origin: 0 100%; }
   .ytw .yplay { transform: scale(var(--iz, 1)); }
   /* Capa invisible sobre el vídeo: la pizarra sabe que el ratón ha llegado (dentro del vídeo ya no recibe nada) y entonces se aparta */
-  .ytw .yshield { position: absolute; inset: 0; z-index: 1; }
-  .n.hov .ytw .yshield, body.dragging .ytw .yshield { display: none; }
+  /* Capa sobre el vídeo (menos la barra de controles de YouTube): la rueda hace zoom, arrastrar mueve el tema y un clic pausa o reanuda */
+  .ytw .yshield { position: absolute; left: 0; right: 0; top: 0; bottom: 46px; z-index: 1; cursor: pointer; }
   .ytw .ybtn:hover { opacity: 1; background: #000; }
   .ytw .yyt { right: 6px; bottom: 6px; }
   .ytw .ystop { right: 6px; top: 6px; padding: 1px 7px; font-size: 14px; }
@@ -1526,7 +1526,7 @@ function nodeInner(n, inf) {
   const W = mediaW(n, inf.d), vu = vidOf(n), yt = ytId(vu), cover = n.mfit === 'cover' && hasMedia(n);
   if (yt) {
     const st = n.vstart != null ? n.vstart : ytStart(vu), chip = st || n.vchap ? `<span class="ych">${st ? fmtT(st) : ''}${st && n.vchap ? ' · ' : ''}${esc(n.vchap || '')}</span>` : '';
-    if (PLAYING === n.id && !LITE) m += `<span class="ytw playing" style="width:${W}px"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1${st ? '&start=' + st : ''}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><i class="yshield"></i><b class="ybtn ystop" data-act="vstop" title="${esc(trStr('Cerrar el vídeo'))}">×</b><b class="ybtn yyt" data-act="ytopen">YouTube ↗</b></span>`;
+    if (PLAYING === n.id && !LITE) m += `<span class="ytw playing" style="width:${W}px"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1&enablejsapi=1${st ? '&start=' + st : ''}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><i class="yshield" data-act="vtoggle"></i><b class="ybtn ystop" data-act="vstop" title="${esc(trStr('Cerrar el vídeo'))}">×</b><b class="ybtn yyt" data-act="ytopen">YouTube ↗</b></span>`;
     else m += `<span class="ytw" data-act="vid" style="width:${W}px" title="${esc(LITE ? trStr('Ver en YouTube') : trStr('Reproducir aquí'))}"><img class="nimg" src="https://i.ytimg.com/vi/${yt}/hqdefault.jpg" draggable="false" alt="" onerror="this.style.visibility='hidden'"><i class="yplay">▶</i>${LITE ? `<em class="yhov">${esc(trStr('Ver en YouTube'))}</em>` : `<b class="ybtn yyt" data-act="ytopen">YouTube ↗</b>`}${chip}</span>`;
   }
   if (n.img) m += `<img class="nimg" src="${esc(imgSrc(n.img))}" style="width:${W}px" draggable="false" alt="">`;
@@ -2641,7 +2641,7 @@ board.addEventListener('pointerdown', e => {
       if (relFrom != null) { finishRelation(id); return; }
       const act = e.target.closest('[data-act]');
       // El vídeo se abre con un clic limpio: si se arrastra, solo se mueve el tema
-      const deferAct = act && /^(vid|ytopen|web)$/.test(act.dataset.act) ? act.dataset.act : null;
+      const deferAct = act && /^(vid|vtoggle|ytopen|web)$/.test(act.dataset.act) ? act.dataset.act : null;
       if (act && !deferAct) { onNodeAct(act.dataset.act, node(id), e); return; }
       start.act = deferAct; start.actT = e.target;
       selRel = null;
@@ -2974,6 +2974,11 @@ function onNodeAct(act, n, e) {
   else if (act === 'note') { sel = new Set([n.id]); editNote(n); }
   else if (act === 'vid') { if (LITE) openVid(n); else { PLAYING = n.id; render({ light: true }); } }
   else if (act === 'ytopen') openVid(n);
+  else if (act === 'vtoggle') {
+    const w = e.target && e.target.closest('.ytw'), f = w && w.querySelector('iframe'); if (!f) return;
+    const pause = w.dataset.paused !== '1'; w.dataset.paused = pause ? '1' : '0';
+    try { f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: pause ? 'pauseVideo' : 'playVideo', args: [] }), '*'); } catch (err) {}
+  }
   else if (act === 'vstop') { PLAYING = null; render({ light: true }); }
   else if (act === 'web') { if (n.link) window.open(n.link, '_blank', 'noopener'); }
   else if (act === 'link') { if (e.ctrlKey || e.metaKey) window.open(n.link, '_blank', 'noopener'); else { sel = new Set([n.id]); editLink(n); } }
