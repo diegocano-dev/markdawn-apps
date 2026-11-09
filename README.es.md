@@ -114,7 +114,7 @@ flowchart LR
 
 Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, imágenes dentro de los temas y estilos propios por niveles.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, grupos, vídeos que se reproducen en el tema, imágenes como fondo de la forma y estilos propios por niveles.
 
 - **Pensada para el teclado**: Tab crea un tema hijo, Intro uno hermano, y basta con escribir para editar
 - **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha y árbol (tipo carpetas)
@@ -128,7 +128,7 @@ Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz est�
 - **Texturas de fondo**: papel, lino y cuaderno
 - Ayuda incluida: pulsa **F1**
 
-**Mind Pro** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, imágenes dentro de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
+**Mind Pro** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, grupos, vídeos que se reproducen en el tema, imágenes como fondo de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
 
 ### Cómo se guarda un mapa mental
 

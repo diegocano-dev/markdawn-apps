@@ -42,6 +42,11 @@
   body.dark .fp-sw, body.dark .seg button, body.dark .fp-shapes button, body.dark .preset, body.dark .btn-sec, body.dark select, body.dark .rsel,
   body.dark .rb-handle, body.dark .fld input, body.dark .fld textarea { background: var(--panel); color: var(--ink); border-color: var(--line); }
   body.dark .seg button[aria-pressed="true"] { background: var(--acc); color: #fff; }
+  /* Iconos de formas en modo oscuro: el relleno claro y el trazo oscuro se adaptan */
+  body.dark .fp-shapes svg [fill="#e1f2f2"], body.dark .fp-shapes svg [fill="#fff"], body.dark .fp-shapes svg [fill="#ffffff"] { fill: #1d3a3b; }
+  body.dark .fp-shapes svg [stroke="#0d767a"] { stroke: #5cc3c6; }
+  body.dark .fp-shapes svg [fill="#0d767a"] { fill: #5cc3c6; }
+  body.dark .shcat { color: var(--muted); }
   body.dark .mdpane textarea { color: #d2d6da; }
   body.dark .mini { background: rgba(31,33,35,.94); }
 
@@ -363,18 +368,46 @@
   .n.rf-soft:not(.s-custom) { filter: drop-shadow(0 4px 6px rgba(0,0,0,.22)); }
   .n.rf-shadow .csh { filter: drop-shadow(2px 3px 0 color-mix(in srgb, var(--bc) 55%, transparent)); }
   .n.rf-soft .csh { filter: drop-shadow(0 4px 6px rgba(0,0,0,.22)); }
-  .n.rf-none, .n.rf-none .csh, .n.rf-shadow.s-handcard, .n.rf-soft.s-handcard { box-shadow: none !important; }
+  .n.rf-none, .n.rf-none .csh, .n.rf-shadow.s-handcard, .n.rf-soft.s-handcard, .n.rf-stroke.s-handcard { box-shadow: none !important; }
   .n.rf-none { filter: none !important; }
-  .ytw { position: relative; display: block; flex: none; margin: 2px auto 6px; background: #20242a; border-radius: 8px; aspect-ratio: 16/9; line-height: 0; cursor: pointer; max-width: 100%; }
-  .ytw .nimg { width: 100% !important; border-radius: 8px; aspect-ratio: 16/9; object-fit: cover; margin: 0; }
-  .ytw i { position: absolute; left: 50%; top: 50%; width: 46px; height: 32px; margin: -16px 0 0 -23px; border-radius: 9px; background: rgba(220,0,0,.9); color: #fff; font: normal 15px/32px system-ui; text-align: center; }
-  .ytw:hover i { background: #e00; }
+  .ytw, .wcard { position: relative; display: block; flex: none; margin: 2px auto 6px; border-radius: 8px; max-width: 100%; cursor: pointer; }
+  .ytw { line-height: 0; background: #20242a; aspect-ratio: 16/9; overflow: hidden; }
+  .ytw .nimg { width: 100% !important; height: 100%; border-radius: 8px; object-fit: cover; margin: 0; }
+  .ytw iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 8px; }
+  .ytw .yplay { position: absolute; left: 50%; top: 50%; width: 46px; height: 32px; margin: -16px 0 0 -23px; border-radius: 9px; background: rgba(220,0,0,.9); color: #fff; font: normal 15px/32px system-ui; text-align: center; font-style: normal; transition: opacity .15s; }
+  .ytw:hover .yplay { background: #e00; }
+  .ytw .yhov { position: absolute; left: 50%; top: 50%; transform: translate(-50%, 24px); padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,.72); color: #fff; font: 600 11.5px/1.3 system-ui; font-style: normal; white-space: nowrap; opacity: 0; transition: opacity .15s; pointer-events: none; }
+  .ytw:hover .yhov { opacity: 1; }
+  .ytw .ybtn { position: absolute; z-index: 2; padding: 3px 7px; border-radius: 6px; background: rgba(0,0,0,.72); color: #fff; font: 600 11px/1.3 system-ui; cursor: pointer; opacity: .85; }
+  .ytw .ybtn:hover { opacity: 1; background: #000; }
+  .ytw .yyt { right: 6px; bottom: 6px; }
+  .ytw .ystop { right: 6px; top: 6px; padding: 1px 7px; font-size: 14px; }
+  .ytw .ych { position: absolute; left: 6px; bottom: 6px; max-width: calc(100% - 90px); padding: 3px 7px; border-radius: 6px; background: rgba(0,0,0,.72); color: #fff; font: 600 11px/1.3 system-ui; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wcard { display: flex; align-items: center; gap: 8px; padding: 7px 9px; background: color-mix(in srgb, var(--nbase) 82%, var(--bc)); border: 1px solid color-mix(in srgb, var(--bc) 35%, transparent); line-height: 1.25; text-align: left; box-sizing: border-box; }
+  .wcard img { width: 28px; height: 28px; flex: none; border-radius: 6px; background: #fff; }
+  .wcard span { display: flex; flex-direction: column; min-width: 0; }
+  .wcard b { font: 600 12.5px var(--ui); color: var(--ntext); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wcard small { font: 11px var(--ui); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Imagen o vídeo como fondo de la forma */
+  .n.mcover { display: block; overflow: hidden; max-width: none; }
+  .n.mcover .mbg { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; -webkit-mask: var(--mmask) center / 100% 100% no-repeat; mask: var(--mmask) center / 100% 100% no-repeat; }
+  .n.mcover .mbg .nimg, .n.mcover .mbg .ytw, .n.mcover .mbg .wcard { width: 100% !important; height: 100%; margin: 0; border-radius: 0; max-width: none; aspect-ratio: auto; object-fit: cover; }
+  .n.mcover .mbg .ytw .nimg { border-radius: 0; }
+  .n.mcover .t { position: absolute; left: 8px; right: 8px; bottom: 8px; max-width: none; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,.55); color: #fff; text-align: center; z-index: 1; }
+  .n.mcover .ck, .n.mcover .ic { position: relative; z-index: 1; }
+  .n.mcover.s-custom .t { left: 18%; right: 18%; bottom: 14%; }
+  .n.mcover .ytw .yyt, .n.mcover .ytw .ych { top: 6px; bottom: auto; }
+  .n.mcover .mbg .nimg, .n.mcover .mbg .ytw, .n.mcover .mbg .wcard { max-width: none !important; }
+  .n.mcover .csh { display: none; }
+  .n.mcover.s-custom { border: 0; }
   .n.s-custom { isolation: isolate; background: none; border-color: transparent; padding: 10px 22px; }
   .n .csh { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; pointer-events: none; }
+  .n .csh .sk { display: none; fill: none !important; }
+  .n.rf-stroke .csh .sk { display: inline; transform: translate(calc(var(--cbw, 2px) * .7), calc(var(--cbw, 2px) * -.8)); }
   .n .csh path { fill: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); stroke: var(--bc); stroke-width: var(--cbw, 2px); stroke-linejoin: round; }
   .n.has-img { flex-wrap: wrap; justify-content: center; max-width: none; }
-  .n.has-img .nimg, .n.has-img .ytw { flex-basis: 100%; }
-  .n.has-img .t { max-width: 260px; }
+  .n.has-img .nimg, .n.has-img .ytw, .n.has-img .wcard { flex-basis: 100%; max-width: var(--mw, 260px) !important; margin-left: auto; margin-right: auto; }
+  .n.has-img .t { max-width: none; flex: 0 1 auto; min-width: 0; text-align: center; }
   .n .nimg { display: block; height: auto; max-width: none; border-radius: 6px; margin: 0 0 4px; pointer-events: none; }
   .n.s-ellipse .nimg, .n.s-pebble .nimg, .n.s-blob .nimg, .n.s-cloud .nimg, .n.s-custom .nimg { border-radius: 14px; }
   .csb { position: relative; display: inline-block; } .csb button { width: 100%; }
@@ -429,7 +462,7 @@
   .n.sel { box-shadow: 0 0 0 2px var(--board), 0 0 0 4px var(--acc); }
   .n.drop { box-shadow: 0 0 0 2px var(--board), 0 0 0 4px #e8743b; }
   .n.editing { cursor: text; user-select: text; box-shadow: 0 0 0 2px var(--board), 0 0 0 4px var(--acc); }
-  .n.editing .t { user-select: text; }
+  .n.editing .t { user-select: text; caret-color: currentColor; outline: none; }
   .n.editing, .n.editing .t { text-transform: none !important; font-variant: normal !important; } /* al editar se ve y se guarda el texto real, no en mayúsculas */
   .n.dragging { opacity: .85; }
   .n .ck { width: 15px; height: 15px; flex: none; border: 1.5px solid currentColor; border-radius: 3px; display: grid; place-items: center; font-size: 11px; line-height: 1; cursor: pointer; opacity: .75; }
@@ -439,6 +472,11 @@
   .fold { position: absolute; left: 0; top: 0; min-width: 19px; height: 19px; margin: -9.5px 0 0 -9.5px; padding: 0 5px; border-radius: 10px; background: var(--nbase); border: 1.5px solid var(--bc); color: var(--bc); font-size: 11px; font-weight: 700; line-height: 16px; text-align: center; cursor: pointer; z-index: 3; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
   .fold::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; } /* zona de clic más amplia que el dibujo */
   .fold:hover { background: var(--bc); color: #fff; }
+  .n.sized { display: flex; align-items: center; justify-content: center; text-align: center; }
+  .rsz { position: absolute; width: 12px; height: 12px; border: 2px solid var(--acc); background: #fff; border-radius: 3px; z-index: 7; cursor: nwse-resize; touch-action: none; }
+  .rsz[hidden] { display: none; }
+  .guides { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+  .guides i { position: absolute; background: #e8467c; }
   .marquee { position: absolute; border: 1px solid var(--acc); background: rgba(13,118,122,.08); pointer-events: none; z-index: 8; }
 
   .tools { position: absolute; top: 14px; z-index: 7; display: flex; flex-direction: column; gap: 2px; padding: 4px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
@@ -567,7 +605,7 @@
   <button class="qa" data-cmd="redo" title="Rehacer (Ctrl+Y)"></button>
   <button class="qa" data-cmd="ribbonMenu" title="Opciones de la cinta"></button>
   <div class="name" id="docname">Mapa mental.md<span>Guardado en este navegador</span></div>
-  <span class="app">MarkDawn Mind · 0.9.4 beta</span>
+  <span class="app">MarkDawn Mind · 0.9.5 beta</span>
   <button class="qa lang-btn no-tr" data-cmd="lang" title="Idioma · Language"></button>
   <button class="qa" data-cmd="dark" title="Modo oscuro"></button>
   <button class="qa" data-cmd="help" title="Ayuda (F1)"></button>
@@ -818,9 +856,11 @@
       <button data-cmd="shapeMenu" title="Forma y relieve"><span class="ico" data-i="shape"></span><span class="caret">▾</span></button>
       <i class="sep"></i>
       <button data-cmd="note" title="Nota"><span class="ico" data-i="note"></span></button>
-      <button data-cmd="link" title="Vínculo o vídeo de YouTube"><span class="ico" data-i="link"></span></button>
+      <button data-cmd="link" title="Vínculo"><span class="ico" data-i="link"></span></button>
+      <button data-cmd="video" title="Vídeo de YouTube"><span class="ico" data-i="video"></span></button>
       <button data-cmd="nodeImg" title="Imagen"><span class="ico" data-i="image"></span></button>
       <button data-cmd="groupMenu" title="Grupo"><span class="ico" data-i="group"></span></button>
+      <button data-cmd="fit" title="Ajustar a la pantalla (Ctrl+0)"><span class="ico" data-i="fit"></span></button>
       <i class="sep"></i>
       <button data-cmd="fpane" title="Más formato"><span class="ico" data-i="pane"></span></button>
     </div>
@@ -840,8 +880,8 @@
             <button class="fp-sw" data-cmd="colorMenu" data-k="fill"><i id="fp-fill"></i>Relleno</button>
             <button class="fp-sw" data-cmd="colorMenu" data-k="tc"><i id="fp-tc"></i>Texto</button>
             <button class="fp-sw" data-cmd="colorMenu" data-k="color"><i id="fp-color"></i>Borde y rama</button></div></div>
-          <div class="fp-sec"><label>Grosor del borde <span id="fp-bw-v"></span></label><input type="range" min="0" max="6" step="0.5" data-fk="bw"></div>
-          <div class="fp-sec"><label>Relieve</label><select data-fk="relief"><option value="">Según la forma</option><option value="shadow">Desplazado (como la ficha a mano)</option><option value="soft">Sombra suave</option><option value="none">Ninguno</option></select></div>
+          <div class="fp-sec"><label>Grosor del borde <span id="fp-bw-v"></span></label><input type="range" min="0" max="10" step="0.5" data-fk="bw"></div>
+          <div class="fp-sec"><label>Relieve</label><select data-fk="relief"><option value="">Según la forma</option><option value="shadow">Desplazado (como la ficha a mano)</option><option value="soft">Sombra suave</option><option value="stroke">Trazo (borde más grueso arriba y a la derecha)</option><option value="none">Ninguno</option></select></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="clearFmt" style="width:100%;height:28px">Quitar formato</button></div>
         </div>
         <div class="fp-page" data-fppage="texto">
@@ -869,7 +909,7 @@
             <small>Se aplica al mapa del tema seleccionado; sin selección, a todos.</small></div>
           <div class="fp-sec"><label>Ramas cónicas</label><select data-tk="taper"><option value="main">Solo las principales</option><option value="all">Todas</option><option value="none">Grosor uniforme</option></select>
             <small>Se ven con ramas curvas, en abanico o rectas.</small></div>
-          <div class="fp-sec"><label>Esquinas de las ramas en ángulo <span id="fp-rad-v"></span></label><input type="range" min="0" max="30" step="1" data-tk="radius">
+          <div class="fp-sec"><label>Esquinas de las ramas en ángulo <span id="fp-rad-v"></span></label><input type="range" min="0" max="40" step="1" data-tk="radius">
             <small>0 = esquina viva · 30 = muy redondeada</small></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="b3d" id="fp-b3d" style="width:100%;height:28px">Ramas 3D: no</button></div>
           <div class="fp-sec"><label>Grosor de la rama <span id="fp-lw-v"></span></label><input type="range" min="0.5" max="16" step="0.5" data-fk="lw"></div>
@@ -941,13 +981,14 @@ const LITE_OK = {
   tex: ['', 'paper', 'linen', 'notebook'],
   scope: ['node'],
 };
-const LITE_CMDS = ['groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'nodeImg', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
+const LITE_CMDS = ['branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
 function isLocked(c, v) { if (!LITE) return false; if (LITE_OK[c]) return !LITE_OK[c].includes(v == null ? '' : String(v)); return LITE_CMDS.includes(c); }
 const DEFAULT_STYLE = LITE ? 'mano' : 'pildoras';
 
 /* ---------- Iconos ---------- */
 const P = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${d}${extra}</svg>`;
 const ICONS = {
+  video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg>',
   group: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="4" fill="currentColor" fill-opacity=".14" stroke-dasharray="3 2.2"/><path d="M8 9.5h8M8 14.5h5" stroke-linecap="round"/></svg>',
   new: P('<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>'),
   folder: P('<path d="M3 6h6l2 2h10v11H3z"/><path d="M3 10h18"/>'),
@@ -1173,7 +1214,7 @@ let svgUid = 0;
 const uniqSvg = svg => { const u = 'u' + (++svgUid); return svg.replace(/id="([^"]+)"/g, `id="$1${u}"`).replace(/url\(#([^)]+)\)/g, `url(#$1${u})`); };
 const shapeBtn = k => `<button data-cmd="shape" data-v="${k}" title="${SHAPES[k].name}"><svg viewBox="0 0 52 36">${uniqSvg(SHAPES[k].svg)}</svg></button>`;
 const shapeGroupsHtml = cls => Object.entries(SHAPE_GROUPS).map(([g, ks]) => `<div class="shcat">${g}</div><div class="${cls}">${ks.filter(k => SHAPES[k]).map(shapeBtn).join('')}</div>`).join('')
-  + `<div class="shcat">Mis formas</div><div class="${cls}">${Object.entries(CSHAPES).map(([id, c]) => `<span class="csb"><button data-cmd="shape" data-v="c:${id}" title="${esc(c.name)}">${cshapeIcon(c.d)}</button><i data-csdel="${id}" title="Quitar de mis formas">×</i></span>`).join('')}<button data-cmd="drawShape" title="Dibujar una forma nueva" class="csnew">✏️</button></div>`;
+  + `<div class="shcat">Mis formas</div><div class="${cls}">${Object.entries(CSHAPES).map(([id, c]) => `<span class="csb"><button data-cmd="shape" data-v="c:${id}" title="${esc(c.name)}">${cshapeIcon(c.d)}</button><i data-csdel="${id}" title="Quitar de mis formas">×</i></span>`).join('')}<button data-cmd="drawShape" title="Dibujar una forma nueva" class="csnew">✏️</button><button data-cmd="importShape" title="Importar una forma desde un archivo SVG" class="csnew" style="font-size:11px;font-weight:700">SVG</button></div>`;
 // Formas en las que una imagen necesita mucho margen para quedar dentro
 const ROUNDISH = ['ellipse', 'blob', 'pebble', 'cloud', 'petal', 'leaf', 'hand', 'handcard', 'marker', 'sketch', 'wave'];
 // Formas dibujadas por el usuario: id -> { name, d } (trazado en una caja de 0 a 100)
@@ -1213,7 +1254,7 @@ Object.assign(CSHAPES, PR.myShapes || {});
 const LANG = PR.lang || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
 document.documentElement.lang = LANG;
 $$('.lang-btn').forEach(b => b.textContent = LANG === 'en' ? 'EN' : 'ES');
-const EN = { "Incluir": "Include", "Solo este tema": "Only this topic", "nivel por debajo": "level below", "niveles por debajo": "levels below", "Toda la rama": "The whole branch", "temas": "topics", "Seleccionar sus temas": "Select its topics", "Los temas seleccionados no están en ningún grupo.": "The selected topics are not in any group.", "Relieve": "Relief", "Según la forma": "By shape", "Desplazado": "Offset", "Suave": "Soft", "Ninguno": "None", "Desplazado (como la ficha a mano)": "Offset (like the hand-drawn card)", "Sombra suave": "Soft shadow", "Forma y relieve": "Shape and relief", "Forma y relieve…": "Shape and relief…", "Color de la rama…": "Branch color…", "Más formato…": "More formatting…", "Vínculo o vídeo…": "Link or video…", "Vínculo o vídeo de YouTube": "Link or YouTube video", "Editar el vínculo…": "Edit link…", "Editar la nota…": "Edit note…", "Casilla de tarea": "Task checkbox", "Quitar la casilla": "Remove checkbox", "Agrupar los seleccionados…": "Group selected…", "Eliminar los seleccionados": "Delete selected", "Ver el vídeo": "Watch the video", "Ctrl+clic en 🔗 abre el vínculo. Si es un vídeo de YouTube, el tema muestra su portada.": "Ctrl+click 🔗 opens the link. If it is a YouTube video, the topic shows its thumbnail.", "Diagrama de flujo": "Flowchart", "Más formas": "More shapes", "Decisión": "Decision", "Datos": "Data", "Documento": "Document", "Base de datos": "Database", "Subproceso": "Subprocess", "Preparación": "Preparation", "Entrada manual": "Manual input", "Conector": "Connector", "Inicio / fin": "Start / end", "Hexágono": "Hexagon", "Octógono": "Octagon", "Estrella": "Star", "Escudo": "Shield", "Etiqueta": "Tag", "Flecha": "Arrow", "Galón": "Chevron", "Cinta": "Banner", "Bocadillo": "Speech bubble", "Nota adhesiva": "Sticky note", "Carpeta": "Folder", "Línea": "Line", "Lisa": "Solid", "Guiones": "Dashed", "Sin línea": "No line", "Automático": "Automatic", "El color de la rama": "The branch color", "Otro color": "Other color", "Nombre del grupo (opcional)": "Group name (optional)", "Abanico": "Fan", "Ajustado": "Fitted", "Solo contorno": "Outline only", "Rectángulo": "Rectangle", "Aplicar": "Apply", "Agrupar": "Group", "Agrupar…": "Group…", "Editar el grupo…": "Edit group…", "Grupo": "Group", "Agrupar los temas seleccionados con un fondo de color": "Group the selected topics with a colored background", "Selecciona uno o varios temas: se marcan con un fondo de color junto con sus subtemas.": "Select one or more topics: they get a colored background along with their subtopics.", "Quitar el grupo": "Remove group", "Archivo": "File", "Inicio": "Home", "Formato": "Format", "Diseño": "Design", "Vista": "View", "Guardado en este navegador": "Saved in this browser", "Mapa mental.md": "Mind map.md", "Mapa mental": "Mind map", "Guardar .md (Ctrl+S)": "Save .md (Ctrl+S)", "Deshacer (Ctrl+Z)": "Undo (Ctrl+Z)", "Rehacer (Ctrl+Y)": "Redo (Ctrl+Y)", "Opciones de la cinta": "Ribbon options", "Panel de formato": "Format pane", "Modo oscuro": "Dark mode", "Modo claro": "Light mode", "Contraer o fijar la cinta (Ctrl+F1)": "Collapse or pin the ribbon (Ctrl+F1)", "Contraer la cinta: solo pestañas (Ctrl+F1)": "Collapse the ribbon: tabs only (Ctrl+F1)", "Fijar la cinta (Ctrl+F1)": "Pin the ribbon (Ctrl+F1)", "Nuevo": "New", "Abrir .md": "Open .md", "Guardar .md": "Save .md", "Copiar Markdown": "Copy Markdown", "Ejemplo": "Sample", "Demostración": "Demo", "Recorrido automático por las funciones, para grabar un vídeo": "Automatic feature tour, for recording a video", "Abre o pega Markdown, texto con sangrías (como el que copia XMind) u OPML: cada nivel se convierte en una rama. Al guardar, el mapa es una lista anidada que se lee en GitHub, Obsidian o cualquier IA.": "Open or paste Markdown, indented text (like what XMind copies) or OPML: each level becomes a branch. When you save, the map is a nested list that reads well on GitHub, in Obsidian or in any AI.", "Tema hijo": "Child topic", "Tema hermano": "Sibling topic", "Tema padre": "Parent topic", "Tema flotante": "Floating topic", "Eliminar": "Delete", "Tema secundario (Tab)": "Subtopic (Tab)", "Tema del mismo nivel (Intro)": "Topic at the same level (Enter)", "Tema padre (Ctrl+Intro)": "Parent topic (Ctrl+Enter)", "Tema flotante en la pizarra (doble clic en vacío)": "Floating topic on the board (double-click empty space)", "Eliminar (Supr)": "Delete (Del)", "Temas": "Topics", "Relación": "Relationship", "Nota": "Note", "Vínculo": "Link", "Tarea": "Task", "Insertar": "Insert", "Marcadores": "Markers", "Marcador": "Marker", "Relación entre dos temas": "Relationship between two topics", "Plegar rama": "Collapse branch", "Desplegar todo": "Expand all", "Plegar todo": "Collapse all", "Subir": "Move up", "Bajar": "Move down", "Recolocar": "Reset position", "Plegar o desplegar (Ctrl+/)": "Collapse or expand (Ctrl+/)", "Subir (Alt+↑)": "Move up (Alt+↑)", "Bajar (Alt+↓)": "Move down (Alt+↓)", "Devuelve el tema a su sitio automático": "Puts the topic back in its automatic place", "Organizar": "Arrange", "Nueva hoja": "New sheet", "Duplicar hoja": "Duplicate sheet", "Hojas": "Sheets", "Añade una hoja nueva al archivo": "Adds a new sheet to the file", "Copia esta hoja": "Copies this sheet", "Este tema": "This topic", "Todo su nivel": "Whole level", "Todo el mapa": "Whole map", "Aplicar a": "Apply to", "Solo los temas seleccionados": "Only the selected topics", "Todos los temas del mismo nivel": "All topics at the same level", "Todos los temas del mapa": "All topics in the map", "Forma del tema": "Topic shape", "Todas las formas, por grupos": "All shapes, by group", "Color de rama": "Branch color", "Relleno": "Fill", "Color del texto": "Text color", "Colores": "Colors", "Negrita (Ctrl+B)": "Bold (Ctrl+B)", "Cursiva (Ctrl+I)": "Italic (Ctrl+I)", "Subrayado": "Underline", "Mayúsculas": "Uppercase", "Aumentar tamaño": "Increase size", "Reducir tamaño": "Decrease size", "Alinear a la izquierda": "Align left", "Centrar": "Center", "Alinear a la derecha": "Align right", "Grosor de la letra": "Font weight", "Mayúsculas y minúsculas": "Letter case", "Tipo de letra": "Font", "Texto": "Text", "Borrar formato": "Clear formatting", "Grosor del borde": "Border width", "Grosor de la rama": "Branch width", "Líneas": "Lines", "Estilo del mapa": "Map style", "Estructura": "Structure", "Colores de las ramas": "Branch colors", "Colores de rama": "Branch colors", "Cónicas principales": "Tapered main", "Cónicas en todas": "Tapered all", "Grosor uniforme": "Uniform width", "Solo las ramas principales se estrechan": "Only main branches taper", "Todas las ramas se estrechan": "All branches taper", "Todas las ramas con el mismo grosor": "All branches the same width", "Ramas 3D": "3D branches", "Ramas con sombra y brillo, como tubos": "Branches with shadow and shine, like tubes", "Esquinas": "Corners", "Cuánto se redondean las esquinas de las ramas en ángulo": "How rounded the corners of angled branches are", "Puntos": "Dots", "Cuadrícula": "Grid", "Liso": "Plain", "Compacto": "Compact", "Normal": "Normal", "Más separación": "More spacing", "Separación entre temas, hasta ×5": "Spacing between topics, up to ×5", "Color y rejilla": "Color and grid", "Color de fondo, tamaño e intensidad de la rejilla": "Background color, grid size and intensity", "Fondo y espaciado": "Background and spacing", "Recolocar todo": "Reset all positions", "Posiciones": "Positions", "Ratón y zoom…": "Mouse and zoom…", "Ratón y zoom": "Mouse and zoom", "Ajustar a la ventana": "Fit to window", "Centrar selección": "Center selection", "Navegación": "Navigation", "Esquema": "Outline", "Panel Markdown": "Markdown pane", "Minimapa": "Minimap", "Markdown al lado": "Markdown at the side", "Markdown abajo": "Markdown below", "Barra de estado": "Status bar", "Paneles": "Panes", "A la izquierda": "Left", "A la derecha": "Right", "Oculta": "Hidden", "Barra de herramientas": "Toolbar", "Arriba": "Top", "Completa": "Full", "Solo pestañas": "Tabs only", "Ocultar sola": "Auto-hide", "Pestañas arriba": "Tabs on top", "Cinta de opciones": "Ribbon", "Pestañas y comandos siempre visibles": "Tabs and commands always visible", "Solo pestañas; los comandos aparecen al pulsar una (Ctrl+F1)": "Tabs only; commands appear when you click one (Ctrl+F1)", "Se oculta y aparece al acercar el ratón al borde": "Hides, and appears when the mouse nears the edge", "Las pestañas pasan a la barra de color de arriba y la cinta ocupa menos": "Tabs move to the colored bar at the top, so the ribbon takes less space", "Fondo y tono": "Background and tone", "Tono oscuro, color de fondo y rejilla": "Dark tone, background color and grid", "Al acercar el ratón": "On hover", "Siempre": "Always", "Nunca": "Never", "Apariencia · barra rápida": "Appearance · quick bar", "Aparece al acercar el ratón al tema seleccionado": "Appears when the mouse is over the selected topic", "Siempre visible con un tema seleccionado": "Always visible when a topic is selected", "Sin barra rápida": "No quick bar", "Posición de la cinta": "Ribbon position", "Mostrar": "Show", "Pestañas y comandos": "Tabs and commands", "Solo pestañas (Ctrl+F1)": "Tabs only (Ctrl+F1)", "Ocultar automáticamente": "Hide automatically", "Pestañas": "Tabs", "En la barra de título": "In the title bar", "Cerrar": "Close", "Copiar": "Copy", "Markdown del mapa": "Map Markdown", "Puedes editarlo: el mapa se actualiza al escribir.": "You can edit it: the map updates as you type.", "Seleccionar": "Select", "Mano: mover la pizarra (mantén Espacio)": "Hand: move the board (hold Space)", "Tema hijo (Tab)": "Child topic (Tab)", "Tema hermano (Intro)": "Sibling topic (Enter)", "Plegar rama (Ctrl+/)": "Collapse branch (Ctrl+/)", "Acercar": "Zoom in", "Alejar": "Zoom out", "Ajustar a la ventana (Ctrl+0)": "Fit to window (Ctrl+0)", "Ajustar": "Fit", "Ajustar (Ctrl+0)": "Fit (Ctrl+0)", "Zoom": "Zoom", "Cambiar los controles del ratón": "Change the mouse controls", "A qué temas se aplica el formato": "Which topics the formatting applies to", "Negrita": "Bold", "Cursiva": "Italic", "Más pequeño": "Smaller", "Más grande": "Larger", "Forma": "Shape", "Más formato": "More formatting", "Su nivel": "Its level", "Todo": "All", "Tema": "Topic", "Ramas": "Branches", "Mapa": "Map", "Borde y rama": "Border and branch", "Quitar formato": "Clear formatting", "Estilo y tamaño": "Style and size", "Alineación y grosor": "Alignment and weight", "Izquierda": "Left", "Derecha": "Right", "Espacio entre letras": "Letter spacing", "Tipo de rama": "Branch type", "Se aplica al mapa del tema seleccionado; sin selección, a todos.": "Applies to the selected topic's map; with nothing selected, to all maps.", "Ramas cónicas": "Tapered branches", "Solo las principales": "Main branches only", "Todas": "All", "Se ven con ramas curvas, en abanico o rectas.": "Visible with curved, fan or straight branches.", "Color": "Color", "Color de la rama": "Branch color", "Esquinas de las ramas en ángulo": "Corners of angled branches", "0 = esquina viva · 30 = muy redondeada": "0 = sharp corner · 30 = very rounded", "Ramas 3D: no": "3D branches: no", "Separación entre temas": "Spacing between topics", "Fondo, rejilla y tono…": "Background, grid and tone…", "Estilo del mapa…": "Map style…", "Solo a este tema.": "Only this topic.", "Los cambios afectan a todos los temas.": "Changes apply to all topics.", "Selecciona un tema para darle formato.": "Select a topic to format it.", "Aplicar el formato a": "Apply formatting to", "Solo este tema": "Only this topic", "Todos los temas de su nivel": "All topics at its level", "Tema central": "Central topic", "Temas principales": "Main topics", "Subtemas": "Subtopics", "Básicas": "Basic", "Orgánicas": "Organic", "Detalles": "Details", "3D": "3D", "Placas con marco": "Framed plates", "Metal macizo": "Solid metal", "Automática": "Automatic", "Redondeada": "Rounded", "Rectángulo": "Rectangle", "Píldora": "Pill", "Sólida": "Solid", "Sin borde": "No border", "Elipse": "Ellipse", "Orgánica": "Organic", "A mano": "Hand-drawn", "Hoja": "Leaf", "Discontinua": "Dashed", "Borde doble": "Double border", "Tarjeta": "Card", "Resaltado": "Highlight", "Ficha a mano": "Hand-drawn card", "Canto rodado": "Pebble", "Pétalo": "Petal", "Rotulador": "Marker", "Boceto": "Sketch", "Ola": "Wave", "Nube": "Cloud", "Relieve 3D": "3D relief", "Píldora 3D": "3D pill", "Botón": "Button", "Cristal": "Glass", "Oro macizo": "Solid gold", "Plata maciza": "Solid silver", "Bronce macizo": "Solid bronze", "Placa con marco de oro": "Plate with gold frame", "Placa con marco de plata": "Plate with silver frame", "Placa con marco de bronce": "Plate with bronze frame", "Placa con marco de acero": "Plate with steel frame", "Orgánico": "Organic", "Árbol": "Tree", "Organigrama": "Org chart", "Línea de tiempo": "Timeline", "Radial": "Radial", "Curva": "Curve", "Abanico": "Fan", "En ángulo": "Angled", "Ángulo junto al tema": "Angle near the topic", "Ángulo suave": "Soft angle", "Corchete": "Bracket", "Escalón": "Step", "Ángulo recto": "Right angle", "En diagonal": "Diagonal", "Recta": "Straight", "Clásico": "Classic", "Píldoras": "Pills", "Boceto gris": "Grey sketch", "Tarjetas": "Cards", "Oro y plata": "Gold and silver", "Mínimo": "Minimal", "Vivo": "Vivid", "Océano": "Ocean", "Suave": "Soft", "Tierra": "Earth", "Gris": "Grey", "Metal": "Metal", "Segoe UI (predeterminada)": "Segoe UI (default)", "redondeada": "rounded", "suave": "soft", "geométrica": "geometric", "moderna": "modern", "humanista": "humanist", "con serifa": "serif", "elegante": "elegant", "clásica": "classic", "manuscrita": "handwritten", "a mano": "hand-drawn", "a mano, versalitas": "hand-drawn, small caps", "rotulador": "marker", "pizarra": "chalkboard", "cómic": "comic", "cuaderno": "notebook", "fina": "thin", "boceto": "sketch", "informal": "casual", "monoespaciada": "monospace", "Automático": "Automatic", "Fina": "Light", "Seminegrita": "Semibold", "Extranegrita": "Extra bold", "Muy gruesa": "Black", "MAYÚSCULAS": "UPPERCASE", "minúsculas": "lowercase", "Cada Palabra En Mayúscula": "Capitalize Each Word", "Versalitas (Como Patrick Hand SC)": "Small caps (like Patrick Hand SC)", "Ramas principales cónicas": "Tapered main branches", "Todas las ramas cónicas": "All branches tapered", "Líneas curvas": "Curved lines", "Cambiar el texto": "Edit text", "Nota…": "Note…", "Vínculo…": "Link…", "Relación con…": "Relationship to…", "Desplegar rama": "Expand branch", "Duplicar": "Duplicate", "Centrar en la pantalla": "Center on screen", "Tema flotante aquí": "Floating topic here", "Zoom al 100 %": "Zoom to 100%", "Cambiar el nombre…": "Rename…", "Duplicar la hoja": "Duplicate sheet", "Mover a la izquierda": "Move left", "Mover a la derecha": "Move right", "Eliminar la hoja": "Delete sheet", "Doble clic: cambiar el nombre · Clic derecho: más opciones": "Double-click: rename · Right-click: more options", "Aceptar": "OK", "Cancelar": "Cancel", "Listo": "Done", "Restablecer": "Reset", "Entendido": "Got it", "Nota del tema": "Topic note", "Se guarda como un párrafo debajo del tema, en Markdown normal.": "Saved as a paragraph under the topic, in plain Markdown.", "Dirección": "Address", "Ctrl+clic en 🔗 abre el vínculo.": "Ctrl+click 🔗 to open the link.", "Texto de la relación": "Relationship label", "Texto sobre la flecha (opcional)": "Text on the arrow (optional)", "Por ejemplo: depende de": "For example: depends on", "Nombre de la hoja": "Sheet name", "Nombre": "Name", "No se puede deshacer.": "This can't be undone.", "Elige cómo te mueves por la pizarra. Los cambios se aplican al momento: pruébalos sin cerrar.": "Choose how you move around the board. Changes apply right away: try them without closing.", "Rueda para hacer zoom (recomendado)": "Wheel zooms (recommended)", "Rueda: zoom hacia el puntero · Botón derecho o central: mover · Espacio: mano": "Wheel: zoom towards the pointer · Right or middle button: move · Space: hand", "Rueda para desplazar": "Wheel scrolls", "Rueda: mover arriba y abajo · Ctrl+rueda: zoom · Bueno con panel táctil": "Wheel: move up and down · Ctrl+wheel: zoom · Good with a touchpad", "Arrastrar el fondo para mover": "Drag the background to move", "Botón izquierdo en vacío: mover · Rueda: zoom · Mayús+arrastrar: seleccionar": "Left button on empty space: move · Wheel: zoom · Shift+drag: select", "Rueda del ratón": "Mouse wheel", "Zoom (Mayús+rueda: desplazar en horizontal)": "Zoom (Shift+wheel: scroll sideways)", "Desplazar (Ctrl o Alt + rueda: zoom)": "Scroll (Ctrl or Alt + wheel: zoom)", "Botón derecho": "Right button", "Un clic sin arrastrar abre el menú": "A click without dragging opens the menu", "Arrastrar mueve la pizarra": "Dragging moves the board", "Solo menú contextual": "Context menu only", "Botón central (rueda pulsada)": "Middle button (wheel pressed)", "Arrastrar arriba y abajo hace zoom": "Dragging up and down zooms", "Botón izquierdo en vacío": "Left button on empty space", "Seleccionar un área": "Select an area", "Mover la pizarra": "Move the board", "Doble clic en vacío": "Double-click empty space", "Crear un tema flotante": "Create a floating topic", "Centro del zoom": "Zoom center", "Hacia donde apunta el ratón": "Where the mouse points", "Centro de la pantalla": "Center of the screen", "Velocidad del zoom": "Zoom speed", "Opciones": "Options", "Mantener Espacio y arrastrar mueve la pizarra (mano)": "Hold Space and drag to move the board (hand)", "Invertir la dirección del zoom": "Invert zoom direction", "Zoom suave (animado)": "Smooth zoom (animated)", "Modo": "Mode", "Claro": "Light", "Oscuro": "Dark", "Tono oscuro": "Dark tone", "negro ↔ gris": "black ↔ grey", "Color de fondo": "Background color", "(modo oscuro)": "(dark mode)", "Otro color": "Other color", "Rejilla": "Grid", "Tamaño": "Size", "Intensidad": "Intensity", "Juntos": "Close", "Muy separados": "Far apart", "Viva": "Sharp", "Muy redondeada": "Very rounded", "Copiado como Markdown": "Copied as Markdown", "Markdown copiado": "Markdown copied", "No se encontró contenido en el archivo.": "No content found in the file.", "No se pudo guardar. Usa «Copiar Markdown».": "Couldn't save. Use «Copy Markdown».", "Selecciona el tema de origen y pulsa Relación.": "Select the source topic and click Relationship.", "Selecciona un tema.": "Select a topic.", "Selecciona uno o varios temas.": "Select one or more topics.", "Selecciona un tema, o elige «Todo el mapa».": "Select a topic, or choose «Whole map».", "Haz clic en el tema de destino · Esc para cancelar": "Click the target topic · Esc to cancel", "El archivo necesita al menos una hoja.": "The file needs at least one sheet.", "Disponible en Mind Pro": "Available in Mind Pro", "Disponible en MarkDawn Mind Pro": "Available in MarkDawn Mind Pro", "Activar con mi clave": "Activate with my key", "Activar Mind Pro": "Activate Mind Pro", "Escribe la clave de licencia que recibiste por correo al comprar en Gumroad.": "Enter the license key you received by email when you bought it on Gumroad.", "Clave de licencia": "License key", "Activar": "Activate", "No se pudo activar": "Could not activate", "Licencia de Mind Pro": "Mind Pro license", "Activar Mind Pro con tu clave": "Activate Mind Pro with your key", "Activar Mind Pro o conseguirlo": "Activate or get Mind Pro", "Solo hace falta internet para activarla; después, Mind Pro funciona sin conexión. ¿Aún no la tienes?": "You only need internet to activate it; afterwards Mind Pro works offline. Don't have one yet?", "No se pudo comprobar la clave. Comprueba la conexión a internet e inténtalo de nuevo.": "The key could not be checked. Check your internet connection and try again.", "Esa clave no es válida. Cópiala tal cual del correo de compra de Gumroad.": "That key is not valid. Copy it exactly from your Gumroad purchase email.", "Esa compra se ha devuelto o anulado, así que la clave ya no es válida.": "That purchase was refunded or cancelled, so the key is no longer valid.", "Esta copia de Mind Pro no está configurada para activarse. Descarga la última versión desde Gumroad.": "This copy of Mind Pro is not set up for activation. Download the latest version from Gumroad.", "Esta clave ya está activada en 3 equipos, el máximo por compra. Si cambiaste de equipo, escríbeme a support@markdawn.net y la libero.": "This key is already active on 3 devices, the maximum per purchase. If you changed devices, write to support@markdawn.net and I will free it.", "Esta es la versión gratuita.": "This is the free version.", "Mind Pro añade:": "Mind Pro adds:", "Todos los estilos de mapa: relieve 3D, oro y plata, tarjetas, píldoras…": "Every map style: 3D relief, gold and silver, cards, pills…", "Organigrama, línea de tiempo, radial y mapa a la izquierda": "Org chart, timeline, radial and left-side map", "Más de 30 formas: orgánicas, 3D, placas con marco de metal": "Over 30 shapes: organic, 3D, metal-framed plates", "10 tipos de rama, ramas 3D y esquinas a medida": "10 branch types, 3D branches and custom corners", "Formato por niveles o para todo el mapa de una vez": "Formatting by level or for the whole map at once", "Todas las letras, espacio entre letras y separación a medida": "Every font, letter spacing and custom spacing", "Los mapas son Markdown normal: lo que hagas aquí se abre igual en Mind Pro.": "Maps are plain Markdown: what you make here opens the same in Mind Pro.", "Conseguir Mind Pro →": "Get Mind Pro →", "Versión gratuita · ver Mind Pro": "Free version · see Mind Pro", "gratis": "free", "Demostración de MarkDawn Mind": "MarkDawn Mind demo", "Un recorrido automático de menos de 2 minutos para grabar un vídeo.": "An automatic tour of under 2 minutes, for recording a video.", "Pon el navegador a pantalla completa (F11).": "Put the browser in full screen (F11).", "Empieza a grabar y pulsa «Empezar»: habrá una cuenta atrás.": "Start recording and click «Start»: there will be a countdown.", "Esc detiene la demostración. Al terminar, tu mapa y tus ajustes vuelven a estar como antes.": "Esc stops the demo. When it ends, your map and settings are back as they were.", "Empezar": "Start", "Mapas mentales como en Office, guardados en Markdown": "Mind maps like in Office, saved as Markdown", "Escribe como en un esquema": "Type like in an outline", "Tab crea un tema hijo, Intro uno hermano": "Tab adds a child topic, Enter a sibling", "Todo se guarda en Markdown": "Everything is saved as Markdown", "Una lista normal que lee GitHub, Obsidian o cualquier IA": "A plain list that GitHub, Obsidian or any AI can read", "Estilos de mapa con un clic": "Map styles in one click", "Cambia de estructura sin perder nada": "Change structure without losing anything", "Orgánico, árbol, organigrama, línea de tiempo, radial…": "Organic, tree, org chart, timeline, radial…", "Diez tipos de rama, cónicas y en 3D": "Ten branch types, tapered and 3D", "Arrastra un tema: se queda donde lo dejas": "Drag a topic: it stays where you drop it", "Sus ramas viajan con él y las líneas se adaptan solas": "Its branches travel with it and the lines adapt on their own", "Separa todos los temas a la vez": "Spread all topics at once", "Un solo control para todo el mapa": "One control for the whole map", "Pliega y despliega ramas": "Collapse and expand branches", "Formato a tu gusto": "Formatting your way", "Formas orgánicas, 3D, placas de metal, colores, letras…": "Organic shapes, 3D, metal plates, colors, fonts…", "Zoom hacia donde apuntas": "Zoom where you point", "La rueda, el botón derecho o Espacio: tú eliges cómo moverte": "Wheel, right button or Space: you choose how to move", "Varias hojas en el mismo archivo": "Several sheets in one file", "Trabaja como en Office. Guarda en Markdown.": "Work like in Office. Save as Markdown.", "MarkDawn Mind": "MarkDawn Mind", "Rueda: zoom": "Wheel: zoom", "Ctrl+rueda: zoom": "Ctrl+wheel: zoom", "Tab: tema hijo": "Tab: child topic", "Intro: hermano": "Enter: sibling", "F2: editar": "F2: edit", "Botón derecho: mover": "Right button: move", "botón derecho": "right button", "central": "middle", "izquierdo en vacío": "left on empty space", "Espacio": "Space", "Colores · Este tema": "Colors · This topic", "Cinta": "Ribbon", "Intro": "Enter", "Niveles": "Levels", "Plegar o desplegar el mapa por niveles": "Collapse or expand the map by level", "Mostrar el mapa": "Show the map", "Solo los temas principales": "Main topics only", "Hasta el nivel 2": "Down to level 2", "Hasta el nivel 3": "Down to level 3", "Hasta el nivel 4": "Down to level 4", "Todo desplegado": "Fully expanded", "Mostrar por niveles…": "Show by level…", "Niveles visibles": "Visible levels", "Solo principales": "Main only", "Todo": "All", "Ayuda": "Help", "Ayuda (F1)": "Help (F1)", "Guía rápida (F1)": "Quick guide (F1)", "Idioma · Language": "Idioma · Language", "Subtema": "Subtopic", "Idea central": "Central idea", "Hoja 1": "Sheet 1", "Tu configuración se guarda sola en": "Your settings are saved automatically in", "Configuración": "Settings", "Carpeta de trabajo": "Working folder", "Exportar configuración": "Export settings", "Importar configuración": "Import settings", "Trabajar en una carpeta: la configuración y los mapas se guardan solos (Chrome y Edge)": "Work in a folder: settings and maps are saved automatically (Chrome and Edge)", "Guarda tus preferencias, estilos y formas en un archivo": "Saves your preferences, styles and shapes to a file", "Carga la configuración desde un archivo": "Loads settings from a file", "Ese archivo no es una configuración de MarkDawn Mind.": "That file isn't a MarkDawn Mind settings file.", "Combinar": "Merge", "Sustituir": "Replace", "Usa sus preferencias y añade sus estilos y formas a los que ya tienes.": "Uses its preferences and adds its styles and shapes to yours.", "Deja la configuración exactamente como en el archivo.": "Makes your settings exactly like the file.", "Importar": "Import", "Configuración importada": "Settings imported", "Este navegador no deja elegir una carpeta aquí. Descarga el archivo y ábrelo en Chrome o Edge.": "This browser can't choose a folder here. Download the file and open it in Chrome or Edge.", "Ya existe ese archivo": "That file already exists", "¿Quieres sustituirlo por este mapa?": "Do you want to replace it with this map?", "No se pudo guardar en la carpeta.": "Couldn't save to the folder.", "Volver a conectar la carpeta de trabajo": "Reconnect the working folder", "Disponible en Chrome y Edge.": "Available in Chrome and Edge.", "En este navegador no se puede elegir una carpeta. Tus mapas y tu configuración se guardan aquí, en el navegador.": "This browser can't choose a folder. Your maps and settings are saved here, in the browser.", "Elige una carpeta una vez y MarkDawn Mind trabajará en ella.": "Choose a folder once and MarkDawn Mind will work in it.", "Abres los mapas de la carpeta con un clic": "Open the folder's maps in one click", "Al guardar un mapa ahí, cada cambio se guarda solo": "Once a map is saved there, every change is saved automatically", "Consejo: usa la carpeta donde tienes MarkDawn Mind. La próxima vez el navegador solo te pedirá permiso con un clic.": "Tip: use the folder where you keep MarkDawn Mind. Next time the browser will just ask for permission with one click.", "Elegir carpeta…": "Choose folder…", "Buscando mapas…": "Looking for maps…", "Guardar como un mapa nuevo": "Save as a new map", "Guardar la configuración ahora": "Save settings now", "Cambiar de carpeta…": "Change folder…", "Dejar de usar la carpeta": "Stop using the folder", "Aún no hay mapas en esta carpeta.": "There are no maps in this folder yet.", "Configuración guardada en la carpeta": "Settings saved to the folder", "Ya no se usa la carpeta. Todo sigue guardado en el navegador.": "The folder is no longer used. Everything is still saved in the browser.", "Y vuelves a cualquier estilo con un clic": "And back to any style in one click", "Espejo ↔": "Mirror ↔", "4 partes ✛": "4 quarters ✛", "El lado izquierdo igual que el derecho": "Left side the same as the right", "Las cuatro partes iguales": "All four quarters the same", "Suavizado": "Smoothing", "Simetría": "Symmetry", "Libre": "Free", "Izquierda = derecha": "Left = right", "Las cuatro partes": "All four quarters", "Sin suavizar": "No smoothing", "Poco": "Light", "Medio": "Medium", "Mucho": "Strong", "Dibuja sin miedo: el suavizado arregla el pulso. El texto del tema irá dentro.": "Draw freely: smoothing fixes a shaky hand. The topic text goes inside.", "25 combinaciones de colores": "25 color sets", "O tus propios colores, rama a rama": "Or your own colors, branch by branch", "Y muestra el mapa nivel a nivel": "And reveal the map level by level", "Tu propio estilo, nivel a nivel": "Your own style, level by level", "Central, principales, subtemas y sub-subtemas": "Central, main, subtopics and sub-subtopics", "Dibuja tus propias formas": "Draw your own shapes", "Un trazo y ya es una forma más": "One stroke and it's a new shape", "Imágenes dentro de los temas": "Images inside topics", "Elige una, pégala con Ctrl+V o arrástrala": "Pick one, paste it with Ctrl+V or drag it in", "Texturas de fondo o tu propia imagen": "Background textures or your own image", "Papel, pizarra, plano, corcho…": "Paper, chalkboard, blueprint, cork…", "Exporta el mapa como imagen": "Export the map as an image", "PNG, JPG o SVG, o cópialo y pégalo donde quieras": "PNG, JPG or SVG, or copy and paste it anywhere", "Sub-subtemas": "Sub-subtopics", "Cada columna es un nivel del mapa; los sub-subtemas usan lo de los subtemas salvo lo que cambies. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level; sub-subtopics use the subtopic settings except what you change. Changes show right away; then you can save it as your own style.", "Mis estilos ▾": "My styles ▾", "Personalizar por niveles…": "Customize by level…", "Mis formas": "My shapes", "Quitar de mis formas": "Remove from my shapes", "Dibujar una forma nueva": "Draw a new shape", "Forma propia": "Custom shape", "Quitada de «Mis formas» (este mapa la sigue usando)": "Removed from «My shapes» (this map still uses it)", "Forma eliminada": "Shape deleted", "Dibujar una forma": "Draw a shape", "Dibuja el contorno de un tema de un solo trazo, sin levantar el ratón. Al soltar se cierra sola.": "Draw a topic outline in one stroke, without lifting the mouse. It closes by itself when you let go.", "Suavizar": "Smooth", "Borrar": "Clear", "El texto del tema irá dentro.": "The topic text goes inside.", "Guardar forma": "Save shape", "Dibuja un contorno más grande.": "Draw a bigger outline.", "Forma guardada en «Mis formas»": "Shape saved to «My shapes»", "Imagen": "Image", "Imagen dentro del tema (también puedes pegarla con Ctrl+V o arrastrarla)": "Image inside the topic (you can also paste it with Ctrl+V or drag it in)", "Imagen…": "Image…", "Añadir imagen…": "Add image…", "Imagen del tema": "Topic image", "Se muestra encima del texto. También puedes pegarla (Ctrl+V) o arrastrarla sobre un tema.": "Shown above the text. You can also paste it (Ctrl+V) or drag it onto a topic.", "Mis estilos y personalizar el estilo por niveles": "My styles and per-level customization", "Mis estilos": "My styles", "Borrar este estilo": "Delete this style", "Aún no tienes estilos propios. Personaliza el mapa y guárdalo con un nombre.": "You don't have your own styles yet. Customize the map and save it with a name.", "🎨 Personalizar por niveles…": "🎨 Customize by level…", "💾 Guardar el estilo actual…": "💾 Save the current style…", "Guardar el estilo": "Save the style", "Guarda las formas, letras, colores y ramas de este mapa para usarlos en otros mapas.": "Saves this map's shapes, fonts, colors and branches to use in other maps.", "Guardar": "Save", "Personalizar el estilo por niveles": "Customize the style by level", "Cada columna es un nivel del mapa. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level. Changes show right away; then you can save it as your own style.", "Principales": "Main topics", "De la paleta": "From the palette", "Letra": "Font", "Estilo": "Style", "Borde": "Border", "Grosor de rama": "Branch width", "Como se escribe": "As typed", "Cada Palabra": "Each Word", "Versalitas": "Small caps", "Volver al automático": "Back to automatic", "auto": "auto", "Colores: Personalizados": "Colors: Custom", "Guardar como estilo…": "Save as style…", "Quitar formato por niveles": "Clear per-level formatting", "Devuelve todos los temas a su sitio automático": "Puts every topic back in its automatic place", "Arcoíris": "Rainbow", "Pastel": "Pastel", "Neón": "Neon", "Otoño": "Autumn", "Primavera": "Spring", "Bosque": "Forest", "Atardecer": "Sunset", "Tropical": "Tropical", "Frutos rojos": "Berries", "Lavanda": "Lavender", "Tonos azules": "Blues", "Tonos verdes": "Greens", "Cálidos": "Warm", "Café": "Coffee", "Retro": "Retro", "Nórdico": "Nordic", "Oficina": "Office", "Alto contraste": "High contrast", "Personalizados…": "Custom…", "Personalizada": "Custom", "Colores: Personalizados…": "Colors: Custom…", "Colores personalizados": "Custom colors", "Ramas principales, en orden": "Main branches, in order", "Quitar este color": "Remove this color", "Añadir un color": "Add a color", "Si hay más ramas que colores, se repiten en el mismo orden. Las subramas heredan el color de su rama.": "If there are more branches than colors, they repeat in the same order. Sub-branches take their branch's color.", "Partir de una paleta…": "Start from a palette…", "Partir de…": "Start from…", "Textura o imagen": "Texture or image", "Texturas de fondo o una imagen tuya": "Background textures or your own image", "Textura": "Texture", "Ninguna": "None", "Papel": "Paper", "Lino": "Linen", "Cuaderno": "Notebook", "Rayas": "Stripes", "Lunares": "Polka dots", "Luz suave": "Soft light", "Degradado": "Gradient", "Plano": "Blueprint", "Pizarra": "Chalkboard", "Cartón": "Kraft", "Corcho": "Cork", "Grafito": "Graphite", "Imagen de fondo": "Background image", "Ajustar a la pantalla": "Fit to screen", "Mosaico": "Tile", "Velo para que se lea mejor": "Veil for easier reading", "Cambiar…": "Change…", "Elegir imagen…": "Choose image…", "Desde un enlace…": "From a link…", "Quitar": "Remove", "La imagen se guarda dentro del archivo .md (reducida). Con un enlace, el archivo solo guarda la dirección.": "The image is saved inside the .md file (downsized). With a link, the file only keeps the address.", "Imagen desde un enlace": "Image from a link", "Pega la dirección de una imagen de internet (https://…).": "Paste the address of an image on the web (https://…).", "La dirección no parece válida.": "That address doesn't look valid.", "No se pudo leer la imagen.": "Couldn't read the image.", "Hasta Full HD (1920 px de ancho)": "Up to Full HD (1920 px wide)", "Más resolución 🔒": "Higher resolution 🔒", "Máxima ×4": "Maximum ×4", "25 combinaciones de colores y tus propios colores de rama": "25 color sets and your own branch colors", "Todas las texturas de fondo y tu propia imagen": "Every background texture and your own image", "Exportar en alta resolución y en SVG": "Export in high resolution and SVG", "Tus propias formas dibujadas, imágenes dentro de los temas y estilos propios por niveles": "Your own hand-drawn shapes, images inside topics and your own per-level styles", "Arrastra para mover el minimapa · Doble clic: volver a su sitio": "Drag to move the minimap · Double-click: put it back", "Exportar imagen": "Export image", "Exportar imagen…": "Export image…", "Guardar o copiar el mapa como PNG, JPG o SVG (Ctrl+Mayús+E)": "Save or copy the map as PNG, JPG or SVG (Ctrl+Shift+E)", "La hoja actual, tal como se ve: para pegarla en un documento, una presentación o una web.": "The current sheet, just as you see it: to paste into a document, a presentation or a website.", "Calidad": "Quality", "Normal ×1": "Normal ×1", "Alta ×2": "High ×2", "Muy alta ×3": "Very high ×3", "Fondo": "Background", "Del mapa": "Map's own", "Blanco": "White", "Transparente": "Transparent", "Copiar imagen al portapapeles": "Copy image to clipboard", "Descargar": "Download", "SVG se amplía sin perder calidad y se ve perfecto en navegadores. Word, PowerPoint o Figma pueden no mostrar bien los textos: para ellos usa PNG.": "SVG scales without losing quality and looks perfect in browsers. Word, PowerPoint or Figma may not show the text properly: use PNG for them.", "JPG ocupa menos, pero no admite fondo transparente.": "JPG is smaller, but can't have a transparent background.", "PNG es la opción más segura: se ve igual en cualquier programa.": "PNG is the safest choice: it looks the same in any program.", "Imagen copiada: pégala donde quieras": "Image copied: paste it anywhere", "No se pudo copiar. Usa «Descargar».": "Couldn't copy. Use «Download».", "El mapa está vacío.": "The map is empty.", "Este navegador no deja crear la imagen. Prueba con Chrome o Edge.": "This browser can't create the image. Try Chrome or Edge.", "Mover el minimapa": "Move the minimap", "Ocultar el minimapa (Vista → Minimapa)": "Hide the minimap (View → Minimap)", "Minimapa oculto · Vista → Minimapa para verlo": "Minimap hidden · View → Minimap to show it again", "Arriba a la izquierda": "Top left", "Arriba a la derecha": "Top right", "Abajo a la izquierda": "Bottom left", "Abajo a la derecha": "Bottom right", "Ocultar el minimapa": "Hide the minimap", "Texto largo": "Long text", "Todo el texto": "Full text", "1 línea": "1 line", "2 líneas": "2 lines", "3 líneas": "3 lines", "4 líneas": "4 lines", "6 líneas": "6 lines", "Los temas largos se cortan con «…». El texto completo se ve al pasar el ratón y al editar.": "Long topics are cut short with «…». The full text shows on hover and while editing.", "Ajustar la vista al cambiar de nivel": "Fit the view when changing level" };
+const EN = { "El tema central no tiene rama.": "The central topic has no branch.", "Texto e imagen en la rama": "Text and image on the branch", "Se muestran sobre la rama que llega a este tema: el texto sigue su curva y la imagen va en el centro.": "Shown on the branch leading to this topic: the text follows its curve and the image sits in the middle.", "Texto": "Text", "Elegir imagen…": "Choose image…", "Desde un enlace…": "From a link…", "Quitar": "Remove", "Dirección de la imagen (https://…)": "Image address (https://…)", "Editar texto en la rama…": "Edit branch text…", "Texto o imagen en la rama…": "Text or image on the branch…", "No se pudo leer el archivo SVG.": "Could not read the SVG file.", "El SVG no tiene figuras que se puedan usar.": "The SVG has no usable shapes.", "Forma importada": "Imported shape", "Forma guardada en «Mis formas»": "Shape saved in «My shapes»", "Tamaño automático": "Automatic size", "Ancho (px)": "Width (px)", "Cerrar el vídeo": "Close the video", "Ver en YouTube": "Watch on YouTube", "Reproducir aquí": "Play here", "Mostrar como tarjeta de la web (icono y dominio)": "Show as a website card (icon and domain)", "Dirección": "Address", "Vídeo de YouTube": "YouTube video", "Vídeo de YouTube…": "YouTube video…", "Editar el vídeo…": "Edit video…", "Se ve la portada en el tema. En Mind Pro se reproduce dentro del tema; «YouTube ↗» lo abre en YouTube.": "The topic shows the thumbnail. In Mind Pro it plays inside the topic; «YouTube ↗» opens it on YouTube.", "Dirección del vídeo": "Video address", "Empieza en (min:seg)": "Starts at (min:sec)", "Capítulo (opcional)": "Chapter (optional)", "No parece un vídeo de YouTube.": "That doesn't look like a YouTube video.", "Tamaño por defecto (px)": "Default size (px)", "Central": "Central", "Principales": "Main", "Demás": "Others", "Cómo se ve": "Display", "Completa": "Full", "Como fondo de la forma": "As shape background", "Imagen o vídeo completo": "Full image or video", "Imagen o vídeo como fondo": "Image or video as background", "Vínculo…": "Link…", "Ajustar a la cuadrícula al mover (aunque no se vea)": "Snap to grid when moving (even if hidden)", "Guías inteligentes al mover": "Smart guides when moving", "Mantén Alt al arrastrar para moverlo libre.": "Hold Alt while dragging to move freely.", "Trazo": "Stroke", "Trazo (borde más grueso arriba y a la derecha)": "Stroke (thicker border at top and right)", "Ajustar la selección a la pantalla": "Fit selection to screen", "Ajustar el tema a la pantalla": "Fit topic to screen", "Ajustar a la pantalla (Ctrl+0)": "Fit to screen (Ctrl+0)", "Incluir": "Include", "Solo este tema": "Only this topic", "nivel por debajo": "level below", "niveles por debajo": "levels below", "Toda la rama": "The whole branch", "temas": "topics", "Seleccionar sus temas": "Select its topics", "Los temas seleccionados no están en ningún grupo.": "The selected topics are not in any group.", "Relieve": "Relief", "Según la forma": "By shape", "Desplazado": "Offset", "Suave": "Soft", "Ninguno": "None", "Desplazado (como la ficha a mano)": "Offset (like the hand-drawn card)", "Sombra suave": "Soft shadow", "Forma y relieve": "Shape and relief", "Forma y relieve…": "Shape and relief…", "Color de la rama…": "Branch color…", "Más formato…": "More formatting…", "Vínculo o vídeo…": "Link or video…", "Vínculo o vídeo de YouTube": "Link or YouTube video", "Editar el vínculo…": "Edit link…", "Editar la nota…": "Edit note…", "Casilla de tarea": "Task checkbox", "Quitar la casilla": "Remove checkbox", "Agrupar los seleccionados…": "Group selected…", "Eliminar los seleccionados": "Delete selected", "Ver el vídeo": "Watch the video", "Ctrl+clic en 🔗 abre el vínculo. Si es un vídeo de YouTube, el tema muestra su portada.": "Ctrl+click 🔗 opens the link. If it is a YouTube video, the topic shows its thumbnail.", "Diagrama de flujo": "Flowchart", "Más formas": "More shapes", "Decisión": "Decision", "Datos": "Data", "Documento": "Document", "Base de datos": "Database", "Subproceso": "Subprocess", "Preparación": "Preparation", "Entrada manual": "Manual input", "Conector": "Connector", "Inicio / fin": "Start / end", "Hexágono": "Hexagon", "Octógono": "Octagon", "Estrella": "Star", "Escudo": "Shield", "Etiqueta": "Tag", "Flecha": "Arrow", "Galón": "Chevron", "Cinta": "Banner", "Bocadillo": "Speech bubble", "Nota adhesiva": "Sticky note", "Carpeta": "Folder", "Línea": "Line", "Lisa": "Solid", "Guiones": "Dashed", "Sin línea": "No line", "Automático": "Automatic", "El color de la rama": "The branch color", "Otro color": "Other color", "Nombre del grupo (opcional)": "Group name (optional)", "Abanico": "Fan", "Ajustado": "Fitted", "Solo contorno": "Outline only", "Rectángulo": "Rectangle", "Aplicar": "Apply", "Agrupar": "Group", "Agrupar…": "Group…", "Editar el grupo…": "Edit group…", "Grupo": "Group", "Agrupar los temas seleccionados con un fondo de color": "Group the selected topics with a colored background", "Selecciona uno o varios temas: se marcan con un fondo de color junto con sus subtemas.": "Select one or more topics: they get a colored background along with their subtopics.", "Quitar el grupo": "Remove group", "Archivo": "File", "Inicio": "Home", "Formato": "Format", "Diseño": "Design", "Vista": "View", "Guardado en este navegador": "Saved in this browser", "Mapa mental.md": "Mind map.md", "Mapa mental": "Mind map", "Guardar .md (Ctrl+S)": "Save .md (Ctrl+S)", "Deshacer (Ctrl+Z)": "Undo (Ctrl+Z)", "Rehacer (Ctrl+Y)": "Redo (Ctrl+Y)", "Opciones de la cinta": "Ribbon options", "Panel de formato": "Format pane", "Modo oscuro": "Dark mode", "Modo claro": "Light mode", "Contraer o fijar la cinta (Ctrl+F1)": "Collapse or pin the ribbon (Ctrl+F1)", "Contraer la cinta: solo pestañas (Ctrl+F1)": "Collapse the ribbon: tabs only (Ctrl+F1)", "Fijar la cinta (Ctrl+F1)": "Pin the ribbon (Ctrl+F1)", "Nuevo": "New", "Abrir .md": "Open .md", "Guardar .md": "Save .md", "Copiar Markdown": "Copy Markdown", "Ejemplo": "Sample", "Demostración": "Demo", "Recorrido automático por las funciones, para grabar un vídeo": "Automatic feature tour, for recording a video", "Abre o pega Markdown, texto con sangrías (como el que copia XMind) u OPML: cada nivel se convierte en una rama. Al guardar, el mapa es una lista anidada que se lee en GitHub, Obsidian o cualquier IA.": "Open or paste Markdown, indented text (like what XMind copies) or OPML: each level becomes a branch. When you save, the map is a nested list that reads well on GitHub, in Obsidian or in any AI.", "Tema hijo": "Child topic", "Tema hermano": "Sibling topic", "Tema padre": "Parent topic", "Tema flotante": "Floating topic", "Eliminar": "Delete", "Tema secundario (Tab)": "Subtopic (Tab)", "Tema del mismo nivel (Intro)": "Topic at the same level (Enter)", "Tema padre (Ctrl+Intro)": "Parent topic (Ctrl+Enter)", "Tema flotante en la pizarra (doble clic en vacío)": "Floating topic on the board (double-click empty space)", "Eliminar (Supr)": "Delete (Del)", "Temas": "Topics", "Relación": "Relationship", "Nota": "Note", "Vínculo": "Link", "Tarea": "Task", "Insertar": "Insert", "Marcadores": "Markers", "Marcador": "Marker", "Relación entre dos temas": "Relationship between two topics", "Plegar rama": "Collapse branch", "Desplegar todo": "Expand all", "Plegar todo": "Collapse all", "Subir": "Move up", "Bajar": "Move down", "Recolocar": "Reset position", "Plegar o desplegar (Ctrl+/)": "Collapse or expand (Ctrl+/)", "Subir (Alt+↑)": "Move up (Alt+↑)", "Bajar (Alt+↓)": "Move down (Alt+↓)", "Devuelve el tema a su sitio automático": "Puts the topic back in its automatic place", "Organizar": "Arrange", "Nueva hoja": "New sheet", "Duplicar hoja": "Duplicate sheet", "Hojas": "Sheets", "Añade una hoja nueva al archivo": "Adds a new sheet to the file", "Copia esta hoja": "Copies this sheet", "Este tema": "This topic", "Todo su nivel": "Whole level", "Todo el mapa": "Whole map", "Aplicar a": "Apply to", "Solo los temas seleccionados": "Only the selected topics", "Todos los temas del mismo nivel": "All topics at the same level", "Todos los temas del mapa": "All topics in the map", "Forma del tema": "Topic shape", "Todas las formas, por grupos": "All shapes, by group", "Color de rama": "Branch color", "Relleno": "Fill", "Color del texto": "Text color", "Colores": "Colors", "Negrita (Ctrl+B)": "Bold (Ctrl+B)", "Cursiva (Ctrl+I)": "Italic (Ctrl+I)", "Subrayado": "Underline", "Mayúsculas": "Uppercase", "Aumentar tamaño": "Increase size", "Reducir tamaño": "Decrease size", "Alinear a la izquierda": "Align left", "Centrar": "Center", "Alinear a la derecha": "Align right", "Grosor de la letra": "Font weight", "Mayúsculas y minúsculas": "Letter case", "Tipo de letra": "Font", "Texto": "Text", "Borrar formato": "Clear formatting", "Grosor del borde": "Border width", "Grosor de la rama": "Branch width", "Líneas": "Lines", "Estilo del mapa": "Map style", "Estructura": "Structure", "Colores de las ramas": "Branch colors", "Colores de rama": "Branch colors", "Cónicas principales": "Tapered main", "Cónicas en todas": "Tapered all", "Grosor uniforme": "Uniform width", "Solo las ramas principales se estrechan": "Only main branches taper", "Todas las ramas se estrechan": "All branches taper", "Todas las ramas con el mismo grosor": "All branches the same width", "Ramas 3D": "3D branches", "Ramas con sombra y brillo, como tubos": "Branches with shadow and shine, like tubes", "Esquinas": "Corners", "Cuánto se redondean las esquinas de las ramas en ángulo": "How rounded the corners of angled branches are", "Puntos": "Dots", "Cuadrícula": "Grid", "Liso": "Plain", "Compacto": "Compact", "Normal": "Normal", "Más separación": "More spacing", "Separación entre temas, hasta ×5": "Spacing between topics, up to ×5", "Color y rejilla": "Color and grid", "Color de fondo, tamaño e intensidad de la rejilla": "Background color, grid size and intensity", "Fondo y espaciado": "Background and spacing", "Recolocar todo": "Reset all positions", "Posiciones": "Positions", "Ratón y zoom…": "Mouse and zoom…", "Ratón y zoom": "Mouse and zoom", "Ajustar a la ventana": "Fit to window", "Centrar selección": "Center selection", "Navegación": "Navigation", "Esquema": "Outline", "Panel Markdown": "Markdown pane", "Minimapa": "Minimap", "Markdown al lado": "Markdown at the side", "Markdown abajo": "Markdown below", "Barra de estado": "Status bar", "Paneles": "Panes", "A la izquierda": "Left", "A la derecha": "Right", "Oculta": "Hidden", "Barra de herramientas": "Toolbar", "Arriba": "Top", "Completa": "Full", "Solo pestañas": "Tabs only", "Ocultar sola": "Auto-hide", "Pestañas arriba": "Tabs on top", "Cinta de opciones": "Ribbon", "Pestañas y comandos siempre visibles": "Tabs and commands always visible", "Solo pestañas; los comandos aparecen al pulsar una (Ctrl+F1)": "Tabs only; commands appear when you click one (Ctrl+F1)", "Se oculta y aparece al acercar el ratón al borde": "Hides, and appears when the mouse nears the edge", "Las pestañas pasan a la barra de color de arriba y la cinta ocupa menos": "Tabs move to the colored bar at the top, so the ribbon takes less space", "Fondo y tono": "Background and tone", "Tono oscuro, color de fondo y rejilla": "Dark tone, background color and grid", "Al acercar el ratón": "On hover", "Siempre": "Always", "Nunca": "Never", "Apariencia · barra rápida": "Appearance · quick bar", "Aparece al acercar el ratón al tema seleccionado": "Appears when the mouse is over the selected topic", "Siempre visible con un tema seleccionado": "Always visible when a topic is selected", "Sin barra rápida": "No quick bar", "Posición de la cinta": "Ribbon position", "Mostrar": "Show", "Pestañas y comandos": "Tabs and commands", "Solo pestañas (Ctrl+F1)": "Tabs only (Ctrl+F1)", "Ocultar automáticamente": "Hide automatically", "Pestañas": "Tabs", "En la barra de título": "In the title bar", "Cerrar": "Close", "Copiar": "Copy", "Markdown del mapa": "Map Markdown", "Puedes editarlo: el mapa se actualiza al escribir.": "You can edit it: the map updates as you type.", "Seleccionar": "Select", "Mano: mover la pizarra (mantén Espacio)": "Hand: move the board (hold Space)", "Tema hijo (Tab)": "Child topic (Tab)", "Tema hermano (Intro)": "Sibling topic (Enter)", "Plegar rama (Ctrl+/)": "Collapse branch (Ctrl+/)", "Acercar": "Zoom in", "Alejar": "Zoom out", "Ajustar a la ventana (Ctrl+0)": "Fit to window (Ctrl+0)", "Ajustar": "Fit", "Ajustar (Ctrl+0)": "Fit (Ctrl+0)", "Zoom": "Zoom", "Cambiar los controles del ratón": "Change the mouse controls", "A qué temas se aplica el formato": "Which topics the formatting applies to", "Negrita": "Bold", "Cursiva": "Italic", "Más pequeño": "Smaller", "Más grande": "Larger", "Forma": "Shape", "Más formato": "More formatting", "Su nivel": "Its level", "Todo": "All", "Tema": "Topic", "Ramas": "Branches", "Mapa": "Map", "Borde y rama": "Border and branch", "Quitar formato": "Clear formatting", "Estilo y tamaño": "Style and size", "Alineación y grosor": "Alignment and weight", "Izquierda": "Left", "Derecha": "Right", "Espacio entre letras": "Letter spacing", "Tipo de rama": "Branch type", "Se aplica al mapa del tema seleccionado; sin selección, a todos.": "Applies to the selected topic's map; with nothing selected, to all maps.", "Ramas cónicas": "Tapered branches", "Solo las principales": "Main branches only", "Todas": "All", "Se ven con ramas curvas, en abanico o rectas.": "Visible with curved, fan or straight branches.", "Color": "Color", "Color de la rama": "Branch color", "Esquinas de las ramas en ángulo": "Corners of angled branches", "0 = esquina viva · 30 = muy redondeada": "0 = sharp corner · 30 = very rounded", "Ramas 3D: no": "3D branches: no", "Separación entre temas": "Spacing between topics", "Fondo, rejilla y tono…": "Background, grid and tone…", "Estilo del mapa…": "Map style…", "Solo a este tema.": "Only this topic.", "Los cambios afectan a todos los temas.": "Changes apply to all topics.", "Selecciona un tema para darle formato.": "Select a topic to format it.", "Aplicar el formato a": "Apply formatting to", "Solo este tema": "Only this topic", "Todos los temas de su nivel": "All topics at its level", "Tema central": "Central topic", "Temas principales": "Main topics", "Subtemas": "Subtopics", "Básicas": "Basic", "Orgánicas": "Organic", "Detalles": "Details", "3D": "3D", "Placas con marco": "Framed plates", "Metal macizo": "Solid metal", "Automática": "Automatic", "Redondeada": "Rounded", "Rectángulo": "Rectangle", "Píldora": "Pill", "Sólida": "Solid", "Sin borde": "No border", "Elipse": "Ellipse", "Orgánica": "Organic", "A mano": "Hand-drawn", "Hoja": "Leaf", "Discontinua": "Dashed", "Borde doble": "Double border", "Tarjeta": "Card", "Resaltado": "Highlight", "Ficha a mano": "Hand-drawn card", "Canto rodado": "Pebble", "Pétalo": "Petal", "Rotulador": "Marker", "Boceto": "Sketch", "Ola": "Wave", "Nube": "Cloud", "Relieve 3D": "3D relief", "Píldora 3D": "3D pill", "Botón": "Button", "Cristal": "Glass", "Oro macizo": "Solid gold", "Plata maciza": "Solid silver", "Bronce macizo": "Solid bronze", "Placa con marco de oro": "Plate with gold frame", "Placa con marco de plata": "Plate with silver frame", "Placa con marco de bronce": "Plate with bronze frame", "Placa con marco de acero": "Plate with steel frame", "Orgánico": "Organic", "Árbol": "Tree", "Organigrama": "Org chart", "Línea de tiempo": "Timeline", "Radial": "Radial", "Curva": "Curve", "Abanico": "Fan", "En ángulo": "Angled", "Ángulo junto al tema": "Angle near the topic", "Ángulo suave": "Soft angle", "Corchete": "Bracket", "Escalón": "Step", "Ángulo recto": "Right angle", "En diagonal": "Diagonal", "Recta": "Straight", "Clásico": "Classic", "Píldoras": "Pills", "Boceto gris": "Grey sketch", "Tarjetas": "Cards", "Oro y plata": "Gold and silver", "Mínimo": "Minimal", "Vivo": "Vivid", "Océano": "Ocean", "Suave": "Soft", "Tierra": "Earth", "Gris": "Grey", "Metal": "Metal", "Segoe UI (predeterminada)": "Segoe UI (default)", "redondeada": "rounded", "suave": "soft", "geométrica": "geometric", "moderna": "modern", "humanista": "humanist", "con serifa": "serif", "elegante": "elegant", "clásica": "classic", "manuscrita": "handwritten", "a mano": "hand-drawn", "a mano, versalitas": "hand-drawn, small caps", "rotulador": "marker", "pizarra": "chalkboard", "cómic": "comic", "cuaderno": "notebook", "fina": "thin", "boceto": "sketch", "informal": "casual", "monoespaciada": "monospace", "Automático": "Automatic", "Fina": "Light", "Seminegrita": "Semibold", "Extranegrita": "Extra bold", "Muy gruesa": "Black", "MAYÚSCULAS": "UPPERCASE", "minúsculas": "lowercase", "Cada Palabra En Mayúscula": "Capitalize Each Word", "Versalitas (Como Patrick Hand SC)": "Small caps (like Patrick Hand SC)", "Ramas principales cónicas": "Tapered main branches", "Todas las ramas cónicas": "All branches tapered", "Líneas curvas": "Curved lines", "Cambiar el texto": "Edit text", "Nota…": "Note…", "Vínculo…": "Link…", "Relación con…": "Relationship to…", "Desplegar rama": "Expand branch", "Duplicar": "Duplicate", "Centrar en la pantalla": "Center on screen", "Tema flotante aquí": "Floating topic here", "Zoom al 100 %": "Zoom to 100%", "Cambiar el nombre…": "Rename…", "Duplicar la hoja": "Duplicate sheet", "Mover a la izquierda": "Move left", "Mover a la derecha": "Move right", "Eliminar la hoja": "Delete sheet", "Doble clic: cambiar el nombre · Clic derecho: más opciones": "Double-click: rename · Right-click: more options", "Aceptar": "OK", "Cancelar": "Cancel", "Listo": "Done", "Restablecer": "Reset", "Entendido": "Got it", "Nota del tema": "Topic note", "Se guarda como un párrafo debajo del tema, en Markdown normal.": "Saved as a paragraph under the topic, in plain Markdown.", "Dirección": "Address", "Ctrl+clic en 🔗 abre el vínculo.": "Ctrl+click 🔗 to open the link.", "Texto de la relación": "Relationship label", "Texto sobre la flecha (opcional)": "Text on the arrow (optional)", "Por ejemplo: depende de": "For example: depends on", "Nombre de la hoja": "Sheet name", "Nombre": "Name", "No se puede deshacer.": "This can't be undone.", "Elige cómo te mueves por la pizarra. Los cambios se aplican al momento: pruébalos sin cerrar.": "Choose how you move around the board. Changes apply right away: try them without closing.", "Rueda para hacer zoom (recomendado)": "Wheel zooms (recommended)", "Rueda: zoom hacia el puntero · Botón derecho o central: mover · Espacio: mano": "Wheel: zoom towards the pointer · Right or middle button: move · Space: hand", "Rueda para desplazar": "Wheel scrolls", "Rueda: mover arriba y abajo · Ctrl+rueda: zoom · Bueno con panel táctil": "Wheel: move up and down · Ctrl+wheel: zoom · Good with a touchpad", "Arrastrar el fondo para mover": "Drag the background to move", "Botón izquierdo en vacío: mover · Rueda: zoom · Mayús+arrastrar: seleccionar": "Left button on empty space: move · Wheel: zoom · Shift+drag: select", "Rueda del ratón": "Mouse wheel", "Zoom (Mayús+rueda: desplazar en horizontal)": "Zoom (Shift+wheel: scroll sideways)", "Desplazar (Ctrl o Alt + rueda: zoom)": "Scroll (Ctrl or Alt + wheel: zoom)", "Botón derecho": "Right button", "Un clic sin arrastrar abre el menú": "A click without dragging opens the menu", "Arrastrar mueve la pizarra": "Dragging moves the board", "Solo menú contextual": "Context menu only", "Botón central (rueda pulsada)": "Middle button (wheel pressed)", "Arrastrar arriba y abajo hace zoom": "Dragging up and down zooms", "Botón izquierdo en vacío": "Left button on empty space", "Seleccionar un área": "Select an area", "Mover la pizarra": "Move the board", "Doble clic en vacío": "Double-click empty space", "Crear un tema flotante": "Create a floating topic", "Centro del zoom": "Zoom center", "Hacia donde apunta el ratón": "Where the mouse points", "Centro de la pantalla": "Center of the screen", "Velocidad del zoom": "Zoom speed", "Opciones": "Options", "Mantener Espacio y arrastrar mueve la pizarra (mano)": "Hold Space and drag to move the board (hand)", "Invertir la dirección del zoom": "Invert zoom direction", "Zoom suave (animado)": "Smooth zoom (animated)", "Modo": "Mode", "Claro": "Light", "Oscuro": "Dark", "Tono oscuro": "Dark tone", "negro ↔ gris": "black ↔ grey", "Color de fondo": "Background color", "(modo oscuro)": "(dark mode)", "Otro color": "Other color", "Rejilla": "Grid", "Tamaño": "Size", "Intensidad": "Intensity", "Juntos": "Close", "Muy separados": "Far apart", "Viva": "Sharp", "Muy redondeada": "Very rounded", "Copiado como Markdown": "Copied as Markdown", "Markdown copiado": "Markdown copied", "No se encontró contenido en el archivo.": "No content found in the file.", "No se pudo guardar. Usa «Copiar Markdown».": "Couldn't save. Use «Copy Markdown».", "Selecciona el tema de origen y pulsa Relación.": "Select the source topic and click Relationship.", "Selecciona un tema.": "Select a topic.", "Selecciona uno o varios temas.": "Select one or more topics.", "Selecciona un tema, o elige «Todo el mapa».": "Select a topic, or choose «Whole map».", "Haz clic en el tema de destino · Esc para cancelar": "Click the target topic · Esc to cancel", "El archivo necesita al menos una hoja.": "The file needs at least one sheet.", "Disponible en Mind Pro": "Available in Mind Pro", "Disponible en MarkDawn Mind Pro": "Available in MarkDawn Mind Pro", "Activar con mi clave": "Activate with my key", "Activar Mind Pro": "Activate Mind Pro", "Escribe la clave de licencia que recibiste por correo al comprar en Gumroad.": "Enter the license key you received by email when you bought it on Gumroad.", "Clave de licencia": "License key", "Activar": "Activate", "No se pudo activar": "Could not activate", "Licencia de Mind Pro": "Mind Pro license", "Activar Mind Pro con tu clave": "Activate Mind Pro with your key", "Activar Mind Pro o conseguirlo": "Activate or get Mind Pro", "Solo hace falta internet para activarla; después, Mind Pro funciona sin conexión. ¿Aún no la tienes?": "You only need internet to activate it; afterwards Mind Pro works offline. Don't have one yet?", "No se pudo comprobar la clave. Comprueba la conexión a internet e inténtalo de nuevo.": "The key could not be checked. Check your internet connection and try again.", "Esa clave no es válida. Cópiala tal cual del correo de compra de Gumroad.": "That key is not valid. Copy it exactly from your Gumroad purchase email.", "Esa compra se ha devuelto o anulado, así que la clave ya no es válida.": "That purchase was refunded or cancelled, so the key is no longer valid.", "Esta copia de Mind Pro no está configurada para activarse. Descarga la última versión desde Gumroad.": "This copy of Mind Pro is not set up for activation. Download the latest version from Gumroad.", "Esta clave ya está activada en 3 equipos, el máximo por compra. Si cambiaste de equipo, escríbeme a support@markdawn.net y la libero.": "This key is already active on 3 devices, the maximum per purchase. If you changed devices, write to support@markdawn.net and I will free it.", "Esta es la versión gratuita.": "This is the free version.", "Mind Pro añade:": "Mind Pro adds:", "Todos los estilos de mapa: relieve 3D, oro y plata, tarjetas, píldoras…": "Every map style: 3D relief, gold and silver, cards, pills…", "Organigrama, línea de tiempo, radial y mapa a la izquierda": "Org chart, timeline, radial and left-side map", "Más de 30 formas: orgánicas, 3D, placas con marco de metal": "Over 30 shapes: organic, 3D, metal-framed plates", "10 tipos de rama, ramas 3D y esquinas a medida": "10 branch types, 3D branches and custom corners", "Formato por niveles o para todo el mapa de una vez": "Formatting by level or for the whole map at once", "Todas las letras, espacio entre letras y separación a medida": "Every font, letter spacing and custom spacing", "Los mapas son Markdown normal: lo que hagas aquí se abre igual en Mind Pro.": "Maps are plain Markdown: what you make here opens the same in Mind Pro.", "Conseguir Mind Pro →": "Get Mind Pro →", "Versión gratuita · ver Mind Pro": "Free version · see Mind Pro", "gratis": "free", "Demostración de MarkDawn Mind": "MarkDawn Mind demo", "Un recorrido automático de menos de 2 minutos para grabar un vídeo.": "An automatic tour of under 2 minutes, for recording a video.", "Pon el navegador a pantalla completa (F11).": "Put the browser in full screen (F11).", "Empieza a grabar y pulsa «Empezar»: habrá una cuenta atrás.": "Start recording and click «Start»: there will be a countdown.", "Esc detiene la demostración. Al terminar, tu mapa y tus ajustes vuelven a estar como antes.": "Esc stops the demo. When it ends, your map and settings are back as they were.", "Empezar": "Start", "Mapas mentales como en Office, guardados en Markdown": "Mind maps like in Office, saved as Markdown", "Escribe como en un esquema": "Type like in an outline", "Tab crea un tema hijo, Intro uno hermano": "Tab adds a child topic, Enter a sibling", "Todo se guarda en Markdown": "Everything is saved as Markdown", "Una lista normal que lee GitHub, Obsidian o cualquier IA": "A plain list that GitHub, Obsidian or any AI can read", "Estilos de mapa con un clic": "Map styles in one click", "Cambia de estructura sin perder nada": "Change structure without losing anything", "Orgánico, árbol, organigrama, línea de tiempo, radial…": "Organic, tree, org chart, timeline, radial…", "Diez tipos de rama, cónicas y en 3D": "Ten branch types, tapered and 3D", "Arrastra un tema: se queda donde lo dejas": "Drag a topic: it stays where you drop it", "Sus ramas viajan con él y las líneas se adaptan solas": "Its branches travel with it and the lines adapt on their own", "Separa todos los temas a la vez": "Spread all topics at once", "Un solo control para todo el mapa": "One control for the whole map", "Pliega y despliega ramas": "Collapse and expand branches", "Formato a tu gusto": "Formatting your way", "Formas orgánicas, 3D, placas de metal, colores, letras…": "Organic shapes, 3D, metal plates, colors, fonts…", "Zoom hacia donde apuntas": "Zoom where you point", "La rueda, el botón derecho o Espacio: tú eliges cómo moverte": "Wheel, right button or Space: you choose how to move", "Varias hojas en el mismo archivo": "Several sheets in one file", "Trabaja como en Office. Guarda en Markdown.": "Work like in Office. Save as Markdown.", "MarkDawn Mind": "MarkDawn Mind", "Rueda: zoom": "Wheel: zoom", "Ctrl+rueda: zoom": "Ctrl+wheel: zoom", "Tab: tema hijo": "Tab: child topic", "Intro: hermano": "Enter: sibling", "F2: editar": "F2: edit", "Botón derecho: mover": "Right button: move", "botón derecho": "right button", "central": "middle", "izquierdo en vacío": "left on empty space", "Espacio": "Space", "Colores · Este tema": "Colors · This topic", "Cinta": "Ribbon", "Intro": "Enter", "Niveles": "Levels", "Plegar o desplegar el mapa por niveles": "Collapse or expand the map by level", "Mostrar el mapa": "Show the map", "Solo los temas principales": "Main topics only", "Hasta el nivel 2": "Down to level 2", "Hasta el nivel 3": "Down to level 3", "Hasta el nivel 4": "Down to level 4", "Todo desplegado": "Fully expanded", "Mostrar por niveles…": "Show by level…", "Niveles visibles": "Visible levels", "Solo principales": "Main only", "Todo": "All", "Ayuda": "Help", "Ayuda (F1)": "Help (F1)", "Guía rápida (F1)": "Quick guide (F1)", "Idioma · Language": "Idioma · Language", "Subtema": "Subtopic", "Idea central": "Central idea", "Hoja 1": "Sheet 1", "Tu configuración se guarda sola en": "Your settings are saved automatically in", "Configuración": "Settings", "Carpeta de trabajo": "Working folder", "Exportar configuración": "Export settings", "Importar configuración": "Import settings", "Trabajar en una carpeta: la configuración y los mapas se guardan solos (Chrome y Edge)": "Work in a folder: settings and maps are saved automatically (Chrome and Edge)", "Guarda tus preferencias, estilos y formas en un archivo": "Saves your preferences, styles and shapes to a file", "Carga la configuración desde un archivo": "Loads settings from a file", "Ese archivo no es una configuración de MarkDawn Mind.": "That file isn't a MarkDawn Mind settings file.", "Combinar": "Merge", "Sustituir": "Replace", "Usa sus preferencias y añade sus estilos y formas a los que ya tienes.": "Uses its preferences and adds its styles and shapes to yours.", "Deja la configuración exactamente como en el archivo.": "Makes your settings exactly like the file.", "Importar": "Import", "Configuración importada": "Settings imported", "Este navegador no deja elegir una carpeta aquí. Descarga el archivo y ábrelo en Chrome o Edge.": "This browser can't choose a folder here. Download the file and open it in Chrome or Edge.", "Ya existe ese archivo": "That file already exists", "¿Quieres sustituirlo por este mapa?": "Do you want to replace it with this map?", "No se pudo guardar en la carpeta.": "Couldn't save to the folder.", "Volver a conectar la carpeta de trabajo": "Reconnect the working folder", "Disponible en Chrome y Edge.": "Available in Chrome and Edge.", "En este navegador no se puede elegir una carpeta. Tus mapas y tu configuración se guardan aquí, en el navegador.": "This browser can't choose a folder. Your maps and settings are saved here, in the browser.", "Elige una carpeta una vez y MarkDawn Mind trabajará en ella.": "Choose a folder once and MarkDawn Mind will work in it.", "Abres los mapas de la carpeta con un clic": "Open the folder's maps in one click", "Al guardar un mapa ahí, cada cambio se guarda solo": "Once a map is saved there, every change is saved automatically", "Consejo: usa la carpeta donde tienes MarkDawn Mind. La próxima vez el navegador solo te pedirá permiso con un clic.": "Tip: use the folder where you keep MarkDawn Mind. Next time the browser will just ask for permission with one click.", "Elegir carpeta…": "Choose folder…", "Buscando mapas…": "Looking for maps…", "Guardar como un mapa nuevo": "Save as a new map", "Guardar la configuración ahora": "Save settings now", "Cambiar de carpeta…": "Change folder…", "Dejar de usar la carpeta": "Stop using the folder", "Aún no hay mapas en esta carpeta.": "There are no maps in this folder yet.", "Configuración guardada en la carpeta": "Settings saved to the folder", "Ya no se usa la carpeta. Todo sigue guardado en el navegador.": "The folder is no longer used. Everything is still saved in the browser.", "Y vuelves a cualquier estilo con un clic": "And back to any style in one click", "Espejo ↔": "Mirror ↔", "4 partes ✛": "4 quarters ✛", "El lado izquierdo igual que el derecho": "Left side the same as the right", "Las cuatro partes iguales": "All four quarters the same", "Suavizado": "Smoothing", "Simetría": "Symmetry", "Libre": "Free", "Izquierda = derecha": "Left = right", "Las cuatro partes": "All four quarters", "Sin suavizar": "No smoothing", "Poco": "Light", "Medio": "Medium", "Mucho": "Strong", "Dibuja sin miedo: el suavizado arregla el pulso. El texto del tema irá dentro.": "Draw freely: smoothing fixes a shaky hand. The topic text goes inside.", "25 combinaciones de colores": "25 color sets", "O tus propios colores, rama a rama": "Or your own colors, branch by branch", "Y muestra el mapa nivel a nivel": "And reveal the map level by level", "Tu propio estilo, nivel a nivel": "Your own style, level by level", "Central, principales, subtemas y sub-subtemas": "Central, main, subtopics and sub-subtopics", "Dibuja tus propias formas": "Draw your own shapes", "Un trazo y ya es una forma más": "One stroke and it's a new shape", "Imágenes dentro de los temas": "Images inside topics", "Elige una, pégala con Ctrl+V o arrástrala": "Pick one, paste it with Ctrl+V or drag it in", "Texturas de fondo o tu propia imagen": "Background textures or your own image", "Papel, pizarra, plano, corcho…": "Paper, chalkboard, blueprint, cork…", "Exporta el mapa como imagen": "Export the map as an image", "PNG, JPG o SVG, o cópialo y pégalo donde quieras": "PNG, JPG or SVG, or copy and paste it anywhere", "Sub-subtemas": "Sub-subtopics", "Cada columna es un nivel del mapa; los sub-subtemas usan lo de los subtemas salvo lo que cambies. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level; sub-subtopics use the subtopic settings except what you change. Changes show right away; then you can save it as your own style.", "Mis estilos ▾": "My styles ▾", "Personalizar por niveles…": "Customize by level…", "Mis formas": "My shapes", "Quitar de mis formas": "Remove from my shapes", "Dibujar una forma nueva": "Draw a new shape", "Forma propia": "Custom shape", "Quitada de «Mis formas» (este mapa la sigue usando)": "Removed from «My shapes» (this map still uses it)", "Forma eliminada": "Shape deleted", "Dibujar una forma": "Draw a shape", "Dibuja el contorno de un tema de un solo trazo, sin levantar el ratón. Al soltar se cierra sola.": "Draw a topic outline in one stroke, without lifting the mouse. It closes by itself when you let go.", "Suavizar": "Smooth", "Borrar": "Clear", "El texto del tema irá dentro.": "The topic text goes inside.", "Guardar forma": "Save shape", "Dibuja un contorno más grande.": "Draw a bigger outline.", "Forma guardada en «Mis formas»": "Shape saved to «My shapes»", "Imagen": "Image", "Imagen dentro del tema (también puedes pegarla con Ctrl+V o arrastrarla)": "Image inside the topic (you can also paste it with Ctrl+V or drag it in)", "Imagen…": "Image…", "Añadir imagen…": "Add image…", "Imagen del tema": "Topic image", "Se muestra encima del texto. También puedes pegarla (Ctrl+V) o arrastrarla sobre un tema.": "Shown above the text. You can also paste it (Ctrl+V) or drag it onto a topic.", "Mis estilos y personalizar el estilo por niveles": "My styles and per-level customization", "Mis estilos": "My styles", "Borrar este estilo": "Delete this style", "Aún no tienes estilos propios. Personaliza el mapa y guárdalo con un nombre.": "You don't have your own styles yet. Customize the map and save it with a name.", "🎨 Personalizar por niveles…": "🎨 Customize by level…", "💾 Guardar el estilo actual…": "💾 Save the current style…", "Guardar el estilo": "Save the style", "Guarda las formas, letras, colores y ramas de este mapa para usarlos en otros mapas.": "Saves this map's shapes, fonts, colors and branches to use in other maps.", "Guardar": "Save", "Personalizar el estilo por niveles": "Customize the style by level", "Cada columna es un nivel del mapa. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level. Changes show right away; then you can save it as your own style.", "Principales": "Main topics", "De la paleta": "From the palette", "Letra": "Font", "Estilo": "Style", "Borde": "Border", "Grosor de rama": "Branch width", "Como se escribe": "As typed", "Cada Palabra": "Each Word", "Versalitas": "Small caps", "Volver al automático": "Back to automatic", "auto": "auto", "Colores: Personalizados": "Colors: Custom", "Guardar como estilo…": "Save as style…", "Quitar formato por niveles": "Clear per-level formatting", "Devuelve todos los temas a su sitio automático": "Puts every topic back in its automatic place", "Arcoíris": "Rainbow", "Pastel": "Pastel", "Neón": "Neon", "Otoño": "Autumn", "Primavera": "Spring", "Bosque": "Forest", "Atardecer": "Sunset", "Tropical": "Tropical", "Frutos rojos": "Berries", "Lavanda": "Lavender", "Tonos azules": "Blues", "Tonos verdes": "Greens", "Cálidos": "Warm", "Café": "Coffee", "Retro": "Retro", "Nórdico": "Nordic", "Oficina": "Office", "Alto contraste": "High contrast", "Personalizados…": "Custom…", "Personalizada": "Custom", "Colores: Personalizados…": "Colors: Custom…", "Colores personalizados": "Custom colors", "Ramas principales, en orden": "Main branches, in order", "Quitar este color": "Remove this color", "Añadir un color": "Add a color", "Si hay más ramas que colores, se repiten en el mismo orden. Las subramas heredan el color de su rama.": "If there are more branches than colors, they repeat in the same order. Sub-branches take their branch's color.", "Partir de una paleta…": "Start from a palette…", "Partir de…": "Start from…", "Textura o imagen": "Texture or image", "Texturas de fondo o una imagen tuya": "Background textures or your own image", "Textura": "Texture", "Ninguna": "None", "Papel": "Paper", "Lino": "Linen", "Cuaderno": "Notebook", "Rayas": "Stripes", "Lunares": "Polka dots", "Luz suave": "Soft light", "Degradado": "Gradient", "Plano": "Blueprint", "Pizarra": "Chalkboard", "Cartón": "Kraft", "Corcho": "Cork", "Grafito": "Graphite", "Imagen de fondo": "Background image", "Ajustar a la pantalla": "Fit to screen", "Mosaico": "Tile", "Velo para que se lea mejor": "Veil for easier reading", "Cambiar…": "Change…", "Elegir imagen…": "Choose image…", "Desde un enlace…": "From a link…", "Quitar": "Remove", "La imagen se guarda dentro del archivo .md (reducida). Con un enlace, el archivo solo guarda la dirección.": "The image is saved inside the .md file (downsized). With a link, the file only keeps the address.", "Imagen desde un enlace": "Image from a link", "Pega la dirección de una imagen de internet (https://…).": "Paste the address of an image on the web (https://…).", "La dirección no parece válida.": "That address doesn't look valid.", "No se pudo leer la imagen.": "Couldn't read the image.", "Hasta Full HD (1920 px de ancho)": "Up to Full HD (1920 px wide)", "Más resolución 🔒": "Higher resolution 🔒", "Máxima ×4": "Maximum ×4", "25 combinaciones de colores y tus propios colores de rama": "25 color sets and your own branch colors", "Todas las texturas de fondo y tu propia imagen": "Every background texture and your own image", "Exportar en alta resolución y en SVG": "Export in high resolution and SVG", "Tus propias formas dibujadas, imágenes dentro de los temas y estilos propios por niveles": "Your own hand-drawn shapes, images inside topics and your own per-level styles", "Arrastra para mover el minimapa · Doble clic: volver a su sitio": "Drag to move the minimap · Double-click: put it back", "Exportar imagen": "Export image", "Exportar imagen…": "Export image…", "Guardar o copiar el mapa como PNG, JPG o SVG (Ctrl+Mayús+E)": "Save or copy the map as PNG, JPG or SVG (Ctrl+Shift+E)", "La hoja actual, tal como se ve: para pegarla en un documento, una presentación o una web.": "The current sheet, just as you see it: to paste into a document, a presentation or a website.", "Calidad": "Quality", "Normal ×1": "Normal ×1", "Alta ×2": "High ×2", "Muy alta ×3": "Very high ×3", "Fondo": "Background", "Del mapa": "Map's own", "Blanco": "White", "Transparente": "Transparent", "Copiar imagen al portapapeles": "Copy image to clipboard", "Descargar": "Download", "SVG se amplía sin perder calidad y se ve perfecto en navegadores. Word, PowerPoint o Figma pueden no mostrar bien los textos: para ellos usa PNG.": "SVG scales without losing quality and looks perfect in browsers. Word, PowerPoint or Figma may not show the text properly: use PNG for them.", "JPG ocupa menos, pero no admite fondo transparente.": "JPG is smaller, but can't have a transparent background.", "PNG es la opción más segura: se ve igual en cualquier programa.": "PNG is the safest choice: it looks the same in any program.", "Imagen copiada: pégala donde quieras": "Image copied: paste it anywhere", "No se pudo copiar. Usa «Descargar».": "Couldn't copy. Use «Download».", "El mapa está vacío.": "The map is empty.", "Este navegador no deja crear la imagen. Prueba con Chrome o Edge.": "This browser can't create the image. Try Chrome or Edge.", "Mover el minimapa": "Move the minimap", "Ocultar el minimapa (Vista → Minimapa)": "Hide the minimap (View → Minimap)", "Minimapa oculto · Vista → Minimapa para verlo": "Minimap hidden · View → Minimap to show it again", "Arriba a la izquierda": "Top left", "Arriba a la derecha": "Top right", "Abajo a la izquierda": "Bottom left", "Abajo a la derecha": "Bottom right", "Ocultar el minimapa": "Hide the minimap", "Texto largo": "Long text", "Todo el texto": "Full text", "1 línea": "1 line", "2 líneas": "2 lines", "3 líneas": "3 lines", "4 líneas": "4 lines", "6 líneas": "6 lines", "Los temas largos se cortan con «…». El texto completo se ve al pasar el ratón y al editar.": "Long topics are cut short with «…». The full text shows on hover and while editing.", "Ajustar la vista al cambiar de nivel": "Fit the view when changing level" };
 const EN_CONTENT = { 'Idea central': 'Central idea', 'Tema principal': 'Main topic', 'Subtema': 'Subtopic', 'Tema': 'Topic', 'Tema 1': 'Topic 1', 'Tema 2': 'Topic 2', 'Tema 3': 'Topic 3', 'Tema 4': 'Topic 4', 'Tema flotante': 'Floating topic', 'Hoja': 'Sheet', 'Mapa mental': 'Mind map' };
 const C = t => LANG === 'en' ? (EN_CONTENT[t] || t) : t;          // texto por defecto de temas nuevos
 const SHEET = LANG === 'en' ? 'Sheet ' : 'Hoja ';
@@ -1448,17 +1489,34 @@ function cleanSel() { reindex(); sel = new Set([...sel].filter(id => IDX.has(id)
 const world = $('#world'), nodesEl = $('#nodes'), edgesEl = $('#edges'), relg = $('#relg'), board = $('#board');
 const BASE = [20, 15.5, 14];
 
-// Vídeo de YouTube: si el vínculo del tema es un vídeo y no tiene imagen, se ve su portada (clic para verlo)
+// Imágenes, vídeos y tarjetas de web dentro de los temas
 const ytId = u => { const m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(u || ''); return m ? m[1] : null; };
+const ytStart = u => { const m = /[?&#](?:t|start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)?s?\b/.exec(u || ''); return m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0; };
+const fmtT = s => s >= 3600 ? `${Math.floor(s / 3600)}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}` : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+const parseT = v => { v = String(v || '').trim(); if (!v) return 0; if (/^\d+$/.test(v)) return +v; const p = v.split(':').map(Number); return p.some(isNaN) ? 0 : p.reduce((a, x) => a * 60 + x, 0); };
+const MSZ_DEF = [220, 180, 140];
+const mediaW = (n, d) => n.imgw || (doc.theme.msz || MSZ_DEF)[Math.min(d, 2)];
+const vidOf = n => n.vid || (!n.img && n.link && ytId(n.link) ? n.link : null);   // un vínculo de YouTube (versión anterior) también cuenta como vídeo
+const webHost = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+const hasCard = n => n.card && n.link && !ytId(n.link) && webHost(n.link);
+const hasMedia = n => !!(n.img || ytId(vidOf(n)) || hasCard(n));
+let PLAYING = null;
 function nodeInner(n, inf) {
-  let h = '';
-  const yt = !n.img && ytId(n.link);
-  if (yt) h += `<span class="ytw" data-act="yt" title="${esc(trStr('Ver el vídeo'))}" style="width:${n.imgw || 180}px"><img class="nimg" src="https://i.ytimg.com/vi/${yt}/hqdefault.jpg" draggable="false" alt="" onerror="this.style.visibility='hidden'"><i>▶</i></span>`;
-  if (n.img) h += `<img class="nimg" src="${esc(imgSrc(n.img))}" style="width:${n.imgw || 140}px" draggable="false" alt="">`;
+  let h = '', m = '';
+  const W = mediaW(n, inf.d), vu = vidOf(n), yt = ytId(vu), cover = n.mfit === 'cover' && hasMedia(n);
+  if (yt) {
+    const st = n.vstart != null ? n.vstart : ytStart(vu), chip = st || n.vchap ? `<span class="ych">${st ? fmtT(st) : ''}${st && n.vchap ? ' · ' : ''}${esc(n.vchap || '')}</span>` : '';
+    if (PLAYING === n.id && !LITE) m += `<span class="ytw playing" style="width:${W}px"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1${st ? '&start=' + st : ''}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><b class="ybtn ystop" data-act="vstop" title="${esc(trStr('Cerrar el vídeo'))}">×</b><b class="ybtn yyt" data-act="ytopen">YouTube ↗</b></span>`;
+    else m += `<span class="ytw" data-act="vid" style="width:${W}px" title="${esc(LITE ? trStr('Ver en YouTube') : trStr('Reproducir aquí'))}"><img class="nimg" src="https://i.ytimg.com/vi/${yt}/hqdefault.jpg" draggable="false" alt="" onerror="this.style.visibility='hidden'"><i class="yplay">▶</i>${LITE ? `<em class="yhov">${esc(trStr('Ver en YouTube'))}</em>` : `<b class="ybtn yyt" data-act="ytopen">YouTube ↗</b>`}${chip}</span>`;
+  }
+  if (n.img) m += `<img class="nimg" src="${esc(imgSrc(n.img))}" style="width:${W}px" draggable="false" alt="">`;
+  if (hasCard(n)) { const host = webHost(n.link); let path = ''; try { const u = new URL(n.link); path = (u.pathname + u.search).replace(/\/$/, ''); } catch (e) {}
+    m += `<span class="wcard" data-act="web" style="width:${W}px" title="${esc(n.link)}"><img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=64" alt="" draggable="false" onerror="this.style.visibility='hidden'"><span><b>${esc(host)}</b>${path ? `<small>${esc(path)}</small>` : ''}</span></span>`; }
+  h += cover ? `<span class="mbg">${m}</span>` : m;
   if (n.task != null) h += `<span class="ck" data-act="task">${n.task ? '✓' : ''}</span>`;
   h += `<span class="t">${esc(n.text)}</span>`;
   if (n.note) h += `<span class="ic" data-act="note" title="${esc(n.note)}">📝</span>`;
-  if (n.link && !yt) h += `<span class="ic" data-act="link" title="${esc(n.link)} (Ctrl+clic para abrir)">🔗</span>`;
+  if (n.link && !(yt && vu === n.link) && !hasCard(n)) h += `<span class="ic" data-act="link" title="${esc(n.link)} (Ctrl+clic para abrir)">🔗</span>`;
   return h;
 }
 function syncNodes() {
@@ -1478,7 +1536,7 @@ function syncNodes() {
       else { const tl = lumOf(tc); if (tl != null && bl != null && (Math.max(tl, bl) + 0.05) / (Math.min(tl, bl) + 0.05) < 2.6) tc = bl > 0.4 ? '#1f2224' : '#ffffff'; }
       const weight = E('weight'), cs = E('case'), al = E('align');
       const csh = pathShape(sh);
-      const cls = `n d${Math.min(inf.d, 2) === 2 ? 'n' : inf.d} ${csh ? 's-custom' : 's-' + sh}${n.img || (n.link && ytId(n.link)) ? ' has-img' : ''}` + (weight ? '' : bold === true ? ' b' : bold === false ? ' nb' : '') + (E('italic') ? ' i' : '') + (n.task ? ' done' : '') + (sel.has(n.id) ? ' sel' : '') + (editId === n.id ? ' editing' : '');
+      const cls = `n d${Math.min(inf.d, 2) === 2 ? 'n' : inf.d} ${csh ? 's-custom' : 's-' + sh}${hasMedia(n) ? ' has-img' : ''}` + (weight ? '' : bold === true ? ' b' : bold === false ? ' nb' : '') + (E('italic') ? ' i' : '') + (n.task ? ' done' : '') + (sel.has(n.id) ? ' sel' : '') + (editId === n.id ? ' editing' : '');
       const rf = E('relief'), cls2 = cls + (rf ? ' rf-' + rf : '');
       if (el.className !== cls2) el.className = cls2;
       el.style.setProperty('--bc', inf.color);
@@ -1486,19 +1544,34 @@ function syncNodes() {
       if (tc) el.style.setProperty('--tc', tc); else el.style.removeProperty('--tc');
       el.style.fontSize = fs ? (BASE[Math.min(inf.d, 2)] * (1 + 0.15 * fs)).toFixed(1) + 'px' : '';
       el.style.fontFamily = FONT_CSS[E('font')] || '';
-      el.style.borderWidth = bw != null && sh !== 'line' && sh !== 'card' && !csh ? bw + 'px' : '';
+      if (rf === 'stroke' && sh !== 'line' && sh !== 'card' && sh !== 'plain' && !csh) { const B = bw != null ? bw : 2; const T = (B + Math.min(B, 5) * 0.9).toFixed(1), N = Math.max(1, B * 0.7).toFixed(1); el.style.borderWidth = `${T}px ${T}px ${N}px ${N}px`; }
+      else el.style.borderWidth = bw != null && sh !== 'line' && sh !== 'card' && !csh ? bw + 'px' : '';
       if (csh) el.style.setProperty('--cbw', (bw != null ? bw : 2) + 'px'); else el.style.removeProperty('--cbw');
       // Con imagen, el tema deja margen según su forma para que la imagen quede dentro (en las redondas, mucho más)
-      const ytOn = !n.img && n.link && ytId(n.link);
-      if (n.img || ytOn) {
+      const ytOn = !!ytId(vidOf(n)), cardOn = !n.img && !ytOn && hasCard(n), mOn = hasMedia(n), W = mediaW(n, inf.d), cover = n.mfit === 'cover' && mOn;
+      el.style.setProperty('--mw', W + 'px');
+      el.classList.toggle('mcover', cover);
+      if (cover) {
+        // Como fondo: la imagen o el vídeo llenan la forma (recortados) y el texto va encima, abajo
+        const im = el.querySelector('img.nimg'), ratio = ytOn ? 0.5625 : cardOn ? 0.42 : im && im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0.62;
+        el.style.width = W + 'px'; el.style.height = Math.round(W * ratio) + 'px'; el.style.padding = '0';
+        el.style.setProperty('--mmask', csh ? `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104' preserveAspectRatio='none'><path d='${csh.d}'/></svg>`)}")` : 'none');
+      } else { el.style.width = ''; el.style.height = ''; }
+      if (cover) {}
+      else if (mOn) {
         // Alto real de la imagen (cuando ya ha cargado) + el texto: así se calcula cuánto margen pide cada forma
-        const w = n.imgw || (ytOn ? 180 : 140), im = el.querySelector('img.nimg'), ratio = ytOn ? 0.5625 : im && im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0.62, ch = w * ratio + 26;
+        const w = W, im = el.querySelector('img.nimg'), ratio = ytOn ? 0.5625 : cardOn ? 0.3 : im && im.naturalWidth ? im.naturalHeight / im.naturalWidth : 0.62, ch = w * ratio + 26;
         let px, py;
         if (csh || ROUNDISH.includes(sh)) { const k = csh ? 0.27 : 0.22; px = 12 + w * k; py = 8 + ch * k; }   // elipses y formas libres: el contenido cabe en el rectángulo interior
         else if (sh === 'pill' || sh === 'pill3d') { px = 12 + ch * 0.32; py = 8; }
         else { px = 11; py = 7; }
         el.style.padding = `${Math.round(py)}px ${Math.round(px)}px`;
+        // El ancho lo marca la imagen o el vídeo: el texto se reparte debajo sin ensanchar el tema
+        el.style.width = Math.round(W + 2 * px + 2 * (bw != null ? bw : 2)) + 'px';
       } else el.style.padding = (BSHAPES[sh] && BSHAPES[sh].pad) || '';
+      // Tamaño puesto a mano con los tiradores (la letra no cambia)
+      if (n.sz && !cover) { el.style.width = n.sz[0] + 'px'; el.style.minHeight = n.sz[1] + 'px'; el.style.maxWidth = 'none'; el.classList.add('sized'); }
+      else { el.style.minHeight = ''; el.style.maxWidth = ''; el.classList.remove('sized'); }
       el.style.borderLeftWidth = bw != null && sh === 'card' ? bw + 'px' : '';
       el.style.borderBottomWidth = bw != null && sh === 'line' ? Math.max(bw, 0) + 'px' : '';
       el.style.fontWeight = weight || '';
@@ -1509,7 +1582,7 @@ function syncNodes() {
       el.style.textAlign = al || '';
       el.style.justifyContent = al === 'center' ? 'center' : al === 'right' ? 'flex-end' : '';
       el.style.textDecoration = E('under') ? 'underline' : '';
-      if (editId !== n.id) { const h = (csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none"><path d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
+      if (editId !== n.id) { const h = (csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none"><path d="${csh.d}" vector-effect="non-scaling-stroke"/><path class="sk" d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
       kidsOf(n).forEach(walk);
     };
     walk(r);
@@ -1518,6 +1591,8 @@ function syncNodes() {
 }
 
 /* ---------- Colocación automática ---------- */
+// Espacio extra en la rama para que quepan su texto y su imagen
+const bxGap = c => (c.btext ? Math.min(60, c.btext.length) * 7.2 + 18 : 0) + (c.bimg ? 54 : 0);
 const GAP = { h1: 58, h: 30, v1: 16, v: 7, orgV: 44, orgH: 16, treeI: 28, treeV: 7 };
 function layoutRoot(r) {
   const st = r.structure || 'organic', sp = doc.theme.space || 1;
@@ -1542,7 +1617,7 @@ function layoutRoot(r) {
       const k = kidsOf(n); if (!k.length) return;
       const sum = k.reduce((a, c) => a + subH(c, d + 1), 0) + vgap(d + 1) * (k.length - 1);
       let cy = yTop + (h - sum) / 2; const cx = dir > 0 ? nx + s.w + hgap(d) : nx - hgap(d);
-      for (const c of k) { place(c, cx, cy, dir, d + 1); cy += subH(c, d + 1) + vgap(d + 1); }
+      for (const c of k) { place(c, cx + dir * bxGap(c), cy, dir, d + 1); cy += subH(c, d + 1) + vgap(d + 1); }
     };
     const s0 = sizeOf(r); set(r, 0, 0, 0);
     const k = kidsOf(r); let R = [], Lf = [];
@@ -1562,7 +1637,7 @@ function layoutRoot(r) {
       if (!arr.length) return;
       const sum = arr.reduce((a, c) => a + subH(c, 1), 0) + vgap(1) * (arr.length - 1);
       let y = s0.h / 2 - sum / 2; const x = dir > 0 ? s0.w + hgap(0) : -hgap(0);
-      for (const c of arr) { place(c, x, y, dir, 1); y += subH(c, 1) + vgap(1); }
+      for (const c of arr) { place(c, x + dir * bxGap(c), y, dir, 1); y += subH(c, 1) + vgap(1); }
     };
     col(R, 1); col(Lf.reverse(), -1);
   } else { // tree
@@ -1659,6 +1734,22 @@ function cubicPts(p0, c1, c2, p3, N = 26) {
 }
 const f1 = v => v.toFixed(1);
 // seg: {c:[p0,c1,c2,p3]} curva · {l:[a,b]} recta · {e:[[x,y]...], r} en ángulo
+// Texto e imagen sobre una rama (como en Ayoa): el texto sigue la curva; la imagen va en su punto medio
+function branchDeco(seg, c, col, lw, cone, d) {
+  let pts = seg.c ? cubicPts(...seg.c, 40) : seg.l ? [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]] : seg.e.map(p => [p[0], p[1]]);
+  if (pts.length < 2) return '';
+  const rev = pts[pts.length - 1][0] < pts[0][0]; if (rev) pts = pts.slice().reverse();   // de izquierda a derecha, para que el texto no quede del revés
+  // la imagen va hacia el lado del tema hijo (lejos del padre) y el texto hacia el padre
+  const len = pts.slice(1).reduce((a, p, i) => a + Math.hypot(p[0] - pts[i][0], p[1] - pts[i][1]), 0);
+  let acc = 0, mid = pts[0];
+  const at = len * (c.btext ? (rev ? 0.2 : 0.8) : (rev ? 0.35 : 0.65));
+  for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); if (acc + l >= at) { const t = (at - acc) / (l || 1); mid = [pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * t, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t]; break; } acc += l; }
+  const w = cone ? (d === 0 ? lw * 2.2 : lw * 1.5) : lw, id = 'bp' + c.id;
+  let h = '';
+  if (c.btext) h += `<path id="${id}" d="M${pts.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')}" fill="none" stroke="none"/><text font-size="12.5" font-weight="700" font-family="system-ui, sans-serif" fill="${col}" dy="${f1(-(w / 2 + 4))}" style="paint-order:stroke;stroke:var(--board);stroke-width:3px"><textPath href="#${id}" startOffset="${c.bimg ? (rev ? 58 : 42) : 50}%" text-anchor="middle">${esc(c.btext)}</textPath></text>`;
+  if (c.bimg) { const S = 40, x = mid[0] - S / 2, y = mid[1] - S / 2 - (c.btext ? 0 : 0); h += `<clipPath id="${id}c"><rect x="${f1(x)}" y="${f1(y)}" width="${S}" height="${S}" rx="9"/></clipPath><rect x="${f1(x - 2)}" y="${f1(y - 2)}" width="${S + 4}" height="${S + 4}" rx="11" fill="var(--board)" stroke="${col}" stroke-width="1.5"/><image href="${esc(imgSrc(c.bimg))}" x="${f1(x)}" y="${f1(y)}" width="${S}" height="${S}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id}c)"/>`; }
+  return h;
+}
 function edgeSvg(seg, col, lw, cone, d, cap) {
   const b3 = false;
   // Las ramas muy gruesas no pueden ser más anchas que los temas que unen: donde no cabe, se estrechan (cap = alto de los dos temas)
@@ -1761,7 +1852,7 @@ function groupsSvg() {
 const groupAt = (x, y) => { for (const el of document.elementsFromPoint(x, y)) { if (el.dataset && el.dataset.grp != null && el.closest('#edges')) return +el.dataset.grp; if (el.closest && el.closest('.n')) return null; } return null; };
 const groupsOf = ids => (doc.groups || []).map((g, i) => [g, i]).filter(([g]) => g.ids.some(id => ids.has(id))).map(([, i]) => i);
 function drawEdges() {
-  const th = doc.theme; let h = groupsSvg();
+  const th = doc.theme; let h = groupsSvg(), deco = '';
   doc.roots.forEach(r => {
     const st = r.structure || 'organic', L = lineOf(r), tp = taperMode();
     const rp = POS.get(r.id), rc = { x: rp.x + rp.w / 2, y: rp.y + rp.h / 2 };
@@ -1790,12 +1881,13 @@ function drawEdges() {
         }
         const cone = !seg.e && (tp === 'all' || (tp === 'main' && d === 0));
         h += edgeSvg(seg, col, lw, cone, d, { a: p.h, b: q.h });
+        if (c.btext || c.bimg) deco += branchDeco(seg, c, col, lw, cone, d);
         walk(c, d + 1);
       }
     };
     walk(r, 0);
   });
-  edgesEl.innerHTML = h;
+  edgesEl.innerHTML = h + deco;
 }
 
 /* ---------- Botones de plegar ---------- */
@@ -1981,6 +2073,47 @@ document.addEventListener('click', e => {
 }, true);
 
 // Dibujar una forma: un trazo cerrado que se simplifica, se suaviza y se guarda en una caja de 0 a 100
+// Importar una forma vectorial (SVG): se recorre el contorno de cada figura y se guarda como forma propia (caja de 0 a 100)
+function importSvgShape() {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.svg,image/svg+xml';
+  inp.onchange = () => {
+    const f = inp.files[0]; if (!f) return;
+    f.text().then(txt => {
+      const docSvg = new DOMParser().parseFromString(txt, 'image/svg+xml'), src = docSvg.querySelector('svg');
+      if (!src || docSvg.querySelector('parsererror')) { toast(trStr('No se pudo leer el archivo SVG.')); return; }
+      // Se copia a una zona oculta para poder medir las figuras (sin scripts ni estilos externos)
+      const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-9999px;top:0;width:400px;height:400px;visibility:hidden';
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); host.appendChild(svg); document.body.appendChild(host);
+      ['viewBox', 'width', 'height'].forEach(a => src.getAttribute(a) && svg.setAttribute(a, src.getAttribute(a)));
+      const copy = el => { if (!/^(g|path|rect|circle|ellipse|polygon|polyline|line|svg)$/.test(el.localName)) return null; const c = document.createElementNS('http://www.w3.org/2000/svg', el.localName); for (const at of el.attributes) if (!/^on/i.test(at.name) && at.name !== 'href' && at.name !== 'xlink:href') c.setAttribute(at.name, at.value); for (const k of el.children) { const x = copy(k); if (x) c.appendChild(x); } return c; };
+      for (const k of src.children) { const x = copy(k); if (x) svg.appendChild(x); }
+      const subs = [];
+      svg.querySelectorAll('path, rect, circle, ellipse, polygon, polyline').forEach(g => {
+        let L = 0; try { L = g.getTotalLength(); } catch (e) {} if (!L) return;
+        const m = g.getCTM(), N = Math.min(600, Math.max(60, Math.round(L / 2))); let cur = [], prev = null;
+        for (let i = 0; i <= N; i++) {
+          const q = g.getPointAtLength(L * i / N), pt = m ? { x: m.a * q.x + m.c * q.y + m.e, y: m.b * q.x + m.d * q.y + m.f } : q;
+          if (prev && Math.hypot(pt.x - prev.x, pt.y - prev.y) > L / N * 4 + 0.5) { if (cur.length > 2) subs.push(cur); cur = []; }   // salto = otro trazo dentro del mismo dibujo
+          cur.push(pt); prev = pt;
+        }
+        if (cur.length > 2) subs.push(cur);
+      });
+      host.remove();
+      if (!subs.length) { toast(trStr('El SVG no tiene figuras que se puedan usar.')); return; }
+      const all = subs.flat(), x0 = Math.min(...all.map(p => p.x)), x1 = Math.max(...all.map(p => p.x)), y0 = Math.min(...all.map(p => p.y)), y1 = Math.max(...all.map(p => p.y));
+      const sx = 100 / ((x1 - x0) || 1), sy = 100 / ((y1 - y0) || 1), f1p = v => (Math.round(v * 10) / 10).toString();
+      // Se simplifica: solo se guardan los puntos que cambian de dirección
+      const d = subs.map(sp => { const P = sp.map(p => [(p.x - x0) * sx, (p.y - y0) * sy]), keep = [P[0]];
+        for (let i = 1; i < P.length - 1; i++) { const a = keep[keep.length - 1], b = P[i], c = P[i + 1], cr = Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])); if (cr > 1.2 || Math.hypot(b[0] - a[0], b[1] - a[1]) > 12) keep.push(b); }
+        keep.push(P[P.length - 1]);
+        return 'M' + keep.map(p => f1p(p[0]) + ' ' + f1p(p[1])).join('L') + 'Z'; }).join('');
+      const id = 'f' + Date.now().toString(36).slice(-6), name = f.name.replace(/\.svg$/i, '').slice(0, 40) || trStr('Forma importada');
+      CSHAPES[id] = { name, d }; PR.myShapes = { ...(PR.myShapes || {}), [id]: { name, d } }; savePrefs(); refreshShapeGalleries();
+      if (sel.size) setProp('shape', 'c:' + id); else toast(trStr('Forma guardada en «Mis formas»'));
+    }).catch(() => toast(trStr('No se pudo leer el archivo SVG.')));
+  };
+  inp.click();
+}
 function drawShapeDialog() {
   const n = Object.keys(PR.myShapes || {}).length + 1;
   dialog('Dibujar una forma', 'Dibuja el contorno de un tema de un solo trazo, sin levantar el ratón. Al soltar se cierra sola.',
@@ -2075,19 +2208,22 @@ function readImageFile(f, maxPx, cb) {
   };
   fr.readAsDataURL(f);
 }
-function setNodeImage(n, src) { snap(); n.img = /^data:/.test(src) ? memImg(src) : src; if (!n.imgw) n.imgw = 140; render(); }
+function setNodeImage(n, src) { snap(); n.img = /^data:/.test(src) ? memImg(src) : src; render(); }
 function nodeImgMenu(el) {
   const n = primary(); if (!n) { toast('Selecciona un tema.'); return; }
   const anchor = el && el.getBoundingClientRect && el.getBoundingClientRect().width ? el : (EL.get(n.id) || el);
   openPop(anchor, `<div style="width:250px"><h4>Imagen del tema</h4>
     ${n.img ? `<div class="imgprev" style="height:70px;background-size:contain;background-repeat:no-repeat;background-image:url(&quot;${esc(imgSrc(n.img))}&quot;)"></div>
-      <div style="font-size:12px;margin-top:6px;display:flex;justify-content:space-between"><span>Tamaño</span><span style="color:var(--muted)" data-imwv>${n.imgw || 140} px</span></div><input type="range" min="40" max="480" step="10" value="${n.imgw || 140}" data-imw style="width:100%;accent-color:var(--acc)">` : '<p style="margin:0 0 6px;font-size:12px;color:var(--muted)">Se muestra encima del texto. También puedes pegarla (Ctrl+V) o arrastrarla sobre un tema.</p>'}
+      <div style="font-size:12px;margin-top:6px;display:flex;justify-content:space-between"><span>Tamaño</span><span style="color:var(--muted)" data-imwv>${mediaW(n, (info(n.id) || { d: 1 }).d)} px</span></div><input type="range" min="40" max="600" step="10" value="${mediaW(n, (info(n.id) || { d: 1 }).d)}" data-imw style="width:100%;accent-color:var(--acc)">` : '<p style="margin:0 0 6px;font-size:12px;color:var(--muted)">Se muestra encima del texto. También puedes pegarla (Ctrl+V) o arrastrarla sobre un tema.</p>'}
     <div style="display:flex;gap:6px;margin-top:6px"><button class="btn-sec" data-nimf style="flex:1;height:28px;white-space:nowrap">${n.img ? 'Cambiar…' : 'Elegir imagen…'}</button><button class="btn-sec" data-nimu style="flex:1;height:28px;white-space:nowrap">Desde un enlace…</button>${n.img ? '<button class="btn-sec" data-nimd style="height:28px;padding:0 10px">Quitar</button>' : ''}</div></div>`);
+  if (hasMedia(n)) pop.firstElementChild.insertAdjacentHTML('beforeend', `<div style="font-size:12px;margin-top:10px;color:var(--muted)">${esc(trStr('Cómo se ve'))}</div><div class="seg" style="margin-top:3px"><button data-mfit="full" aria-pressed="${n.mfit !== 'cover'}">${esc(trStr('Completa'))}</button><button data-mfit="cover"${isLocked('mediaCover') ? ' class="locked"' : ''} aria-pressed="${n.mfit === 'cover'}">${esc(trStr('Como fondo de la forma'))}</button></div>`);
+  pop.firstElementChild.insertAdjacentHTML('beforeend', mediaSizesHtml()); bindMediaSizes(pop);
   const w = pop.querySelector('[data-imw]'); if (w) { let sn = false; w.addEventListener('input', () => { if (!sn) { snap(); sn = true; } n.imgw = +w.value; pop.querySelector('[data-imwv]').textContent = w.value + ' px'; render(); }); }
   pop.onclick = e => {
     if (e.target.closest('[data-nimf]')) { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = () => { const f = inp.files[0]; if (f) readImageFile(f, 900, d => { setNodeImage(n, d); nodeImgMenu(el); }); }; inp.click(); return; }
     if (e.target.closest('[data-nimu]')) { hidePop(); dialog('Imagen desde un enlace', 'Pega la dirección de una imagen de internet (https://…).', '<div class="fld"><label>Dirección</label><input id="nimurl" placeholder="https://…"></div>', () => { const u = $('#nimurl').value.trim(); if (!/^https?:\/\/\S+$/i.test(u)) { toast('La dirección no parece válida.'); return; } setNodeImage(n, u); }); return; }
     if (e.target.closest('[data-nimd]')) { snap(); delete n.img; delete n.imgw; render(); hidePop(); }
+    const mf = e.target.closest('[data-mfit]'); if (mf && mf.dataset.mfit === 'cover' && isLocked('mediaCover')) { hidePop(); upsell(); return; } if (mf) { snap(); if (mf.dataset.mfit === 'cover') n.mfit = 'cover'; else delete n.mfit; render(); nodeImgMenu(el); }
   };
 }
 // Pegar o soltar una imagen sobre un tema
@@ -2196,6 +2332,7 @@ function applyView() {
   world.style.transform = `translate(${V.x.toFixed(2)}px,${V.y.toFixed(2)}px) scale(${V.s.toFixed(4)})`;
   let g = (PR.gridSize || 24) * V.s; while (g < 10) g *= 2;
   board.style.backgroundSize = `${g}px ${g}px`;
+  try { placeRsz(); } catch (e) {}
   board.style.backgroundPosition = `${V.x.toFixed(1)}px ${V.y.toFixed(1)}px`;
   panBgLayer();
   $('#pct').textContent = Math.round(V.s * 100) + ' %';
@@ -2247,10 +2384,10 @@ function bbox(ids) {
   for (const [id, p] of POS) { if (ids && !ids.has(id)) continue; x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x + p.w); y1 = Math.max(y1, p.y + p.h); }
   return isFinite(x0) ? { x0, y0, x1, y1 } : null;
 }
-function fit(instant, whole) {
-  const b = bbox(); if (!b) return;
-  const r = board.getBoundingClientRect(), small = r.width < 600, pad = small ? 14 : 60;
-  let s = clamp(Math.min((r.width - pad * 2) / (b.x1 - b.x0), (r.height - pad * 2) / (b.y1 - b.y0)), MINS, 1.2);
+function fit(instant, whole, ids) {
+  const b = bbox(ids); if (!b) return;
+  const r = board.getBoundingClientRect(), small = r.width < 600, pad = small ? 14 : ids ? 90 : 60;
+  let s = clamp(Math.min((r.width - pad * 2) / (b.x1 - b.x0), (r.height - pad * 2) / (b.y1 - b.y0)), MINS, ids ? 1.6 : 1.2);
   // En el móvil, el mapa entero queda diminuto: se abre a un tamaño legible, centrado (se mueve arrastrando). «Ajustar» sí lo encaja entero
   if (small && !whole) s = Math.max(s, 0.5);
   const t = { s, x: r.width / 2 - (b.x0 + b.x1) / 2 * s, y: r.height / 2 - (b.y0 + b.y1) / 2 * s };
@@ -2338,10 +2475,59 @@ mini.addEventListener('wheel', e => { e.stopPropagation(); e.preventDefault(); z
 let spaceDown = false;
 let drag = null; // { kind:'pan'|'node'|'marquee'|'zoomdrag'|'maybeCtx', ... }
 const marquee = document.createElement('div'); marquee.className = 'marquee'; marquee.hidden = true; board.appendChild(marquee);
+// Tirador para cambiar el tamaño de la forma del tema seleccionado (Ctrl o ⌘: sin mantener la proporción)
+const rszEl = document.createElement('div'); rszEl.className = 'rsz no-tr'; rszEl.hidden = true; rszEl.title = 'Arrastra para cambiar el tamaño (Ctrl: sin mantener la proporción). Doble clic: tamaño automático'; board.appendChild(rszEl);
+function placeRsz() {
+  const id = sel.size === 1 ? [...sel][0] : null, p = id != null && editId == null ? POS.get(id) : null, n = id != null ? node(id) : null;
+  if (!p || !n || n.mfit === 'cover' || isLocked('nodeSize')) { rszEl.hidden = true; return; }
+  rszEl.hidden = false; rszEl.style.left = ((p.x + p.w) * V.s + V.x - 6) + 'px'; rszEl.style.top = ((p.y + p.h) * V.s + V.y - 6) + 'px';
+}
+rszEl.addEventListener('pointerdown', e => {
+  e.preventDefault(); e.stopPropagation();
+  const id = [...sel][0], n = node(id), p = POS.get(id); if (!n || !p) return;
+  snap(); const w0 = p.w, h0 = p.h, x0 = e.clientX, y0 = e.clientY;
+  rszEl.setPointerCapture(e.pointerId);
+  const mv = ev => {
+    let w = Math.max(30, w0 + (ev.clientX - x0) / V.s), h = Math.max(20, h0 + (ev.clientY - y0) / V.s);
+    if (!(ev.ctrlKey || ev.metaKey)) { const k = Math.max(w / w0, h / h0); w = w0 * k; h = h0 * k; }
+    n.sz = [Math.round(w), Math.round(h)]; render({ light: true });
+  };
+  const up = () => { rszEl.removeEventListener('pointermove', mv); rszEl.removeEventListener('pointerup', up); render(); };
+  rszEl.addEventListener('pointermove', mv); rszEl.addEventListener('pointerup', up);
+});
+rszEl.addEventListener('dblclick', () => { const n = node([...sel][0]); if (n && n.sz) { snap(); delete n.sz; render(); } });
+// Guías inteligentes y ajuste a la cuadrícula al mover temas
+const guidesEl = document.createElement('div'); guidesEl.className = 'guides'; board.appendChild(guidesEl);
+function snapMove(drag, wdx, wdy, alt) {
+  const lead = drag.items[0], P = POS.get(lead.id); if (!P) return [wdx, wdy];
+  drag.acc = drag.acc || { x: P.x, y: P.y }; drag.acc.x += wdx; drag.acc.y += wdy;
+  let tx = drag.acc.x, ty = drag.acc.y; const lines = [];
+  if (!alt) {
+    const th = 6 / V.s;
+    if (PR.guides !== false) {
+      const moving = new Set(); const addT = n => { moving.add(n.id); n.kids.forEach(addT); }; drag.items.forEach(addT);
+      let bx = null, by = null;
+      const xs = [[0, 'l'], [P.w / 2, 'c'], [P.w, 'r']], ys = [[0, 't'], [P.h / 2, 'm'], [P.h, 'b']];
+      for (const [id, q] of POS) {
+        if (moving.has(id)) continue;
+        for (const [ox] of xs) for (const qx of [q.x, q.x + q.w / 2, q.x + q.w]) { const d = qx - (tx + ox); if (Math.abs(d) < th && (!bx || Math.abs(d) < Math.abs(bx.d))) bx = { d, x: qx, q }; }
+        for (const [oy] of ys) for (const qy of [q.y, q.y + q.h / 2, q.y + q.h]) { const d = qy - (ty + oy); if (Math.abs(d) < th && (!by || Math.abs(d) < Math.abs(by.d))) by = { d, y: qy, q }; }
+      }
+      if (bx) { tx += bx.d; lines.push({ v: true, at: bx.x, a: Math.min(ty, bx.q.y), b: Math.max(ty + P.h, bx.q.y + bx.q.h) }); }
+      if (by) { ty += by.d; lines.push({ v: false, at: by.y, a: Math.min(tx, by.q.x), b: Math.max(tx + P.w, by.q.x + by.q.w) }); }
+      if (!bx && PR.snapGrid) { const g = PR.gridSize || 24; tx = Math.round(tx / g) * g; }
+      if (!by && PR.snapGrid) { const g = PR.gridSize || 24; ty = Math.round(ty / g) * g; }
+    } else if (PR.snapGrid) { const g = PR.gridSize || 24; tx = Math.round(tx / g) * g; ty = Math.round(ty / g) * g; }
+  }
+  guidesEl.innerHTML = lines.map(l => l.v
+    ? `<i style="left:${(l.at * V.s + V.x).toFixed(1)}px;top:${(l.a * V.s + V.y - 8).toFixed(1)}px;width:1px;height:${((l.b - l.a) * V.s + 16).toFixed(1)}px"></i>`
+    : `<i style="top:${(l.at * V.s + V.y).toFixed(1)}px;left:${(l.a * V.s + V.x - 8).toFixed(1)}px;height:1px;width:${((l.b - l.a) * V.s + 16).toFixed(1)}px"></i>`).join('');
+  return [tx - P.x, ty - P.y];
+}
 
 board.addEventListener('contextmenu', e => { e.preventDefault(); });
 board.addEventListener('mousedown', e => { if (e.button === 1) e.preventDefault(); });
-let lastEmptyDown = null;
+let lastEmptyDown = null, lastNodeDown = null;
 /* Pantalla táctil: un dedo mueve la pizarra o arrastra un tema, dos dedos hacen zoom,
    doble toque edita y mantener pulsado abre el menú */
 const TOUCH = { pts: new Map(), pinch: null, lastTap: null, longT: 0, used: false };
@@ -2404,14 +2590,20 @@ board.addEventListener('pointerdown', e => {
     else if (nEl) {
       if (relFrom != null) { finishRelation(id); return; }
       const act = e.target.closest('[data-act]');
-      if (act) { onNodeAct(act.dataset.act, node(id), e); return; }
+      // El vídeo se abre con un clic limpio: si se arrastra, solo se mueve el tema
+      const deferAct = act && /^(vid|ytopen|web)$/.test(act.dataset.act) ? act.dataset.act : null;
+      if (act && !deferAct) { onNodeAct(act.dataset.act, node(id), e); return; }
+      start.act = deferAct; start.actT = e.target;
       selRel = null;
       if (e.shiftKey || e.ctrlKey || e.metaKey) { if (sel.has(id) && (e.ctrlKey || e.metaKey)) sel.delete(id); else sel.add(id); }
       else if (!sel.has(id)) sel = new Set([id]);
       else { sel.delete(id); sel.add(id); }
       qbSuppress = true; qbNear = false; // la barra espera a saber si es un clic o un arrastre
       render({ light: true }); schedOutline();
-      if (e.detail >= 2) { startEdit(id); return; }
+      // Doble clic (el pointerdown no siempre trae e.detail): editar con el cursor donde se ha pulsado
+      const now2 = Date.now(), dblN = e.detail >= 2 || (lastNodeDown && lastNodeDown.id === id && now2 - lastNodeDown.t < 450 && Math.hypot(e.clientX - lastNodeDown.x, e.clientY - lastNodeDown.y) < 6);
+      lastNodeDown = dblN ? null : { id, t: now2, x: e.clientX, y: e.clientY };
+      if (dblN) { const cx = e.clientX, cy = e.clientY; e.preventDefault(); setTimeout(() => startEdit(id, null, false, { x: cx, y: cy }), 0); return; }
       start.kind = 'node';
     } else {
       if (relFrom != null) { relFrom = null; hint(''); render({ light: true }); return; }
@@ -2459,7 +2651,7 @@ board.addEventListener('pointermove', e => {
     zoomAt(Math.exp(-dy * 0.006 * (PR.nav.invert ? -1 : 1)), drag.ax, drag.ay, true);
   } else if (drag.kind === 'node') {
     if (first) { snap(); $('#qbar').hidden = true; drag.items = topSel(); drag.items.forEach(n => EL.get(n.id) && EL.get(n.id).classList.add('dragging')); }
-    const wdx = dx / V.s, wdy = dy / V.s;
+    const [wdx, wdy] = snapMove(drag, dx / V.s, dy / V.s, e.altKey);
     drag.items.forEach(n => {
       if (isRoot(n)) { n.x += wdx; n.y += wdy; }
       else { const st = structOf(n); n.o = n.o || {}; const o = offOf(n, st); n.o[st] = [o[0] + wdx, o[1] + wdy]; }
@@ -2491,6 +2683,7 @@ function endDrag(e) {
     if (TOUCH.pinch) { if (TOUCH.pts.size < 2) TOUCH.pinch = null; return; }
     if (drag && drag.pid !== e.pointerId) return;
   }
+  guidesEl.innerHTML = '';
   if (!drag) return;
   const d = drag; drag = null;
   if (d.touch) {
@@ -2498,6 +2691,7 @@ function endDrag(e) {
     TOUCH.lastTap = d.moved ? null : { t: Date.now(), x: d.sx, y: d.sy, id: d.id };
   } board.classList.remove('panning'); marquee.hidden = true; document.body.classList.remove('dragging');
   if (d.kind === 'maybeCtx' && !d.moved) { openCtxAt(e, d.id); return; }
+  if (d.kind === 'node' && !d.moved && d.act) { const nn = node(d.id != null ? d.id : [...sel][0]); if (nn) onNodeAct(d.act, nn, { target: d.actT }); }
   if (d.kind === 'node' && !d.moved) { qbSuppress = false; qbarPeek(); qbNear = true; placeQbar(); }
   if (d.kind === 'node' && d.moved) {
     qbSuppress = true; qbNear = false; // tras mover un tema, no sale hasta que el ratón sale de él y vuelve
@@ -2543,12 +2737,12 @@ board.addEventListener('wheel', e => {
 
 function onDblEmpty(e) {
   const a = PR.nav.dbl;
-  if (a === 'fit') { fit(false, true); return; }
+  if (a === 'fit') { if (sel.size) fit(false, true, new Set(sel)); else fit(false, true); return; }
   if (a === 'topic') { const w = toWorld(e.clientX, e.clientY); addFloat(w.x, w.y); }
 }
 
 /* ---------- Edición del texto ---------- */
-function startEdit(id, replace, fresh) {
+function startEdit(id, replace, fresh, at) {
   const n = node(id); if (!n) return;
   if (editId != null) stopEdit();
   editId = id; editOrig = n.text; editFresh = !!fresh;
@@ -2561,6 +2755,12 @@ function startEdit(id, replace, fresh) {
   t.focus({ preventScroll: true });
   const r = document.createRange(); r.selectNodeContents(t);
   if (replace != null) r.collapse(false);
+  // Con doble clic, el cursor se pone donde se ha pulsado (si es sobre el texto); si no, al final
+  if (at && replace == null) {
+    let cr = null;
+    try { cr = document.caretRangeFromPoint ? document.caretRangeFromPoint(at.x, at.y) : (p => p && (() => { const q = document.createRange(); q.setStart(p.offsetNode, p.offset); return q; })())(document.caretPositionFromPoint && document.caretPositionFromPoint(at.x, at.y)); } catch (e) {}
+    if (cr && t.contains(cr.startContainer)) { r.setStart(cr.startContainer, cr.startOffset); r.collapse(true); } else r.collapse(false);
+  }
   const s = getSelection(); s.removeAllRanges(); s.addRange(r);
   t.oninput = () => { n.text = t.innerText.replace(/\n$/, ''); renderPositions(); };
   t.onblur = () => { if (editId === id) stopEdit(); };
@@ -2720,7 +2920,10 @@ function toggleMarker(m) {
 function onNodeAct(act, n, e) {
   if (act === 'task') { snap(); n.task = !n.task; render(); }
   else if (act === 'note') { sel = new Set([n.id]); editNote(n); }
-  else if (act === 'yt') { if (n.link) window.open(n.link, '_blank', 'noopener'); }
+  else if (act === 'vid') { if (LITE) openVid(n); else { PLAYING = n.id; render({ light: true }); } }
+  else if (act === 'ytopen') openVid(n);
+  else if (act === 'vstop') { PLAYING = null; render({ light: true }); }
+  else if (act === 'web') { if (n.link) window.open(n.link, '_blank', 'noopener'); }
   else if (act === 'link') { if (e.ctrlKey || e.metaKey) window.open(n.link, '_blank', 'noopener'); else { sel = new Set([n.id]); editLink(n); } }
 }
 
@@ -2751,10 +2954,59 @@ function editNote(n) {
 }
 function editLink(n) {
   n = n || primary(); if (!n) { toast('Selecciona un tema.'); return; }
-  dialog('Vínculo', trStr('Ctrl+clic en 🔗 abre el vínculo. Si es un vídeo de YouTube, el tema muestra su portada.'), `<div class="fld"><label>Dirección</label><input id="dlg-in" value="${esc(n.link || '')}" placeholder="https://"></div>`, () => {
-    const v = $('#dlg-in').value.trim(); if (v !== (n.link || '')) { snap(); if (v) n.link = v; else delete n.link; render(); }
+  const isWeb = () => { const v = $('#dlg-in').value.trim(); return /^https?:\/\//i.test(v) && !ytId(v); };
+  dialog('Vínculo', trStr('Ctrl+clic en 🔗 abre el vínculo.'), `<div class="fld"><label>${esc(trStr('Dirección'))}</label><input id="dlg-in" value="${esc(n.link || '')}" placeholder="https://"></div>
+    <label style="display:flex;gap:6px;align-items:center;font-size:13px;margin-top:8px"><input type="checkbox" id="dlg-card"${n.card ? ' checked' : ''}> ${esc(trStr('Mostrar como tarjeta de la web (icono y dominio)'))}</label>`, () => {
+    const v = $('#dlg-in').value.trim(), card = $('#dlg-card').checked && isWeb();
+    if (v !== (n.link || '') || card !== !!n.card) { snap(); if (v) n.link = v; else delete n.link; if (card) n.card = true; else delete n.card; render(); }
   });
 }
+// Texto e imagen en la rama que llega al tema (Mind Pro)
+function branchLabelDialog(n) {
+  n = n || primary(); if (!n) { toast(trStr('Selecciona un tema.')); return; }
+  if (!info(n.id) || !info(n.id).p) { toast(trStr('El tema central no tiene rama.')); return; }
+  let img = n.bimg || null;
+  dialog(trStr('Texto e imagen en la rama'), trStr('Se muestran sobre la rama que llega a este tema: el texto sigue su curva y la imagen va en el centro.'),
+    `<div class="fld"><label>${esc(trStr('Texto'))}</label><input id="bl-t" maxlength="60" value="${esc(n.btext || '')}"></div>
+     <div style="display:flex;gap:6px;align-items:center"><span id="bl-prev" style="width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:center/cover no-repeat ${img ? `url(&quot;${esc(imgSrc(img))}&quot;)` : 'var(--panel)'}"></span>
+     <button class="btn-sec" id="bl-f" style="height:28px">${esc(trStr('Elegir imagen…'))}</button><button class="btn-sec" id="bl-u" style="height:28px">${esc(trStr('Desde un enlace…'))}</button><button class="btn-sec" id="bl-x" style="height:28px">${esc(trStr('Quitar'))}</button></div>`, () => {
+      snap(); const t = $('#bl-t').value.trim();
+      if (t) n.btext = t; else delete n.btext;
+      if (img) n.bimg = img; else delete n.bimg;
+      render();
+    });
+  const prev = () => { $('#bl-prev').style.backgroundImage = img ? `url("${imgSrc(img)}")` : 'none'; };
+  $('#bl-f').onclick = () => { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = () => { const f = inp.files[0]; if (f) readImageFile(f, 240, d => { img = memImg(d); prev(); }); }; inp.click(); };
+  $('#bl-u').onclick = () => { const u = prompt(trStr('Dirección de la imagen (https://…)')); if (u && /^https?:\/\/\S+$/i.test(u.trim())) { img = u.trim(); prev(); } };
+  $('#bl-x').onclick = () => { img = null; prev(); };
+}
+function openVid(n) {
+  const u = vidOf(n), id = ytId(u); if (!id) return;
+  const st = n.vstart != null ? n.vstart : ytStart(u);
+  window.open(`https://www.youtube.com/watch?v=${id}${st ? '&t=' + st + 's' : ''}`, '_blank', 'noopener');
+}
+// Vídeo del tema (aparte del vínculo): dirección de YouTube, minuto de inicio y nombre del capítulo
+function editVideo(n) {
+  n = n || primary(); if (!n) { toast(trStr('Selecciona un tema.')); return; }
+  const cur = vidOf(n) || '', st = n.vstart != null ? n.vstart : ytStart(cur);
+  dialog(trStr('Vídeo de YouTube'), trStr('Se ve la portada en el tema. En Mind Pro se reproduce dentro del tema; «YouTube ↗» lo abre en YouTube.'),
+    `<div class="fld"><label>${esc(trStr('Dirección del vídeo'))}</label><input id="dv-u" value="${esc(cur)}" placeholder="https://www.youtube.com/watch?v=…"></div>
+     <div style="display:flex;gap:8px"><div class="fld" style="flex:1"><label>${esc(trStr('Empieza en (min:seg)'))}</label><input id="dv-t" value="${st ? fmtT(st) : ''}" placeholder="0:00"></div>
+     <div class="fld" style="flex:2"><label>${esc(trStr('Capítulo (opcional)'))}</label><input id="dv-c" value="${esc(n.vchap || '')}" maxlength="80"></div>
+     <div class="fld" style="flex:1"><label>${esc(trStr('Ancho (px)'))}</label><input id="dv-w" type="number" min="60" max="800" step="10" value="${n.imgw || ''}" placeholder="${mediaW({}, (info(n.id) || { d: 1 }).d)}"></div></div>`, () => {
+      const u = $('#dv-u').value.trim(), t = parseT($('#dv-t').value), c = $('#dv-c').value.trim(), w = +$('#dv-w').value;
+      if (u && !ytId(u)) { toast(trStr('No parece un vídeo de YouTube.')); return; }
+      snap();
+      if (!u) { delete n.vid; delete n.vstart; delete n.vchap; if (n.link && ytId(n.link)) delete n.link; }
+      else { if (n.link && ytId(n.link) && !n.vid) delete n.link; n.vid = u; if (t) n.vstart = t; else delete n.vstart; if (c) n.vchap = c; else delete n.vchap; }
+      if (w >= 60) n.imgw = clamp(Math.round(w), 60, 800); else if (!n.img) delete n.imgw;
+      if (PLAYING === n.id) PLAYING = null;
+      render();
+    });
+}
+// Tamaño de imágenes y vídeos por nivel (para los temas sin tamaño propio)
+function mediaSizesHtml() { const z = doc.theme.msz || MSZ_DEF; return `<div style="font-size:12px;margin-top:10px;color:var(--muted)">${esc(trStr('Tamaño por defecto (px)'))}</div><div style="display:flex;gap:6px;margin-top:3px">${[trStr('Central'), trStr('Principales'), trStr('Demás')].map((t, i) => `<label style="flex:1;font-size:11px">${esc(t)}<input type="number" min="60" max="600" step="10" value="${z[i]}" data-msz="${i}" style="width:100%"></label>`).join('')}</div>`; }
+function bindMediaSizes(root) { root.querySelectorAll('[data-msz]').forEach(i => i.addEventListener('change', () => { snap(); const z = (doc.theme.msz || MSZ_DEF).slice(); z[+i.dataset.msz] = clamp(+i.value || MSZ_DEF[+i.dataset.msz], 60, 600); doc.theme.msz = z.join(',') === MSZ_DEF.join(',') ? undefined : z; render(); })); }
 
 /* ---------- Teclado ---------- */
 document.addEventListener('keydown', e => {
@@ -2784,7 +3036,7 @@ document.addEventListener('keydown', e => {
     else if (lk === 'b') { e.preventDefault(); cmd('bold'); }
     else if (lk === 'i') { e.preventDefault(); cmd('italic'); }
     else if (k === '/' || k === '.') { e.preventDefault(); toggleFold(); }
-    else if (k === '0') { e.preventDefault(); fit(false, true); }
+    else if (k === '0') { e.preventDefault(); if (sel.size) fit(false, true, new Set(sel)); else fit(false, true); }
     else if (k === '1') { e.preventDefault(); zoomCenter(1 / V.s); }
     else if (k === '+' || k === '=') { e.preventDefault(); zoomCenter(1.25); }
     else if (k === '-') { e.preventDefault(); zoomCenter(0.8); }
@@ -2930,7 +3182,11 @@ function nodeAttrs(n, relIds) {
   if (relIds.has(n.id)) a.id = n.id;
   Object.assign(a, styleAttrs(n, false));
   if (n.side) a.side = n.side === 'L' ? 'left' : 'right';
-  if (n.img && n.imgw) a.imgw = n.imgw;
+  if ((n.img || vidOf(n) || n.card) && n.imgw) a.imgw = n.imgw;
+  if (n.vid) a.video = n.vid; if (n.vstart != null) a.vstart = n.vstart; if (n.vchap) a.chapter = n.vchap;
+  if (n.mfit === 'cover') a.mfit = 'cover'; if (n.card) a.card = 'yes';
+  if (n.sz) a.size = n.sz.map(Math.round).join(',');
+  if (n.btext) a.btext = n.btext; if (n.bimg) a.bimg = imgSrc(n.bimg);
   if (n.col) a.collapsed = 'yes';
   if (n.o) for (const st in n.o) { const o = n.o[st]; if (Math.abs(o[0]) + Math.abs(o[1]) >= 1) a[st] = Math.round(o[0]) + ',' + Math.round(o[1]); }
   return a;
@@ -2962,7 +3218,7 @@ function withDoc(pg, fn) { const d = doc; doc = pg; try { return fn(); } finally
 function buildPageMd() {
   const t = doc.theme, relIds = new Set(); doc.rels.forEach(r => { relIds.add(r.from); relIds.add(r.to); }); (doc.groups || []).forEach(g => g.ids.forEach(id => relIds.add(id)));
   const tp = taperMode();
-  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
+  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, media: t.msz ? t.msz.join(',') : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
   { const used = new Set(); const look = o => { if (o && o.shape && String(o.shape).startsWith('c:')) used.add(o.shape.slice(2)); }; Object.values(t.lv || {}).forEach(look); const w = n => { look(n); n.kids.forEach(w); }; doc.roots.forEach(w);
     used.forEach(id => { const c = CSHAPES[id]; if (c) s += `<!-- shape c:${id}: ${attrs({ name: c.name, path: c.d })} -->\n`; }); }
   if (t.img) s += `<!-- background: ${attrs({ image: imgSrc(t.img), fit: t.imgfit === 'tile' ? 'tile' : null, fade: t.imgfade ? +(+t.imgfade).toFixed(2) : null })} -->\n`;
@@ -3030,7 +3286,7 @@ function parseMd(src, forPaste) {
   const applyStyle = (n, a) => {
     if (a.color) n.color = a.color; if (a.fill) n.fill = a.fill; if (a.text) n.tc = a.text;
     if (a.shape && (SHAPES[a.shape] || /^c:[\w-]+$/.test(a.shape))) n.shape = a.shape;
-    if (['shadow', 'soft', 'none'].includes(a.relief)) n.relief = a.relief;
+    if (['shadow', 'soft', 'stroke', 'none'].includes(a.relief)) n.relief = a.relief;
     if (a.size != null && a.size !== '') { const v = clamp(parseInt(a.size, 10) || 0, -3, 6); n.fs = v; }
     if (a.font && FONT_CSS[a.font]) n.font = a.font;
     if (a.border != null && isFinite(+a.border)) n.bw = clamp(+a.border, 0, 12);
@@ -3048,6 +3304,14 @@ function parseMd(src, forPaste) {
     applyStyle(n, a);
     if (a.side) n.side = a.side === 'left' ? 'L' : 'R';
     if (a.imgw && isFinite(+a.imgw)) n.imgw = clamp(Math.round(+a.imgw), 30, 800);
+    if (a.video && ytId(a.video)) n.vid = a.video;
+    if (a.vstart != null && /^\d+$/.test(a.vstart)) n.vstart = +a.vstart;
+    if (a.chapter) n.vchap = String(a.chapter).slice(0, 80);
+    if (a.mfit === 'cover') n.mfit = 'cover';
+    if (a.card === 'yes') n.card = true;
+    if (a.btext) n.btext = String(a.btext).slice(0, 60);
+    if (a.bimg && /^(https?:|data:image\/)/.test(a.bimg)) n.bimg = /^data:/.test(a.bimg) ? memImg(a.bimg) : a.bimg;
+    if (a.size && /^\d+,\d+$/.test(a.size)) n.sz = a.size.split(',').map(x => clamp(+x, 20, 2000));
     if (a.collapsed === 'yes') n.col = true;
     if (a.group && /^(auto|#?[0-9a-f]{3,8})$/i.test(a.group)) {
       n.grp = a.group.toLowerCase() === 'auto' ? 'auto' : '#' + a.group.replace('#', '').toLowerCase();
@@ -3077,7 +3341,7 @@ function parseMd(src, forPaste) {
       if (a.line && LINES[a.line]) out.theme.line = a.line; if (a.taper) out.theme.taper = a.taper === 'no' ? 'none' : a.taper === 'all' ? 'all' : 'main';
       if (a.branches === '3d') out.theme.b3d = true;
       if (a.radius != null && isFinite(+a.radius)) out.theme.radius = clamp(+a.radius, 0, 40);
-      if (a.bg) out.theme.bg = a.bg; if (a.texture && TEX[a.texture]) out.theme.tex = a.texture; if (a.spacing) out.theme.space = +a.spacing || 1; if (+a.textlines > 0) out.theme.maxl = Math.min(20, Math.round(+a.textlines));
+      if (a.bg) out.theme.bg = a.bg; if (a.texture && TEX[a.texture]) out.theme.tex = a.texture; if (a.spacing) out.theme.space = +a.spacing || 1; if (a.media && /^\d+,\d+,\d+$/.test(a.media)) out.theme.msz = a.media.split(',').map(x => clamp(+x, 40, 800)); if (+a.textlines > 0) out.theme.maxl = Math.min(20, Math.round(+a.textlines));
       continue;
     }
     if ((m = raw.match(/^\s*<!--\s*shape\s+c:([\w-]+):\s*(.*?)\s*-->\s*$/))) { const a = parseAttrs(m[2]); if (a.path && /^[MLCZmlcz0-9.,\s-]+$/.test(a.path)) { CSHAPES[m[1]] = { name: a.name || 'Forma propia', d: a.path }; } continue; }
@@ -3311,12 +3575,16 @@ function appearanceMenu(btn) {
     <h4>Rejilla</h4><div style="display:flex;gap:2px">${pat}</div>
     <div style="font-size:12px;margin-top:6px">Tamaño <span style="color:var(--muted)" data-apv="gridSize">${PR.gridSize} px</span></div><input type="range" min="10" max="80" step="2" value="${PR.gridSize}" data-ap="gridSize" style="width:100%;accent-color:var(--acc)">
     <div style="font-size:12px;margin-top:4px">Intensidad</div><input type="range" min="0" max="${dark ? 0.5 : 0.8}" step="0.02" value="${dark ? PR.gridDark : PR.gridLight}" data-ap="${dark ? 'gridDark' : 'gridLight'}" style="width:100%;accent-color:var(--acc)">
+    <label style="display:flex;gap:6px;align-items:center;font-size:12px;margin-top:8px"><input type="checkbox" data-apc="snapGrid"${PR.snapGrid ? ' checked' : ''}> ${trStr('Ajustar a la cuadrícula al mover (aunque no se vea)')}</label>
+    <label style="display:flex;gap:6px;align-items:center;font-size:12px;margin-top:4px"><input type="checkbox" data-apc="guides"${PR.guides !== false ? ' checked' : ''}> ${trStr('Guías inteligentes al mover')}</label>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">${trStr('Mantén Alt al arrastrar para moverlo libre.')}</div>
   </div>`);
   pop.onclick = e => {
     const m = e.target.closest('[data-mode]'); if (m) { PR.dark = m.dataset.mode === 'dark'; savePrefs(); applyPanels(); render({ light: true }); appearanceMenu(btn); return; }
     const bg = e.target.closest('[data-bg]'); if (bg) { PR[dark ? 'bgDark' : 'bgLight'] = bg.dataset.bg; savePrefs(); applyAppearance(); appearanceMenu(btn); return; }
     const pt = e.target.closest('[data-pat]'); if (pt) { snap(); doc.theme.bg = pt.dataset.pat; render(); appearanceMenu(btn); }
   };
+  pop.querySelectorAll('[data-apc]').forEach(i => i.addEventListener('change', () => { PR[i.dataset.apc] = i.checked; savePrefs(); }));
   pop.querySelectorAll('[data-ap]').forEach(i => i.addEventListener('input', () => { PR[i.dataset.ap] = +i.value; const v = pop.querySelector(`[data-apv="${i.dataset.ap}"]`); if (v) v.textContent = i.value + ' px'; savePrefs(); applyAppearance(); }));
   const pk = pop.querySelector('[data-bgpick]'); pk.addEventListener('input', () => { PR[dark ? 'bgDark' : 'bgLight'] = pk.value; savePrefs(); applyAppearance(); });
 }
@@ -3412,6 +3680,10 @@ function cmd(c, el) {
     case 'relation': relFrom != null ? (relFrom = null, hint(''), render({ light: true })) : startRelation(); break;
     case 'note': editNote(); break;
     case 'link': editLink(); break;
+    case 'video': editVideo(); break;
+    case 'autoSize': forSel(n => { delete n.sz; }); break;
+    case 'branchLabel': branchLabelDialog(); break;
+    case 'mediaFit': forSel(n => { if (!hasMedia(n)) return; if (n.mfit === 'cover') delete n.mfit; else n.mfit = 'cover'; }); break;
     case 'groupMenu': groupMenu(el); break;
     case 'groupOff': { hidePop(); const gs = groupsOf(sel); if (!gs.length) { toast(trStr('Los temas seleccionados no están en ningún grupo.')); break; } snap(); doc.groups = doc.groups.filter((g, i) => !gs.includes(i)); render(); break; }
     case 'task': forSel(n => { n.task = n.task == null ? false : undefined; if (n.task === undefined) delete n.task; }); break;
@@ -3426,10 +3698,11 @@ function cmd(c, el) {
     case 'resetAll': resetPos(true); break;
     case 'shape': setProp('shape', v === 'auto' ? undefined : v); hidePop(); break;
     case 'drawShape': hidePop(); drawShapeDialog(); break;
+    case 'importShape': hidePop(); importSvgShape(); break;
     case 'nodeImg': nodeImgMenu(el); break;
     case 'styleMenu': styleMenu(el); break;
     case 'styleEditor': hidePop(); styleEditor(); break;
-    case 'shapeMenu': openPop(el, `<div style="width:310px"><div style="display:flex;gap:4px;align-items:center;margin-bottom:6px;font-size:12px"><span style="color:var(--muted);margin-right:2px">${esc(trStr('Relieve'))}</span>${[['auto', 'Según la forma'], ['shadow', 'Desplazado'], ['soft', 'Suave'], ['none', 'Ninguno']].map(([k, t]) => `<button class="opt" data-cmd="relief" data-v="${k}" style="flex:1;justify-content:center;padding:3px 2px;font-size:11.5px${(curVal('relief') || 'auto') === k ? ';background:var(--acc-tint)' : ''}">${esc(trStr(t))}</button>`).join('')}</div><div style="max-height:min(60vh,460px);overflow:auto;padding-right:4px">${shapeGroupsHtml('fp-shapes')}</div></div>`); break;
+    case 'shapeMenu': openPop(el, `<div style="width:310px"><div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:6px;font-size:12px"><span style="color:var(--muted);margin-right:2px">${esc(trStr('Relieve'))}</span>${[['auto', 'Según la forma'], ['shadow', 'Desplazado'], ['soft', 'Suave'], ['stroke', 'Trazo'], ['none', 'Ninguno']].map(([k, t]) => `<button class="opt" data-cmd="relief" data-v="${k}" style="flex:1;justify-content:center;padding:3px 2px;font-size:11.5px${(curVal('relief') || 'auto') === k ? ';background:var(--acc-tint)' : ''}">${esc(trStr(t))}</button>`).join('')}</div><div style="max-height:min(60vh,460px);overflow:auto;padding-right:4px">${shapeGroupsHtml('fp-shapes')}</div></div>`); break;
     case 'relief': setProp('relief', v === 'auto' ? undefined : v); hidePop(); break;
     case 'scopeMenu': openPop(el, `<h4>Aplicar el formato a</h4>${[['node', 'Solo este tema'], ['level', 'Todos los temas de su nivel'], ['all', 'Todo el mapa']].map(([k, t]) => `<button class="opt" data-cmd="scope" data-v="${k}">${PR.scope === k ? '✓' : '<span style="width:9px"></span>'} ${t}</button>`).join('')}`); break;
     case 'scope': PR.scope = v; savePrefs(); hidePop(); updateRibbon(); break;
@@ -3483,7 +3756,7 @@ function cmd(c, el) {
     case 'taper': snap(); doc.theme.taper = v; render(); break;
     case 'b3d': snap(); doc.theme.b3d = !doc.theme.b3d; render(); break;
     case 'radiusMenu': {
-      openPop(el, `<h4>Esquinas de las ramas en ángulo</h4><div style="width:230px"><input type="range" min="0" max="30" step="1" value="${radiusOf()}" id="rad-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Viva</span><span id="rad-v">${radiusOf()} px</span><span>Muy redondeada</span></div></div>`);
+      openPop(el, `<h4>Esquinas de las ramas en ángulo</h4><div style="width:230px"><input type="range" min="0" max="40" step="1" value="${radiusOf()}" id="rad-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Viva</span><span id="rad-v">${radiusOf()} px</span><span>Muy redondeada</span></div></div>`);
       const ri = $('#rad-in'); let sn = false;
       ri.addEventListener('input', () => { if (!sn) { snap(); sn = true; } doc.theme.radius = +ri.value; $('#rad-v').textContent = ri.value + ' px'; render(); });
       break;
@@ -3491,7 +3764,8 @@ function cmd(c, el) {
     case 'bg': snap(); doc.theme.bg = v; render(); break;
     case 'space': snap(); doc.theme.space = +v; render(); break;
     case 'navSettings': navDialog(); break;
-    case 'fit': fit(false, true); break;
+    case 'fit': if (sel.size) fit(false, true, new Set(sel)); else fit(false, true); break;
+    case 'fitAll': fit(false, true); break;
     case 'zoom100': zoomCenter(1 / V.s); break;
     case 'zoomIn': zoomCenter(1.25); break;
     case 'zoomOut': zoomCenter(0.8); break;
@@ -3656,17 +3930,20 @@ function openCtxAt(e, id) {
     if (!sel.has(id)) { sel = new Set([id]); render({ light: true }); }
     const n = node(id), many = sel.size > 1, hasG = groupsOf(sel).length > 0;
     if (!many) items.push(['addChild', 'child', 'Tema hijo', 'Tab'], ['addSibling', 'sibling', 'Tema hermano', 'Intro'], ['addParent', 'parent', 'Tema padre', 'Ctrl+Intro'], '-',
-      ['edit', 'note', 'Cambiar el texto', 'F2'], ['note', 'note', n.note ? 'Editar la nota…' : 'Nota…'], ['link', 'link', n.link ? 'Editar el vínculo…' : 'Vínculo o vídeo…'], ['nodeImg', 'image', n.img ? 'Imagen…' : 'Añadir imagen…'], ['task', 'task', n.task != null ? 'Quitar la casilla' : 'Casilla de tarea'], '-');
+      ['edit', 'note', 'Cambiar el texto', 'F2'], ['note', 'note', n.note ? 'Editar la nota…' : 'Nota…'], ['link', 'link', n.link ? 'Editar el vínculo…' : 'Vínculo…'], ['video', 'video', vidOf(n) ? 'Editar el vídeo…' : 'Vídeo de YouTube…'], ['nodeImg', 'image', n.img ? 'Imagen…' : 'Añadir imagen…'], ['task', 'task', n.task != null ? 'Quitar la casilla' : 'Casilla de tarea'], '-');
+    if ([...sel].some(i => hasMedia(node(i) || {}))) items.push(['mediaFit', 'image', n.mfit === 'cover' ? 'Imagen o vídeo completo' : 'Imagen o vídeo como fondo']);
+    if ([...sel].some(i => (node(i) || {}).sz)) items.push(['autoSize', 'reset', 'Tamaño automático']);
     items.push(['shapeMenu', 'shape', 'Forma y relieve…'], ['colorMenu', 'palette', 'Color de la rama…', '', 'color'], ['fpane', 'pane', 'Más formato…'], '-');
     items.push(['groupMenu', 'group', many ? 'Agrupar los seleccionados…' : hasG ? 'Editar el grupo…' : 'Agrupar…']);
     if (hasG) items.push(['groupOff', 'group', 'Quitar el grupo']);
     if (!many) items.push(['relation', 'rel', 'Relación con…']);
+    if (!many && info(id) && info(id).p) items.push(['branchLabel', 'rel', n.btext || n.bimg ? 'Editar texto en la rama…' : 'Texto o imagen en la rama…']);
     if (!many && n.kids.length) items.push(['fold', 'fold', n.col ? 'Desplegar rama' : 'Plegar rama', 'Ctrl+/']);
     items.push('-', ['resetPos', 'reset', 'Recolocar']);
-    if (!many) items.push(['centerSel', 'target', 'Centrar en la pantalla']);
+    items.push(['fit', 'fit', many ? 'Ajustar la selección a la pantalla' : 'Ajustar el tema a la pantalla', 'Ctrl+0']);
     items.push(['dup', 'copy', 'Duplicar', 'Ctrl+D'], ['del', 'del', many ? 'Eliminar los seleccionados' : 'Eliminar', 'Supr']);
   } else {
-    items.push(['floatHere', 'float', 'Tema flotante aquí'], ['fit', 'fit', 'Ajustar a la ventana', 'Ctrl+0'], ['zoom100', 'z100', 'Zoom al 100 %', 'Ctrl+1'], '-',
+    items.push(['floatHere', 'float', 'Tema flotante aquí'], ['fitAll', 'fit', 'Ajustar a la ventana', 'Ctrl+0'], ['zoom100', 'z100', 'Zoom al 100 %', 'Ctrl+1'], '-',
       ['expandAll', 'unfold', 'Desplegar todo'], ['levelMenu', 'foldall', 'Mostrar por niveles…'], ['resetAll', 'reset', 'Recolocar todo'], '-', ['exportImg', 'image', 'Exportar imagen…'], ['navSettings', 'mouse', 'Ratón y zoom…']);
   }
   ctx.innerHTML = items.map(it => it === '-' ? '<hr>' : `<button class="opt${isLocked(it[0]) ? ' locked' : ''}" data-c="${it[0]}"${it[4] ? ` data-k="${it[4]}"` : ''}>${ICONS[it[1]] || ICONS.shape || ''}${esc(trStr(it[2]))}${it[3] ? `<kbd>${it[3]}</kbd>` : ''}</button>`).join('');
@@ -3786,6 +4063,7 @@ function qbarNearCheck(e) {
 function qbarPeek() { qbPeek = Date.now() + 900; clearTimeout(qbT); qbT = setTimeout(placeQbar, 950); }
 board.addEventListener('pointerleave', () => { if (qbNear) { qbNear = false; placeQbar(); } });
 function placeQbar() {
+  try { placeRsz(); } catch (e) {}
   const n = primary();
   if (!n || editId != null || drag || relFrom != null || !POS.get(n.id) || PR.qbar === 'off') { qbar.hidden = true; return; }
   const show = !qbSuppress && (PR.qbar === 'always' || (TOUCH.used && PR.qbar !== 'off') || qbNear) || Date.now() < qbPeek || (!pop.hidden && pop._from === 'qbar');

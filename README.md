@@ -114,7 +114,7 @@ flowchart LR
 
 This repository has **MarkDawn Mind**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, images inside topics and custom per-level styles.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, groups, video playback and images as topic backgrounds, and custom per-level styles.
 
 - **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
 - **Organic maps** with tapered, curved branches, plus right-side and tree (folder-like) layouts
@@ -128,7 +128,7 @@ This repository has **MarkDawn Mind**, the free edition. Its interface is in Eng
 - **Background textures**: paper, linen and notebook
 - Built-in help: press **F1**
 
-**Mind Pro** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, images inside topics, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
+**Mind Pro** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, groups, video playback inside topics, images as topic backgrounds, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
 
 ### How a mind map is saved
 
