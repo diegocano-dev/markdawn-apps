@@ -384,7 +384,9 @@
   .ytw .yplay { transform: scale(var(--iz, 1)); }
   /* Capa invisible sobre el vídeo: la pizarra sabe que el ratón ha llegado (dentro del vídeo ya no recibe nada) y entonces se aparta */
   /* Capa sobre el vídeo (menos la barra de controles de YouTube): la rueda hace zoom, arrastrar mueve el tema y un clic pausa o reanuda */
-  .ytw .yshield { position: absolute; left: 0; right: 0; top: min(56px, 22%); bottom: min(54px, 28%); z-index: 1; cursor: pointer; }   /* franjas de arriba y abajo libres: ahí están los controles de YouTube */
+  .ytw .yshield { position: absolute; left: 0; right: 0; top: min(56px, 22%); bottom: min(54px, 28%); z-index: 1; cursor: pointer; }
+  /* hueco abajo a la derecha: ahí pone YouTube el botón de pantalla completa (encima de su barra) */
+  .ytw .yshield { clip-path: polygon(0 0, 100% 0, 100% 45%, calc(100% - 72px) 45%, calc(100% - 72px) 100%, 0 100%); }   /* franjas de arriba y abajo libres: ahí están los controles de YouTube */
   .ytw.playing .ybtn.yyt { display: none; }
   .ytw.playing .ystop { right: auto; left: 6px; transform-origin: 0 0; }
   .n.mcover.vcov .ytw.playing ~ .t, .n.mcover.vcov:has(.ytw.playing) .t { display: none; }
@@ -2520,7 +2522,7 @@ mini.addEventListener('wheel', e => { e.stopPropagation(); e.preventDefault(); z
 let spaceDown = false;
 // Tema bajo el ratón (también cuando el ratón está dentro de un vídeo, donde la pizarra ya no recibe movimientos)
 let hovEl = null;
-function setHov(el) { if (el === hovEl) return; if (hovEl) { if (hovEl.classList.contains('yfree') && document.activeElement && document.activeElement.tagName === 'IFRAME') { try { document.activeElement.blur(); window.focus(); } catch (e) {} } hovEl.classList.remove('hov', 'yfree'); } hovEl = el || null; if (hovEl) hovEl.classList.add('hov'); }
+function setHov(el) { if (el === hovEl || document.fullscreenElement) return; if (hovEl) { if (hovEl.classList.contains('yfree') && document.activeElement && document.activeElement.tagName === 'IFRAME') { try { document.activeElement.blur(); window.focus(); } catch (e) {} } hovEl.classList.remove('hov', 'yfree'); } hovEl = el || null; if (hovEl) hovEl.classList.add('hov'); }
 document.addEventListener('mouseleave', () => setHov(null));
 window.addEventListener('blur', () => setTimeout(() => { const a = document.activeElement; const ne = a && a.tagName === 'IFRAME' && a.closest('.n'); if (ne) { ne.classList.add('yfree'); if (hovEl !== ne) { setHov(ne); ne.classList.add('yfree'); } } }, 0));
 board.addEventListener('mouseover', e => { if (!drag) setHov(e.target.closest && e.target.closest('.n')); });
@@ -2530,9 +2532,10 @@ const marquee = document.createElement('div'); marquee.className = 'marquee'; ma
 const rszEl = document.createElement('div'); rszEl.className = 'rsz no-tr'; rszEl.hidden = true; rszEl.title = 'Arrastra para cambiar el tamaño (Ctrl: sin mantener la proporción). Doble clic: tamaño automático'; board.appendChild(rszEl);
 function placeRsz() {
   const id = sel.size === 1 ? [...sel][0] : null, p = id != null && editId == null ? POS.get(id) : null, n = id != null ? node(id) : null;
-  // Con el vídeo en marcha, el tirador taparía el botón de pantalla completa de YouTube
-  if (!p || !n || (n.mfit === 'cover' && !hasMedia(n)) || isLocked('nodeSize') || PLAYING === id) { rszEl.hidden = true; return; }
-  rszEl.hidden = false; rszEl.style.left = ((p.x + p.w) * V.s + V.x - 6) + 'px'; rszEl.style.top = ((p.y + p.h) * V.s + V.y - 6) + 'px';
+  if (!p || !n || (n.mfit === 'cover' && !hasMedia(n)) || isLocked('nodeSize')) { rszEl.hidden = true; return; }
+  // Con el vídeo en marcha, el tirador va fuera de la esquina para no tapar el botón de pantalla completa de YouTube
+  const o = PLAYING === id ? 4 : -6;
+  rszEl.hidden = false; rszEl.style.left = ((p.x + p.w) * V.s + V.x + o) + 'px'; rszEl.style.top = ((p.y + p.h) * V.s + V.y + o) + 'px';
 }
 rszEl.addEventListener('pointerdown', e => {
   e.preventDefault(); e.stopPropagation();
