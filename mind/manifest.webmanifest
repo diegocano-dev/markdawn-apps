@@ -1,8 +1,8 @@
 {
   "name": "MarkDawn Mind",
   "short_name": "Mind",
-  "description": "Mapas mentales como en Office, guardados en Markdown.",
-  "lang": "es",
+  "description": "Mind maps like XMind, saved as plain Markdown.",
+  "lang": "en",
   "id": "markdawn-mind",
   "start_url": "./",
   "scope": "./",

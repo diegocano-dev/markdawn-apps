@@ -1,8 +1,8 @@
 {
   "name": "MarkDawn Writer",
   "short_name": "Writer",
-  "description": "Escribe como en Word, guarda en Markdown.",
-  "lang": "es",
+  "description": "A Word-like editor that saves plain Markdown. Free, open source, works offline, no account.",
+  "lang": "en",
   "id": "markdawn-writer",
   "start_url": "./",
   "scope": "./",
