@@ -384,7 +384,10 @@
   .ytw .yplay { transform: scale(var(--iz, 1)); }
   /* Capa invisible sobre el vídeo: la pizarra sabe que el ratón ha llegado (dentro del vídeo ya no recibe nada) y entonces se aparta */
   /* Capa sobre el vídeo (menos la barra de controles de YouTube): la rueda hace zoom, arrastrar mueve el tema y un clic pausa o reanuda */
-  .ytw .yshield { position: absolute; left: 0; right: 0; top: 0; bottom: 46px; z-index: 1; cursor: pointer; }
+  .ytw .yshield { position: absolute; left: 0; right: 0; top: 20%; bottom: 26%; z-index: 1; cursor: pointer; }   /* franjas de arriba y abajo libres: ahí están los controles de YouTube */
+  .ytw.playing .ybtn.yyt { display: none; }
+  .ytw.playing .ystop { right: auto; left: 6px; transform-origin: 0 0; }
+  .n.mcover.vcov .ytw.playing ~ .t, .n.mcover.vcov:has(.ytw.playing) .t { display: none; }
   .n.yfree .ytw .yshield { display: none; }
   .n.mcover.vcov.yfree .t { opacity: 0 !important; pointer-events: none; }
   .ytw .ybtn:hover { opacity: 1; background: #000; }
