@@ -385,6 +385,8 @@
   /* Capa invisible sobre el vídeo: la pizarra sabe que el ratón ha llegado (dentro del vídeo ya no recibe nada) y entonces se aparta */
   /* Capa sobre el vídeo (menos la barra de controles de YouTube): la rueda hace zoom, arrastrar mueve el tema y un clic pausa o reanuda */
   .ytw .yshield { position: absolute; left: 0; right: 0; top: 0; bottom: 46px; z-index: 1; cursor: pointer; }
+  .n.yfree .ytw .yshield { display: none; }
+  .n.mcover.vcov.yfree .t { opacity: 0 !important; pointer-events: none; }
   .ytw .ybtn:hover { opacity: 1; background: #000; }
   .ytw .yyt { right: 6px; bottom: 6px; }
   .ytw .ystop { right: 6px; top: 6px; padding: 1px 7px; font-size: 14px; }
@@ -1558,7 +1560,7 @@ function syncNodes() {
       const csh = pathShape(sh);
       const cls = `n d${Math.min(inf.d, 2) === 2 ? 'n' : inf.d} ${csh ? 's-custom' : 's-' + sh}${hasMedia(n) ? ' has-img' : ''}` + (weight ? '' : bold === true ? ' b' : bold === false ? ' nb' : '') + (E('italic') ? ' i' : '') + (n.task ? ' done' : '') + (sel.has(n.id) ? ' sel' : '') + (editId === n.id ? ' editing' : '');
       const rf = E('relief'), cls2 = cls + (rf ? ' rf-' + rf : '');
-      if (el.className !== cls2) { const hv = el.classList.contains('hov'); el.className = cls2; if (hv) el.classList.add('hov'); }
+      if (el.className !== cls2) { const hv = el.classList.contains('hov'), yf = el.classList.contains('yfree'); el.className = cls2; if (hv) el.classList.add('hov'); if (yf) el.classList.add('yfree'); }
       el.style.setProperty('--bc', inf.color);
       if (fill) el.style.setProperty('--fill', fill); else el.style.removeProperty('--fill');
       if (tc) el.style.setProperty('--tc', tc); else el.style.removeProperty('--tc');
@@ -2515,8 +2517,9 @@ mini.addEventListener('wheel', e => { e.stopPropagation(); e.preventDefault(); z
 let spaceDown = false;
 // Tema bajo el ratón (también cuando el ratón está dentro de un vídeo, donde la pizarra ya no recibe movimientos)
 let hovEl = null;
-function setHov(el) { if (el === hovEl) return; if (hovEl) hovEl.classList.remove('hov'); hovEl = el || null; if (hovEl) hovEl.classList.add('hov'); }
+function setHov(el) { if (el === hovEl) return; if (hovEl) { if (hovEl.classList.contains('yfree') && document.activeElement && document.activeElement.tagName === 'IFRAME') { try { document.activeElement.blur(); window.focus(); } catch (e) {} } hovEl.classList.remove('hov', 'yfree'); } hovEl = el || null; if (hovEl) hovEl.classList.add('hov'); }
 document.addEventListener('mouseleave', () => setHov(null));
+window.addEventListener('blur', () => setTimeout(() => { const a = document.activeElement; const ne = a && a.tagName === 'IFRAME' && a.closest('.n'); if (ne) { ne.classList.add('yfree'); if (hovEl !== ne) { setHov(ne); ne.classList.add('yfree'); } } }, 0));
 board.addEventListener('mouseover', e => { if (!drag) setHov(e.target.closest && e.target.closest('.n')); });
 let drag = null; // { kind:'pan'|'node'|'marquee'|'zoomdrag'|'maybeCtx', ... }
 const marquee = document.createElement('div'); marquee.className = 'marquee'; marquee.hidden = true; board.appendChild(marquee);
@@ -3050,13 +3053,16 @@ function editVideo(n) {
     `<div class="fld"><label>${esc(trStr('Dirección del vídeo'))}</label><input id="dv-u" value="${esc(cur)}" placeholder="https://www.youtube.com/watch?v=…"></div>
      <div style="display:flex;gap:8px"><div class="fld" style="flex:1"><label>${esc(trStr('Empieza en (min:seg)'))}</label><input id="dv-t" value="${st ? fmtT(st) : ''}" placeholder="0:00"></div>
      <div class="fld" style="flex:2"><label>${esc(trStr('Capítulo (opcional)'))}</label><input id="dv-c" value="${esc(n.vchap || '')}" maxlength="80"></div>
-     <div class="fld" style="flex:1"><label>${esc(trStr('Ancho (px)'))}</label><input id="dv-w" type="number" min="60" max="800" step="10" value="${n.imgw || ''}" placeholder="${mediaW({}, (info(n.id) || { d: 1 }).d)}"></div></div>`, () => {
-      const u = $('#dv-u').value.trim(), t = parseT($('#dv-t').value), c = $('#dv-c').value.trim(), w = +$('#dv-w').value;
+     <div class="fld" style="flex:1"><label>${esc(trStr('Ancho (px)'))}</label><input id="dv-w" type="number" min="60" max="800" step="10" value="${n.imgw || ''}" placeholder="${mediaW({}, (info(n.id) || { d: 1 }).d)}"></div></div>
+     <div class="fld"><label>${esc(trStr('Cómo se ve'))}</label><select id="dv-f"><option value="full">${esc(trStr('Completa'))}</option><option value="cover"${n.mfit === 'cover' ? ' selected' : ''}>${esc(trStr('Como fondo de la forma'))}${isLocked('mediaCover') ? ' (Pro)' : ''}</option></select></div>`, () => {
+      const u = $('#dv-u').value.trim(), t = parseT($('#dv-t').value), c = $('#dv-c').value.trim(), w = +$('#dv-w').value, fit = $('#dv-f').value;
+      if (fit === 'cover' && n.mfit !== 'cover' && isLocked('mediaCover')) { upsell(); return; }
       if (u && !ytId(u)) { toast(trStr('No parece un vídeo de YouTube.')); return; }
       snap();
       if (!u) { delete n.vid; delete n.vstart; delete n.vchap; if (n.link && ytId(n.link)) delete n.link; }
       else { if (n.link && ytId(n.link) && !n.vid) delete n.link; n.vid = u; if (t) n.vstart = t; else delete n.vstart; if (c) n.vchap = c; else delete n.vchap; }
       if (w >= 60) n.imgw = clamp(Math.round(w), 60, 800); else if (!n.img) delete n.imgw;
+      if (fit === 'cover') n.mfit = 'cover'; else delete n.mfit;
       if (PLAYING === n.id) PLAYING = null;
       render();
     });
