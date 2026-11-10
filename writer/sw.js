@@ -1,5 +1,5 @@
 // Service worker de MarkDawn: la app funciona sin conexión y se actualiza sola cuando hay internet
-const CACHE = 'md|markdawn-writer|b251cf9645';
+const CACHE = 'md|markdawn-writer|eb08e88d86';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('md|markdawn-writer|') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });

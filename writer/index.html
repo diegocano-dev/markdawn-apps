@@ -176,6 +176,20 @@
 
   /* ---------- Zona principal ---------- */
   .main { flex: 1; display: flex; min-height: 0; }
+  /* Pestañas de documentos */
+  .doctabs { flex: none; display: flex; align-items: flex-end; gap: 2px; padding: 4px 8px 0; background: var(--canvas); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: thin; }
+  .doctabs[hidden] { display: none; }
+  .dtab { display: flex; align-items: center; gap: 4px; max-width: 220px; height: 28px; padding: 0 4px 0 12px; border: 1px solid transparent; border-bottom: 0; border-radius: 6px 6px 0 0; color: var(--muted); font-size: 12.5px; cursor: pointer; flex: none; user-select: none; }
+  .dtab:hover { background: var(--hover); }
+  .dtab.on { background: var(--paper); color: var(--ink); border-color: var(--line); margin-bottom: -1px; height: 29px; }
+  body.dark .dtab.on { background: var(--panel); color: var(--ink); }
+  .dtab .dt-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dtab .dt-dot { color: var(--word); font-size: 10px; }
+  .dtab .dt-x { width: 20px; height: 20px; border: 0; border-radius: 4px; background: none; color: inherit; cursor: pointer; font-size: 15px; line-height: 1; opacity: .6; }
+  .dtab .dt-x:hover { background: var(--line-soft); opacity: 1; }
+  .dt-add { flex: none; width: 28px; height: 26px; margin-bottom: 2px; border: 0; border-radius: 5px; background: none; color: var(--muted); font-size: 18px; cursor: pointer; }
+  .dt-add:hover { background: var(--hover); color: var(--ink); }
+  @media print { .doctabs { display: none !important; } }
   .main.bottom { flex-direction: column; }
   .center { flex: 1; display: flex; min-width: 0; min-height: 0; }
   .navpane {
@@ -224,10 +238,140 @@
   /* Vista de páginas: hojas de tamaño fijo, como el Diseño de impresión de Word */
   body.pv .page { background: transparent; box-shadow: none; max-width: none; }
   body.pv #editor { position: relative; z-index: 1; min-height: 0; }
+  /* Vista Sin página: sin hoja ni sombra; el texto ocupa el espacio (con «Ancho de línea legible», centrado y a un ancho cómodo) */
+  body.np .canvas { background: var(--paper); }
+  body.np .page { width: 100%; max-width: none; min-height: 0; background: transparent; box-shadow: none; padding: 8px 48px 40vh; }
+  body.np.rlw .page { max-width: 780px; padding-inline: 24px; }
+
+  /* Propiedades (front matter): barra de pastillas encima de la hoja, ventanita, panel y bloque en el documento */
+  .page { position: relative; }
+  body.pbar .canvas { padding-top: 56px; }
+  .propbar { position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: 10px; display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; overflow: hidden; z-index: 5; padding: 2px; font: 12.5px/1.2 "Segoe UI", system-ui, sans-serif; }
+  .propbar.stuck { background: var(--panel); border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.12); padding: 4px; }
+  .ppill { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); font: inherit; cursor: pointer; white-space: nowrap; }
+  .ppill:hover { border-color: var(--word); color: var(--ink); }
+  .ppill b { font-weight: 600; color: var(--ink); }
+  .ppill .pk { color: var(--muted); }
+  .ppill svg { width: 14px; height: 14px; }
+  .ppill.pmain { font-weight: 600; color: var(--ink); }
+  .ppill.pmain i { font-style: normal; color: var(--muted); font-weight: 400; }
+  .ppill.padd { opacity: .55; border-style: dashed; font-weight: 500; }
+  .ppill.padd:hover { opacity: 1; }
+  .ppill.pmore { color: var(--word); font-weight: 600; }
+  .ppill.tag { border-color: transparent; font-weight: 500; }
+  .pc0 { background: #e3eefc; color: #2357a6 !important; } .pc1 { background: #e6f4e4; color: #2e7a35 !important; } .pc2 { background: #fbeee0; color: #9a5a12 !important; }
+  .pc3 { background: #f1e8fb; color: #6b3fa5 !important; } .pc4 { background: #fde7ec; color: #a8325a !important; } .pc5 { background: #e2f5f5; color: #1d7373 !important; }
+  body.dark:not(.paper-light) .pc0, body.dark .pcard .pc0, body.dark .ppane .pc0, body.dark .propbar .pc0 { background: #1f3352; color: #a9c8f5 !important; } body.dark:not(.paper-light) .pc1, body.dark .pcard .pc1, body.dark .ppane .pc1, body.dark .propbar .pc1 { background: #1f3a24; color: #a6dbab !important; } body.dark:not(.paper-light) .pc2, body.dark .pcard .pc2, body.dark .ppane .pc2, body.dark .propbar .pc2 { background: #44321c; color: #f0c48f !important; }
+  body.dark:not(.paper-light) .pc3, body.dark .pcard .pc3, body.dark .ppane .pc3, body.dark .propbar .pc3 { background: #35274a; color: #d2b8f2 !important; } body.dark:not(.paper-light) .pc4, body.dark .pcard .pc4, body.dark .ppane .pc4, body.dark .propbar .pc4 { background: #4a2430; color: #f3b1c4 !important; } body.dark:not(.paper-light) .pc5, body.dark .pcard .pc5, body.dark .ppane .pc5, body.dark .propbar .pc5 { background: #1b3d3d; color: #9fdede !important; }
+  body.np .propbar.stuck { background: var(--paper); }
+  body.np .propbar { left: 48px; right: 48px; bottom: auto; top: 6px; margin: 0; }
+  body.np.rlw .propbar { left: 24px; right: 24px; }
+  body.np.pbar .canvas { padding-top: 0; }
+  body.np.pbar .page { padding-top: 46px; }
+  body.np .ppill { background: color-mix(in srgb, var(--muted) 9%, transparent); border-color: transparent; color: color-mix(in srgb, var(--muted) 85%, transparent); }
+  body.np .ppill b { color: var(--muted); font-weight: 500; }
+  body.np .ppill.tag { opacity: .8; }
+  .pchip { display: inline-flex; align-items: center; gap: 2px; padding: 1px 8px; border-radius: 6px; font-size: 12.5px; font-weight: 500; line-height: 1.5; }
+  .pchip button { border: 0; background: none; color: inherit; cursor: pointer; padding: 0 0 0 2px; font-size: 13px; opacity: .6; }
+  .pchip button:hover { opacity: 1; }
+  .pcard { position: fixed; z-index: 60; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 36px rgba(20,30,50,.18), 0 2px 6px rgba(20,30,50,.08); padding: 12px 12px 10px; overflow: auto; font: 13px/1.35 "Segoe UI", system-ui, sans-serif; }
+  .ppane { flex: none; width: 320px; overflow: auto; background: var(--panel); border-left: 1px solid var(--line); padding: 12px; font: 13px/1.35 "Segoe UI", system-ui, sans-serif; color: var(--ink); }
+  .ppane.left { border-left: 0; border-right: 1px solid var(--line); }
+  .ppane.inmd { width: auto; max-height: 45%; flex: none; border: 0; border-bottom: 1px solid var(--line); }
+  .ph { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; }
+  .ph b { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .ph span { margin-left: auto; font-size: 11.5px; color: var(--muted); opacity: .85; }
+  .pclose { border: 0; background: none; color: var(--muted); font-size: 17px; cursor: pointer; padding: 0 4px; }
+  .prow { display: grid; grid-template-columns: 12px 22px minmax(70px, 120px) 1fr auto 18px; align-items: center; gap: 6px; min-height: 32px; padding: 1px 4px; border-radius: 7px; }
+  .ppane .prow { grid-template-columns: 12px 20px minmax(60px, 90px) 1fr auto 16px; }
+  .pdrag { cursor: grab; color: var(--muted); opacity: 0; font-size: 11px; letter-spacing: -3px; user-select: none; touch-action: none; }
+  .prow:hover .pdrag { opacity: .7; }
+  .prow.dragging { background: color-mix(in srgb, var(--word) 12%, transparent); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  .prow.dragging .pdrag { cursor: grabbing; }
+  .prow:hover, .prow:focus-within { background: color-mix(in srgb, var(--muted) 8%, transparent); }
+  .pico { width: 22px; height: 22px; border: 0; border-radius: 5px; background: none; color: var(--muted); cursor: pointer; font-size: 12px; }
+  .pico:hover { background: color-mix(in srgb, var(--muted) 15%, transparent); }
+  .pkey { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; }
+  .pkey-in { width: 100%; font: inherit; padding: 2px 4px; border: 1px solid var(--word); border-radius: 4px; background: var(--paper); color: var(--ink); }
+  .pval { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-width: 0; }
+  .pval input[type=text]:not(.pstat), .pval input[type=number], .pval input[type=date], .pval textarea, .pladd { width: 100%; min-width: 0; font: inherit; color: var(--ink); background: transparent; border: 1px solid transparent; border-radius: 5px; padding: 3px 5px; }
+  .pval textarea { resize: vertical; line-height: 1.4; }
+  .pval input:hover, .pval textarea:hover { border-color: var(--line); }
+  .pval input:focus, .pval textarea:focus, .pladd:focus { outline: none; border-color: var(--word); background: var(--paper); }
+  .pval input.pstat { width: auto; max-width: 100%; font: inherit; font-weight: 500; border-radius: 6px; border: 1px solid transparent; padding: 3px 8px; }
+  .pval input.pstat:focus { outline: none; border-color: var(--word); }
+  .pval .pladd { width: auto; flex: 1; min-width: 70px; }
+  .pval input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--word); margin: 0 4px; }
+  .praw { color: var(--muted); font-style: italic; }
+  .pvis { display: flex; gap: 3px; }
+  .pvis button { width: 24px; height: 22px; border-radius: 6px; border: 1px solid transparent; background: none; color: color-mix(in srgb, var(--muted) 55%, transparent); cursor: pointer; font-size: 11px; }
+  .pvis button.on { background: color-mix(in srgb, var(--word) 14%, transparent); color: var(--word); border-color: color-mix(in srgb, var(--word) 30%, transparent); }
+  .pdel { border: 0; background: none; color: var(--muted); cursor: pointer; opacity: 0; font-size: 15px; padding: 0; }
+  .prow:hover .pdel { opacity: .7; }
+  .pempty { color: var(--muted); padding: 6px 4px; }
+  .padd-row { padding: 4px 4px 2px; }
+  .pnew { width: 100%; font: inherit; border: 1px dashed transparent; border-radius: 6px; background: none; color: var(--ink); padding: 5px 6px; }
+  .pnew::placeholder { color: var(--muted); }
+  .pnew:hover { border-color: var(--line); } .pnew:focus { outline: none; border-color: var(--word); border-style: solid; }
+  .pfoot { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; font-size: 12px; color: var(--muted); }
+  .pfoot a { color: var(--word); text-decoration: none; font-weight: 500; }
+  .pseg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 7px; background: color-mix(in srgb, var(--muted) 10%, transparent); }
+  .pseg button { border: 0; background: none; padding: 3px 9px; border-radius: 5px; font: inherit; color: var(--muted); cursor: pointer; }
+  .pseg button.on { background: var(--panel); color: var(--word); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+  .pyaml { width: 100%; min-height: 150px; resize: vertical; font: 12.5px/1.5 Consolas, "Cascadia Mono", "DejaVu Sans Mono", monospace; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px; box-sizing: border-box; }
+  .ppane .pyaml { min-height: 220px; }
+  .pnote { margin-top: 8px; font-size: 12px; color: var(--muted); background: color-mix(in srgb, var(--word) 8%, transparent); border-radius: 6px; padding: 7px 9px; }
+  .pnote a { color: var(--word); font-weight: 600; }
+  .pmenu { position: fixed; z-index: 70; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.16); padding: 4px; display: flex; flex-direction: column; font: 13px "Segoe UI", system-ui, sans-serif; }
+  .pmenu button { display: flex; gap: 8px; align-items: center; border: 0; background: none; padding: 6px 10px; border-radius: 5px; color: var(--ink); cursor: pointer; text-align: left; font: inherit; }
+  .pmenu button:hover { background: color-mix(in srgb, var(--word) 10%, transparent); } .pmenu button.on { color: var(--word); font-weight: 600; }
+  .pmenu i { font-style: normal; width: 16px; text-align: center; color: var(--muted); }
+  .rb.ico-only { padding-inline: 6px; }
+  /* Personalizar estilos (Pro) */
+  .cstyle { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.25); display: flex; align-items: flex-start; justify-content: center; padding: 70px 12px 12px; }
+  .cs-card { width: min(760px, 100%); max-height: calc(100vh - 90px); overflow: auto; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 16px 48px rgba(0,0,0,.25); padding: 14px 16px; font: 13px/1.35 "Segoe UI", system-ui, sans-serif; }
+  .cs-head { display: flex; align-items: center; margin-bottom: 10px; } .cs-head b { font-size: 15px; } .cs-head .pclose { margin-left: auto; }
+  .cs-sets { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+  .cs-sets select { min-width: 180px; }
+  .cs-card select, .cs-card input[type=number] { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: 4px 5px; min-width: 0; }
+  .cs-rows.off { opacity: .75; }
+  .cs-row { display: grid; grid-template-columns: 110px minmax(120px, 1.4fr) 54px 62px 1fr 1fr 1fr; gap: 6px; align-items: center; padding: 5px 0; }
+  .cs-name { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cs-col { display: flex; align-items: center; gap: 2px; }
+  .cs-col input[type=color] { width: 32px; height: 26px; padding: 0 2px; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); cursor: pointer; }
+  .cs-col input.auto { opacity: .35; }
+  .cs-col button { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 0 2px; }
+  .cs-acc { grid-template-columns: 110px 1fr 54px; }
+  .cs-hint { color: var(--muted); }
+  .cs-doc { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .cs-note { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+  @media (max-width: 700px) { .cs-row { grid-template-columns: 1fr 1fr 1fr; } .cs-name { grid-column: 1 / -1; } }
+  /* Propiedades dentro del documento: se imprimen, como parte de la hoja */
+  .propdoc { position: relative; z-index: 1; cursor: pointer; border-radius: 4px; margin: 0 0 22px; color: var(--doc-ink); font-family: var(--doc); font-size: 14px; }
+  .propdoc:hover { outline: 1.5px dashed color-mix(in srgb, var(--word) 55%, transparent); outline-offset: 5px; }
+  .pd-ficha { display: flex; flex-wrap: wrap; gap: 10px 28px; padding-bottom: 12px; border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+  .pd-ficha div { display: flex; flex-direction: column; gap: 3px; }
+  .pd-ficha small { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; opacity: .6; font-weight: 600; }
+  .pd-ficha b { font-weight: 500; display: flex; flex-wrap: wrap; gap: 4px; }
+  .pd-line { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font-size: .92em; opacity: .85; }
+  .pd-line i { font-style: normal; opacity: .5; }
+  .pd-letter { line-height: 1.5; }
+  .pd-from { text-align: right; }
+  .pd-to { margin-top: 22px; }
+  .pd-date { text-align: right; margin-top: 18px; }
+  .pd-subj { margin-top: 18px; }
+  .pd-letter .pd-line { margin-top: 12px; }
+  .propdoc .pchip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @media print { .propbar, .ppane, .pcard, .pmenu { display: none !important; } .propdoc:hover { outline: 0; } body.pbar .canvas { padding-top: 0; }
+    body.dark .propdoc .pc0 { background: #e3eefc; color: #2357a6 !important; } body.dark .propdoc .pc1 { background: #e6f4e4; color: #2e7a35 !important; } body.dark .propdoc .pc2 { background: #fbeee0; color: #9a5a12 !important; }
+    body.dark .propdoc .pc3 { background: #f1e8fb; color: #6b3fa5 !important; } body.dark .propdoc .pc4 { background: #fde7ec; color: #a8325a !important; } body.dark .propdoc .pc5 { background: #e2f5f5; color: #1d7373 !important; } }
+  @media (max-width: 760px) { .ppane { display: none !important; } body.pbar:not(.pv) .canvas { padding-top: 48px; } }
   .sheets { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
   .sheet { position: absolute; left: 0; right: 0; background: var(--paper); box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.08), 0 4px 14px rgba(0,0,0,.08); }
   body.dark .sheet { box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 18px rgba(0,0,0,.5); }
   .status .pginfo { color: inherit; opacity: .9; white-space: nowrap; }
+  #spell-sb.off { opacity: .6; } #spell-sb svg { width: 15px; height: 15px; }
+  .gp-note { font-size: 11.5px; color: var(--muted); margin: 8px 2px 0; line-height: 1.4; }
   .pgopt { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 6px 8px; border: 0; background: none; border-radius: 4px; cursor: pointer; color: var(--ink); font: inherit; }
   .pgopt:hover { background: var(--hover); }
   .pgopt[aria-pressed="true"] { background: var(--sel, rgba(43,87,154,.12)); }
@@ -375,12 +519,29 @@
   #editor table[data-ts~="striped"] tbody tr:nth-child(even) td { background: rgba(var(--tc), .07); }
   #editor table[data-ts~="firstcol"] td:first-child { background: rgba(var(--tc), .12); font-weight: 600; }
   #editor table[data-ts~="firstcol"][data-ts~="solid"] td:first-child { background: rgba(var(--tc), .22); }
+  /* Grosor de las líneas de la tabla */
+  #editor table[data-ts~="lw-thin"] :is(th, td) { border-width: .5px; }
+  #editor table[data-ts~="lw-med"] :is(th, td) { border-width: 1.5px; }
+  #editor table[data-ts~="lw-thick"] :is(th, td) { border-width: 2.5px; }
+  #editor table[data-ts~="lw-h"] :is(th, td) { border-left-color: transparent !important; border-right-color: transparent !important; }
+  #editor table[data-ts~="lw-h"] tr > :first-child { padding-left: 2px; }
+  #editor table[data-ts~="lw-none"] :is(th, td) { border-color: transparent !important; }
+  #editor table[data-ts~="lw-none"] th { border-bottom-color: rgba(128,128,128,.45) !important; }
   /* Controles de tabla sobre el documento */
   .tblui button { position: absolute; z-index: 6; display: grid; place-items: center; padding: 0; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; font: 600 14px/1 var(--ui); border-radius: 4px; opacity: .55; transition: opacity .12s, background .12s; }
   .tblui button:hover { opacity: 1; color: #fff; background: var(--word); border-color: var(--word); }
   .tblui .tb-addc { width: 14px; } .tblui .tb-addr { height: 11px; font-size: 12px; }
   .tblui .tb-row { width: 14px; } .tblui .tb-col { width: 26px; height: 14px; }
   .tblui .tb-row:hover, .tblui .tb-col:hover { color: #fff; }
+  .tslw { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 2px 4px 4px; }
+  .tslw button { display: flex; align-items: center; gap: 7px; border: 1px solid transparent; background: none; border-radius: 4px; padding: 4px 6px; font: inherit; font-size: 12.5px; color: var(--ink); cursor: pointer; text-align: left; }
+  .tslw button:hover { background: var(--hover); } .tslw button[aria-pressed="true"] { border-color: var(--word); background: color-mix(in srgb, var(--word) 10%, transparent); }
+  .tslw .lw { flex: none; width: 18px; height: 14px; border: 1px solid var(--ink); box-sizing: border-box; background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat; opacity: .75; }
+  .tslw .lw-lw-thin { border-width: .5px; opacity: .5; } .tslw .lw-lw-med { border-width: 1.5px; } .tslw .lw-lw-thick { border-width: 2.5px; }
+  .tslw .lw-lw-none { border-color: transparent; background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat; opacity: .4; }
+  .tslw .lw-lw-h { border-left-color: transparent; border-right-color: transparent; background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat; }
+  .tblui .tb-delr, .tblui .tb-delc { width: 16px; height: 16px; border-radius: 50%; font-size: 12px; line-height: 1; opacity: .55; }
+  .tblui .tb-delr:hover, .tblui .tb-delc:hover { opacity: 1; background: #c62828; border-color: #c62828; color: #fff; }
   .tblmenu .opt { display: flex; width: 100%; align-items: center; gap: 8px; border: 0; background: none; padding: 5px 8px; border-radius: 4px; text-align: left; cursor: pointer; font-size: 13px; color: var(--ink); }
   .tblmenu .opt:hover:not(:disabled) { background: var(--hover, rgba(0,0,0,.06)); } .tblmenu .opt:disabled { opacity: .4; cursor: default; }
   .tblmenu .opt svg { width: 16px; height: 16px; flex: none; } .tblmenu .opt .chk { width: 16px; text-align: center; color: var(--word); font-weight: 700; }
@@ -753,7 +914,7 @@
     <span class="ext">.md</span>
     <span class="state" id="save-state">Guardado en este navegador</span>
   </div>
-  <span class="appname no-tr">MarkDawn Writer · 0.9.4 beta</span>
+  <span class="appname no-tr">MarkDawn Writer · 0.9.8 beta</span>
 
   <button class="qa txt" data-cmd="lang" id="lang-btn" title="Idioma · Language">ES</button>
   <button class="qa" data-cmd="dark" id="dark-btn" title="Modo oscuro" aria-pressed="false"><i data-i="moon"></i></button>
@@ -779,12 +940,20 @@
         <button class="rb big" data-cmd="new"><i data-i="new"></i><span>Nuevo</span></button>
         <button class="rb big" data-cmd="open" title="Abrir un archivo .md (Ctrl+O)"><i data-i="open"></i><span>Abrir</span></button>
         <button class="rb big" data-cmd="save" title="Guardar como .md (Ctrl+S)"><i data-i="save"></i><span>Guardar .md</span></button>
+        <div class="stack">
+          <button class="rb" data-cmd="saveAs" title="Guardar con otro nombre o en otro sitio (Ctrl+Mayús+S)"><i data-i="save"></i><span>Guardar como…</span></button>
+          <button class="rb" data-cmd="autoSave" id="autosave-btn" title="Guarda cada cambio en su archivo, sin pulsar Guardar"><i data-i="save"></i><span>Guardado automático</span></button>
+        </div>
       </div>
       <div class="grp-label">Documento</div>
     </div>
     <div class="grp">
       <div class="grp-body">
         <button class="rb big" data-cmd="copyMd"><i data-i="copy"></i><span>Copiar Markdown</span></button>
+        <div class="stack">
+          <button class="rb" data-cmd="copyClean" title="Copia el Markdown puro, sin los comentarios invisibles de formato (alineación, columnas, página…)"><i data-i="copy"></i><span>Copiar Markdown limpio</span></button>
+          <button class="rb" data-cmd="saveClean" title="Guarda una copia en Markdown puro, sin los comentarios invisibles de formato. Tu documento sigue unido a su archivo"><i data-i="save"></i><span>Guardar Markdown limpio…</span></button>
+        </div>
         <button class="rb big" data-cmd="sample"><i data-i="reset"></i><span>Documento de ejemplo</span></button>
       </div>
       <div class="grp-label">Markdown</div>
@@ -792,6 +961,7 @@
     <div class="grp">
       <div class="grp-body">
         <button class="rb big" data-cmd="print" title="Imprimir o guardar como PDF (Ctrl+P)"><i data-i="print"></i><span>Exportar PDF</span></button>
+        <button class="rb big" data-cmd="saveDocx" title="Guarda el documento como archivo de Word (.docx), con los títulos como Título 1, 2, 3…"><i data-i="word"></i><span>Guardar como Word</span></button>
         <button class="rb big" data-cmd="copyWord" title="Copia el documento con formato para pegarlo en Word, Google Docs u Outlook"><i data-i="word"></i><span>Copiar para Word</span></button>
       </div>
       <div class="grp-label">Compartir</div>
@@ -952,46 +1122,10 @@
       <div class="grp-body">
         <button class="rb big" data-cmd="viewPages" aria-pressed="false" title="Ver el documento en hojas, como al imprimir"><i data-i="vPages"></i><span>Páginas</span></button>
         <button class="rb big" data-cmd="viewCont" aria-pressed="false" title="Ver el documento seguido, sin cortes de página"><i data-i="vCont"></i><span>Continua</span></button>
+        <button class="rb big" data-cmd="viewFree" aria-pressed="false" title="Sin hoja: el texto ocupa el espacio disponible, como en Obsidian"><i data-i="vFree"></i><span>Sin página</span></button>
+        <div class="stack"><button class="rb" data-cmd="readWidth" aria-pressed="true" title="En la vista Sin página, limita el ancho del texto para leer cómodo"><span>Ancho de línea legible</span></button></div>
       </div>
       <div class="grp-label">Vistas</div>
-    </div>
-  </div>
-
-  <!-- VISTA -->
-  <div class="panel" data-panel="vista" hidden>
-    <div class="grp">
-      <div class="grp-body">
-        <button class="rb big" data-cmd="viewPages" aria-pressed="false" title="Ver el documento en hojas, como al imprimir"><i data-i="vPages"></i><span>Páginas</span></button>
-        <button class="rb big" data-cmd="viewCont" aria-pressed="false" title="Ver el documento seguido, sin cortes de página"><i data-i="vCont"></i><span>Continua</span></button>
-      </div>
-      <div class="grp-label">Vistas</div>
-    </div>
-    <div class="grp">
-      <div class="grp-body">
-        <button class="rb big" data-cmd="mdpanel" aria-pressed="false"><i data-i="markdown"></i><span>Markdown</span></button>
-        <button class="rb big" data-cmd="nav" aria-pressed="false"><i data-i="nav"></i><span>Panel de navegación</span></button>
-      </div>
-      <div class="grp-label">Mostrar</div>
-    </div>
-    <div class="grp">
-      <div class="grp-body">
-        <div class="stack">
-          <button class="rb" data-cmd="mdSide" aria-pressed="true" title="Markdown a la derecha del documento"><i data-i="side"></i><span>Derecha</span></button>
-          <button class="rb" data-cmd="mdLeft" aria-pressed="false" title="Markdown a la izquierda del documento"><i data-i="sideleft"></i><span>Izquierda</span></button>
-          <button class="rb" data-cmd="mdBottom" aria-pressed="false" title="Markdown debajo del documento"><i data-i="bottom"></i><span>Abajo</span></button>
-        </div>
-      </div>
-      <div class="grp-label">Panel Markdown</div>
-    </div>
-
-    <div class="grp">
-      <div class="grp-body">
-        <button class="rb big" data-cmd="zoomIn"><i data-i="zoomIn"></i><span>Acercar</span></button>
-        <button class="rb big" data-cmd="zoomOut"><i data-i="zoomOut"></i><span>Alejar</span></button>
-        <button class="rb big" data-cmd="zoom100"><i data-i="zoom100"></i><span>100 %</span></button>
-        <button class="rb big" data-cmd="pageWidth"><i data-i="pageWidth"></i><span>Ancho de página</span></button>
-      </div>
-      <div class="grp-label">Zoom</div>
     </div>
     <div class="grp">
       <div class="grp-body">
@@ -1014,6 +1148,62 @@
         </div>
       </div>
       <div class="grp-label">Apariencia</div>
+    </div>
+  </div>
+
+  <!-- VISTA -->
+  <div class="panel" data-panel="vista" hidden>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="viewPages" aria-pressed="false" title="Ver el documento en hojas, como al imprimir"><i data-i="vPages"></i><span>Páginas</span></button>
+        <button class="rb big" data-cmd="viewCont" aria-pressed="false" title="Ver el documento seguido, sin cortes de página"><i data-i="vCont"></i><span>Continua</span></button>
+        <button class="rb big" data-cmd="viewFree" aria-pressed="false" title="Sin hoja: el texto ocupa el espacio disponible, como en Obsidian"><i data-i="vFree"></i><span>Sin página</span></button>
+        <div class="stack"><button class="rb" data-cmd="readWidth" aria-pressed="true" title="En la vista Sin página, limita el ancho del texto para leer cómodo"><span>Ancho de línea legible</span></button></div>
+      </div>
+      <div class="grp-label">Vistas</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="mdpanel" aria-pressed="false"><i data-i="markdown"></i><span>Markdown</span></button>
+        <div class="stack"><button class="rb" data-cmd="spellMenu" title="Ortografía: subrayar las palabras mal escritas (no se imprime)"><i data-i="spell"></i><span>Ortografía ▾</span></button></div>
+        <button class="rb big" data-cmd="nav" aria-pressed="false"><i data-i="nav"></i><span>Panel de navegación</span></button>
+      </div>
+      <div class="grp-label">Mostrar</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <div class="stack">
+          <button class="rb" data-cmd="mdSide" aria-pressed="true" title="Markdown a la derecha del documento"><i data-i="side"></i><span>Derecha</span></button>
+          <button class="rb" data-cmd="mdLeft" aria-pressed="false" title="Markdown a la izquierda del documento"><i data-i="sideleft"></i><span>Izquierda</span></button>
+          <button class="rb" data-cmd="mdBottom" aria-pressed="false" title="Markdown debajo del documento"><i data-i="bottom"></i><span>Abajo</span></button>
+        </div>
+      </div>
+      <div class="grp-label">Panel Markdown</div>
+    </div>
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="propPanel" aria-pressed="false" title="Panel con las propiedades del documento (front matter YAML)"><i data-i="props"></i><span>Propiedades</span></button>
+        <div class="stack">
+          <button class="rb" data-cmd="propBar" aria-pressed="true" title="Pastillas con las propiedades encima de la hoja (no se imprimen)"><span>Barra de arriba</span></button>
+          <button class="rb" data-cmd="propPin" aria-pressed="false" title="La barra de propiedades se queda arriba al desplazar el documento"><span>Fijar al desplazar</span></button>
+        </div>
+        <div class="stack">
+          <button class="rb ico-only" data-cmd="ppRight" aria-pressed="true" title="Panel de propiedades a la derecha del documento"><i data-i="side"></i></button>
+          <button class="rb ico-only" data-cmd="ppLeft" aria-pressed="false" title="Panel de propiedades a la izquierda del documento"><i data-i="sideleft"></i></button>
+          <button class="rb ico-only" data-cmd="ppMd" aria-pressed="false" title="Propiedades encima del Markdown, en el mismo panel"><i data-i="markdown"></i></button>
+        </div>
+      </div>
+      <div class="grp-label">Propiedades</div>
+    </div>
+
+    <div class="grp">
+      <div class="grp-body">
+        <button class="rb big" data-cmd="zoomIn"><i data-i="zoomIn"></i><span>Acercar</span></button>
+        <button class="rb big" data-cmd="zoomOut"><i data-i="zoomOut"></i><span>Alejar</span></button>
+        <button class="rb big" data-cmd="zoom100"><i data-i="zoom100"></i><span>100 %</span></button>
+        <button class="rb big" data-cmd="pageWidth"><i data-i="pageWidth"></i><span>Ancho de página</span></button>
+      </div>
+      <div class="grp-label">Zoom</div>
     </div>
     <div class="grp">
       <div class="grp-body">
@@ -1066,6 +1256,7 @@
   </div>
 </div>
 
+<div class="doctabs" id="doctabs" role="tablist" aria-label="Documentos abiertos"></div>
 <div class="main" id="main">
   <div class="center">
     <nav class="navpane" id="navpane" hidden aria-label="Panel de navegación"></nav>
@@ -1117,6 +1308,7 @@
   <span class="counts" id="counts">0 palabras</span>
   <span class="pginfo" id="pginfo" hidden></span>
   <span class="msg" id="status-msg"></span>
+  <button class="sb" data-cmd="spellMenu" id="spell-sb" title="Ortografía: subrayar las palabras mal escritas"><i data-i="spell"></i><span id="spell-lbl">ES</span></button>
   <button class="sb" data-cmd="mdpanel" aria-pressed="false" title="Mostrar Markdown"><i data-i="markdown"></i><span>Markdown</span></button>
   <div class="zoom">
     <button class="sb" data-cmd="zoomOut" title="Alejar">−</button>
@@ -1286,6 +1478,11 @@ const ICONS = {
   psize: '<rect x="4.5" y="2.5" width="11" height="15" rx=".8"/><path d="M7 6h6M7 9h6M7 12h4"/>',
   vPages: '<rect x="4.5" y="1.5" width="11" height="7.5" rx=".6"/><rect x="4.5" y="11" width="11" height="7.5" rx=".6"/>',
   vCont: '<rect x="4.5" y="1.5" width="11" height="17" rx=".6"/><path d="M7 5h6M7 8h6M7 11h6M7 14h4"/>',
+  props: '<rect x="3" y="3.5" width="14" height="13" rx="2"/><path d="M6 7.5h2M10 7.5h4M6 10.5h2M10 10.5h4M6 13.5h2M10 13.5h3"/>',
+  brush: '<path d="M16.5 3.5c-2 1.2-6.2 5.6-7.6 7.8l1.8 1.8c2.2-1.4 6.6-5.6 7.8-7.6.5-.9-1.1-2.5-2-2z"/><path d="M8.9 11.3c-1.7-.2-3 .9-3.2 2.6-.1 1-.6 2-1.7 2.6 2.6.5 5.6-.3 6.7-3.4"/>',
+  spell: '<path d="M3 13 6.5 4l3.5 9M4.3 10h4.4"/><path d="M11 9.5l2 2.2 4-4.7"/><path d="M3 16.5c1-.8 2-.8 3 0s2 .8 3 0 2-.8 3 0 2 .8 3 0"/>',
+  pDate: '<rect x="3.5" y="4.5" width="13" height="12" rx="1.5"/><path d="M3.5 8h13M7 3v3M13 3v3"/>',
+  vFree: '<path d="M2.5 5h15M2.5 8.5h15M2.5 12h15M2.5 15.5h10"/>',
   tabsTop: '<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M2.5 7.5h15"/><path d="M4.5 7.5V5.5h3v2M8.5 7.5V5.5h3v2" stroke-width="1.2"/>',
   undoBig: '<path d="M7.5 5 4 8.5 7.5 12"/><path d="M4 8.5h8a4 4 0 0 1 0 8H9"/>',
   tone: '<circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor" stroke="none"/>'
@@ -3543,6 +3740,7 @@ function setMdPanel(open) {
   mdpane.hidden = !open; $('#mdsplit').hidden = !open;
   document.querySelectorAll('[data-cmd="mdpanel"]').forEach(b => { if (b.hasAttribute('aria-pressed')) b.setAttribute('aria-pressed', open ? 'true' : 'false'); });
   if (open) updateMd(true);
+  try { if (ppane) placePpane(); } catch (e) {}
   savePrefs();
 }
 // Posición del panel Markdown: derecha, izquierda o abajo. El tamaño se guarda aparte para el lateral y para abajo.
@@ -3732,12 +3930,14 @@ $('#rep-all').onclick = () => {
 let downloadsCap = null;
 try { if (window.claude && typeof window.claude.use === 'function') downloadsCap = window.claude.use('downloads').catch(() => null); } catch (e) {}
 function getMarkdown() {
-  const pc = pageComment(), body = htmlToMd(editor);
-  if (!pc) return body;
-  // El front matter tiene que ser lo primero del archivo: el comentario de página va después
-  const fm = editor.firstElementChild && editor.firstElementChild.dataset.fm && body.match(/^---\n[\s\S]*?\n---(?=\n|$)|^---\n---(?=\n|$)/);
-  if (fm) { const rest = body.slice(fm[0].length).replace(/^\n+/, ''); return fm[0] + '\n\n' + pc + (rest ? '\n\n' + rest : ''); }
-  return pc + '\n\n' + body;
+  // Front matter (propiedades) primero, luego el comentario de la página y el de dónde se ven las propiedades
+  const body = htmlToMd(editor), parts = [];
+  if (FMY != null) parts.push('---\n' + FMY + (FMY ? '\n' : '') + '---');
+  const pc = pageComment(); if (pc) parts.push(pc);
+  const ps = psetComment(); if (ps) parts.push(ps);
+  if (DSTYLE) parts.push(`<!-- style: ${DSTYLE} -->`);
+  if (body || !parts.length) parts.push(body);
+  return parts.join('\n\n');
 }
 // Configuración de la página del documento: se guarda como comentario invisible al principio del Markdown
 const PG_SIZES = { A4: [210, 297], A5: [148, 210], A3: [297, 420], Letter: [215.9, 279.4], Legal: [215.9, 355.6] };
@@ -3760,22 +3960,27 @@ function pageComment() {
 function docToHtml(md) {
   const lines = String(md || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n'); let i = 0;
   // Front matter (YAML entre --- al principio del archivo, como en Obsidian, Hugo o Jekyll): se guarda tal cual
-  let fmHtml = '';
+  FMY = null; PSET = { top: null, doc: [], layout: 'ficha' };
   if (/^---\s*$/.test(lines[0] || '')) {
     let j = 1; while (j < lines.length && !/^(---|\.\.\.)\s*$/.test(lines[j])) j++;
     const t = lines.slice(1, j).join('\n'), first = (t.match(/^\s*(\S.*)$/m) || [])[1];
     // Solo si parece YAML (clave: valor) o está vacío; si no, el --- del principio es una línea horizontal
     if (j < lines.length && (!first || /^(#|-\s|[\w$"'][^:]*:(\s|$))/.test(first))) {
-      fmHtml = `<pre data-lang="yaml" data-fm="1">${t ? esc(t) : '<br>'}</pre>`;
-      lines.splice(0, j + 1);
+      FMY = t; lines.splice(0, j + 1);
     }
   }
   while (i < lines.length && !lines[i].trim()) i++;
   const m = i < lines.length && lines[i].match(PAGE_RE);
   PG = m ? parsePage(m[1]) : { ...PG_DEF };
   if (m) { lines.splice(0, i + 1); while (lines.length && !lines[0].trim()) lines.shift(); }
+  DSTYLE = '';
+  for (let n = 0; n < 2; n++) { let k = 0; while (k < lines.length && !lines[k].trim()) k++; if (k >= lines.length) break;
+    const pm = lines[k].match(PROP_RE), sm = lines[k].match(STYLE_RE); if (!pm && !sm) break;
+    if (pm) PSET = parsePset(pm[1]); else DSTYLE = sm[1].trim();
+    lines.splice(0, k + 1); while (lines.length && !lines[0].trim()) lines.shift(); }
   try { applyPageGeom(); } catch (e) {}
-  return fmHtml + mdToHtml(lines.join('\n'));
+  queueMicrotask(() => { try { renderProps(); } catch (e) {} try { applyCustStyle(); } catch (e) {} });
+  return mdToHtml(lines.join('\n'));
 }
 function setMarkdown(md, opts) {
   opts = opts || {};
@@ -3787,12 +3992,20 @@ function setMarkdown(md, opts) {
   afterChange();
 }
 async function saveFile() {
-  if (WF) return wfSave();
+  if (WF && (WF.file || !FH)) return wfSave();
   const md = getMarkdown();
+  // Abierto con «Abrir» o desde el sistema: se guarda en su sitio, sin volver a preguntar
+  if (FH) {
+    try {
+      let ok = (await FH.queryPermission({ mode: 'readwrite' })) === 'granted';
+      if (!ok) ok = (await FH.requestPermission({ mode: 'readwrite' })) === 'granted';
+      if (ok) { await writeText(FH, md); FH_OK = true; markSaved(); toast('Guardado: ' + FH.name); setState('Guardado como ' + FH.name); return; }
+    } catch (e) {}
+  }
   const name = (fileName.value.trim() || 'Documento').replace(/[\\/:*?"<>|]+/g, '-') + '.md';
   const d = downloadsCap ? await downloadsCap : null;
   if (d) {
-    try { await d.save({ filename: name, data: md }); toast('Guardado: ' + name); setState('Guardado como ' + name); }
+    try { await d.save({ filename: name, data: md }); markSaved(); toast('Guardado: ' + name); setState('Guardado como ' + name); }
     catch (err) { if (err && err.code !== 'declined') toast('No se pudo guardar el archivo. Usa «Copiar Markdown».'); }
     return;
   }
@@ -3802,38 +4015,146 @@ async function saveFile() {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 3000);
   toast('Descargado: ' + name);
-  setState('Guardado como ' + name);
+  setState('Guardado como ' + name); markSaved();
 }
-function copyMarkdown() {
-  const md = getMarkdown();
+// Markdown limpio: sin los comentarios invisibles (<!-- … -->) que guardan el formato extra. Respeta el código.
+function cleanMd(md) {
+  const out = [], lines = md.split('\n'); let fence = null, buf = [];
+  const flush = () => { if (!buf.length) return; out.push(buf.join('\n').replace(/(`+)[^`\n]*?\1|[ \t]*<!--[\s\S]*?-->/g, (m, tk) => tk ? m : '')); buf = []; };
+  for (const l of lines) {
+    const f = l.match(/^\s*(`{3,}|~{3,})/);
+    if (fence) { out.push(l); if (f && f[1][0] === fence[0] && f[1].length >= fence.length && !l.trim().slice(f[1].length).trim()) fence = null; continue; }
+    if (f) { flush(); fence = f[1]; out.push(l); continue; }
+    buf.push(l);
+  }
+  flush();
+  return out.join('\n').split('\n').map(l => l.replace(/[ \t]+$/, '')).join('\n').replace(/\n{3,}/g, '\n\n').replace(/^\n+/, '').trim() + '\n';
+}
+// Copia aparte en Markdown limpio: no cambia el archivo al que está unido el documento
+async function saveClean() {
+  const md = cleanMd(getMarkdown()), name = docFileName().replace(/\.md$/i, '') + (trStr('-limpio')) + '.md';
+  if (typeof window.showSaveFilePicker === 'function') {
+    try { const h = await window.showSaveFilePicker({ id: 'markdawn-writer-clean', suggestedName: name, types: [{ description: 'Markdown', accept: { 'text/markdown': ['.md'] } }] }); await writeText(h, md); toast('Guardado: ' + h.name); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  downloadBlob(new Blob([md], { type: 'text/markdown;charset=utf-8' }), name);
+}
+// Guardar como: otro nombre u otro sitio; el documento queda unido al archivo nuevo
+async function saveAs() {
+  const md = getMarkdown(), name = docFileName();
+  if (typeof window.showSaveFilePicker === 'function') {
+    try {
+      const h = await window.showSaveFilePicker({ id: 'markdawn-writer-save', suggestedName: name, startIn: WF ? WF.dir : FH || 'documents', types: [{ description: 'Markdown', accept: { 'text/markdown': ['.md'] } }] });
+      await writeText(h, md); FH = h; FH_OK = true; if (WF) WF.file = null;
+      fileName.value = h.name.replace(/\.(md|markdown|mdown|txt)$/i, ''); markSaved(); try { folderState(); } catch (e) {}
+      toast('Guardado: ' + h.name); setState('Guardado como ' + h.name); return;
+    } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const res = await dialog({ title: 'Guardar como', fields: [{ id: 'name', label: 'Nombre del archivo', value: fileName.value }], ok: 'Guardar' });
+  if (!res) { ensureFocus(); return; }
+  if (res.name) fileName.value = res.name.replace(/\.(md|markdown|mdown|txt)$/i, '');
+  const keep = FH, kw = WF; FH = null; WF = null; try { await saveFile(); } finally { FH = keep; WF = kw; }
+}
+function syncAutoSaveBtn() { const b = $('#autosave-btn'); if (b) b.setAttribute('aria-pressed', String(!!PR.autosave)); }
+function copyMarkdown(clean) {
+  const md = clean === true ? cleanMd(getMarkdown()) : getMarkdown();
   const fallback = () => {
     setMdPanel(true);
     mdArea.focus(); mdArea.select();
     try { document.execCommand('copy'); toast('Markdown copiado'); } catch (e) { toast('Selecciona el texto del panel y cópialo con Ctrl+C'); }
   };
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(md).then(() => toast('Markdown copiado al portapapeles'), fallback);
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(md).then(() => toast(clean === true ? 'Markdown limpio copiado' : 'Markdown copiado al portapapeles'), fallback);
   else fallback();
 }
-function loadFile(file) {
+// Archivo suelto abierto con su «manejador»: se vuelve a guardar en el mismo sitio (Chrome, Edge…)
+var FH = null, FH_OK = false;
+async function openPicked() {
+  if (typeof window.showOpenFilePicker !== 'function' || WF) { $('#file-input').click(); return; }
+  try {
+    const [h] = await window.showOpenFilePicker({ id: 'markdawn-writer-open', types: [{ description: 'Markdown', accept: { 'text/markdown': ['.md', '.markdown', '.mdown'], 'text/plain': ['.txt'] } }] });
+    loadFile(await h.getFile(), /\.(md|markdown|mdown)$/i.test(h.name) ? h : null);
+  } catch (e) { if (!e || e.name !== 'AbortError') $('#file-input').click(); }
+}
+function loadFile(file, handle) {
   const fr2 = new FileReader();
-  fr2.onload = () => {
-    fileName.value = file.name.replace(/\.(md|markdown|mdown|txt)$/i, ''); if (WF) WF.file = null;
-    setMarkdown(String(fr2.result));
-    showTab('inicio');
-    toast('Abierto: ' + file.name);
-  };
+  fr2.onload = () => { openInTab(String(fr2.result), file.name.replace(/\.(md|markdown|mdown|txt)$/i, ''), handle || null); showTab('inicio'); toast('Abierto: ' + file.name); };
   fr2.readAsText(file);
 }
 // Abrir archivos desde el sistema: con la app instalada, doble clic en un .md (o «Abrir con») lo abre aquí
-if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (lp.files && lp.files.length) { try { loadFile(await lp.files[0].getFile()); } catch (e) {} } });
+if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (lp.files && lp.files.length) { try { const h = lp.files[0], f = await h.getFile(); loadFile(f, /\.(md|markdown|mdown)$/i.test(f.name) ? h : null); } catch (e) {} } });
 $('#file-input').addEventListener('change', e => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ''; });
-async function newDoc() {
-  const res = await dialog({ title: 'Documento nuevo', message: 'Se cerrará el documento actual. Puedes recuperarlo con Deshacer (Ctrl+Z).', ok: 'Crear documento' });
-  if (!res) { ensureFocus(); return; }
-  fileName.value = DEF_NAME; if (WF) WF.file = null;
-  setMarkdown('');
-  showTab('inicio');
+function newDoc() { openInTab('', nextDocName(), null, true); showTab('inicio'); ensureFocus(); }
+
+/* ---------- Pestañas: varios documentos abiertos a la vez ---------- */
+// Cada pestaña guarda su texto, su nombre y su archivo de origen. El historial de deshacer es solo de la pestaña activa.
+const TKEY = STORE_KEY + '-tabs', tabsEl = $('#doctabs');
+let TABS = [], TCUR = 0, tabLoading = false;
+function nextDocName() { const base = DEF_NAME.replace(/\d+$/, ''); let k = 1; const used = new Set(TABS.map((t, i) => i === TCUR ? fileName.value : t.name)); while (used.has(base + k)) k++; return base + k; }
+function tabSnapshot() { const t = TABS[TCUR]; if (!t) return; t.md = getMarkdown(); t.name = fileName.value; t.fh = FH; t.fhOk = FH_OK; if (WF) t.wf = WF.file; t.scroll = $('#canvas').scrollTop; }
+function tabLoad(i) {
+  const t = TABS[i]; if (!t) return; TCUR = i;
+  tabLoading = true;
+  fileName.value = t.name; FH = t.fh || null; FH_OK = !!t.fhOk; if (WF) WF.file = t.wf || null;
+  setMarkdown(t.md || '', { resetHistory: true, focus: false }); lastMd = getMarkdown();
+  tabLoading = false;
+  requestAnimationFrame(() => { $('#canvas').scrollTop = t.scroll || 0; });
+  drawTabs(); saveTabs(); try { folderState(); } catch (e) {}
 }
+function openInTab(md, name, fh, fresh) {
+  const cur = TABS[TCUR];
+  // Si la pestaña actual está vacía y sin tocar, se usa esa
+  if (!fresh && cur && !cur.dirty && !FH && !(WF && WF.file) && !getMarkdown().trim()) { cur.md = md; cur.name = name; cur.fh = fh; cur.fhOk = false; cur.wf = null; cur.dirty = false; tabLoad(TCUR); return; }
+  tabSnapshot(); TABS.push({ md, name, fh, fhOk: false, wf: null, dirty: false }); tabLoad(TABS.length - 1);
+}
+function switchTab(i) { if (i === TCUR || !TABS[i]) return; tabSnapshot(); tabLoad(i); ensureFocus(); }
+async function closeTab(i) {
+  const t = TABS[i]; if (!t) return;
+  if (i === TCUR) tabSnapshot();
+  if (t.dirty && t.md && t.md.trim()) {
+    const res = await dialog({ title: 'Cerrar documento', message: LANG === 'en' ? `«${t.name}» has unsaved changes. If you close it, they are lost.` : `«${t.name}» tiene cambios sin guardar. Si lo cierras, se pierden.`, ok: 'Cerrar sin guardar' });
+    if (!res) { ensureFocus(); return; }
+  }
+  TABS.splice(i, 1);
+  if (!TABS.length) { TABS.push({ md: '', name: DEF_NAME, fh: null, dirty: false }); TCUR = 0; tabLoad(0); return; }
+  if (i === TCUR) tabLoad(Math.min(i, TABS.length - 1));
+  else { if (i < TCUR) TCUR--; drawTabs(); saveTabs(); }
+}
+function markSaved() { const t = TABS[TCUR]; if (t) { t.dirty = false; t.fh = FH; t.fhOk = FH_OK; drawTabs(); saveTabs(); } }
+function drawTabs() {
+  if (!tabsEl) return;
+  tabsEl.hidden = (typeof MOB !== 'undefined' && MOB) && TABS.length < 2;
+  tabsEl.innerHTML = TABS.map((t, i) => { const nm = i === TCUR ? (fileName.value || DEF_NAME) : t.name;
+    return `<div class="dtab${i === TCUR ? ' on' : ''}" role="tab" aria-selected="${i === TCUR}" data-tab="${i}" title="${esc(t.fh ? t.fh.name : nm + '.md')}"><span class="dt-name">${esc(nm)}</span>${t.dirty ? `<span class="dt-dot" title="${esc(trStr('Cambios sin guardar'))}">●</span>` : ''}<button class="dt-x" data-tabx="${i}" title="${esc(trStr('Cerrar'))}" aria-label="${esc(trStr('Cerrar'))}">×</button></div>`; }).join('')
+    + `<button class="dt-add" data-tabnew title="${esc(trStr('Documento nuevo'))}">+</button>`;
+}
+let tabsSaveT = 0;
+function saveTabsNow() {
+  try { localStorage.setItem(TKEY, JSON.stringify({ cur: TCUR, tabs: TABS.map((t, i) => ({ name: i === TCUR ? fileName.value : t.name, md: i === TCUR ? getMarkdown() : t.md, dirty: !!t.dirty })) })); } catch (e) {}
+  try { kv.set('tabfh', TABS.map(t => t.fh || null)).catch(() => {}); } catch (e) {}
+}
+function saveTabs() { clearTimeout(tabsSaveT); tabsSaveT = setTimeout(saveTabsNow, 300); }
+window.addEventListener('pagehide', () => { if (TABS.length) saveTabsNow(); });
+function tabsInit() {
+  let st = null; try { st = JSON.parse(localStorage.getItem(TKEY) || 'null'); } catch (e) {}
+  if (st && Array.isArray(st.tabs) && st.tabs.length) {
+    TABS = st.tabs.map(t => ({ md: String(t.md || ''), name: String(t.name || DEF_NAME), fh: null, dirty: !!t.dirty }));
+    TCUR = Math.min(Math.max(0, +st.cur || 0), TABS.length - 1);
+    // la lista de pestañas manda: el documento activo se carga desde ella
+    tabLoading = true; fileName.value = TABS[TCUR].name; setMarkdown(TABS[TCUR].md, { resetHistory: true, focus: false }); lastMd = getMarkdown(); tabLoading = false;
+  } else TABS = [{ md: getMarkdown(), name: fileName.value, fh: null, dirty: false }];
+  drawTabs();
+  // Los archivos de origen se recuerdan (el navegador volverá a pedir permiso al guardar)
+  try { kv.get('tabfh').then(list => { if (Array.isArray(list) && list.length === TABS.length) { list.forEach((h, i) => { if (h) TABS[i].fh = h; }); FH = TABS[TCUR].fh || null; drawTabs(); } }).catch(() => {}); } catch (e) {}
+}
+if (tabsEl) {
+  tabsEl.addEventListener('mousedown', e => { if (e.button === 1) { const t = e.target.closest('[data-tab]'); if (t) { e.preventDefault(); closeTab(+t.dataset.tab); } } });
+  tabsEl.addEventListener('click', e => {
+    const x = e.target.closest('[data-tabx]'); if (x) { e.stopPropagation(); closeTab(+x.dataset.tabx); return; }
+    if (e.target.closest('[data-tabnew]')) { newDoc(); return; }
+    const t = e.target.closest('[data-tab]'); if (t) switchTab(+t.dataset.tab);
+  });
+}
+fileName.addEventListener('input', () => { drawTabs(); saveTabs(); });
 function setState(t) { $('#save-state').textContent = t; }
 
 /* ---------- Arrastrar y soltar ---------- */
@@ -3909,10 +4230,14 @@ const CMDS = {
     } catch (e) { ensureFocus(); toast('Para pegar, usa Ctrl+V. El navegador no deja leer el portapapeles desde un botón.'); }
   },
   new: newDoc,
-  open: () => $('#file-input').click(),
+  open: () => openPicked(),
+  saveAs: () => saveAs(),
+  autoSave: () => { PR.autosave = !PR.autosave; savePrefs(); syncAutoSaveBtn(); toast(PR.autosave ? 'Guardado automático activado' : 'Guardado automático desactivado'); if (PR.autosave) wfAutoSave(); },
   save: saveFile,
   copyMd: copyMarkdown,
-  sample: () => { fileName.value = LANG === 'en' ? 'Welcome' : 'Bienvenida'; if (WF) WF.file = null; setMarkdown(sampleText()); showTab('inicio'); },
+  copyClean: () => copyMarkdown(true),
+  saveClean: saveClean,
+  sample: () => { openInTab(sampleText(), LANG === 'en' ? 'Welcome' : 'Bienvenida', null); showTab('inicio'); },
   lang: switchLang,
   dark: () => { PR.dark = !PR.dark; savePrefs(); applyAppearance(); },
   darkMenu: () => darkMenu(document.querySelector('[data-cmd="darkMenu"]')),
@@ -3922,8 +4247,10 @@ const CMDS = {
   marginsMenu: () => pageMenu(document.querySelector('[data-cmd="marginsMenu"]'), 'margins'),
   orientMenu: () => pageMenu(document.querySelector('[data-cmd="orientMenu"]'), 'orient'),
   sizeMenu: () => pageMenu(document.querySelector('[data-cmd="sizeMenu"]'), 'size'),
-  viewPages: () => setPageView(true),
-  viewCont: () => setPageView(false),
+  viewPages: () => setViewMode('pages'),
+  viewCont: () => setViewMode('cont'),
+  viewFree: () => setViewMode('free'),
+  readWidth: () => { PR.rlw = PR.rlw === false; document.body.classList.toggle('rlw', PR.rlw !== false); syncViewBtns(); savePrefs(); },
   tabsTitle: () => { PR.tabsTitle = !PR.tabsTitle; savePrefs(); applyAppearance(); },
   help: () => toggleHelp(),
   print: printDoc,
@@ -3932,6 +4259,7 @@ const CMDS = {
   cfgExport: cfgExport,
   cfgImport: cfgImport,
   mdpanel: () => setMdPanel(mdpane.hidden),
+  spellMenu: () => spellMenu(cmdEl && cmdEl.dataset.cmd === 'spellMenu' ? cmdEl : document.getElementById('spell-sb')),
   mdSide: () => setMdPos('right'),
   mdLeft: () => setMdPos('left'),
   mdBottom: () => setMdPos('bottom'),
@@ -3948,11 +4276,12 @@ document.addEventListener('mousedown', e => {
   const b = e.target.closest('[data-cmd]');
   if (b && !b.closest('.mdhead')) e.preventDefault();
 });
+let cmdEl = null;   // el botón pulsado (para colocar su menú)
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-cmd]');
   if (!b) return;
   const fn = CMDS[b.dataset.cmd];
-  if (fn) fn(b.dataset.arg);
+  if (fn) { cmdEl = b; fn(b.dataset.arg); }
 });
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'h' || e.key === 'H')) { e.preventDefault(); applyHighlight(PR.hlColor || HL_DEF); return; }
@@ -3963,8 +4292,8 @@ document.addEventListener('keydown', e => {
   if (e.key.toLowerCase() === 'p' && !e.shiftKey) { e.preventDefault(); printDoc(); return; }
   const k = e.key.toLowerCase();
   const inField = e.target !== editor && e.target.matches && e.target.matches('input,textarea');
-  if (k === 's') { e.preventDefault(); saveFile(); }
-  else if (k === 'o') { e.preventDefault(); $('#file-input').click(); }
+  if (k === 's') { e.preventDefault(); if (e.shiftKey) saveAs(); else saveFile(); }
+  else if (k === 'o') { e.preventDefault(); openPicked(); }
   else if (k === 'f' && !inField) { e.preventDefault(); openFind(false); }
   else if (k === 'h' && !inField) { e.preventDefault(); openFind(true); }
   else if (!inField && k === 'z' && !e.shiftKey) { e.preventDefault(); H.undo(); }
@@ -4042,10 +4371,11 @@ function updateMd(force) {
   updateNav();
   if (md !== lastMd) {
     lastMd = md;
+    if (!tabLoading && TABS[TCUR] && !TABS[TCUR].dirty) { TABS[TCUR].dirty = true; drawTabs(); }
     setState('Guardando…');
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
-      try { localStorage.setItem(STORE_KEY, JSON.stringify({ md, name: fileName.value })); folderState(); }
+      try { localStorage.setItem(STORE_KEY, JSON.stringify({ md, name: fileName.value })); folderState(); saveTabs(); }
       catch (e) { setState('Sin guardar'); }
       wfAutoSave();
     }, 400);
@@ -4080,15 +4410,42 @@ function savePrefs() {
 }
 const LANG = PR.lang || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
 document.documentElement.lang = LANG; editor.setAttribute('lang', LANG);
+// Ortografía: el corrector del navegador (o de Edge, Chrome… en la app instalada). Español, inglés o desactivada; nunca cambia el texto.
+let spellRange = null;
+function applySpell(recheck) {
+  const v = PR.spell || (LANG === 'en' ? 'en' : 'es'), on = v !== 'off';
+  editor.spellcheck = on; editor.setAttribute('spellcheck', String(on));
+  // «Español e inglés»: sin idioma fijo, el navegador usa todos los que tenga activados
+  if (v === 'both') editor.removeAttribute('lang'); else if (on) editor.setAttribute('lang', v);
+  const l = document.getElementById('spell-lbl'); if (l) l.textContent = on ? (v === 'both' ? 'ES+EN' : v.toUpperCase()) : (LANG === 'en' ? 'Off' : 'No');
+  const b = document.getElementById('spell-sb'); if (b) { b.classList.toggle('off', !on); b.title = trStr(on ? (v === 'es' ? 'Ortografía: español' : v === 'en' ? 'Ortografía: inglés' : 'Ortografía: español e inglés') : 'Ortografía desactivada'); }
+  if (!recheck) return;
+  // El navegador solo vuelve a revisar el texto cuando el editor recibe el foco: se le quita y se le devuelve, con el cursor donde estaba
+  const r = spellRange; spellRange = null;
+  editor.blur(); editor.setAttribute('contenteditable', 'false');
+  requestAnimationFrame(() => {
+    editor.setAttribute('contenteditable', 'true');
+    if (!on) return;
+    editor.focus({ preventScroll: true });
+    const sel = window.getSelection(); sel.removeAllRanges();
+    if (r && editor.contains(r.startContainer)) sel.addRange(r); else { const rr = document.createRange(); rr.setStart(editor, 0); rr.collapse(true); sel.addRange(rr); }
+  });
+}
+function spellMenu(btn) {
+  { const sel = window.getSelection(); spellRange = sel.rangeCount && editor.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null; }
+  const v = PR.spell || (LANG === 'en' ? 'en' : 'es'), O = (k, t) => `<button class="opt" data-sp="${k}" aria-pressed="${v === k}"><span class="chk">${v === k ? '✓' : ''}</span>${esc(trStr(t))}</button>`;
+  openGPop(btn, `<div style="width:270px"><h4>${esc(trStr('Ortografía'))}</h4>${O('both', 'Español e inglés')}${O('es', 'Español')}${O('en', 'Inglés')}${O('off', 'Desactivada (sin subrayado)')}
+    <p class="gp-note">${esc(trStr('Usa el corrector del navegador; con el botón derecho ves las sugerencias. «Español e inglés» funciona en Chrome y Edge si tienes los dos idiomas activados en Configuración → Idiomas → Revisión ortográfica.'))}</p></div>`);
+  gpop.onclick = e => { const b = e.target.closest('[data-sp]'); if (!b) return; PR.spell = b.dataset.sp; savePrefs(); applySpell(true); hideGPop(); };
+}
 
 /* ---------- Interfaz en inglés: el HTML está en español y se traduce al vuelo ---------- */
-const EN = {
-  "Archivo": "File", "Inicio": "Home", "Insertar": "Insert", "Vista": "View", "Tabla": "Table",
+const EN = { "Español e inglés": "Spanish and English", "Ortografía: español e inglés": "Spelling: Spanish and English", "Usa el corrector del navegador; con el botón derecho ves las sugerencias. «Español e inglés» funciona en Chrome y Edge si tienes los dos idiomas activados en Configuración → Idiomas → Revisión ortográfica.": "It uses your browser's spell checker; right-click to see suggestions. «Spanish and English» works in Chrome and Edge if both languages are enabled in Settings → Languages → Spell check.", "Ortografía": "Spelling", "Ortografía ▾": "Spelling ▾", "Ortografía: subrayar las palabras mal escritas": "Spelling: underline misspelled words", "Ortografía: subrayar las palabras mal escritas (no se imprime)": "Spelling: underline misspelled words (not printed)", "Ortografía: español": "Spelling: Spanish", "Ortografía: inglés": "Spelling: English", "Ortografía desactivada": "Spelling off", "Español": "Spanish", "Inglés": "English", "Desactivada (sin subrayado)": "Off (no underlines)", "Usa el corrector del navegador; con el botón derecho ves las sugerencias. En Chrome y Edge, si activas español e inglés en Configuración → Idiomas → Revisión ortográfica, revisa los dos a la vez.": "It uses your browser's spell checker; right-click to see suggestions. In Chrome and Edge, if you enable Spanish and English in Settings → Languages → Spell check, it checks both at once.", "Guardar como Word": "Save as Word", "Guarda el documento como archivo de Word (.docx), con los títulos como Título 1, 2, 3…": "Saves the document as a Word file (.docx), with headings as Heading 1, 2, 3…", "No se pudo crear el archivo de Word.": "Could not create the Word file.", "Eliminar esta fila": "Delete this row", "Eliminar esta columna": "Delete this column", "Líneas": "Lines", "Sin líneas": "No lines", "Solo horizontales": "Horizontal only", "Finas": "Thin", "Normales": "Normal", "Medias": "Medium", "Gruesas": "Thick", "Arrastra para ordenar": "Drag to reorder", "Título 4 (y 5, 6)": "Heading 4 (and 5, 6)", "Personalizar": "Customise", "Letra, color y tamaño de los títulos y del texto, y color de acento": "Font, colour and size of headings and text, plus an accent colour", "Personalizar estilos": "Customise styles", "Del tema": "Theme default", "Moderna": "Modern", "Estrecha": "Narrow", "Máquina de escribir": "Typewriter", "A mano": "Handwritten", "Monoespaciada": "Monospace", "Texto normal": "Normal text", "Color": "Colour", "Color del tema": "Theme colour", "auto": "auto", "Tamaño en píxeles (vacío: el del tema)": "Size in pixels (empty: theme size)", "Grosor": "Weight", "Negrita": "Bold", "Recta": "Upright", "Cursiva": "Italic", "Alineación": "Alignment", "Centrado": "Centred", "Sin personalizar": "Not customised", "Nuevo…": "New…", "Renombrar…": "Rename…", "Acento": "Accent", "Enlaces, citas y líneas": "Links, quotes and lines", "Recordar este estilo en este documento": "Remember this style in this document", "Se guarda en Writer y se aplica a todos tus documentos; el Markdown no cambia. Si marcas «Recordar», el archivo solo lleva una línea invisible con el nombre del estilo.": "It is saved in Writer and applies to all your documents; the Markdown doesn't change. If you tick «Remember», the file only gets one hidden line with the style name.", "Mi estilo": "My style", "Nuevo estilo": "New style", "Renombrar el estilo": "Rename the style", "Nombre": "Name", "Propiedades": "Properties", "Añadir propiedades (front matter YAML) al documento": "Add properties (YAML front matter) to the document", "front matter YAML, al principio del archivo": "YAML front matter, at the top of the file", "Writer Pro tiene un editor visual de propiedades: fechas con calendario, etiquetas de colores y casillas.": "Writer Pro has a visual properties editor: dates with a calendar, coloured tags and checkboxes.", "Volver al editor visual": "Back to the visual editor", "El editor visual de propiedades": "The visual properties editor", "Texto": "Text", "Varias líneas": "Several lines", "Lista o etiquetas": "List or tags", "Fecha": "Date", "Casilla": "Checkbox", "Número": "Number", "Quitar": "Remove", "Añadir…": "Add…", "Estructura YAML": "YAML structure", "Editar como YAML": "Edit as YAML", "Tipo": "Type", "Doble clic para cambiar el nombre": "Double-click to rename", "Mostrar en la barra de arriba": "Show in the top bar", "Mostrar en el documento": "Show in the document", "Quitar la propiedad": "Remove the property", "arriba": "top", "en el documento": "in the document", "Este documento no tiene propiedades todavía.": "This document has no properties yet.", "Añadir propiedad": "Add property", "Cómo se ven las propiedades marcadas con ▤ al principio del documento": "How the properties marked with ▤ look at the top of the document", "Línea": "Line", "Ficha": "Card", "Asunto": "Subject", "Propiedades del documento · clic para editarlas": "Document properties · click to edit", "Panel con las propiedades del documento (front matter YAML)": "Panel with the document properties (YAML front matter)", "Barra de arriba": "Top bar", "Pastillas con las propiedades encima de la hoja (no se imprimen)": "Property pills above the sheet (not printed)", "Fijar al desplazar": "Pin while scrolling", "La barra de propiedades se queda arriba al desplazar el documento": "The properties bar stays at the top while you scroll", "En el documento": "In the document", "Muestra al principio del documento las propiedades marcadas con ▤ (ficha, línea o carta)": "Shows the properties marked with ▤ at the top of the document (card, line or letter)", "Panel de propiedades a la derecha del documento": "Properties panel to the right of the document", "Panel de propiedades a la izquierda del documento": "Properties panel to the left of the document", "Con el Markdown": "With Markdown", "Propiedades encima del Markdown, en el mismo panel": "Properties above the Markdown, in the same panel", "Copiar Markdown limpio": "Copy clean Markdown", "Guardar Markdown limpio…": "Save clean Markdown…", "Markdown limpio copiado": "Clean Markdown copied", "-limpio": "-clean", "Copia el Markdown puro, sin los comentarios invisibles de formato (alineación, columnas, página…)": "Copies pure Markdown, without the hidden formatting comments (alignment, columns, page…)", "Guarda una copia en Markdown puro, sin los comentarios invisibles de formato. Tu documento sigue unido a su archivo": "Saves a copy as pure Markdown, without the hidden formatting comments. Your document stays linked to its own file",   "Archivo": "File", "Inicio": "Home", "Insertar": "Insert", "Vista": "View", "Tabla": "Table",
   "Guardar como .md (Ctrl+S)": "Save as .md (Ctrl+S)", "Deshacer (Ctrl+Z)": "Undo (Ctrl+Z)", "Rehacer (Ctrl+Y)": "Redo (Ctrl+Y)",
   "Nombre del documento": "Document name", "Guardado en este navegador": "Saved in this browser", "Guardando…": "Saving…", "Sin guardar": "Not saved",
   "Modo oscuro": "Dark mode", "Modo claro": "Light mode", "Ayuda (F1)": "Help (F1)", "Ayuda": "Help", "Cerrar (F1)": "Close (F1)",
   "Contraer la cinta: solo pestañas (Ctrl+F1)": "Collapse the ribbon: tabs only (Ctrl+F1)", "Fijar la cinta (Ctrl+F1)": "Pin the ribbon (Ctrl+F1)",
-  "Nuevo": "New", "Abrir": "Open", "Abrir un archivo .md (Ctrl+O)": "Open a .md file (Ctrl+O)", "Guardar .md": "Save .md", "Documento": "Document",
+  "Nuevo": "New", "Abrir": "Open", "Sin página": "No page", "Ancho de línea legible": "Readable line width", "Sin hoja: el texto ocupa el espacio disponible, como en Obsidian": "No sheet: the text fills the available space, like in Obsidian", "En la vista Sin página, limita el ancho del texto para leer cómodo": "In No page view, limits the text width for comfortable reading", "Guardar como…": "Save as…", "Guardar como": "Save as", "Guardado automático": "Autosave", "Guardar con otro nombre o en otro sitio (Ctrl+Mayús+S)": "Save with another name or in another place (Ctrl+Shift+S)", "Guarda cada cambio en su archivo, sin pulsar Guardar": "Saves every change to its file, without pressing Save", "Guardado automático activado": "Autosave on", "Guardado automático desactivado": "Autosave off", "Nombre del archivo": "File name", "Cerrar documento": "Close document", "Cerrar sin guardar": "Close without saving", "Cambios sin guardar": "Unsaved changes", "Cerrar": "Close", "Documento nuevo": "New document", "Documentos abiertos": "Open documents", "Abrir un archivo .md (Ctrl+O)": "Open a .md file (Ctrl+O)", "Guardar .md": "Save .md", "Documento": "Document",
   "Copiar Markdown": "Copy Markdown", "Documento de ejemplo": "Sample document", "Markdown": "Markdown",
   "Exportar PDF": "Export PDF", "Imprimir o guardar como PDF (Ctrl+P)": "Print or save as PDF (Ctrl+P)", "Copiar para Word": "Copy for Word",
   "Copia el documento con formato para pegarlo en Word, Google Docs u Outlook": "Copies the document with formatting to paste into Word, Google Docs or Outlook",
@@ -4269,6 +4626,7 @@ function applyAppearance() {
   const db = $('#dark-btn'); if (db) { db.innerHTML = svgIcon(PR.dark ? 'sun' : 'moon'); db.title = trStr(PR.dark ? 'Modo claro' : 'Modo oscuro'); }
   document.querySelectorAll('.thm').forEach(x => x.setAttribute('aria-pressed', x.dataset.arg === (PR.theme || 'word') ? 'true' : 'false'));
   applyRibbon();
+  try { applyCustStyle(); } catch (e) {}
   try { if (!navpane.hidden) { if (PR.navTab === 'pages') scheduleThumbs(); else updateNav(); } } catch (e) {}
 }
 const ribbon = document.querySelector('.ribbon');
@@ -4310,8 +4668,12 @@ $('#canvas').addEventListener('mousedown', () => ribbon.classList.remove('peek')
 const gpop = $('#gpop');
 function openGPop(btn, html) {
   gpop.innerHTML = html; gpop.hidden = false;
-  const r = btn.getBoundingClientRect(), w = gpop.offsetWidth;
-  gpop.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + 'px'; gpop.style.top = (r.bottom + 4) + 'px';
+  gpop.style.maxHeight = ''; gpop.style.overflowY = '';
+  const r = btn.getBoundingClientRect(), w = gpop.offsetWidth, h = gpop.offsetHeight, below = innerHeight - r.bottom - 12, above = r.top - 12;
+  gpop.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + 'px';
+  // Si no cabe debajo, se abre donde haya más sitio y, si hace falta, con barra de desplazamiento
+  if (h <= below || below >= above) { gpop.style.top = (r.bottom + 4) + 'px'; if (h > below) { gpop.style.maxHeight = below + 'px'; gpop.style.overflowY = 'auto'; } }
+  else { const hh = Math.min(h, above); gpop.style.top = (r.top - 4 - hh) + 'px'; if (h > above) { gpop.style.maxHeight = above + 'px'; gpop.style.overflowY = 'auto'; } }
 }
 function hideGPop() { gpop.hidden = true; gpop.onclick = null; if (ribbon.classList.contains('peek')) closePeekSoon(); }
 document.addEventListener('mousedown', e => { if (!gpop.hidden && !gpop.contains(e.target) && !e.target.closest('[data-cmd$="Menu"], [data-cmd="workFolder"]')) hideGPop(); });
@@ -4343,6 +4705,7 @@ const HELP = { es: `
 <section id="h-md"><h3>Atajos de Markdown</h3>
 <p>Si ya conoces Markdown, úsalo al escribir y el formato se aplica solo: <code># </code> título, <code>- </code> lista, <code>1. </code> lista numerada, <code>&gt; </code> cita, <code>[ ] </code> tarea, <code>**negrita**</code>, <code>\`código\`</code> y <code>\`\`\`</code> + Intro para un bloque de código.</p></section>
 <section id="h-folder"><h3>Guardar y carpeta de trabajo</h3>
+<p><b>Propiedades:</b> el front matter YAML del principio del archivo (título, etiquetas, fecha…) se ve en las pastillas de encima de la hoja, que no se imprimen. Púlsalas para editarlo; en <b>Vista → Propiedades</b> puedes abrir su panel a la derecha, a la izquierda o junto al Markdown. En Writer Pro se editan con fechas, etiquetas y casillas, y se pueden mostrar al principio del documento como ficha, línea o carta.</p>
 <p>En Chrome y Edge, <b>Archivo → Carpeta de trabajo</b> te deja elegir una carpeta: los documentos que guardes ahí se actualizan con cada cambio y tu configuración se guarda sola en <code>markdawn-writer-config.json</code>.</p>
 <p>En cualquier navegador, <b>Exportar configuración</b> te da una copia de tus preferencias para llevarla a otro ordenador.</p></section>
 <section id="h-share"><h3>Exportar y compartir</h3>
@@ -4378,6 +4741,7 @@ en: `
 <section id="h-md"><h3>Markdown shortcuts</h3>
 <p>If you know Markdown, type it and the formatting applies by itself: <code># </code> heading, <code>- </code> list, <code>1. </code> numbered list, <code>&gt; </code> quote, <code>[ ] </code> task, <code>**bold**</code>, <code>\`code\`</code> and <code>\`\`\`</code> + Enter for a code block.</p></section>
 <section id="h-folder"><h3>Saving and working folder</h3>
+<p><b>Properties:</b> the YAML front matter at the top of the file (title, tags, date…) shows as pills above the sheet, which are not printed. Click them to edit it; in <b>View → Properties</b> you can open its panel on the right, on the left or with the Markdown. In Writer Pro you edit them with dates, tags and checkboxes, and you can show them at the top of the document as a card, a line or a letter.</p>
 <p>In Chrome and Edge, <b>File → Working folder</b> lets you choose a folder: documents you save there are updated with every change, and your settings are saved automatically in <code>markdawn-writer-config.json</code>.</p>
 <p>In any browser, <b>Export settings</b> gives you a copy of your preferences to take to another computer.</p></section>
 <section id="h-share"><h3>Export and share</h3>
@@ -4481,17 +4845,17 @@ $('#save-state').addEventListener('click', () => { if (WF_PENDING) wfReconnect()
 async function wfList() { const out = []; for await (const [n, h] of WF.dir.entries()) if (h.kind === 'file' && /\.(md|markdown|mdown|txt)$/i.test(n)) out.push(h); return out.sort((a, b) => a.name.localeCompare(b.name)); }
 async function wfOpen(fh) {
   const t = await (await fh.getFile()).text();
-  fileName.value = fh.name.replace(/\.(md|markdown|mdown|txt)$/i, ''); setMarkdown(t); showTab('inicio');
-  WF.file = /\.(md|markdown|mdown)$/i.test(fh.name) ? fh : null; try { await kv.set('workfile', WF.file ? fh.name : ''); } catch (e) {}
+  openInTab(t, fh.name.replace(/\.(md|markdown|mdown|txt)$/i, ''), null); showTab('inicio');
+  WF.file = /\.(md|markdown|mdown)$/i.test(fh.name) ? fh : null; if (TABS[TCUR]) TABS[TCUR].wf = WF.file; try { await kv.set('workfile', WF.file ? fh.name : ''); } catch (e) {}
   lastMd = getMarkdown(); folderState(); toast('Abierto: ' + fh.name);
 }
 async function wfSaveTo(name) {
-  try { const fh = await WF.dir.getFileHandle(name, { create: true }); await writeText(fh, getMarkdown()); WF.file = fh; await kv.set('workfile', name); folderState(); toast('Guardado: ' + name); }
+  try { const fh = await WF.dir.getFileHandle(name, { create: true }); await writeText(fh, getMarkdown()); WF.file = fh; FH = null; FH_OK = false; markSaved(); await kv.set('workfile', name); folderState(); toast('Guardado: ' + name); }
   catch (e) { toast('No se pudo guardar en la carpeta.'); }
 }
 async function wfSave(asNew) {
   const name = docFileName();
-  if (!asNew && WF.file && WF.file.name === name) { try { await writeText(WF.file, getMarkdown()); folderState(); toast('Guardado: ' + name); } catch (e) { toast('No se pudo guardar en la carpeta.'); } return; }
+  if (!asNew && WF.file && WF.file.name === name) { try { await writeText(WF.file, getMarkdown()); markSaved(); folderState(); toast('Guardado: ' + name); } catch (e) { toast('No se pudo guardar en la carpeta.'); } return; }
   let exists = false; try { await WF.dir.getFileHandle(name); exists = true; } catch (e) {}
   if (exists) {
     const res = await dialog({ title: 'Ya existe ese archivo', message: `En la carpeta «${WF.name}» ya hay un «${name}». ¿Quieres sustituirlo por este documento?`, ok: 'Sustituir' });
@@ -4502,6 +4866,8 @@ async function wfSave(asNew) {
 // Con el documento guardado en la carpeta, cada cambio se guarda solo
 let wfT = 0;
 function wfAutoSave() {
+  if (!PR.autosave) return;
+  if ((!WF || !WF.file) && FH && FH_OK) { clearTimeout(wfT); wfT = setTimeout(() => writeText(FH, getMarkdown()).catch(() => {}), 1200); return; }
   if (!WF || !WF.file) return;
   if (WF.file.name !== docFileName()) { WF.file = null; folderState(); return; }
   clearTimeout(wfT); wfT = setTimeout(() => writeText(WF.file, getMarkdown()).then(folderState).catch(() => {}), 1200);
@@ -4554,7 +4920,7 @@ function wordHtml() {
   clone.querySelectorAll('.md-raw').forEach(e => e.remove());
   clone.querySelectorAll('[data-hfh],[data-hfshow],[data-collapsed],[data-fold],[data-open]').forEach(e => { e.removeAttribute('data-hfh'); e.removeAttribute('data-hfshow'); e.removeAttribute('data-collapsed'); e.removeAttribute('data-fold'); e.removeAttribute('data-open'); });
   const src = editor.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th'), dst = clone.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre,td,th');
-  const hc = WORD_H[PR.theme || 'word'] || ['#1f1f1f', '#1f1f1f', '#1f1f1f', '#1f1f1f'];
+  const hc = WORD_H[PR.theme || 'word'] || ['#1f1f1f', '#1f1f1f', '#1f1f1f', '#1f1f1f'], cust = document.body.classList.contains('cust');
   const bodyFont = getComputedStyle(editor).fontFamily.split(',')[0].replace(/["']/g, '').trim() || 'Calibri';
   src.forEach((el, i) => {
     const cs = getComputedStyle(el), d = dst[i]; if (!d) return;
@@ -4562,24 +4928,28 @@ function wordHtml() {
     const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim() || bodyFont;
     if (h) {
       const n = +h[1];
-      d.setAttribute('style', `mso-style-name:"Heading ${n}";mso-outline-level:${n};font-family:'${fam}';font-size:${WORD_HPT[n - 1]}pt;font-weight:${n <= 4 ? 'bold' : 'normal'};${cs.fontStyle === 'italic' ? 'font-style:italic;' : ''}color:${hc[Math.min(n, 4) - 1]};margin:${n === 1 ? 18 : 12}pt 0 4pt 0;line-height:115%;`);
+      d.setAttribute('style', `mso-outline-level:${n};font-family:'${fam}';font-size:${cust ? pxToPt(cs.fontSize).replace('pt', '') : WORD_HPT[n - 1]}pt;font-weight:${cust ? (+cs.fontWeight >= 600 ? 'bold' : 'normal') : n <= 4 ? 'bold' : 'normal'};${cs.fontStyle === 'italic' ? 'font-style:italic;' : ''}color:${cust && !document.body.classList.contains('dark') ? cs.color : hc[Math.min(n, 4) - 1]};${cust && cs.textAlign && cs.textAlign !== 'start' ? `text-align:${cs.textAlign};` : ''}margin:${n === 1 ? 18 : 12}pt 0 4pt 0;line-height:115%;`);
     } else {
       d.style.fontFamily = `'${fam}'`; d.style.fontSize = pxToPt(cs.fontSize); d.style.color = '#1f1f1f';
       if (cs.fontStyle === 'italic') d.style.fontStyle = 'italic';
       if (d.tagName === 'P') { d.style.margin = '0 0 8pt 0'; d.style.lineHeight = '140%'; }
     }
-    if (el.style.textAlign) d.style.textAlign = el.style.textAlign;
+    if (el.style.textAlign) d.setAttribute('style', (d.getAttribute('style') || '').replace(/;?\s*$/, ';') + `text-align:${el.style.textAlign};`);   // como texto: d.style borraría mso-outline-level
   });
   clone.querySelectorAll('li.task').forEach(li => { li.style.listStyle = 'none'; li.insertBefore(document.createTextNode(li.dataset.checked === 'true' ? '☑ ' : '☐ '), li.firstChild); });
   clone.querySelectorAll('blockquote').forEach(q => { q.style.borderLeft = '3px solid #2b579a'; q.style.paddingLeft = '10px'; q.style.marginLeft = '0'; q.style.color = '#3d3d3d'; });
   clone.querySelectorAll('pre').forEach(p => { p.style.fontFamily = 'Consolas, "Courier New", monospace'; p.style.fontSize = '10pt'; p.style.background = '#f5f5f5'; p.style.padding = '8px'; p.style.border = '1px solid #ddd'; p.style.whiteSpace = 'pre-wrap'; });
-  clone.querySelectorAll('code').forEach(c => { if (!c.closest('pre')) { c.style.fontFamily = 'Consolas, "Courier New", monospace'; c.style.background = '#f0f0f0'; } });
   clone.querySelectorAll('table').forEach(t => { t.setAttribute('border', '1'); t.setAttribute('cellpadding', '5'); t.style.borderCollapse = 'collapse'; t.querySelectorAll('th').forEach(c => { c.style.background = '#f2f2f2'; c.style.border = '1px solid #bfbfbf'; }); t.querySelectorAll('td').forEach(c => c.style.border = '1px solid #bfbfbf'); });
   clone.querySelectorAll('a').forEach(a => a.style.color = '#0563c1');
   clone.querySelectorAll('.math,.mathblock').forEach(m => { m.textContent = m.dataset.tex || m.textContent; m.removeAttribute('contenteditable'); });
-  clone.querySelectorAll('mark').forEach(m => { if (!m.style.background) m.style.background = HL_DEF; m.style.color = '#1f1f1f'; });
+  // Word no conoce <mark> y trata <s> de forma rara (puede perder el texto): se pasan a <span> con su formato
+  clone.querySelectorAll('mark').forEach(m => { const sp = document.createElement('span'), bg = m.style.background || m.style.backgroundColor || HL_DEF;
+    sp.setAttribute('style', `background:${bg};color:#1f1f1f;${/^(#fff176|#ffff00|yellow)$/i.test(bg) || !m.style.background ? 'mso-highlight:yellow;' : ''}`); while (m.firstChild) sp.appendChild(m.firstChild); m.replaceWith(sp); });
+  clone.querySelectorAll('s, del, strike').forEach(x => { const sp = document.createElement('span'); sp.setAttribute('style', 'text-decoration:line-through'); while (x.firstChild) sp.appendChild(x.firstChild); x.replaceWith(sp); });
+  clone.querySelectorAll('code').forEach(c => { if (c.closest('pre')) return; const sp = document.createElement('span'); sp.setAttribute('style', `font-family:Consolas,'Courier New',monospace;font-size:10pt;background:#f0f0f0`); while (c.firstChild) sp.appendChild(c.firstChild); c.replaceWith(sp); });
+  clone.querySelectorAll('[contenteditable]').forEach(x => x.removeAttribute('contenteditable'));
   clone.querySelectorAll('[data-pgbreak]').forEach(n => { n.removeAttribute('data-pgbreak'); n.style.pageBreakBefore = 'always'; n.style.breakBefore = 'page'; });
-  const css = WORD_HPT.map((pt, i) => `h${i + 1}{mso-style-name:"Heading ${i + 1}";mso-outline-level:${i + 1};font-size:${pt}pt;color:${hc[Math.min(i + 1, 4) - 1]};}`).join('');
+  const css = WORD_HPT.map((pt, i) => `h${i + 1}{mso-outline-level:${i + 1};font-size:${pt}pt;color:${hc[Math.min(i + 1, 4) - 1]};}`).join('');
   // Columnas: en Word, una tabla sin bordes
   clone.querySelectorAll('.cols').forEach(cs => {
     const cols = [...cs.children], tot = cols.reduce((a, _, i) => a + (colsWidths((cs.dataset.w || '').split(/\s+/), cols.length) || cols.map(() => 1))[i], 0), ws = colsWidths((cs.dataset.w || '').split(/\s+/), cols.length) || cols.map(() => 1);
@@ -4588,7 +4958,9 @@ function wordHtml() {
     cols.forEach((c, i) => { const td = tr.insertCell(); td.setAttribute('style', `border:none;vertical-align:top;padding:0 ${i < cols.length - 1 ? '14pt' : '0'} 0 0;width:${Math.round(ws[i] / tot * 100)}%`); td.setAttribute('valign', 'top'); while (c.firstChild) td.appendChild(c.firstChild); });
     cs.replaceWith(t);
   });
-  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>${css}</style></head><body>${clone.innerHTML}</body></html>`;
+  // Las etiquetas de cierre y los comentarios van partidos («<\/», «<» + «!--») para que ningún visor confunda este texto con el final de la página
+  const C = '<' + '!--';
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>${css}<\/style><\/head><body>${C}StartFragment-->${clone.innerHTML}${C}EndFragment--><\/body><\/html>`;
 }
 async function copyForWord() {
   const html = wordHtml(), md = getMarkdown();
@@ -4607,6 +4979,222 @@ async function copyForWord() {
     done();
   } catch (e) { toast('No se pudo copiar. Selecciona el texto y usa Ctrl+C.'); }
 }
+
+/* ---------- Guardar como Word (.docx) ----------
+   Un .docx de verdad, hecho aquí mismo: los títulos usan los estilos de Word (Título 1, 2, 3…, en el idioma de tu Word),
+   las listas son listas de Word, las tablas tablas y las imágenes van dentro. Sin servidor ni librerías. */
+const DX_NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"';
+const dxEsc = s => String(s).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function dxHex(c, def) {   // rgb(…) o #… → RRGGBB
+  const m = String(c || '').match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/); if (m) return [m[1], m[2], m[3]].map(x => (+x).toString(16).padStart(2, '0')).join('').toUpperCase();
+  const h = String(c || '').match(/^#([0-9a-f]{6})$/i); return h ? h[1].toUpperCase() : def;
+}
+const dxFont = ff => (String(ff || '').split(',')[0] || '').replace(/["']/g, '').trim() || 'Calibri';
+function dxRPr(f) {   // en el orden que pide Word
+  let x = '';
+  if (f.link) x += '<w:rStyle w:val="Hyperlink"/>';
+  if (f.code) x += '<w:rFonts w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Consolas"/>';
+  if (f.b) x += '<w:b/><w:bCs/>'; if (f.i) x += '<w:i/><w:iCs/>'; if (f.s) x += '<w:strike/>';
+  if (f.color) x += `<w:color w:val="${f.color}"/>`;
+  if (f.code) x += '<w:sz w:val="19"/><w:szCs w:val="19"/>';
+  if (f.hl) x += '<w:highlight w:val="yellow"/>'; if (f.u) x += '<w:u w:val="single"/>';
+  if (f.code) x += '<w:shd w:val="clear" w:color="auto" w:fill="F0F0F0"/>';
+  if (f.sup) x += '<w:vertAlign w:val="superscript"/>'; else if (f.sub) x += '<w:vertAlign w:val="subscript"/>';
+  return x ? `<w:rPr>${x}</w:rPr>` : '';
+}
+function dxRun(text, f) {
+  return String(text).split('\n').map((t, i) => (i ? '<w:r><w:br/></w:r>' : '') + (t ? `<w:r>${dxRPr(f)}<w:t xml:space="preserve">${dxEsc(t)}</w:t></w:r>` : '')).join('');
+}
+function dxInline(node, f, ctx) {
+  let out = '';
+  for (const n of node.childNodes) {
+    if (n.nodeType === 3) { const t = n.nodeValue.replace(/​/g, '').replace(/\s+/g, ' '); if (t) out += dxRun(t, f); continue; }
+    if (n.nodeType !== 1 || n.classList.contains('md-raw')) continue;
+    const tg = n.tagName;
+    if (/^(UL|OL|TABLE|PRE)$/.test(tg)) continue;
+    if (tg === 'BR') { out += '<w:r><w:br/></w:r>'; continue; }
+    if (tg === 'IMG') { out += ctx.img(n); continue; }
+    if (n.classList.contains('math') || n.classList.contains('mathblock')) { out += dxRun(n.dataset.tex || n.textContent, { ...f, code: true }); continue; }
+    if (n.classList.contains('fnref')) { out += dxRun(n.textContent, { ...f, sup: true }); continue; }
+    const g = { ...f };
+    if (/^(B|STRONG)$/.test(tg)) g.b = true; if (/^(I|EM)$/.test(tg)) g.i = true; if (tg === 'U') g.u = true;
+    if (/^(S|DEL|STRIKE)$/.test(tg)) g.s = true; if (tg === 'MARK') g.hl = true; if (tg === 'CODE') g.code = true;
+    if (tg === 'SUP') g.sup = true; if (tg === 'SUB') g.sub = true;
+    if (tg === 'A' && /^(https?:|mailto:)/i.test(n.getAttribute('href') || '')) { out += `<w:hyperlink r:id="${ctx.link(n.getAttribute('href'))}" w:history="1">${dxInline(n, { ...g, link: true }, ctx)}</w:hyperlink>`; continue; }
+    out += dxInline(n, g, ctx);
+  }
+  return out;
+}
+const DX_JC = { left: 'left', start: 'left', center: 'center', right: 'right', end: 'right', justify: 'both' };
+function dxPara(style, inner, o = {}) {
+  let p = '';
+  if (style) p += `<w:pStyle w:val="${style}"/>`;
+  if (o.num) p += `<w:numPr><w:ilvl w:val="${o.num[1]}"/><w:numId w:val="${o.num[0]}"/></w:numPr>`;
+  if (o.border) p += '<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="BFBFBF"/></w:pBdr>';
+  if (o.after != null) p += `<w:spacing w:after="${o.after}"/>`;
+  if (o.jc && DX_JC[o.jc] && DX_JC[o.jc] !== 'left') p += `<w:jc w:val="${DX_JC[o.jc]}"/>`;
+  return `<w:p>${p ? `<w:pPr>${p}</w:pPr>` : ''}${inner}</w:p>`;
+}
+function dxList(list, lvl, ctx, numId) {
+  let out = '';
+  const ordered = list.tagName === 'OL';
+  if (numId == null || ordered) numId = ordered ? ctx.newNum(+list.getAttribute('start') || 1) : 1;
+  for (const li of list.children) {
+    if (li.tagName !== 'LI') continue;
+    const task = li.classList.contains('task') ? (li.dataset.checked === 'true' ? '☑ ' : '☐ ') : '';
+    const ps = [...li.children].filter(c => c.tagName === 'P');
+    const inner = ps.length ? ps.map(p => dxInline(p, {}, ctx)).join('<w:r><w:br/></w:r>') : dxInline(li, {}, ctx);
+    out += dxPara('ListParagraph', (task ? dxRun(task, {}) : '') + inner, { num: [numId, Math.min(lvl, 8)], jc: li.style.textAlign });
+    for (const sub of li.children) if (sub.tagName === 'UL' || sub.tagName === 'OL') out += dxList(sub, lvl + 1, ctx, sub.tagName === 'UL' ? 1 : null);
+  }
+  return out;
+}
+function dxTable(t, ctx) {
+  const n = Math.max(...[...t.rows].map(r => r.cells.length), 1), W = ctx.textW;
+  let x = `<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>${'<w:gridCol w:w="' + Math.floor(W / n) + '"/>'.repeat(n)}</w:tblGrid>`;
+  for (const r of t.rows) {
+    const head = r.parentElement.tagName === 'THEAD';
+    x += `<w:tr>${head ? '<w:trPr><w:tblHeader/></w:trPr>' : ''}`;
+    for (const c of r.cells) {
+      const bg = head ? 'F2F2F2' : null;
+      x += `<w:tc><w:tcPr><w:tcW w:w="${Math.floor(W / n)}" w:type="dxa"/>${bg ? `<w:shd w:val="clear" w:color="auto" w:fill="${bg}"/>` : ''}</w:tcPr>${dxPara(null, dxInline(c, head ? { b: true } : {}, ctx), { after: 0, jc: c.style.textAlign })}</w:tc>`;
+    }
+    x += '</w:tr>';
+  }
+  return x + '</w:tbl>' + dxPara(null, '', { after: 0 });
+}
+function dxBlocks(cont, ctx, pStyle) {
+  let out = '';
+  for (const el of cont.children) {
+    const tg = el.tagName, jc = el.style && el.style.textAlign;
+    if (el.classList.contains('md-raw')) continue;
+    if (/^H[1-6]$/.test(tg)) out += dxPara('Heading' + tg[1], dxInline(el, {}, ctx), { jc });
+    else if (tg === 'P') out += dxPara(pStyle || null, dxInline(el, {}, ctx), { jc });
+    else if (tg === 'UL' || tg === 'OL') out += dxList(el, 0, ctx, tg === 'UL' ? 1 : null);
+    else if (tg === 'BLOCKQUOTE') out += [...el.children].some(c => /^(P|UL|OL|H\d|PRE|TABLE|BLOCKQUOTE)$/.test(c.tagName)) ? dxBlocks(el, ctx, 'Quote') : dxPara('Quote', dxInline(el, {}, ctx));
+    else if (tg === 'PRE') { const t = (el.innerText || el.textContent || '').replace(/​/g, '').replace(/\n$/, ''); out += t.split('\n').map(l => dxPara('Code', l ? `<w:r><w:t xml:space="preserve">${dxEsc(l)}</w:t></w:r>` : '')).join(''); }
+    else if (tg === 'TABLE') out += dxTable(el, ctx);
+    else if (tg === 'HR') out += dxPara(null, '', { border: true });
+    else if (tg === 'IMG') out += dxPara(null, ctx.img(el), { jc: 'center' });
+    else if (tg === 'DIV' || tg === 'SECTION' || tg === 'FIGURE' || tg === 'DETAILS') out += el.children.length ? dxBlocks(el, ctx, pStyle) : dxPara(pStyle || null, dxInline(el, {}, ctx));
+    else if (el.textContent.trim()) out += dxPara(pStyle || null, dxInline(el, {}, ctx), { jc });
+  }
+  return out;
+}
+// Propiedades mostradas en el documento (ficha, línea o carta), si las hay
+function dxPropdoc(ctx) {
+  const pd = document.getElementById('propdoc'); if (!pd) return '';
+  let out = '';
+  const lines = (el, jc) => el.innerHTML.split(/<br\s*\/?>/i).map(h => { const d = document.createElement('div'); d.innerHTML = h; return dxPara(null, dxRun(d.textContent.trim(), {}), { jc, after: 0 }); }).join('');
+  for (const el of pd.querySelectorAll('.pd-from, .pd-to, .pd-date, .pd-subj, .pd-line, .pd-ficha')) {
+    if (el.classList.contains('pd-from')) out += lines(el, 'right') + dxPara(null, '');
+    else if (el.classList.contains('pd-to')) out += lines(el) + dxPara(null, '');
+    else if (el.classList.contains('pd-date')) out += dxPara(null, dxRun(el.textContent.trim(), {}), { jc: 'right' });
+    else if (el.classList.contains('pd-subj')) out += dxPara(null, dxInline(el, {}, ctx));
+    else if (el.classList.contains('pd-ficha')) out += dxPara(null, [...el.children].map(d => dxRun((d.querySelector('small') || {}).textContent + ': ', { b: true }) + dxRun(d.querySelector('b').textContent.replace(/\s+/g, ' ').trim(), {})).join(dxRun('   ·   ', {})), { border: true });
+    else out += dxPara(null, dxRun(el.textContent.replace(/\s+/g, ' ').trim(), {}));
+  }
+  return out;
+}
+function dxStyles() {
+  const dark = document.body.classList.contains('dark') && !document.body.classList.contains('paper-light');
+  const cs = getComputedStyle(editor), bodyF = dxFont(cs.fontFamily), bodySz = Math.round(parseFloat(cs.fontSize) * 1.5);
+  const hc = WORD_H[PR.theme || 'word'] || ['#1f1f1f', '#1f1f1f', '#1f1f1f', '#1f1f1f'];
+  const H = n => {
+    const el = editor.querySelector('h' + n); let f = bodyF, sz = [20, 16, 13, 12, 11, 11][n - 1] * 2, col = dxHex(hc[Math.min(n, 4) - 1], '1F1F1F'), b = n <= 4, it = false;
+    if (el) { const c = getComputedStyle(el); f = dxFont(c.fontFamily); sz = Math.round(parseFloat(c.fontSize) * 1.5); if (!dark) col = dxHex(c.color, col); b = +c.fontWeight >= 600; it = c.fontStyle === 'italic'; }
+    else if (n === 4) it = true;
+    return `<w:style w:type="paragraph" w:styleId="Heading${n}"><w:name w:val="heading ${n}"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="9"/><w:qFormat/><w:pPr><w:keepNext/><w:keepLines/><w:spacing w:before="${n === 1 ? 360 : 240}" w:after="80"/><w:outlineLvl w:val="${n - 1}"/></w:pPr><w:rPr><w:rFonts w:ascii="${dxEsc(f)}" w:hAnsi="${dxEsc(f)}" w:cs="${dxEsc(f)}"/>${b ? '<w:b/><w:bCs/>' : ''}${it ? '<w:i/><w:iCs/>' : ''}<w:color w:val="${col}"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/></w:rPr></w:style>`;
+  };
+  const ink = dark ? '1F1F1F' : dxHex(cs.color, '1F1F1F');
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${DX_NS}>
+<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="${dxEsc(bodyF)}" w:hAnsi="${dxEsc(bodyF)}" w:eastAsia="${dxEsc(bodyF)}" w:cs="${dxEsc(bodyF)}"/><w:sz w:val="${bodySz}"/><w:szCs w:val="${bodySz}"/><w:lang w:val="${LANG === 'en' ? 'en-GB' : 'es-ES'}"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="160" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>
+<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/><w:rPr><w:color w:val="${ink}"/></w:rPr></w:style>
+${[1, 2, 3, 4, 5, 6].map(H).join('\n')}
+<w:style w:type="paragraph" w:styleId="Quote"><w:name w:val="Quote"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="29"/><w:qFormat/><w:pPr><w:pBdr><w:left w:val="single" w:sz="18" w:space="8" w:color="2B579A"/></w:pBdr><w:ind w:left="284" w:right="284"/></w:pPr><w:rPr><w:i/><w:iCs/><w:color w:val="404040"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:customStyle="1" w:styleId="Code"><w:name w:val="${LANG === 'en' ? 'Code' : 'Código'}"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:shd w:val="clear" w:color="auto" w:fill="F5F5F5"/><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Consolas"/><w:sz w:val="19"/><w:szCs w:val="19"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="ListParagraph"><w:name w:val="List Paragraph"/><w:basedOn w:val="Normal"/><w:uiPriority w:val="34"/><w:qFormat/><w:pPr><w:spacing w:after="60"/><w:ind w:left="720"/><w:contextualSpacing/></w:pPr></w:style>
+<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:uiPriority w:val="99"/><w:unhideWhenUsed/><w:rPr><w:color w:val="0563C1"/><w:u w:val="single"/></w:rPr></w:style>
+<w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:uiPriority w:val="99"/><w:semiHidden/><w:unhideWhenUsed/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style>
+<w:style w:type="table" w:styleId="TableGrid"><w:name w:val="Table Grid"/><w:basedOn w:val="TableNormal"/><w:uiPriority w:val="39"/><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/><w:left w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/><w:right w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/></w:tblBorders><w:tblCellMar><w:top w:w="57" w:type="dxa"/><w:bottom w:w="57" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style>
+</w:styles>`;
+}
+function dxNumbering(nums) {
+  const lvl = (i, fmt, txt, font) => `<w:lvl w:ilvl="${i}"><w:start w:val="1"/><w:numFmt w:val="${fmt}"/><w:lvlText w:val="${txt}"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="${720 + i * 360}" w:hanging="360"/></w:pPr>${font ? `<w:rPr><w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:hint="default"/></w:rPr>` : ''}</w:lvl>`;
+  const bul = Array.from({ length: 9 }, (_, i) => lvl(i, 'bullet', ['•', '◦', '▪'][i % 3], 'Arial')).join('');
+  const dec = Array.from({ length: 9 }, (_, i) => lvl(i, ['decimal', 'lowerLetter', 'lowerRoman'][i % 3], `%${i + 1}.`)).join('');
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:numbering ${DX_NS}><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/>${bul}</w:abstractNum><w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="hybridMultilevel"/>${dec}</w:abstractNum>
+<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>${nums.map(([id, start]) => `<w:num w:numId="${id}"><w:abstractNumId w:val="1"/><w:lvlOverride w:ilvl="0"><w:startOverride w:val="${start}"/></w:lvlOverride></w:num>`).join('')}</w:numbering>`;
+}
+// Zip sin comprimir (lo que necesita un .docx), con su CRC32
+const DX_CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function dxCrc(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = DX_CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function dxZip(files) {
+  const enc = new TextEncoder(), parts = [], cen = []; let off = 0;
+  for (const [name, data0] of files) {
+    const data = typeof data0 === 'string' ? enc.encode(data0) : data0, nm = enc.encode(name), crc = dxCrc(data);
+    const h = new DataView(new ArrayBuffer(30)); h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint32(14, crc, true); h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, nm.length, true);
+    parts.push(new Uint8Array(h.buffer), nm, data);
+    const c = new DataView(new ArrayBuffer(46)); c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true);
+    c.setUint32(16, crc, true); c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, nm.length, true); c.setUint32(42, off, true);
+    cen.push(new Uint8Array(c.buffer), nm); off += 30 + nm.length + data.length;
+  }
+  const size = cen.reduce((a, b) => a + b.length, 0), e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, size, true); e.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, new Uint8Array(e.buffer)], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+}
+function buildDocx() {
+  const rels = [], media = [], nums = []; let rid = 10, nid = 2, pid = 1;
+  const [pw, ph] = PG_SIZES[PG.size] || PG_SIZES.A4, land = PG.orient === 'landscape', mg = PG_MARGINS[PG.margins] || PG_MARGINS.normal, tw = mm => Math.round(mm * 56.6929);
+  const W = tw(land ? ph : pw), Hh = tw(land ? pw : ph);
+  const ctx = {
+    textW: W - tw(mg[1]) - tw(mg[3]),
+    link: href => { const id = 'rId' + rid++; rels.push(`<Relationship Id="${id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="${dxEsc(href)}" TargetMode="External"/>`); return id; },
+    newNum: start => { const id = nid++; nums.push([id, start]); return id; },
+    img: im => {
+      try {
+        const w0 = im.naturalWidth, h0 = im.naturalHeight; if (!w0 || !h0) throw 0;
+        const cv = document.createElement('canvas'); cv.width = w0; cv.height = h0; cv.getContext('2d').drawImage(im, 0, 0);
+        const bin = atob(cv.toDataURL('image/png').split(',')[1]), bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        const n = media.length + 1, id = 'rId' + rid++; media.push(['word/media/image' + n + '.png', bytes]);
+        rels.push(`<Relationship Id="${id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/image${n}.png"/>`);
+        const shown = im.getBoundingClientRect().width / ((page.getBoundingClientRect().width / page.offsetWidth) || 1) || w0, maxW = ctx.textW / 15;   // px
+        const wpx = Math.min(shown, maxW), cx = Math.round(wpx * 9525), cy = Math.round(wpx * h0 / w0 * 9525), k = pid++;
+        return `<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${k}" name="${dxEsc(im.alt || 'Imagen ' + k)}"/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${k}" name="image${n}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`;
+      } catch (e) { return im.alt ? dxRun('[' + im.alt + ']', { i: true }) : ''; }   // imagen de otra web que el navegador no deja copiar
+    }
+  };
+  const body = dxPropdoc(ctx) + dxBlocks(editor, ctx) + '<w:p/>';
+  const sect = `<w:sectPr><w:pgSz w:w="${W}" w:h="${Hh}"${land ? ' w:orient="landscape"' : ''}/><w:pgMar w:top="${tw(mg[0])}" w:right="${tw(mg[1])}" w:bottom="${tw(mg[2])}" w:left="${tw(mg[3])}" w:header="709" w:footer="709" w:gutter="0"/></w:sectPr>`;
+  const doc = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${DX_NS}><w:body>${body}${sect}</w:body></w:document>`;
+  // Título y autor del documento, desde las propiedades si las hay
+  let title = fileName.value || '', author = '';
+  try { const it = typeof PROPS === 'function' ? PROPS() : []; const g = k => (it.find(x => x.k && new RegExp('^' + k + '$', 'i').test(x.k)) || {}).v; title = g('title') || title; author = g('author') || ''; } catch (e) {}
+  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  const core = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${dxEsc(title)}</dc:title><dc:creator>${dxEsc(String(author))}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`;
+  return dxZip([
+    ['[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`],
+    ['_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`],
+    ['docProps/core.xml', core],
+    ['word/document.xml', doc],
+    ['word/styles.xml', dxStyles()],
+    ['word/numbering.xml', dxNumbering(nums)],
+    ['word/_rels/document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>${rels.join('')}</Relationships>`],
+    ...media
+  ]);
+}
+async function saveDocx() {
+  let blob; try { blob = buildDocx(); } catch (e) { console.error(e); toast('No se pudo crear el archivo de Word.'); return; }
+  const name = docFileName().replace(/\.md$/i, '') + '.docx';
+  if (typeof window.showSaveFilePicker === 'function') {
+    try { const h = await window.showSaveFilePicker({ id: 'markdawn-writer-docx', suggestedName: name, types: [{ description: 'Word', accept: { 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] } }] });
+      const w = await h.createWritable(); await w.write(blob); await w.close(); toast('Guardado: ' + h.name); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  downloadBlob(blob, name);
+}
+CMDS.saveDocx = saveDocx;
 
 /* ---------- Colores en los bloques de código ----------
    Un resaltador pequeño propio. Pinta con la CSS Custom Highlight API, así el texto del bloque no cambia y se puede editar. */
@@ -4904,13 +5492,15 @@ setHlBar();
 /* ---------- Tablas en el propio documento (como en Notion o Google Docs) ----------
    Al pasar el ratón por una tabla: «+» a la derecha (columna) y abajo (fila), un tirador en cada fila y en cada columna
    con su menú, y un estilo de color que se guarda como comentario invisible: <!-- table: blue striped --> */
+const TS_LW = [['lw-none', 'Sin líneas'], ['lw-h', 'Solo horizontales'], ['lw-thin', 'Finas'], ['', 'Normales'], ['lw-med', 'Medias'], ['lw-thick', 'Gruesas']];
 const TS_COLORS = [['', 'Gris', '128,128,128'], ['blue', 'Azul', '43,87,154'], ['green', 'Verde', '46,125,50'], ['teal', 'Turquesa', '0,121,107'], ['orange', 'Naranja', '214,110,20'], ['red', 'Rojo', '190,50,50'], ['purple', 'Lila', '110,70,160']];
 const tUI = document.createElement('div'); tUI.className = 'tblui'; tUI.hidden = true; tUI.setAttribute('aria-hidden', 'true');
 tUI.innerHTML = '<button type="button" class="tb-addc" tabindex="-1">+</button><button type="button" class="tb-addr" tabindex="-1">+</button>' +
   '<button type="button" class="tb-row" tabindex="-1"><svg viewBox="0 0 6 14" width="6" height="14"><g fill="currentColor"><circle cx="3" cy="2.5" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="3" cy="11.5" r="1.3"/></g></svg></button>' +
+  '<button type="button" class="tb-delr" tabindex="-1">×</button><button type="button" class="tb-delc" tabindex="-1">×</button>' +
   '<button type="button" class="tb-col" tabindex="-1"><svg viewBox="0 0 14 6" width="14" height="6"><g fill="currentColor"><circle cx="2.5" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="11.5" cy="3" r="1.3"/></g></svg></button>';
 page.appendChild(tUI);
-const tbAddC = tUI.querySelector('.tb-addc'), tbAddR = tUI.querySelector('.tb-addr'), tbRow = tUI.querySelector('.tb-row'), tbCol = tUI.querySelector('.tb-col');
+const tbAddC = tUI.querySelector('.tb-addc'), tbAddR = tUI.querySelector('.tb-addr'), tbRow = tUI.querySelector('.tb-row'), tbCol = tUI.querySelector('.tb-col'), tbDelR = tUI.querySelector('.tb-delr'), tbDelC = tUI.querySelector('.tb-delc');
 let tHov = null;
 function pageRel(rc) { const pr = page.getBoundingClientRect(), sc = (pr.height / page.offsetHeight) || 1; return { left: (rc.left - pr.left) / sc, top: (rc.top - pr.top) / sc, right: (rc.right - pr.left) / sc, bottom: (rc.bottom - pr.top) / sc, width: rc.width / sc, height: rc.height / sc }; }
 function placeTblUI() {
@@ -4923,6 +5513,11 @@ function placeTblUI() {
   const row = t.rows[tHov.ri], cell = t.rows[0] && t.rows[0].cells[tHov.ci];
   if (row) { const r = pageRel(row.getBoundingClientRect()); Object.assign(tbRow.style, { left: px(tr.left - 7), top: px(r.top + 3), height: px(Math.max(14, r.height - 6)) }); tbRow.hidden = false; } else tbRow.hidden = true;
   if (cell) { const r = pageRel(cell.getBoundingClientRect()); Object.assign(tbCol.style, { left: px(r.left + r.width / 2 - 13), top: px(tr.top - 7) }); tbCol.hidden = false; } else tbCol.hidden = true;
+  // Quitar fila o columna con un clic: la × a la izquierda de la fila y encima de la columna
+  const bodyRow = row && row.parentElement.tagName !== 'THEAD';
+  tbDelR.title = trStr('Eliminar esta fila'); tbDelC.title = trStr('Eliminar esta columna');
+  if (bodyRow) { const r = pageRel(row.getBoundingClientRect()); Object.assign(tbDelR.style, { left: px(tr.left - 28), top: px(r.top + r.height / 2 - 8) }); tbDelR.hidden = false; } else tbDelR.hidden = true;
+  if (cell && t.rows[0].cells.length > 1) { const r = pageRel(cell.getBoundingClientRect()); Object.assign(tbDelC.style, { left: px(r.left + r.width / 2 + 17), top: px(tr.top - 8) }); tbDelC.hidden = false; } else tbDelC.hidden = true;
 }
 page.addEventListener('mousemove', e => {
   if (e.buttons || document.body.classList.contains('blkdragging')) return;
@@ -4955,7 +5550,8 @@ function tsMenuHtml(t) {
   return `<h4>${esc(trStr('Estilo de la tabla'))}</h4><div class="tspal">${TS_COLORS.map(([k, n, rgb]) => `<button data-tc="${k}" title="${esc(trStr(n))}" aria-pressed="${k === cur}" style="--c:${rgb}"></button>`).join('')}</div>` +
     `<button class="opt" data-tt="solid" aria-pressed="${ts.includes('solid')}"><span class="chk">${ts.includes('solid') ? '✓' : ''}</span>${esc(trStr('Encabezado de color intenso'))}</button>` +
     `<button class="opt" data-tt="striped" aria-pressed="${ts.includes('striped')}"><span class="chk">${ts.includes('striped') ? '✓' : ''}</span>${esc(trStr('Filas alternas'))}</button>` +
-    `<button class="opt" data-tt="firstcol" aria-pressed="${ts.includes('firstcol')}"><span class="chk">${ts.includes('firstcol') ? '✓' : ''}</span>${esc(trStr('Primera columna destacada'))}</button>`;
+    `<button class="opt" data-tt="firstcol" aria-pressed="${ts.includes('firstcol')}"><span class="chk">${ts.includes('firstcol') ? '✓' : ''}</span>${esc(trStr('Primera columna destacada'))}</button>` +
+    `<h4>${esc(trStr('Líneas'))}</h4><div class="tslw">${TS_LW.map(([k, n]) => `<button data-lw="${k}" title="${esc(trStr(n))}" aria-pressed="${k === (TS_LW.find(x => x[0] && ts.includes(x[0])) || [''])[0]}"><span class="lw lw-${k || 'normal'}"></span>${esc(trStr(n))}</button>`).join('')}</div>`;
 }
 // Color de una columna: token «c2-green» (columna 2 en verde)
 function colColorHtml(t, ci) {
@@ -4992,6 +5588,7 @@ function applyTs(t, b) {
   let ts = (t.dataset.ts || '').split(/\s+/).filter(Boolean);
   if (b.dataset.tc !== undefined) { ts = ts.filter(x => !TS_COLORS.some(c => c[0] === x)); if (b.dataset.tc) ts.unshift(b.dataset.tc); }
   if (b.dataset.tt) ts = ts.includes(b.dataset.tt) ? ts.filter(x => x !== b.dataset.tt) : [...ts, b.dataset.tt];
+  if (b.dataset.lw !== undefined) { ts = ts.filter(x => !/^lw-/.test(x)); if (b.dataset.lw) ts.push(b.dataset.lw); }
   if (ts.length) t.dataset.ts = ts.join(' '); else delete t.dataset.ts;
 }
 function tblMenu(btn, kind, hFix) {
@@ -5007,7 +5604,7 @@ function tblMenu(btn, kind, hFix) {
   gpop.onclick = e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.dataset.cc !== undefined) { tblDo(hh => setColColor(hh.table, hh.ci, b.dataset.cc), h); tblMenu(btn, kind, h); return; }
-    if (b.dataset.tc !== undefined || b.dataset.tt) { tblDo(hh => applyTs(hh.table, b), h); tblMenu(btn, kind, h); return; }
+    if (b.dataset.tc !== undefined || b.dataset.tt || b.dataset.lw !== undefined) { tblDo(hh => applyTs(hh.table, b), h); tblMenu(btn, kind, h); return; }
     const op = b.dataset.op; if (!op) return; hideGPop();
     tblDo(hh => {
       const c = tblCtxAt(hh, hh.ri, hh.ci);
@@ -5020,6 +5617,8 @@ function tblMenu(btn, kind, hFix) {
   };
 }
 tbRow.onclick = () => tblMenu(tbRow, 'row');
+tbDelR.onclick = () => { const h = tHov && { ...tHov }; if (!h) return; tblDo(hh => { const c = tblCtxAt(hh, hh.ri, hh.ci); TABLE_OPS.delRow(c); if (hh.table.rows.length <= hh.ri) hh.ri = hh.table.rows.length - 1; tHov = editor.contains(hh.table) ? hh : null; }, h); };
+tbDelC.onclick = () => { const h = tHov && { ...tHov }; if (!h) return; tblDo(hh => { const c = tblCtxAt(hh, hh.ri, hh.ci); TABLE_OPS.delCol(c); const n = hh.table.rows[0] ? hh.table.rows[0].cells.length : 0; if (hh.ci >= n) hh.ci = n - 1; tHov = editor.contains(hh.table) ? hh : null; }, h); };
 tbCol.onclick = () => tblMenu(tbCol, 'col');
 // Botón «Estilo» de la pestaña Tabla (con el cursor en la tabla)
 function tableStyleMenu() {
@@ -5116,6 +5715,17 @@ $('#canvas').addEventListener('scroll', () => { if (document.body.classList.cont
 window.addEventListener('resize', schedulePaginate);
 editor.addEventListener('load', schedulePaginate, true);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedulePaginate);
+// Tres vistas: Páginas (hojas), Continua (una hoja larga) y Sin página (el texto ocupa el espacio, como en Obsidian)
+function setViewMode(m, quiet) {
+  PR.np = m === 'free'; document.body.classList.toggle('np', PR.np); document.body.classList.toggle('rlw', PR.rlw !== false);
+  setPageView(m === 'pages', quiet); syncViewBtns();
+}
+function syncViewBtns() {
+  const m = PR.np ? 'free' : PR.pview ? 'pages' : 'cont';
+  document.querySelectorAll('[data-cmd="viewCont"]').forEach(b => b.setAttribute('aria-pressed', String(m === 'cont')));
+  document.querySelectorAll('[data-cmd="viewFree"]').forEach(b => b.setAttribute('aria-pressed', String(m === 'free')));
+  document.querySelectorAll('[data-cmd="readWidth"]').forEach(b => { b.setAttribute('aria-pressed', String(PR.rlw !== false)); b.disabled = m !== 'free'; });
+}
 function setPageView(on, quiet) {
   PR.pview = !!on; document.body.classList.toggle('pv', !!on);
   document.querySelectorAll('[data-cmd="viewPages"]').forEach(b => b.setAttribute('aria-pressed', on ? 'true' : 'false'));
@@ -5225,6 +5835,235 @@ if (MOB) {
   });
 }
 
+/* ---------- Propiedades (front matter YAML): barra de pastillas, editor y panel ---------- */
+// El YAML del principio del archivo no va dentro del documento: se guarda aparte (FMY) y se ve en la barra de arriba,
+// fuera de la hoja (no se imprime ni mueve el texto). Dónde se ve cada propiedad va en <!-- properties: … -->.
+let FMY = null;                                   // texto YAML sin los ---; null = el documento no tiene front matter
+let PSET = { top: null, doc: [], layout: 'ficha' };
+const PROP_RE = /^<!--\s*properties:\s*(.*?)\s*-->\s*$/i, STYLE_RE = /^<!--\s*style:\s*(.*?)\s*-->\s*$/i;
+let DSTYLE = '';                                  // estilo personalizado que recuerda este documento (<!-- style: Nombre -->)
+const PK_LIST = /^(tags|tag|aliases|alias|categories|category|keywords|etiquetas|cssclasses)$/i;
+const PK_DATE = /^(date|created|updated|modified|published|lastmod|fecha|due|deadline)$/i;
+const PK_STATUS = /^(status|estado|state|stage)$/i;
+const PK_BIG = /^(title|description|summary|excerpt|abstract|from|to|subject)$/i;
+const isDateStr = v => /^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2})?.*)?$/.test(String(v));
+function yUnq(s) {
+  s = String(s).trim();
+  if (/^"(.*)"$/.test(s)) { try { return JSON.parse(s); } catch (e) { return s.slice(1, -1); } }
+  if (/^'(.*)'$/.test(s)) return s.slice(1, -1).replace(/''/g, "'");
+  return s.replace(/\s+#.*$/, '');
+}
+function ySplitInline(s) {   // [a, "b, c", d]
+  const out = []; let cur = '', q = null;
+  for (const ch of s) { if (q) { cur += ch; if (ch === q) q = null; } else if (ch === '"' || ch === "'") { q = ch; cur += ch; } else if (ch === ',') { out.push(cur); cur = ''; } else cur += ch; }
+  if (cur.trim()) out.push(cur);
+  return out.map(yUnq).filter(x => x !== '');
+}
+// YAML sencillo, como el de Obsidian, Hugo o Jekyll. Lo que no se entiende (objetos anidados…) se guarda tal cual.
+function yParse(t) {
+  const L = String(t || '').split('\n'), items = []; let i = 0;
+  while (i < L.length) {
+    const l = L[i];
+    if (!l.trim() || /^\s*#/.test(l) || /^\s/.test(l)) { items.push({ kind: 'raw', raw: l }); i++; continue; }
+    const m = l.match(/^("[^"]*"|'[^']*'|[^:#][^:]*?)\s*:(?:\s+(.*?))?\s*$/);
+    if (!m) { items.push({ kind: 'raw', raw: l }); i++; continue; }
+    const k = yUnq(m[1]), v = m[2] == null ? '' : m[2];
+    let j = i + 1; while (j < L.length && (/^\s+\S/.test(L[j]) || /^-(\s|$)/.test(L[j]) || (!L[j].trim() && j + 1 < L.length && /^\s+\S/.test(L[j + 1])))) j++;
+    const sub = L.slice(i + 1, j), rawAll = L.slice(i, j).join('\n');
+    if (/^[|>][+-]?$/.test(v)) {
+      const ind = Math.min(...sub.filter(x => x.trim()).map(x => x.match(/^\s*/)[0].length).concat([99]));
+      items.push({ k, kind: v[0] === '|' ? 'multi' : 'raw', v: sub.map(x => x.slice(Math.min(ind, x.length))).join('\n').replace(/\n+$/, ''), raw: rawAll });
+    } else if (v === '') {
+      if (!sub.length) items.push({ k, kind: PK_LIST.test(k) ? 'list' : 'text', v: PK_LIST.test(k) ? [] : '' });
+      else if (sub.every(x => /^\s*-(\s+(?!.*:\s)(.*))?\s*$/.test(x) || !x.trim())) items.push({ k, kind: 'list', v: sub.filter(x => x.trim()).map(x => yUnq(x.replace(/^\s*-\s?/, ''))) });
+      else items.push({ k, kind: 'raw', raw: rawAll });
+    } else if (/^\[.*\]$/.test(v)) items.push({ k, kind: 'list', v: ySplitInline(v.slice(1, -1)), inline: true });
+    else if (/^\{/.test(v)) items.push({ k, kind: 'raw', raw: rawAll });
+    else {
+      const quoted = /^["']/.test(v), s = yUnq(v);
+      if (!quoted && /^(true|false)$/i.test(s)) items.push({ k, kind: 'bool', v: /^true$/i.test(s) });
+      else if (!quoted && /^-?\d+(\.\d+)?$/.test(s)) items.push({ k, kind: 'num', v: s });
+      else if (isDateStr(s)) items.push({ k, kind: 'date', v: s });
+      else items.push({ k, kind: 'text', v: s });
+    }
+    i = j;
+  }
+  while (items.length && items[items.length - 1].kind === 'raw' && items[items.length - 1].k == null && !items[items.length - 1].raw.trim()) items.pop();
+  return items;
+}
+function yStr(v) {
+  v = String(v);
+  if (v === '') return '""';
+  if (/^[\s]|\s$|^[-?:,\[\]{}#&*!|>'"%@`]|:\s|\s#|:$|\n/.test(v) || /^(true|false|yes|no|null|on|off|~)$/i.test(v) || /^-?\d+(\.\d+)?$/.test(v) || isDateStr(v)) return JSON.stringify(v);
+  return v;
+}
+const yKey = k => /^[\w$][\w $.-]*$/.test(k) && !/\s$/.test(k) ? k : JSON.stringify(k);
+function ySer(items) {
+  return items.map(it => {
+    if (it.kind === 'raw') return it.raw;
+    const k = yKey(it.k);
+    switch (it.kind) {
+      case 'list': return !it.v.length ? `${k}: []` : it.inline ? `${k}: [${it.v.map(yStr).join(', ')}]` : `${k}:\n` + it.v.map(x => '  - ' + yStr(x)).join('\n');
+      case 'bool': return `${k}: ${it.v ? 'true' : 'false'}`;
+      case 'num': return `${k}: ${it.v === '' ? '' : it.v}`.replace(/:\s$/, ':');
+      case 'date': return `${k}: ${it.v}`;
+      case 'multi': return it.v.includes('\n') ? `${k}: |\n` + it.v.split('\n').map(x => '  ' + x).join('\n') : `${k}: ${yStr(it.v)}`;
+      default: return it.v === '' ? `${k}:` : `${k}: ${yStr(it.v)}`;
+    }
+  }).join('\n');
+}
+const PROPS = () => FMY == null ? [] : yParse(FMY);
+function setFmItems(items) { const real = items.filter(it => it.k != null || (it.raw || '').trim()); FMY = real.length ? ySer(items) : null; propsChanged(); }
+function propsChanged() { renderProps(); afterChange(); }
+// Dónde se ve cada propiedad: arriba (barra) y en el documento (ficha, línea o carta)
+function parsePset(s) {
+  const o = { top: null, doc: [], layout: 'ficha' };
+  String(s || '').split('·').forEach(p => { const m = p.match(/^\s*(\w+)\s*=\s*(.*?)\s*$/); if (!m) return; const v = m[2];
+    if (m[1] === 'top') o.top = v === '-' ? [] : v.split(',').map(x => x.trim()).filter(Boolean);
+    else if (m[1] === 'doc') o.doc = v.split(',').map(x => x.trim()).filter(Boolean);
+    else if (m[1] === 'layout' && /^(line|ficha|card|letter|carta|linea)$/.test(v)) o.layout = { card: 'ficha', carta: 'letter', linea: 'line' }[v] || v; });
+  return o;
+}
+function psetComment() {
+  const a = [];
+  if (PSET.top) a.push('top=' + (PSET.top.length ? PSET.top.join(',') : '-'));
+  if (PSET.doc.length) a.push('doc=' + PSET.doc.join(','));
+  if (PSET.doc.length && PSET.layout !== 'ficha') a.push('layout=' + PSET.layout);
+  return a.length ? `<!-- properties: ${a.join(' · ')} -->` : '';
+}
+function topDefault(items) { return items.filter(it => it.k != null && it.kind !== 'raw' && it.kind !== 'multi' && !/^(title|description|summary|excerpt|abstract)$/i.test(it.k) && !(it.kind === 'text' && String(it.v).length > 40)).map(it => it.k); }
+function topKeys(items) { return PSET.top ? PSET.top.filter(k => items.some(it => it.k === k)) : topDefault(items); }
+function fmtDate(v, long) {
+  const m = String(v).match(/^(\d{4})-(\d{2})-(\d{2})/); if (!m) return String(v);
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  try { return d.toLocaleDateString(LANG === 'en' ? 'en-GB' : 'es-ES', long ? { day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return String(v); }
+}
+function tagCls(s) { let h = 0; for (const c of String(s).toLowerCase()) h = (h * 31 + c.charCodeAt(0)) | 0; return 'pc' + (Math.abs(h) % 6); }
+const chipH = (s, extra = '') => `<span class="pchip ${tagCls(s)}${extra}">${esc(s)}</span>`;
+function pillHtml(it) {
+  const k = esc(it.k);
+  if (it.kind === 'list') return it.v.map(x => `<button type="button" class="ppill tag ${tagCls(x)}" data-pk="${k}">${esc(x)}</button>`).join('');
+  if (it.kind === 'date' || (PK_DATE.test(it.k) && isDateStr(it.v))) return `<button type="button" class="ppill" data-pk="${k}" title="${k}">${svgIcon('pDate')}<b>${esc(fmtDate(it.v))}</b></button>`;
+  if (PK_STATUS.test(it.k) && it.v !== '') return `<button type="button" class="ppill tag ${tagCls(it.v)}" data-pk="${k}" title="${k}">${esc(it.v)}</button>`;
+  if (it.kind === 'bool') return `<button type="button" class="ppill" data-pk="${k}">${it.v ? '☑' : '☐'} <b>${k}</b></button>`;
+  const v = String(it.v); if (v === '') return '';
+  return `<button type="button" class="ppill" data-pk="${k}" title="${k}: ${esc(v)}"><span class="pk">${k}</span><b>${esc(v.length > 34 ? v.slice(0, 33) + '…' : v)}</b></button>`;
+}
+let propbar = null;
+function renderPropbar() {
+  if (!propbar) { propbar = document.createElement('div'); propbar.className = 'propbar no-tr'; propbar.id = 'propbar'; page.prepend(propbar); }
+  const on = PR.pbar !== false, items = PROPS().filter(it => it.k != null);
+  document.body.classList.toggle('pbar', on);
+  propbar.hidden = !on; if (!on) return;
+  const tk = topKeys(items), panelOpen = ppane && !ppane.hidden;
+  let h = '';
+  if (!panelOpen || !items.length) h += items.length ? `<button type="button" class="ppill pmain" data-pk="">${svgIcon('props')}<span>${esc(trStr('Propiedades'))}</span><i>${items.length}</i></button>`
+    : `<button type="button" class="ppill pmain padd" data-pk="" title="${esc(trStr('Añadir propiedades (front matter YAML) al documento'))}">+ ${esc(trStr('Propiedades'))}</button>`;
+  tk.forEach(k => { const it = items.find(x => x.k === k); if (it) h += pillHtml(it); });
+  propbar.innerHTML = h;
+  propbar.classList.toggle('empty', !items.length);
+  requestAnimationFrame(fitPropbar);
+}
+function fitPropbar() {   // si no caben, las últimas se juntan en «+N»
+  if (!propbar || propbar.hidden) return;
+  const pills = [...propbar.querySelectorAll('.ppill:not(.pmain):not(.pmore)')]; pills.forEach(p => p.hidden = false);
+  const old = propbar.querySelector('.pmore'); if (old) old.remove();
+  if (propbar.scrollWidth <= propbar.clientWidth + 1) return;
+  const more = document.createElement('button'); more.type = 'button'; more.className = 'ppill pmore'; more.dataset.pk = ''; propbar.appendChild(more);
+  let n = 0; for (let i = pills.length - 1; i >= 0 && propbar.scrollWidth > propbar.clientWidth + 1; i--) { pills[i].hidden = true; n++; more.textContent = '+' + n; }
+}
+window.addEventListener('resize', () => requestAnimationFrame(fitPropbar));
+// Fijar la barra al desplazar: se queda arriba del todo mientras el texto pasa por debajo
+function pinPropbar() {
+  if (!propbar) return;
+  const cv = $('#canvas'), pin = PR.ppin && !propbar.hidden;
+  propbar.style.transform = ''; propbar.classList.remove('stuck');
+  if (!pin) return;
+  const z = parseFloat(page.style.zoom) || 1, br = propbar.getBoundingClientRect(), top = cv.getBoundingClientRect().top + 6;
+  if (br.top < top) { propbar.style.transform = `translateY(${((top - br.top) / z).toFixed(1)}px)`; propbar.classList.add('stuck'); }
+}
+$('#canvas').addEventListener('scroll', pinPropbar, { passive: true });
+// Ventanita de propiedades junto a la barra (o editor YAML en la versión gratuita)
+let pcard = null;
+function closePropCard() { if (pcard) { pcard.remove(); pcard = null; document.removeEventListener('mousedown', pcardOut, true); } }
+function pcardOut(e) { if (pcard && !pcard.contains(e.target) && !(propbar && propbar.contains(e.target)) && !e.target.closest('#propdoc, .pmenu')) closePropCard(); }
+function openPropCard(anchor, key) {
+  if (ppane && !ppane.hidden) { closePropCard(); focusPropKey(ppane, key); return; }
+  closePropCard();
+  pcard = document.createElement('div'); pcard.className = 'pcard no-tr'; document.body.appendChild(pcard);
+  fillProps(pcard, 'card', key);
+  const r = (anchor || propbar || page).getBoundingClientRect(), W = Math.min(520, window.innerWidth - 16);
+  pcard.style.width = W + 'px'; pcard.style.left = Math.max(8, Math.min(r.left, window.innerWidth - W - 8)) + 'px';
+  pcard.style.top = Math.min(r.bottom + 6, window.innerHeight - 160) + 'px'; pcard.style.maxHeight = (window.innerHeight - Math.min(r.bottom + 6, window.innerHeight - 160) - 12) + 'px';
+  setTimeout(() => document.addEventListener('mousedown', pcardOut, true), 0);
+  focusPropKey(pcard, key);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && pcard) { e.stopPropagation(); closePropCard(); } }, true);
+// Visual (Pro) o YAML a mano (gratuita y Pro sin activar)
+function fillProps(box, where, key) {
+  if (typeof propsVisual === 'function' && proOn() && !box._yaml) return propsVisual(box, where);
+  yamlEditor(box, where);
+}
+function focusPropKey(box, key) { if (!key || !box) return; setTimeout(() => { const r = box.querySelector(`[data-row="${CSS.escape(key)}"]`); if (r) { r.scrollIntoView({ block: 'nearest' }); const i = r.querySelector('input:not([type=checkbox]), textarea'); if (i) i.focus(); } }, 0); }
+function yamlEditor(box, where) {
+  const pro = typeof proOn === 'function', back = pro && proOn();
+  box.innerHTML = `<div class="ph"><b>${esc(trStr('Propiedades'))}</b><span>${esc(trStr('front matter YAML, al principio del archivo'))}</span></div>
+    <textarea class="pyaml" spellcheck="false" placeholder="title: Mi documento&#10;tags: [ideas, trabajo]&#10;date: ${new Date().toISOString().slice(0, 10)}">${esc(FMY || '')}</textarea>
+    ${pro && !back ? `<div class="pnote">${esc(trStr('Writer Pro tiene un editor visual de propiedades: fechas con calendario, etiquetas de colores y casillas.'))} <a href="#" data-pa="pro">${esc(trStr('Ver Writer Pro'))}</a></div>` : ''}
+    <div class="pfoot">${back ? `<a href="#" data-pa="visual">${esc(trStr('Volver al editor visual'))}</a>` : '<span></span>'}${where === 'card' ? `<span><button type="button" class="btn-sec" data-pa="cancel">${esc(trStr('Cancelar'))}</button> <button type="button" class="btn-pri" data-pa="ok">${esc(trStr('Aceptar'))}</button></span>` : ''}</div>`;
+  const ta = box.querySelector('textarea');
+  const apply = () => { const t = ta.value.replace(/\s+$/, ''); FMY = t.trim() ? t : null; propsChanged(); };
+  if (where !== 'card') ta.addEventListener('input', () => { clearTimeout(ta._t); ta._t = setTimeout(apply, 400); });
+  ta.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && where === 'card') { e.preventDefault(); apply(); closePropCard(); } });
+  box.onclick = e => { const a = e.target.closest('[data-pa]'); if (!a) return; e.preventDefault();
+    if (a.dataset.pa === 'ok') { apply(); closePropCard(); } else if (a.dataset.pa === 'cancel') closePropCard();
+    else if (a.dataset.pa === 'pro') { closePropCard(); proUpsell && proUpsell('El editor visual de propiedades'); }
+    else if (a.dataset.pa === 'visual') { box._yaml = false; if (where === 'card') { box._yaml = false; fillProps(box, where); } else renderProps(); } };
+  if (where === 'card') setTimeout(() => ta.focus(), 0);
+}
+// Panel lateral de propiedades: a la derecha, a la izquierda o junto al Markdown
+let ppane = null;
+function placePpane() {
+  if (!ppane) { ppane = document.createElement('aside'); ppane.className = 'ppane no-tr'; ppane.id = 'ppane'; ppane.hidden = true; }
+  const pos = PR.ppPos || 'right', da = document.querySelector('.docarea'), narrow = window.innerWidth <= 760;
+  ppane.classList.toggle('inmd', pos === 'md' && !mdpane.hidden && !narrow);
+  if (pos === 'md' && !mdpane.hidden && !narrow) { if (ppane.parentElement !== mdpane) mdpane.prepend(ppane); }
+  else if (pos === 'left' && !narrow) { if (ppane.nextElementSibling !== da) da.before(ppane); }
+  else if (ppane.previousElementSibling !== da) da.after(ppane);
+  ppane.classList.toggle('left', pos === 'left');
+}
+function setPropPanel(open) {
+  placePpane(); ppane.hidden = !open; PR.pp = !!open; savePrefs(); syncPropBtns();
+  if (open) { closePropCard(); fillProps(ppane, 'pane'); }
+  renderPropbar(); try { schedulePaginate(); } catch (e) {}
+}
+function syncPropBtns() {
+  const set = (c, v) => document.querySelectorAll(`[data-cmd="${c}"]`).forEach(b => b.setAttribute('aria-pressed', String(!!v)));
+  set('propPanel', ppane && !ppane.hidden); set('propBar', PR.pbar !== false); set('propPin', !!PR.ppin); set('propDoc', PR.pdoc !== false);
+  const pos = PR.ppPos || 'right'; set('ppRight', pos === 'right'); set('ppLeft', pos === 'left'); set('ppMd', pos === 'md');
+}
+function renderProps() {
+  renderPropbar();
+  if (ppane && !ppane.hidden) { const a = document.activeElement; if (!(a && ppane.contains(a) && /TEXTAREA|INPUT/.test(a.tagName))) fillProps(ppane, 'pane'); }
+  if (typeof renderPropdoc === 'function') renderPropdoc(); else { const d = document.getElementById('propdoc'); if (d) d.remove(); }
+  requestAnimationFrame(pinPropbar);
+}
+// Clic en una pastilla: la ventanita (o el panel, si está abierto) con esa propiedad
+page.addEventListener('click', e => { const p = e.target.closest('.ppill'); if (!p || !propbar.contains(p)) return; e.preventDefault(); openPropCard(p.classList.contains('pmain') || p.classList.contains('pmore') ? propbar : p, p.dataset.pk); });
+page.addEventListener('mousedown', e => { if (e.target.closest('.propbar')) e.preventDefault(); });
+Object.assign(CMDS, {
+  propPanel: () => { if (window.innerWidth <= 760) return openPropCard(propbar, ''); setPropPanel(!(ppane && !ppane.hidden)); },
+  propBar: () => { PR.pbar = PR.pbar === false; savePrefs(); syncPropBtns(); renderProps(); try { schedulePaginate(); } catch (e) {} },
+  propPin: () => { PR.ppin = !PR.ppin; savePrefs(); syncPropBtns(); pinPropbar(); },
+  propDoc: () => { PR.pdoc = PR.pdoc === false; savePrefs(); syncPropBtns(); renderProps(); },
+  ppRight: () => { PR.ppPos = 'right'; savePrefs(); syncPropBtns(); setPropPanel(true); },
+  ppLeft: () => { PR.ppPos = 'left'; savePrefs(); syncPropBtns(); setPropPanel(true); },
+  ppMd: () => { PR.ppPos = 'md'; savePrefs(); syncPropBtns(); if (mdpane.hidden) setMdPanel(true); setPropPanel(true); },
+  props: () => openPropCard(propbar, '')
+});
+
+
+
 /* ---------- Arranque ---------- */
 (function init() {
   let draft = null, prefs = null;
@@ -5240,14 +6079,18 @@ if (MOB) {
   normalizeEditor();
   lastMd = getMarkdown();
   H.reset();
+  tabsInit(); syncAutoSaveBtn();
   const wide = window.innerWidth > 1100;
   setMdPos(prefs ? (prefs.bottom ? 'bottom' : prefs.mdLeft ? 'left' : 'right') : 'right');
   setMdPanel(prefs ? !!prefs.md : wide);
   setNav(prefs ? !!prefs.nav : false);
+  applySpell(false);
+  try { syncPropBtns(); if (PR.pp && window.innerWidth > 760) setPropPanel(true); renderProps(); } catch (e) {}
   setZoom(100);
   applyAppearance();
   // En pantallas estrechas (móvil) siempre empieza en vista continua: la hoja A4 entera queda diminuta
   setPageView(window.innerWidth < 760 ? false : PR.pview == null ? window.innerWidth >= 1000 : !!PR.pview, true);
+  if (PR.np) setViewMode('free', true); else syncViewBtns();
   if (MOB) setMobEdit(false);
   trTree(document.body);
   if (LANG === 'en') mdArea.setAttribute('aria-label', 'Markdown code');
