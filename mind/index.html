@@ -133,6 +133,7 @@
   .sw-ico { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; font-weight: 600; }
   .sw-ico i { display: block; width: 16px; height: 4px; margin-top: 1px; border: 1px solid rgba(0,0,0,.15); }
   .gallery { display: flex; gap: 3px; padding: 3px; border: 1px solid var(--line-soft); border-radius: 3px; }
+  .gtile.g-hide { display: none; }
   .gtile { width: 58px; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 1px solid transparent; border-radius: 2px; background: none; cursor: pointer; padding: 2px; }
   .gtile:hover { border-color: var(--line); background: #f6f6f6; }
   .gtile[aria-pressed="true"] { border-color: var(--acc); background: var(--acc-tint); }
@@ -213,6 +214,13 @@
   .cv-hdl { position: absolute; left: 0; top: 0; z-index: 6; } .cv-hv { cursor: ew-resize; } .cv-hh { cursor: ns-resize; } .cv-hv:hover, .cv-hh:hover { background: rgba(14,116,112,.35); border-radius: 3px; }
   .cv-mv, .cv-rs { background: #0e7470; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.3); } .cv-mv { cursor: move; } .cv-rs { cursor: nwse-resize; border-radius: 3px 3px 8px 3px; }
   .n.rm-bar { white-space: nowrap; overflow: visible; } .n.rm-bar .t { white-space: nowrap; }
+  .cvbar { position: absolute; z-index: 29; display: flex; align-items: center; gap: 2px; background: var(--panel, #fff); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.13); padding: 3px 4px 3px 10px; font-size: 12.5px; white-space: nowrap; }
+  .cvbar .cvb-l { font-weight: 600; color: var(--acc); margin-right: 6px; } .cvbar i { width: 1px; align-self: stretch; background: var(--line); margin: 3px 3px; }
+  .cvbar button { border: 0; background: none; border-radius: 6px; padding: 4px 8px; cursor: pointer; color: inherit; font: inherit; } .cvbar button:hover { background: var(--hov, rgba(14,116,112,.1)); } .cvbar button.on { background: var(--acc); color: #fff; }
+  .cv-add { position: absolute; left: 0; top: 0; z-index: 5; white-space: nowrap; width: auto; display: block; border: 1px dashed transparent; background: none; color: var(--muted, #7a8a90); font: 12px/1 inherit; font-family: inherit; padding: 4px 8px; border-radius: 6px; cursor: pointer; opacity: .55; transition: opacity .15s; }
+  .cv-add:hover { opacity: 1; border-color: currentColor; color: var(--acc); background: var(--panel, #fff); }
+  body.exporting .cv-add, body.demo-hidecv .cv-add { display: none; }
+  @media (hover: none) { .cv-add { opacity: .9; } }
   .n.cv-hid { opacity: 0; } .n.cv-hid.sel, .n.cv-hid:hover { opacity: .45; }
   .cv-tpls { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .cv-tpls .btn-sec { text-align: left; padding: 8px 10px; }
   .findbar { position: absolute; top: 10px; right: 14px; z-index: 31; display: flex; flex-wrap: wrap; align-items: center; gap: 3px; background: var(--panel, #fff); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 6px 20px rgba(0,0,0,.16); padding: 5px 6px; width: min(380px, calc(100% - 28px)); }
@@ -599,7 +607,9 @@
   .n.d1.s-line { padding: 3px 4px 2px; }
   .n.s-ellipse, .n.s-wave { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); }
   .n.s-ellipse { border-radius: 50%; padding: 10px 20px; }
-  .n.s-circ { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); border-radius: 50%; aspect-ratio: 1; display: grid; place-items: center; padding: 12px; text-align: center; } .n.s-circ .t { max-width: 8em; }
+  .n.s-circ, .n.s-circs { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); border-radius: 50%; aspect-ratio: 1; display: grid; place-items: center; padding: 12px; text-align: center; } .n.s-circ .t, .n.s-circs .t { max-width: 8em; }
+  .n.s-circs { background: var(--fill, var(--bc)); border-color: var(--fill, var(--bc)); color: var(--tc, #fff); }
+  .n.circ-fit { padding: 0 !important; overflow: visible; } .n.circ-fit .t { overflow-wrap: break-word; }
   .n.s-wave { border-radius: 28px 8px 28px 8px / 8px 28px 8px 28px; padding: 8px 16px; }
   
   .n.s-handcard { background: var(--fill, var(--nbase)); border-color: var(--bc); border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px; padding: 7px 16px; box-shadow: 2px 3px 0 -0.5px color-mix(in srgb, var(--bc) 55%, transparent); }
@@ -800,7 +810,6 @@
     <button class="tab" data-tab="formato" role="tab">Formato</button>
     <button class="tab" data-tab="diseno" role="tab">Diseño</button>
     <button class="tab" data-tab="vista" role="tab">Vista</button>
-    <button class="tab ctx-tab" data-tab="lienzo" role="tab" hidden>Lienzo</button>
     <span class="tabs-sp"></span>
     <button class="tab-pin" data-cmd="ribbonPin" title="Contraer o fijar la cinta (Ctrl+F1)"></button>
   </div>
@@ -954,33 +963,6 @@
         <button class="rb" data-cmd="resetAll" title="Devuelve todos los temas a su sitio automático"><span class="ico" data-i="reset"></span>Recolocar todo</button>
       </div>
     </div><div class="grp-label">Fondo y espaciado</div></div>
-  </div>
-  <div class="panel" data-panel="lienzo">
-    <div class="grp" id="grp-canvas"><div class="grp-body">
-      <button class="rb big" data-cmd="cvEdit" title="Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro"><span class="ico" data-i="canvas"></span><span>Editar lienzo</span></button>
-      <div class="stack tight">
-        <button class="rb" data-cmd="cvSplitH" title="Lienzo: divide el recuadro seleccionado en dos, uno al lado del otro">⬌ Dividir recuadro</button>
-        <button class="rb" data-cmd="cvSplitV" title="Lienzo: divide el recuadro seleccionado en dos, uno encima del otro">⬍ Dividir recuadro</button>
-        <button class="rb" data-cmd="cvMerge" title="Lienzo: une los dos recuadros seleccionados (Ctrl + clic)">⧉ Unir recuadros</button>
-        <button class="rb" data-cmd="cvRemove" title="Lienzo: quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas">✕ Quitar recuadro</button>
-      </div>
-      <div class="stack tight">
-        <button class="rb" data-cmd="cvTitles" title="Lienzo: muestra u oculta los títulos de los recuadros">Títulos de recuadros</button>
-        <button class="rb" data-cmd="cvFrames" title="Lienzo: muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)">Bordes de recuadros</button>
-        <button class="rb" data-cmd="cvBg" title="Lienzo: imagen de fondo (suave con bordes; tal cual sin bordes)">Imagen de fondo…</button>
-        <button class="rb" data-cmd="cvBgOff" title="Lienzo: quita la imagen de fondo">Quitar fondo</button>
-      </div>
-      <div class="stack tight">
-        <button class="rb" data-cmd="cvRatio" title="Lienzo: proporción 16:9, 4:3 o 1:1">Proporción</button>
-        <button class="rb" data-cmd="cvMobile" title="Lienzo: cambia la colocación en el móvil (A, B, C, D)">Colocación en móvil</button>
-        <button class="rb" data-cmd="cvPreview" title="Lienzo: ver como en el móvil o como en el ordenador">Ver como móvil / ordenador</button>
-        <button class="rb" data-cmd="cvGrid" title="Vuelve a colocar los recuadros en la cuadrícula, con columnas y filas iguales">Volver a la cuadrícula</button>
-        <button class="rb" data-cmd="cvSaveTpl" title="Lienzo: guarda sus recuadros como plantilla propia en «Lienzo nuevo»">⭐ Guardar como plantilla</button>
-      </div>
-    </div><div class="grp-label">Lienzo</div></div>
-    <div class="grp"><div class="grp-body">
-      <button class="rb big" data-cmd="rmDates" title="Hoja de ruta: fechas de inicio y fin de la tarea seleccionada (también se mueve arrastrando la barra)"><span class="ico" data-i="calendar"></span><span>Fechas</span></button>
-    </div><div class="grp-label">Hoja de ruta</div></div>
   </div>
   <div class="panel" data-panel="vista">
     <div class="grp"><div class="grp-body">
@@ -1548,7 +1530,7 @@ const shapeBtn = k => `<button data-cmd="shape" data-v="${k}" title="${SHAPES[k]
 const shapeGroupsHtml = cls => Object.entries(SHAPE_GROUPS).map(([g, ks]) => `<div class="shcat">${g}</div><div class="${cls}">${ks.filter(k => SHAPES[k]).map(shapeBtn).join('')}</div>`).join('')
   + `<div class="shcat">Mis formas</div><div class="${cls}">${Object.entries(CSHAPES).map(([id, c]) => `<span class="csb"><button data-cmd="shape" data-v="c:${id}" title="${esc(c.name)}">${c.svg ? `<img src="${artUrl(c, '#2b6f74')}" alt="" style="width:40px;height:22px;object-fit:${c.fit === 'contain' ? 'contain' : 'fill'}">` : cshapeIcon(c.d)}</button><i data-csdel="${id}" title="Quitar de mis formas">×</i><i data-csexp="${id}" class="csexp" title="${esc(trStr('Exportar esta forma a un archivo'))}">⤓</i></span>`).join('')}<button data-cmd="drawShape" title="Dibujar una forma nueva" class="csnew">✏️</button><button data-cmd="importShape" title="Importar una forma: un SVG (solo el contorno o con sus colores) o una forma exportada de MarkDawn" class="csnew" style="font-size:11px;font-weight:700">SVG</button></div>`;
 // Formas en las que una imagen necesita mucho margen para quedar dentro
-const ROUNDISH = ['circ', 'ellipse', 'blob', 'pebble', 'cloud', 'petal', 'leaf', 'hand', 'handcard', 'marker', 'sketch', 'wave'];
+const ROUNDISH = ['circ', 'circs', 'ellipse', 'blob', 'pebble', 'cloud', 'petal', 'leaf', 'hand', 'handcard', 'marker', 'sketch', 'wave'];
 // Formas dibujadas por el usuario: id -> { name, d } (trazado en una caja de 0 a 100)
 const CSHAPES = {};
 const cshapeIcon = d => `<svg viewBox="0 0 52 36"><svg x="6" y="7" width="40" height="22" viewBox="-2 -2 104 104" preserveAspectRatio="none"><path d="${d}" fill="#e1f2f2" stroke="#0d767a" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></svg>`;
@@ -1807,7 +1789,7 @@ function lumOf(c) {
 function contrastText(c) { const L = lumOf(c); return L == null ? null : L > 0.4 ? '#1f2224' : '#ffffff'; }
 const METAL_BG = { gold: '#d9ad3c', silver: '#c4c9cf', bronze: '#c07a40' };
 const PLATES = ['pgold', 'psilver', 'pbronze', 'pdark'];
-const SOLIDISH = ['solid', 'g3d', 'pill3d', 'button'];
+const SOLIDISH = ['solid', 'g3d', 'pill3d', 'button', 'circs'];
 const CLEAR_SHAPES = ['line', 'plain', 'mark', 'box', 'card'];
 // Luminosidad aproximada de lo que hay detrás del texto de un tema
 // ¿El fondo de la pizarra es oscuro? (modo oscuro, o una textura oscura como Pizarra o Plano)
@@ -1826,7 +1808,7 @@ function bgLum(sh, fill, bc) {
 function shapeOf(n, d, st) {
   const sh = eff(n, 'shape', d);
   if (sh && sh !== 'auto') return (LITE && !TRIAL && !LITE_OK.shape.includes(sh)) || (sh.startsWith('c:') && !CSHAPES[sh.slice(2)]) ? 'round' : sh;
-  if (d === 0) return 'solid';
+  if (d === 0) return info(n.id) && info(n.id).r.structure === 'bubble' && !(LITE && !TRIAL) ? 'circs' : 'solid';
   const pi = info(n.id) && info(n.id).p, own = pi && ownerOf(pi);
   if (own && (own !== info(n.id).r || !OLDST.includes(stOfOwner(own)))) {   // dentro de una estructura por rama o de una de las nuevas
     const ost = stOfOwner(own), rel = d - info(own.id).d;
@@ -1961,11 +1943,28 @@ function syncNodes() {
       if (editId !== n.id) { const h = (csh && csh.svg ? artDiv(csh, inf.color) : csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none">${fgr ? `<defs><linearGradient id="fg${n.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${esc(fgr[0])}"/><stop offset="1" stop-color="${esc(fgr[1])}"/></linearGradient></defs>` : ''}<path d="${csh.d}"${fgr ? ` style="fill:url(#fg${n.id})"` : ''} vector-effect="non-scaling-stroke"/><path class="sk" d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
       { const ins = !mOn && BS_INSET[sh];   // formas con puntas o muescas: el texto, dentro de la parte útil (ya con su letra y su texto)
         if (ins && !n.sz) { el.style.paddingLeft = el.style.paddingRight = '8px'; let T = (el.clientWidth - 16) / (1 - ins[0] - ins[1]); for (let k = 0; k < 2; k++) { el.style.paddingLeft = Math.round(ins[0] * T + 8) + 'px'; el.style.paddingRight = Math.round(ins[1] * T + 8) + 'px'; T = el.offsetWidth; } } }
+      circFit(el, n, (sh === 'circ' || sh === 'circs') && !mOn && !n.sz);
       kidsOf(n).forEach(walk);
     };
     walk(r);
   });
   for (const [id, el] of EL) if (!seen.has(id)) { el.remove(); EL.delete(id); }
+}
+
+// Círculos de verdad: el texto se reparte en un bloque casi cuadrado y el diámetro es su diagonal (más un margen), así nunca se sale
+function circFit(el, n, on) {
+  el.classList.toggle('circ-fit', !!on); const t = el.querySelector('.t');
+  if (!on || !t) { if (t) t.style.maxWidth = t.style.width = ''; return; }
+  if (editId === n.id) return;   // mientras se escribe, el círculo no salta a cada letra
+  el.style.width = el.style.height = 'auto'; t.style.width = ''; t.style.maxWidth = 'none'; t.style.whiteSpace = 'nowrap';
+  const w1 = t.getBoundingClientRect().width / (V.s || 1), lh = t.offsetHeight || 18; t.style.whiteSpace = '';
+  const m = document.createElement('span'); m.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap'; el.appendChild(m);
+  let wm = 0; for (const wd of (t.textContent || '').split(/\s+/)) { if (!wd) continue; m.textContent = wd; wm = Math.max(wm, m.getBoundingClientRect().width / (V.s || 1)); } m.remove();
+  let w = Math.max(lh * 1.4, Math.min(wm, lh * 7), Math.sqrt(w1 * lh) * 1.25); if (w > w1) w = w1;
+  t.style.maxWidth = Math.ceil(w + 2) + 'px';
+  const tw = Math.max(t.scrollWidth, t.offsetWidth), th = t.offsetHeight, bw = parseFloat(getComputedStyle(el).borderTopWidth) || 0;
+  const D = Math.ceil(Math.hypot(tw, th) + 14 + 2 * bw);
+  el.style.width = el.style.height = D + 'px';
 }
 
 /* ---------- Colocación automática ---------- */
@@ -2745,8 +2744,8 @@ function render(opts = {}) {
   updateRibbon(); drawMini(); status(); try { updateDocName(); } catch (e) {}
   if (!opts.light) { schedOutline(); schedSave(); }
   if (FIND) markHits();
-  try { cvHandles(); } catch (e) {}
-  { const t = $('[data-tab="lienzo"]'); if (t) t.hidden = !doc.roots.some(r => r.structure === 'canvas' || r.structure === 'roadmap'); }
+  try { cvHandles(); } catch (e) {} try { cvUi(); } catch (e) {}
+
 }
 function placeNewRoots() {
   doc.roots.forEach((r, i) => {
@@ -3289,7 +3288,11 @@ function tweenTo(t, ms = 320) {
 }
 function bbox(ids) {
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  for (const [id, p] of POS) { if (ids && !ids.has(id)) continue; x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x + p.w); y1 = Math.max(y1, p.y + p.h); }
+  const add = (x, y, w, h) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + h); };
+  for (const [id, p] of POS) { if (ids && !ids.has(id)) continue; add(p.x, p.y, p.w, p.h);
+    // los recuadros de un lienzo y la rejilla de una hoja de ruta también cuentan (aunque estén vacíos)
+    if (p.cvc) add(p.x + p.cvc.dx, p.y + p.cvc.dy, p.cvc.w, p.cvc.h); if (p.cv) add(p.x + p.cv.dx, p.y + p.cv.dy, p.cv.w, p.cv.h);
+    if (p.rm) add(p.x + p.rm.lab, p.y + p.rm.top, (p.rm.hi - p.rm.lo) / 864e5 * p.rm.ppd, p.rm.h); }
   return isFinite(x0) ? { x0, y0, x1, y1 } : null;
 }
 function fit(instant, whole, ids) {
@@ -3724,6 +3727,7 @@ board.addEventListener('wheel', e => {
 }, { passive: false });
 
 function onDblEmpty(e) {
+  { const b = cvBoxAt(e.clientX, e.clientY); if (b) { addEventListener('pointerup', () => setTimeout(() => cvAddCard(b), 0), { once: true }); return; } }
   const a = PR.nav.dbl;
   if (a === 'fit') { if (sel.size) fit(false, true, new Set(sel)); else fit(false, true); return; }
   if (a === 'topic') { const w = toWorld(e.clientX, e.clientY); addFloat(w.x, w.y); }
@@ -5152,6 +5156,8 @@ function cmd(c, el) {
     case 'open': openPicked(); break;
     case 'importDoc': pickImportDoc(); break;
     case 'canvasNew': cvNewDialog(); break;
+    case 'cvMenu': cvMenu(el); break;
+    case 'cvAddHere': { const n = primary(), c = n && cvRole(n); if (c) cvAddCard(c.block); break; }
     case 'cvSplitH': cvSplit('h'); break;
     case 'cvSplitV': cvSplit('v'); break;
     case 'cvMerge': cvMerge(); break;
@@ -5210,7 +5216,7 @@ function cmd(c, el) {
     case 'moveDown': moveSib(1); break;
     case 'resetPos': resetPos(false); break;
     case 'resetAll': resetPos(true); break;
-    case 'shape': setProp('shape', v === 'auto' ? undefined : v); hidePop(); break;
+    case 'shape': setProp('shape', v === 'auto' ? undefined : v); if (!(el && el.closest && el.closest('#pop.gx'))) hidePop(); break;
     case 'drawShape': hidePop(); drawShapeDialog(); break;
     case 'importShape': hidePop(); importSvgShape(); break;
     case 'nodeImg': nodeImgMenu(el); break;
@@ -5226,7 +5232,7 @@ function cmd(c, el) {
     case 'upper': setProp('case', curVal('case') === 'upper' ? overrideOrClear('case', 'normal') : 'upper'); break;
     case 'under': toggleProp('under'); break;
     case 'align': setProp('align', v === 'left' ? overrideOrClear('align', 'left') : v); break;
-    case 'mapStyle': applyMapStyle(v); hidePop(); break;
+    case 'mapStyle': applyMapStyle(v); if (!(el && el.closest && el.closest('#pop.gx'))) hidePop(); break;
     case 'dark': PR.dark = !PR.dark; savePrefs(); applyPanels(); render({ light: true }); break;
     case 'appearanceMenu': appearanceMenu(el); break;
     case 'bgMenu': bgMenu(el); break;
@@ -5307,11 +5313,11 @@ function cmd(c, el) {
   }
 }
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-cmd]'); if (!b || b.closest('.board') && !b.closest('.tools, .qbar, .fpane')) return;
+  const b = e.target.closest('[data-cmd]'); if (!b || b.closest('.board') && !b.closest('.tools, .qbar, .fpane, .cvbar')) return;
   if (b.closest('#ctx')) return;
   cmd(b.dataset.cmd, b);
 
-  if (b.closest('#pop') && b.dataset.keep == null) hidePop();
+  if (b.closest('#pop') && b.dataset.keep == null && !(pop.classList.contains('gx') && /^(struct|mapStyle|shape)$/.test(b.dataset.cmd))) hidePop();
 });
 // La cinta no roba el foco al editar
 document.querySelector('.ribbon').addEventListener('mousedown', e => { if (e.target.closest('button')) e.preventDefault(); });
@@ -5330,7 +5336,19 @@ function openPop(btn, html) {
   const ph = pop.offsetHeight; pop.style.top = (r.bottom + 4 + ph > innerHeight - 8 ? Math.max(8, Math.min(r.top - ph - 4, innerHeight - ph - 8)) : r.bottom + 4) + 'px';
 }
 // Galería desplegada en su sitio: el panel se pone justo encima de la fila de la cinta
-function panelHints() { $$('.ribbon .panel').forEach(p => { if (p.hidden) return; const m = p.scrollWidth - p.clientWidth; p.classList.toggle('more-r', m > 4 && p.scrollLeft < m - 4); p.classList.toggle('more-l', m > 4 && p.scrollLeft > 4); }); }
+// Si la cinta no cabe por poco, las galerías de la cinta enseñan menos miniaturas (el ▾ sigue abriéndolas todas) en vez de sacar la barra de desplazamiento
+function fitRibbon() {
+  const p = $$('.ribbon .panel').find(x => !x.hidden); if (!p) return;
+  const gs = [...p.querySelectorAll('#mapstyles, #structs')]; if (!gs.length) return;
+  gs.forEach(g => g.querySelectorAll('.g-hide').forEach(t => t.classList.remove('g-hide')));
+  if (document.body.classList.contains('demo-on') || innerWidth < 760 || PR.ribbonPos !== 'top') return;
+  const vis = g => [...g.querySelectorAll(':scope > .gtile:not(.gmine):not(.g-hide)')];
+  for (let k = 0; k < 12 && p.scrollWidth - p.clientWidth > 1; k++) {
+    const g = gs.map(g => [g, vis(g)]).filter(([, v]) => v.length > 4).sort((a, b) => b[1].length - a[1].length)[0]; if (!g) break;
+    g[1][g[1].length - 1].classList.add('g-hide');
+  }
+}
+function panelHints() { try { fitRibbon(); } catch (e) {} $$('.ribbon .panel').forEach(p => { if (p.hidden) return; const m = p.scrollWidth - p.clientWidth; p.classList.toggle('more-r', m > 4 && p.scrollLeft < m - 4); p.classList.toggle('more-l', m > 4 && p.scrollLeft > 4); }); }
 addEventListener('resize', panelHints); $$('.ribbon .panel').forEach(p => p.addEventListener('scroll', panelHints, { passive: true }));
 // Formas: la misma caja de la cinta se abre hacia abajo (como la galería de estilos), con todas las formas por grupos
 function shapesPanel() {
@@ -5345,6 +5363,9 @@ function galleryExpand(g, html) {
 }
 function hidePop() { pop.classList.remove('gx'); pop.hidden = true; if (PR.ribbonMode === 'tabs' && $('#ribbon').classList.contains('peek')) closePeekSoon(); if (pop._from === 'qbar') { pop._from = ''; placeQbar(); } }
 document.addEventListener('mousedown', e => { if (!pop.hidden && !pop.contains(e.target) && !e.target.closest('[data-cmd$="Menu"], [data-cmd="lang"]')) hidePop(); });
+// Las galerías abiertas (estilos, estructuras, formas) siguen abiertas mientras se prueban; se cierran al sacar el ratón o al hacer clic fuera
+{ let gxT = 0; pop.addEventListener('mouseleave', e => { if (!pop.classList.contains('gx') || e.relatedTarget === null && e.clientY < 0) return; clearTimeout(gxT); gxT = setTimeout(() => { if (pop.classList.contains('gx') && !pop.matches(':hover')) hidePop(); }, 450); });
+  pop.addEventListener('mouseenter', () => clearTimeout(gxT)); }
 let palAnchor = null;
 const fixedAnchor = el => { const r = el.getBoundingClientRect(); return { getBoundingClientRect: () => r, closest: () => null }; };
 function palMenu(el) {
@@ -5499,6 +5520,9 @@ function openCtxAt(e, id) {
     if (!many) items.push(['relation', 'rel', 'Relación con…']);
     if (!many && info(id) && info(id).p) items.push(['branchLabel', 'rel', n.btext || n.bimg ? 'Editar texto en la rama…' : 'Texto o imagen en la rama…']);
     if (!many && n.kids.length) items.push(['fold', 'fold', n.col ? 'Desplegar rama' : 'Plegar rama', 'Ctrl+/']);
+    { const cr = !many && cvRole(n); if (cr) { items.push('-', ['cvAddHere', 'child', 'Añadir una tarjeta']); if (!cr.card) items.push(['cvSplitH', 'shape', 'Dividir el recuadro (lado a lado)'], ['cvSplitV', 'shape', 'Dividir el recuadro (arriba y abajo)'], ['cvRemove', 'del', 'Quitar el recuadro']); items.push(['cvEdit', 'shape', CV_EDIT ? 'Terminar de editar el lienzo' : 'Editar el lienzo…']); }
+      else if (many && [...sel].every(i => { const c = cvRole(node(i) || {}); return c && !c.card; }) && sel.size === 2) items.push('-', ['cvMerge', 'shape', 'Unir los dos recuadros']);
+      if (!many && rmRole(n)) items.push('-', ['rmDates', 'shape', 'Fechas…']); }
     items.push('-', ['resetPos', 'reset', 'Recolocar']);
     items.push(['fit', 'fit', many ? 'Ajustar la selección a la pantalla' : 'Ajustar el tema a la pantalla', 'Ctrl+0']);
     items.push(['copyOutline', 'copy', 'Copiar como esquema (tabulaciones)']); if ([...sel].some(i => (node(i) || {}).kids && node(i).kids.length || (node(i) || {}).note)) { items.push(['notesCopy', 'copy', 'Copiar la rama con sus notas (para IA)']); items.push(['notesExport', 'folder', 'Notas: copiar o exportar…']); }
@@ -5962,6 +5986,7 @@ async function mapSvg(o) {
   const wc = world.cloneNode(true);
   wc.style.transform = `translate(${-x0}px,${-y0}px)`; wc.style.transition = 'none';
   [...wc.children].forEach(c => { if (c.tagName === 'DIV' && c.id !== 'nodes') c.remove(); });   // botones de plegar
+  wc.querySelectorAll('.cv-add, .cv-hdl').forEach(e => e.remove());
   wc.querySelectorAll('.n').forEach(n => { n.classList.remove('sel', 'editing', 'drop', 'hov'); n.removeAttribute('title'); });
   wc.querySelectorAll('.rsel, .sel').forEach(n => n.classList.remove('rsel', 'sel'));
   const css = [...document.querySelectorAll('style:not(#emb-fonts):not(#user-fonts)')].map(x => x.textContent).join('\n').replace(/\bhtml\b/g, '.xhtml').replace(/\bbody\b/g, '.xbody').replace(/@media[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
@@ -6245,7 +6270,7 @@ if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (!l
 document.addEventListener('drop', e => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (!f) return; e.preventDefault(); if (/\.(pdf|docx)$/i.test(f.name)) { importDocFile(f); return; } const fr = new FileReader(); fr.onload = () => { const p = parseAny(String(fr.result), f.name); if (p) replaceGuard(() => { loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); }, p, f.name); }; fr.readAsText(f); });
 
 /* ---------- Buscar (Ctrl+F): en los temas, en sus notas y en el texto 📖 de un documento importado ---------- */
-Object.assign(EN, {"Buscar": "Search", "Busca en los temas, sus notas y el texto del documento (Ctrl+F)": "Searches topics, their notes and the document text (Ctrl+F)", "Buscar en temas, notas y documento…": "Search topics, notes and document…", "Anterior": "Previous", "Siguiente": "Next", "Nada": "None", "Centrar el tema": "Center topic", "Encuadrar la rama": "Frame the branch", "Solo esta rama": "Only this branch", "Buscar y enfocar": "Search and focus", "Ver todo el mapa": "Show whole map", "Lleva el tema seleccionado al centro de la pantalla": "Brings the selected topic to the middle of the screen", "Acerca o aleja para ver el tema con todos sus hijos": "Zooms to show the topic with all its children", "Muestra solo esa rama; arriba, el camino para volver (Esc: todo el mapa)": "Shows only that branch; the path at the top takes you back (Esc: whole map)", "Elige una rama: la idea central ya es todo el mapa.": "Pick a branch: the central topic is already the whole map.", "Burbujas": "Bubbles", "Ciclo": "Cycle"});
+Object.assign(EN, {"Lienzo": "Canvas", "Terminar": "Done", "Títulos": "Titles", "Bordes": "Borders", "Fondo…": "Background…", "Más": "More", "📅 Fechas": "📅 Dates", "Fechas…": "Dates…", "Añadir una tarjeta": "Add a card", "Añadir una tarjeta (también con doble clic en el hueco del recuadro)": "Add a card (or double-click an empty part of the box)", "Dividir el recuadro (lado a lado)": "Split the box (side by side)", "Dividir el recuadro (arriba y abajo)": "Split the box (top and bottom)", "Quitar el recuadro": "Remove the box", "Editar el lienzo…": "Edit the canvas…", "Terminar de editar el lienzo": "Finish editing the canvas", "Unir los dos recuadros": "Merge the two boxes", "Divide el recuadro seleccionado en dos, uno al lado del otro": "Splits the selected box in two, side by side", "Divide el recuadro seleccionado en dos, uno encima del otro": "Splits the selected box in two, one above the other", "Une los dos recuadros seleccionados (Ctrl + clic)": "Merges the two selected boxes (Ctrl + click)", "Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas": "Removes the box; its neighbour fills the gap and keeps its cards", "Muestra u oculta los títulos de los recuadros": "Shows or hides the box titles", "Muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)": "Shows or hides the box borders (to use your own background image)", "Imagen de fondo (suave con bordes; tal cual sin bordes)": "Background image (faded with borders; as is without borders)", "Proporción, móvil, cuadrícula y plantillas": "Proportion, phone, grid and templates", "Proporción (16:9, 4:3, 1:1)": "Proportion (16:9, 4:3, 1:1)", "Ver como móvil / ordenador": "View as phone / computer", "Quitar la imagen de fondo": "Remove the background image", "⭐ Guardar como plantilla": "⭐ Save as template", "Lienzo nuevo…": "New canvas…", "Fechas de inicio y fin de la tarea seleccionada (también se mueven arrastrando la barra)": "Start and end dates of the selected task (you can also drag the bar)", "Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro": "Handles to resize columns and rows, and to move or resize each box", "Buscar": "Search", "Busca en los temas, sus notas y el texto del documento (Ctrl+F)": "Searches topics, their notes and the document text (Ctrl+F)", "Buscar en temas, notas y documento…": "Search topics, notes and document…", "Anterior": "Previous", "Siguiente": "Next", "Nada": "None", "Centrar el tema": "Center topic", "Encuadrar la rama": "Frame the branch", "Solo esta rama": "Only this branch", "Buscar y enfocar": "Search and focus", "Ver todo el mapa": "Show whole map", "Lleva el tema seleccionado al centro de la pantalla": "Brings the selected topic to the middle of the screen", "Acerca o aleja para ver el tema con todos sus hijos": "Zooms to show the topic with all its children", "Muestra solo esa rama; arriba, el camino para volver (Esc: todo el mapa)": "Shows only that branch; the path at the top takes you back (Esc: whole map)", "Elige una rama: la idea central ya es todo el mapa.": "Pick a branch: the central topic is already the whole map.", "Burbujas": "Bubbles", "Ciclo": "Cycle"});
 Object.assign(EN, {"Botones de ajustar": "Fit buttons", "«Ajustar», Ctrl+0 y el de la barra de herramientas": "“Fit”, Ctrl+0 and the toolbar button", "Con temas seleccionados, ajusta esos temas": "With topics selected, fit those topics", "Con un tema seleccionado, encuadra su rama": "With a topic selected, frame its branch", "Siempre todo el mapa": "Always the whole map"});
 Object.assign(EN, {"Encuadrar la rama: el tema seleccionado con sus hijos": "Frame the branch: the selected topic with its children", "Ajustar todo el mapa a la ventana": "Fit the whole map to the window", "Todo el mapa a la vista": "The whole map in view"});
 Object.assign(EN, {"Ajustar: los temas seleccionados (sin selección, todo el mapa)": "Fit: the selected topics (nothing selected: the whole map)", "Los temas seleccionados; sin selección, todo el mapa (Ctrl+0)": "The selected topics; nothing selected: the whole map (Ctrl+0)"});
@@ -6345,6 +6370,71 @@ function cvHandles() {
       add('cv-mv', bx + q.cv.w - 22, by + 4, 18, 18, (dx, dy, st) => cvZone(r, b, port, C, st, dx, dy, false), 'Mover el recuadro (pasa a posición libre)');
       add('cv-rs', bx + q.cv.w - 12, by + q.cv.h - 12, 14, 14, (dx, dy, st) => cvZone(r, b, port, C, st, dx, dy, true), 'Cambiar el tamaño del recuadro (pasa a posición libre)'); });
   });
+}
+// El lienzo dentro del mapa: «+ Añadir» en cada recuadro (y doble clic en su hueco) y una barra flotante con sus herramientas
+function cvOn() { return !(LITE && !TRIAL); }
+function cvUi() {
+  nodesEl.querySelectorAll('.cv-add').forEach(e => e.remove());
+  if (cvOn()) doc.roots.forEach(r => {
+    if (r.structure !== 'canvas') return;
+    r.kids.forEach(b => {
+      const q = POS.get(b.id); if (!q || !q.cv) return;
+      let yb = q.y + q.h; const w = n => { if (n.col) return; n.kids.forEach(c => { const p = POS.get(c.id); if (p) yb = Math.max(yb, p.y + p.h); w(c); }); }; w(b);
+      const bx = q.x + q.cv.dx, by = q.y + q.cv.dy, y = Math.min(yb + 6, by + q.cv.h - 24);
+      const d = document.createElement('button'); d.type = 'button'; d.className = 'cv-add no-tr'; d.textContent = '+ ' + trStr('Añadir');
+      d.title = trStr('Añadir una tarjeta (también con doble clic en el hueco del recuadro)'); d.style.transform = `translate(${f1(bx + 10)}px, ${f1(y)}px)`;
+      ['pointerdown', 'mousedown'].forEach(t => d.addEventListener(t, e => { e.preventDefault(); e.stopPropagation(); }));
+      d.addEventListener('click', e => { e.stopPropagation(); cvAddCard(b); });
+      nodesEl.appendChild(d);
+    });
+  });
+  cvBarPlace();
+}
+function cvAddCard(b) { if (editId != null) stopEdit(); if (b.col) b.col = false; addChild(b.id); }
+function cvBoxAt(cx, cy) {
+  if (!cvOn()) return null; const w = toWorld(cx, cy);
+  for (const r of doc.roots) { if (r.structure !== 'canvas') continue;
+    for (const b of r.kids) { const q = POS.get(b.id); if (q && q.cv && w.x >= q.x + q.cv.dx && w.x <= q.x + q.cv.dx + q.cv.w && w.y >= q.y + q.cv.dy && w.y <= q.y + q.cv.dy + q.cv.h) return b; } }
+  return null;
+}
+function cvBarRoot() {   // el lienzo o la hoja de ruta con la que se está trabajando (la de la selección; si no hay, la única de la hoja)
+  if (!cvOn()) return null; const n = primary(), r = n && info(n.id) && info(n.id).r;
+  if (r && (r.structure === 'canvas' || r.structure === 'roadmap')) return r;
+  if (CV_EDIT) return doc.roots.find(x => x.structure === 'canvas') || null;
+  return null;
+}
+function cvBarPlace() {
+  let bar = $('#cvbar'); const r = cvBarRoot(), R = r && POS.get(r.id);
+  if (!r || !R || (drag && drag.kind === 'node')) { if (bar) bar.hidden = true; return; }
+  if (!bar) {
+    bar = document.createElement('div'); bar.id = 'cvbar'; bar.className = 'cvbar no-tr'; board.appendChild(bar);
+    ['pointerdown', 'mousedown', 'dblclick', 'wheel'].forEach(t => bar.addEventListener(t, e => { e.stopPropagation(); if (t === 'mousedown') e.preventDefault(); }));
+  }
+  const k = r.structure + (CV_EDIT ? 'E' : '') + (PR.lang || '') + (CV_FORCE || '');
+  if (bar.dataset.k !== k) {
+    bar.dataset.k = k; const B = (c, t, tip) => `<button type="button" data-cmd="${c}" title="${esc(trStr(tip || t))}">${esc(trStr(t))}</button>`;
+    bar.innerHTML = r.structure === 'roadmap'
+      ? `<span class="cvb-l">${esc(trStr('Hoja de ruta'))}</span>${B('rmDates', '📅 Fechas', 'Fechas de inicio y fin de la tarea seleccionada (también se mueven arrastrando la barra)')}`
+      : `<span class="cvb-l">${esc(trStr('Lienzo'))}</span><button type="button" data-cmd="cvEdit" class="${CV_EDIT ? 'on' : ''}" title="${esc(trStr('Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro'))}">✎ ${esc(trStr(CV_EDIT ? 'Terminar' : 'Editar lienzo'))}</button><i></i>`
+        + B('cvSplitH', '⬌', 'Divide el recuadro seleccionado en dos, uno al lado del otro') + B('cvSplitV', '⬍', 'Divide el recuadro seleccionado en dos, uno encima del otro') + B('cvMerge', '⧉', 'Une los dos recuadros seleccionados (Ctrl + clic)') + B('cvRemove', '✕', 'Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas') + '<i></i>'
+        + B('cvTitles', 'Títulos', 'Muestra u oculta los títulos de los recuadros') + B('cvFrames', 'Bordes', 'Muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)') + B('cvBg', 'Fondo…', 'Imagen de fondo (suave con bordes; tal cual sin bordes)')
+        + `<button type="button" data-cmd="cvMenu" title="${esc(trStr('Proporción, móvil, cuadrícula y plantillas'))}">${esc(trStr('Más'))} ▾</button>`;
+  }
+  bar.hidden = false;
+  const bw = bar.offsetWidth, bh = bar.offsetHeight, W = board.clientWidth, H = board.clientHeight;
+  let x, y;
+  if (R.cvc) { const x1 = (R.x + R.cvc.dx + R.cvc.w) * V.s + V.x; x = x1 - bw; y = R.y * V.s + V.y; }   // en la fila del título, a la derecha
+  else { x = (R.x + R.w) * V.s + V.x + 12; y = R.y * V.s + V.y + (R.h * V.s - bh) / 2; }
+  x = Math.max(8, Math.min(x, W - bw - 8)); y = Math.max(8, Math.min(y, H - bh - 8));
+  // Sin pisar la barra rápida del tema seleccionado: se aparta hacia arriba (o hacia abajo si no cabe)
+  const qb = $('#qbar'); if (qb && !qb.hidden) { const br = board.getBoundingClientRect(), q = qb.getBoundingClientRect(), qx = q.left - br.left, qy = q.top - br.top;
+    if (x < qx + q.width && x + bw > qx && y < qy + q.height && y + bh > qy) y = qy - bh - 6 >= 8 ? qy - bh - 6 : qy + q.height + 6; }
+  bar.style.left = Math.round(x) + 'px'; bar.style.top = Math.round(y) + 'px';
+}
+{ const pq = placeQbar; placeQbar = function () { pq(); try { cvBarPlace(); } catch (e) {} }; }
+function cvMenu(el) {
+  const it = (c, t) => `<button class="opt" data-cmd="${c}">${esc(trStr(t))}</button>`;
+  openPop(el, `<h4>${esc(trStr('Lienzo'))}</h4>` + it('cvRatio', 'Proporción (16:9, 4:3, 1:1)') + it('cvMobile', 'Colocación en móvil') + it('cvPreview', 'Ver como móvil / ordenador') + '<hr>' + it('cvGrid', 'Volver a la cuadrícula') + it('cvBgOff', 'Quitar la imagen de fondo') + '<hr>' + it('cvSaveTpl', '⭐ Guardar como plantilla') + it('canvasNew', 'Lienzo nuevo…'));
 }
 function cvHdlDrag(e, r, fn) {
   e.preventDefault(); e.stopPropagation(); snap(); cvWeight.key = null; const sx = e.clientX, sy = e.clientY, st = {}; let raf = 0;
