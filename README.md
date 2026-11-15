@@ -114,13 +114,17 @@ flowchart LR
 
 This repository has **MarkDawn Mind**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds every map style, 30+ shapes, org chart, timeline and radial layouts, high-resolution and SVG export, groups, video playback and images as topic backgrounds, and custom per-level styles.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds 27 layouts (org chart, timeline, Kanban, canvases, Gantt roadmap…), PDF and Word import with AI-made indexes, every map style, 30+ shapes and high-resolution and SVG export.
 
 - **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
-- **Organic maps** with tapered, curved branches, plus right-side and tree (folder-like) layouts
+- **Organic maps** with tapered, curved branches, plus right, left, tree (folder-like) and logic chart (downwards) layouts
+- **Five free map styles**: hand-drawn, pills, classic, Minimal and Flat
 - **Topics stay where you drop them**, branches included; drop one on another topic to move it there
 - **Navigation your way**: zoom towards the pointer, pan with the right or middle button or Space, all configurable (View → Mouse and zoom)
 - **Several sheets in one file**, notes, tasks, markers, links, relationships and floating topics
+- **Import a document as a map**: Markdown or text notes become a map; headings become branches and each topic keeps its piece of text, which you read in a reading panel (📖)
+- **Search** (Ctrl+F) in topics, notes and document text, and **focus**: fit the selection, frame a branch or show only one branch
+- **Copy for AI**: one click copies a branch with its notes, ready for ChatGPT, Claude or any AI
 - **Live Markdown pane** you can also edit, outline, minimap, dark mode, ribbon at the top, left or right
 - **Open or paste any outline**: Markdown, indented text (like what XMind copies), bulleted lists or OPML; each level becomes a branch
 - **Reveal the map level by level** with a slider, and shorten long topics with "…"
@@ -128,7 +132,14 @@ This repository has **MarkDawn Mind**, the free edition. Its interface is in Eng
 - **Background textures**: paper, linen and notebook
 - Built-in help: press **F1**
 
-**Mind Pro** adds more map styles (3D relief, metal-framed plates…), org chart, timeline and radial layouts, more than 30 shapes, 10 branch types, 3D branches, 25 color sets and your own colors, your own per-level styles, hand-drawn shapes, groups, video playback inside topics, images as topic backgrounds, 12 textures or your own background image, and high-resolution and SVG export. It opens the same files.
+**Mind Pro** opens the same files and adds:
+
+- **27 layouts**: org chart, timeline, radial, stairs, fishbone, braces, matrix, tree table, Kanban, bubbles, cycle, process, pyramid and funnel
+- **Canvases**: Business Model Canvas, Lean Canvas, SWOT, empathy map and free grids, with cards you drag between boxes, background images, 16:9, 4:3 or 1:1, a phone layout and your own templates
+- **Gantt roadmap**: phases, tasks with dates on a month timeline and bars you drag
+- **PDF and Word import** (bookmarks, printed table of contents or headings by font size) and **AI-made indexes**: your AI returns only topics and quotes, and Mind links each topic to its text
+- 17 map styles, 30+ shapes, block arrows, 3D and tapered branches, gradients, 25 colour sets and your own colours, per-level styles, hand-drawn shapes, groups, videos and images as topic backgrounds, 12 textures or your own background image
+- High-resolution and SVG export, and a menu of guided demos
 
 ### How a mind map is saved
 
@@ -172,7 +183,7 @@ MarkDawnMind.setMarkdown('# Idea\n- One\n- Two');
 - Open `.md` files in Slides
 - Themes: fonts and colors for a whole document or presentation, without changing the Markdown
 - English interface for Slides
-- Installable app (PWA) and Microsoft Store version
+- Microsoft Store version
 - A renderer library and plugins to view MarkDawn files in Obsidian, VS Code and websites
 
 ## Contributing

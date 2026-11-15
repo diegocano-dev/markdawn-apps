@@ -114,13 +114,17 @@ flowchart LR
 
 Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade todos los estilos de mapa, más de 30 formas, organigrama, línea de tiempo y radial, exportación en alta resolución y en SVG, grupos, vídeos que se reproducen en el tema, imágenes como fondo de la forma y estilos propios por niveles.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade 27 estructuras (organigrama, línea de tiempo, Kanban, lienzos, hoja de ruta tipo Gantt…), importar PDF y Word con índices hechos por tu IA, todos los estilos de mapa, más de 30 formas y exportación en alta resolución y SVG.
 
 - **Pensada para el teclado**: Tab crea un tema hijo, Intro uno hermano, y basta con escribir para editar
-- **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha y árbol (tipo carpetas)
+- **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha, a la izquierda, árbol (tipo carpetas) y lógico hacia abajo
+- **Cinco estilos de mapa gratis**: a mano, píldoras, clásico, Minimal y Plano
 - **Los temas se quedan donde los sueltas**, con sus ramas; si lo sueltas sobre otro tema, pasa a esa rama
 - **Navegación a tu gusto**: zoom hacia el puntero, mover con el botón derecho, el central o Espacio, todo configurable (Vista → Ratón y zoom)
 - **Varias hojas en un archivo**, notas, tareas, marcadores, vínculos, relaciones y temas flotantes
+- **Importar un documento como mapa**: unos apuntes en Markdown o texto se convierten en mapa; los títulos pasan a ser ramas y cada tema guarda su trozo de texto, que lees en un panel de lectura (📖)
+- **Buscar** (Ctrl+F) en temas, notas y el texto del documento, y **enfocar**: ajustar la selección, encuadrar una rama o ver solo una rama
+- **Copiar para la IA**: un clic copia una rama con sus notas, lista para ChatGPT, Claude o cualquier IA
 - **Panel Markdown en directo** que también puedes editar, esquema, minimapa, modo oscuro y cinta arriba, a la izquierda o a la derecha
 - **Abre o pega cualquier esquema**: Markdown, texto con sangrías (como el que copia XMind), listas con viñetas u OPML; cada nivel se convierte en una rama
 - **Muestra el mapa nivel a nivel** con una barra, y acorta los temas largos con «…»
@@ -128,7 +132,14 @@ Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz est�
 - **Texturas de fondo**: papel, lino y cuaderno
 - Ayuda incluida: pulsa **F1**
 
-**Mind Pro** añade más estilos de mapa (relieve 3D, placas con marco de metal…), organigrama, línea de tiempo y radial, más de 30 formas, 10 tipos de rama, ramas 3D, 25 combinaciones de colores y colores propios, estilos propios por niveles, formas dibujadas a mano, grupos, vídeos que se reproducen en el tema, imágenes como fondo de los temas, 12 texturas o tu propia imagen de fondo, y exportación en alta resolución y SVG. Abre los mismos archivos.
+**Mind Pro** abre los mismos archivos y añade:
+
+- **27 estructuras**: organigrama, línea de tiempo, radial, escalera, espina de pescado, llaves, matriz, tabla en árbol, Kanban, burbujas, ciclo, proceso, pirámide y embudo
+- **Lienzos**: Business Model Canvas, Lean Canvas, DAFO, mapa de empatía y cuadrículas libres, con tarjetas que arrastras entre recuadros, imagen de fondo, 16:9, 4:3 o 1:1, versión para el móvil y plantillas propias
+- **Hoja de ruta tipo Gantt**: fases, tareas con fechas sobre los meses y barras que se arrastran
+- **Importar PDF y Word** (marcadores, índice impreso o títulos por tamaño de letra) e **índices hechos por tu IA**: la IA devuelve solo temas y citas, y Mind une cada tema con su texto
+- 17 estilos de mapa, más de 30 formas, flechas de bloque, ramas 3D y cónicas, degradados, 25 combinaciones de colores y colores propios, estilos por niveles, formas dibujadas a mano, grupos, vídeos e imágenes como fondo de los temas, 12 texturas o tu propia imagen de fondo
+- Exportación en alta resolución y SVG, y un menú de demostraciones guiadas
 
 ### Cómo se guarda un mapa mental
 
@@ -172,7 +183,7 @@ MarkDawnMind.setMarkdown('# Idea\n- Uno\n- Dos');
 - Abrir archivos `.md` en Slides
 - Temas: tipos de letra y colores para todo el documento o la presentación, sin cambiar el Markdown
 - Interfaz en inglés para Slides
-- App instalable (PWA) y versión para la Microsoft Store
+- Versión para la Microsoft Store
 - Una librería y plugins para ver los archivos MarkDawn en Obsidian, VS Code y páginas web
 
 ## Contribuciones

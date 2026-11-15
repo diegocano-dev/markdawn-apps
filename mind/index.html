@@ -167,6 +167,7 @@
   .readwin .rw-p { font-size: 11.5px; color: var(--acc); background: var(--acc-tint); border-radius: 5px; padding: 1px 7px; white-space: nowrap; }
   .readwin .rw-d { user-select: text; -webkit-user-select: text; font-size: 14.5px; }
   .rw-f { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); }
+  .rw-f .rw-sz { padding: 4px 7px; font-weight: 600; }
   .rw-f span { flex: 1; text-align: center; white-space: nowrap; } .rw-f .btn-sec { max-width: 42%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 4px 10px; font-size: 12px; } .rw-f .btn-sec:disabled { opacity: .35; }
   .dialog.imp-dlg { width: min(430px, 100%); margin: 0 12px 12px 0; }
   .imp-src { font-weight: 600; font-size: 14px; margin-bottom: 4px; overflow-wrap: anywhere; } .imp-src small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
@@ -174,6 +175,11 @@
   .imp-seg { display: flex; flex-wrap: wrap; gap: 5px; } .imp-seg button { border: 1px solid var(--line); background: var(--panel, #fff); color: var(--ink); border-radius: 7px; padding: 4px 10px; font-size: 12.5px; cursor: pointer; }
   .imp-seg button[aria-pressed="true"] { background: var(--acc); border-color: var(--acc); color: #fff; }
   .imp-info { margin-top: 12px; font-size: 12.5px; color: var(--muted); } .imp-warn { margin-top: 10px; font-size: 12.5px; color: #b45309; }
+  .imp-types { display: flex; flex-direction: column; gap: 3px; font-size: 12px; } .imp-types div { display: flex; gap: 6px; align-items: center; } .imp-types span { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .imp-types i { color: var(--muted); } .imp-types select { font-size: 12px; }
+  .imp-aibox { display: flex; flex-direction: column; gap: 3px; } .imp-aibox input[type=text], .imp-aibox textarea { border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; font: inherit; font-size: 12.5px; background: var(--panel, #fff); color: var(--ink); margin-top: 4px; }
+  .imp-aibox textarea { height: 90px; resize: vertical; } .imp-aibtn { display: flex; gap: 6px; margin-top: 4px; } .imp-aibox small { color: var(--muted); font-size: 11.5px; }
+  .readwin .rw-d { line-height: 1.65; } .readwin .rw-d p { margin: 0 0 .75em; } .readwin .rw-d p > em:only-child { display: block; text-align: center; color: var(--muted); font-size: 11.5px; font-style: normal; letter-spacing: .04em; }
+  .readwin.serif .rw-d { font-family: Georgia, 'Times New Roman', serif; }
   .imp-ai { margin-top: 10px; border: 0; background: none; color: var(--acc); cursor: pointer; padding: 0; font-size: 12.5px; text-decoration: underline; }
   .notetip .nt-f { font-size: 11px; color: var(--muted); margin-top: 6px; }
   .gmore { width: 15px; align-self: stretch; border: 0; border-left: 1px solid var(--line-soft); margin-left: 1px; background: none; color: var(--muted); font-size: 11px; cursor: pointer; padding: 0; border-radius: 0 2px 2px 0; }
@@ -204,6 +210,11 @@
   .lite-ui .gallery > .pro-first { margin-left: 7px; } .lite-ui .gallery > .pro-first::after { content: ''; position: absolute; left: -5px; top: 2px; bottom: 2px; border-left: 1.5px dashed var(--acc); opacity: .6; }
   .lite-ui .pro-first::before { content: 'Pro'; position: absolute; top: -2px; left: -2px; z-index: 2; font: 700 8.5px/12px system-ui, sans-serif; color: #fff; background: var(--acc); border-radius: 3px; padding: 0 3px; pointer-events: none; }
   .gx-pro b, .shcat b.pro { font-size: 10px; color: #fff; background: var(--acc); border-radius: 3px; padding: 0 4px; font-weight: 700; }
+  .cv-hdl { position: absolute; left: 0; top: 0; z-index: 6; } .cv-hv { cursor: ew-resize; } .cv-hh { cursor: ns-resize; } .cv-hv:hover, .cv-hh:hover { background: rgba(14,116,112,.35); border-radius: 3px; }
+  .cv-mv, .cv-rs { background: #0e7470; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.3); } .cv-mv { cursor: move; } .cv-rs { cursor: nwse-resize; border-radius: 3px 3px 8px 3px; }
+  .n.rm-bar { white-space: nowrap; overflow: visible; } .n.rm-bar .t { white-space: nowrap; }
+  .n.cv-hid { opacity: 0; } .n.cv-hid.sel, .n.cv-hid:hover { opacity: .45; }
+  .cv-tpls { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .cv-tpls .btn-sec { text-align: left; padding: 8px 10px; }
   .findbar { position: absolute; top: 10px; right: 14px; z-index: 31; display: flex; flex-wrap: wrap; align-items: center; gap: 3px; background: var(--panel, #fff); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 6px 20px rgba(0,0,0,.16); padding: 5px 6px; width: min(380px, calc(100% - 28px)); }
   .findbar input { flex: 1; min-width: 120px; border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; font: inherit; font-size: 13px; background: var(--panel, #fff); color: var(--ink); }
   .findbar button { border: 0; background: none; font-size: 17px; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; color: var(--ink); } .findbar button:hover { background: var(--acc-tint); }
@@ -249,6 +260,7 @@
   .demo-key { display: inline-block; min-width: 40px; padding: 4px 10px; border-radius: 7px; background: #fff; color: #1f2224; font: 700 17px var(--ui); box-shadow: 0 3px 0 #9aa4aa; }
   .demo-start { position: fixed; inset: 0; z-index: 210; background: rgba(15,18,20,.72); display: flex; align-items: center; justify-content: center; }
   .demo-start .box { background: var(--panel); color: var(--ink); border-radius: 12px; padding: 26px 30px; max-width: 520px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+  .dm-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; } .dm-list label:first-child { grid-column: 1 / -1; } .dm-opts { display: flex; gap: 16px; align-items: center; margin: 12px 0 6px; font-size: 13px; }
   .demo-start h2 { margin: 0 0 8px; font-size: 20px; }
   .demo-start p, .demo-start li { font-size: 13.5px; line-height: 1.55; color: var(--muted); }
   .demo-start .count { font: 700 120px var(--ui); color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,.4); }
@@ -773,7 +785,7 @@
   <button class="qa" data-cmd="redo" title="Rehacer (Ctrl+Y)"></button>
   <button class="qa" data-cmd="ribbonMenu" title="Opciones de la cinta"></button>
   <div class="name" id="docname">Mapa mental.md<span>Guardado en este navegador</span></div>
-  <span class="app">MarkDawn Mind · 0.9.10 beta</span>
+  <span class="app">MarkDawn Mind · 0.9.11 beta</span>
   <button class="qa lang-btn no-tr" data-cmd="lang" title="Idioma · Language"></button>
   <button class="qa" data-cmd="dark" title="Modo oscuro"></button>
   <button class="qa" data-cmd="help" title="Ayuda (F1)"></button>
@@ -788,12 +800,14 @@
     <button class="tab" data-tab="formato" role="tab">Formato</button>
     <button class="tab" data-tab="diseno" role="tab">Diseño</button>
     <button class="tab" data-tab="vista" role="tab">Vista</button>
+    <button class="tab ctx-tab" data-tab="lienzo" role="tab" hidden>Lienzo</button>
     <span class="tabs-sp"></span>
     <button class="tab-pin" data-cmd="ribbonPin" title="Contraer o fijar la cinta (Ctrl+F1)"></button>
   </div>
   <div class="panel" data-panel="archivo">
     <div class="grp"><div class="grp-body">
       <button class="rb big" data-cmd="new" title="Mapa nuevo"><span class="ico" data-i="new"></span><span>Nuevo</span></button>
+      <button class="rb big" data-cmd="canvasNew" title="Lienzo nuevo: Business Model Canvas, Lean Canvas, DAFO, mapa de empatía o cuadrículas"><span class="ico" data-i="canvas"></span><span>Lienzo</span></button>
       <button class="rb big" data-cmd="open"><span class="ico" data-i="open"></span><span>Abrir .md</span></button>
       <button class="rb big" data-cmd="importDoc" title="Convierte un libro, manual o apuntes (PDF, Word, Markdown o texto) en un mapa: los capítulos son ramas y cada tema apunta a su trozo de texto"><span class="ico" data-i="importdoc"></span><span>Importar documento</span></button>
       <button class="rb big" data-cmd="save"><span class="ico" data-i="save"></span><span>Guardar .md</span></button>
@@ -812,7 +826,7 @@
       <button class="rb big" data-cmd="exportImg" title="Guardar o copiar el mapa como PNG, JPG o SVG (Ctrl+Mayús+E)"><span class="ico" data-i="image"></span><span>Exportar imagen</span></button>
       <button class="rb big" data-cmd="sample"><span class="ico" data-i="sample"></span><span>Ejemplo</span></button>
       <button class="rb big" data-cmd="help" title="Guía rápida (F1)"><span class="ico" data-i="help"></span><span>Ayuda</span></button>
-      <button class="rb big" data-cmd="demo" id="demo-btn" title="Recorrido automático por las funciones, para grabar un vídeo"><span class="ico" data-i="play"></span><span>Demostración</span></button>
+      <button class="rb big" data-cmd="demo" id="demo-btn" title="Demostraciones automáticas de cada función, para grabar vídeos"><span class="ico" data-i="play"></span><span>Demostraciones</span></button>
     </div><div class="grp-label">Archivo</div></div>
     <div class="grp"><div class="grp-body">
       <button class="rb big" data-cmd="workFolder" title="Trabajar en una carpeta: la configuración y los mapas se guardan solos (Chrome y Edge)"><span class="ico" data-i="folder"></span><span>Carpeta de trabajo</span></button>
@@ -940,6 +954,33 @@
         <button class="rb" data-cmd="resetAll" title="Devuelve todos los temas a su sitio automático"><span class="ico" data-i="reset"></span>Recolocar todo</button>
       </div>
     </div><div class="grp-label">Fondo y espaciado</div></div>
+  </div>
+  <div class="panel" data-panel="lienzo">
+    <div class="grp" id="grp-canvas"><div class="grp-body">
+      <button class="rb big" data-cmd="cvEdit" title="Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro"><span class="ico" data-i="canvas"></span><span>Editar lienzo</span></button>
+      <div class="stack tight">
+        <button class="rb" data-cmd="cvSplitH" title="Lienzo: divide el recuadro seleccionado en dos, uno al lado del otro">⬌ Dividir recuadro</button>
+        <button class="rb" data-cmd="cvSplitV" title="Lienzo: divide el recuadro seleccionado en dos, uno encima del otro">⬍ Dividir recuadro</button>
+        <button class="rb" data-cmd="cvMerge" title="Lienzo: une los dos recuadros seleccionados (Ctrl + clic)">⧉ Unir recuadros</button>
+        <button class="rb" data-cmd="cvRemove" title="Lienzo: quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas">✕ Quitar recuadro</button>
+      </div>
+      <div class="stack tight">
+        <button class="rb" data-cmd="cvTitles" title="Lienzo: muestra u oculta los títulos de los recuadros">Títulos de recuadros</button>
+        <button class="rb" data-cmd="cvFrames" title="Lienzo: muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)">Bordes de recuadros</button>
+        <button class="rb" data-cmd="cvBg" title="Lienzo: imagen de fondo (suave con bordes; tal cual sin bordes)">Imagen de fondo…</button>
+        <button class="rb" data-cmd="cvBgOff" title="Lienzo: quita la imagen de fondo">Quitar fondo</button>
+      </div>
+      <div class="stack tight">
+        <button class="rb" data-cmd="cvRatio" title="Lienzo: proporción 16:9, 4:3 o 1:1">Proporción</button>
+        <button class="rb" data-cmd="cvMobile" title="Lienzo: cambia la colocación en el móvil (A, B, C, D)">Colocación en móvil</button>
+        <button class="rb" data-cmd="cvPreview" title="Lienzo: ver como en el móvil o como en el ordenador">Ver como móvil / ordenador</button>
+        <button class="rb" data-cmd="cvGrid" title="Vuelve a colocar los recuadros en la cuadrícula, con columnas y filas iguales">Volver a la cuadrícula</button>
+        <button class="rb" data-cmd="cvSaveTpl" title="Lienzo: guarda sus recuadros como plantilla propia en «Lienzo nuevo»">⭐ Guardar como plantilla</button>
+      </div>
+    </div><div class="grp-label">Lienzo</div></div>
+    <div class="grp"><div class="grp-body">
+      <button class="rb big" data-cmd="rmDates" title="Hoja de ruta: fechas de inicio y fin de la tarea seleccionada (también se mueve arrastrando la barra)"><span class="ico" data-i="calendar"></span><span>Fechas</span></button>
+    </div><div class="grp-label">Hoja de ruta</div></div>
   </div>
   <div class="panel" data-panel="vista">
     <div class="grp"><div class="grp-body">
@@ -1185,7 +1226,7 @@ const LITE_OK = {
   pal: ['vivo', 'suave', 'oceano'],
   tex: ['', 'paper', 'linen', 'notebook'],
 };
-const LITE_CMDS = ['barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
+const LITE_CMDS = ['rmDates', 'cvEdit', 'cvGrid', 'canvasNew', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvTitles', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
 // Probar lo Pro en la gratuita: estilos, estructuras, formas, líneas, letras, colores y texturas se pueden aplicar para verlos; no se guardan sin licencia
 const TRIAL_KEYS = ['mapStyle', 'struct', 'shape', 'line', 'font', 'pal', 'tex'];
 let TRIAL = null;
@@ -1233,6 +1274,8 @@ const ICONS = {
   z100: P('<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 9l2-1.5V13"/>'),
   fitbr: P('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><rect x="7" y="10.5" width="4.5" height="3" rx=".8"/><path d="M11.5 12h1.5M13 9.5v5M13 9.5h2M13 14.5h2"/><rect x="15" y="8.5" width="2.5" height="2" rx=".5"/><rect x="15" y="13.5" width="2.5" height="2" rx=".5"/>'),
   barrow: P('<path d="M3 9.5h11V6l7 6-7 6v-3.5H3z"/>'),
+  calendar: P('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M7 13.5h4M9 16.5h7"/>'),
+  canvas: P('<rect x="3" y="4" width="5" height="11" rx="1"/><rect x="9.5" y="4" width="5" height="5" rx="1"/><rect x="9.5" y="10" width="5" height="5" rx="1"/><rect x="16" y="4" width="5" height="11" rx="1"/><rect x="3" y="16.5" width="8.5" height="4" rx="1"/><rect x="12.5" y="16.5" width="8.5" height="4" rx="1"/>'),
   find: P('<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/>'),
   focus: P('<path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/><circle cx="12" cy="12" r="3.2"/>'),
   target: P('<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'),
@@ -1401,10 +1444,13 @@ const STRUCTS = {
   bubble: { name: 'Burbujas', svg: '<ellipse cx="26" cy="18" rx="8" ry="5.5" fill="var(--acc)"/><g fill="none" stroke="#e8743b" stroke-width="1.4"><ellipse cx="9" cy="8" rx="6" ry="4"/><ellipse cx="43" cy="8" rx="6" ry="4"/><ellipse cx="9" cy="28" rx="6" ry="4"/><ellipse cx="43" cy="28" rx="6" ry="4"/></g><path d="M19 15L14 10.5M33 15l5-4.5M19 21l-5 4.5M33 21l5 4.5" stroke="#8a9399" stroke-width="1.2"/>' },
   cycle: { name: 'Ciclo', svg: '<rect x="20" y="15" width="12" height="6" rx="2" fill="var(--acc)"/><rect x="20" y="2" width="12" height="7" rx="2" fill="#e8743b"/><rect x="38" y="15" width="12" height="7" rx="2" fill="#4a90d9"/><rect x="20" y="27" width="12" height="7" rx="2" fill="#5bb974"/><rect x="2" y="15" width="12" height="7" rx="2" fill="#a46ad3"/><path d="M35 5.5q8 1 9 8M41 25q-2 6-8 6M17 31q-8-1-9-8M10 13q1-7 8-8" stroke="#8a9399" stroke-width="1.3" fill="none"/>' },
   process: { name: 'Proceso', svg: '<path d="M2 12h12l4 6-4 6H2l4-6z" fill="var(--acc)"/><path d="M18 12h12l4 6-4 6H18l4-6z" fill="#e8743b"/><path d="M34 12h12l4 6-4 6H34l4-6z" fill="#4a90d9"/><path d="M6 28h8M22 28h8M38 28h8" stroke="#8a9399" stroke-width="1.4"/>' },
+  roadmap: { name: 'Hoja de ruta', svg: '<path d="M14 4V32M26 4V32M38 4V32" stroke="#c8d0d4" stroke-width="1"/><rect x="2" y="6" width="9" height="4" rx="1" fill="#8a9399"/><rect x="14" y="12" width="16" height="5" rx="2" fill="#e8743b"/><rect x="24" y="19" width="14" height="5" rx="2" fill="#4a90d9"/><rect x="34" y="26" width="15" height="5" rx="2" fill="#5bb974"/>' },
+  funnel: { name: 'Embudo', svg: '<path d="M8 3h36l-6 9H14z" fill="#e8743b"/><path d="M15 13h22l-5 8H20z" fill="#4a90d9"/><path d="M21 22h10l-3 8h-4z" fill="#5bb974"/><path d="M44 8h6M44 17h6" stroke="#8a9399" stroke-width="1.4"/>' },
   pyramid: { name: 'Pirámide', svg: '<path d="M26 3l6 9H20z" fill="#e8743b"/><path d="M19.3 13h13.4l5.4 8H13.9z" fill="#4a90d9"/><path d="M13.2 22h25.6l5.4 8H7.8z" fill="#5bb974"/><path d="M44 8h6M44 17h6" stroke="#8a9399" stroke-width="1.4"/>' },
   brace: { name: 'Llaves', svg: '<rect x="2" y="15" width="11" height="7" rx="1.5" fill="var(--acc)"/><path d="M20 4q-3 0-3 3v8q0 3.5-3 3.5q3 0 3 3.5v8q0 3 3 3" stroke="#e8743b" stroke-width="1.6" fill="none"/><path d="M23 5h10M23 18.5h10M23 32h10" stroke="#8a9399" stroke-width="1.8"/><path d="M38 1.5q-2 0-2 2.2t-2 2.2q2 0 2 2.2t2 2.2" stroke="#3a86c8" stroke-width="1.2" fill="none"/><path d="M40 2.5h9M40 9h9" stroke="#3a86c8" stroke-width="1.4"/>' },
   fish: { name: 'Espina de pescado', svg: '<path d="M3 18h37" stroke="var(--acc)" stroke-width="2.2"/><path d="M40 12l10 6-10 6z" fill="var(--acc)"/><path d="M14 18l-5-12M27 18l-5-12M14 18l-5 12M27 18l-5 12" stroke="#e8743b" stroke-width="1.5"/><path d="M5 10h5M5 14h7M18 10h5M5 26h7M18 22h6" stroke="#8a9399" stroke-width="1.2"/><rect x="5" y="2" width="8" height="4" rx="1" fill="#e8743b"/><rect x="18" y="2" width="8" height="4" rx="1" fill="#3a86c8"/><rect x="5" y="30" width="8" height="4" rx="1" fill="#4caf7d"/><rect x="18" y="30" width="8" height="4" rx="1" fill="#9b59b6"/>' },
   fishL: { name: 'Espina a la izquierda', svg: '<path d="M49 18H12" stroke="var(--acc)" stroke-width="2.2"/><path d="M12 12L2 18l10 6z" fill="var(--acc)"/><path d="M38 18l5-12M25 18l5-12M38 18l5 12M25 18l5 12" stroke="#e8743b" stroke-width="1.5"/><path d="M47 10h-5M47 14h-7M34 10h-5M47 26h-7M34 22h-6" stroke="#8a9399" stroke-width="1.2"/><rect x="39" y="2" width="8" height="4" rx="1" fill="#e8743b"/><rect x="26" y="2" width="8" height="4" rx="1" fill="#3a86c8"/><rect x="39" y="30" width="8" height="4" rx="1" fill="#4caf7d"/><rect x="26" y="30" width="8" height="4" rx="1" fill="#9b59b6"/>' },
+  canvas: { name: 'Lienzo', svg: '<rect x="2" y="3" width="10" height="20" rx="2" fill="none" stroke="#e8743b" stroke-width="1.5"/><rect x="14" y="3" width="10" height="9" rx="2" fill="none" stroke="#4a90d9" stroke-width="1.5"/><rect x="14" y="14" width="10" height="9" rx="2" fill="none" stroke="#4a90d9" stroke-width="1.5"/><rect x="26" y="3" width="10" height="20" rx="2" fill="var(--acc)" opacity=".85"/><rect x="38" y="3" width="12" height="20" rx="2" fill="none" stroke="#5bb974" stroke-width="1.5"/><rect x="2" y="25" width="23" height="9" rx="2" fill="none" stroke="#c0392b" stroke-width="1.5"/><rect x="27" y="25" width="23" height="9" rx="2" fill="none" stroke="#c9a227" stroke-width="1.5"/>' },
   kanban: { name: 'Kanban', svg: '<rect x="18" y="1" width="16" height="5" rx="1.5" fill="var(--acc)"/><rect x="2" y="9" width="14" height="26" rx="2" fill="#fdeee6"/><rect x="19" y="9" width="14" height="26" rx="2" fill="#e8f1fa"/><rect x="36" y="9" width="14" height="26" rx="2" fill="#e8f5ee"/><rect x="3.5" y="10.5" width="11" height="4" rx="1" fill="#e8743b"/><rect x="20.5" y="10.5" width="11" height="4" rx="1" fill="#3a86c8"/><rect x="37.5" y="10.5" width="11" height="4" rx="1" fill="#4caf7d"/><path d="M4 18h10M4 23h10M4 28h10M21 18h10M21 23h10M38 18h10" stroke="#c5ccd1" stroke-width="3"/>' },
   table: { name: 'Tabla en árbol', svg: '<rect x="2" y="2" width="48" height="32" rx="2" fill="#fff" stroke="#8a9399" stroke-width="1.2"/><path d="M2 9h48M2 15h48M18 9v25M34 9v25" stroke="#8a9399" stroke-width="1"/><rect x="18" y="3.5" width="16" height="4" rx="1" fill="var(--acc)"/><rect x="5" y="10.5" width="10" height="3" rx="1" fill="#e8743b"/><rect x="21" y="10.5" width="10" height="3" rx="1" fill="#3a86c8"/><rect x="37" y="10.5" width="10" height="3" rx="1" fill="#4caf7d"/><path d="M5 19h9M5 24h9M5 29h7M21 19h9M21 24h9M37 19h9" stroke="#c5ccd1" stroke-width="2"/>' },
   matrix: { name: 'Matriz', svg: '<rect x="2" y="1" width="14" height="5" rx="1.5" fill="var(--acc)"/><rect x="2" y="8" width="48" height="27" rx="2" fill="#fff" stroke="#8a9399" stroke-width="1.2"/><path d="M2 17h48M2 26h48M16 8v27M33 8v27" stroke="#8a9399" stroke-width="1"/><rect x="4" y="10.5" width="10" height="4" rx="1" fill="#e8743b"/><rect x="4" y="19.5" width="10" height="4" rx="1" fill="#3a86c8"/><rect x="4" y="28.5" width="10" height="4" rx="1" fill="#4caf7d"/><path d="M19 12.5h11M36 12.5h11M19 21.5h11M36 21.5h9M19 30.5h11" stroke="#c5ccd1" stroke-width="2.2"/>' },
@@ -1481,6 +1527,8 @@ const BSHAPES = {
   burst: { name: 'Estallido', d: 'M50 0L60 13L75 7L77 23L93 25L87 40L100 50L87 60L93 75L77 77L75 93L60 87L50 100L40 87L25 93L23 77L7 75L13 60L0 50L13 40L7 25L23 23L25 7L40 13Z', pad: '24px 34px' },
 };
 for (const [k, b] of Object.entries(BSHAPES)) SHAPES[k] = { name: b.name, svg: `<svg x="6" y="7" width="40" height="22" viewBox="-2 -2 104 104" preserveAspectRatio="none"><path d="${b.d}" fill="#e1f2f2" stroke="#0d767a" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>` };
+// Parte del ancho que ocupan las puntas o muescas de cada forma (izquierda, derecha): el texto se coloca dentro de lo que queda
+const BS_INSET = { diamond: [.25, .25], parallelogram: [.18, .18], prep: [.15, .15], terminal: [.2, .2], hexagon: [.2, .2], octagon: [.14, .14], star: [.3, .3], tag: [.03, .2], arrow: [.03, .3], chevron: [.2, .2], banner: [.12, .12], triangle: [.3, .3], trapezoid: [.18, .18], pentagon: [.18, .18], dblarrow: [.22, .22], heart: [.2, .2], plus: [.33, .33], burst: [.2, .2], cube: [.02, .18], subprocess: [.1, .1], circle: [.15, .15] };
 const pathShape = sh => sh && sh.startsWith('c:') ? CSHAPES[sh.slice(2)] : BSHAPES[sh] || null;
 const SHAPE_GROUPS = {
   'Básicas': ['auto', 'round', 'rect', 'pill', 'circ', 'ellipse', 'solid', 'line', 'branch', 'plain'],
@@ -1783,11 +1831,13 @@ function shapeOf(n, d, st) {
   if (own && (own !== info(n.id).r || !OLDST.includes(stOfOwner(own)))) {   // dentro de una estructura por rama o de una de las nuevas
     const ost = stOfOwner(own), rel = d - info(own.id).d;
     if (ost === 'kanban') return rel === 1 ? 'solid' : 'card';
+    if (ost === 'canvas') return rel === 1 ? 'plain' : 'round';
+    if (ost === 'roadmap') return rel === 1 && n.kids.length ? 'plain' : 'solid';
     if (ost === 'table' || ost === 'matrix') return 'plain';
     if (ost === 'brace') return 'plain';
     if (ost === 'bubble') return 'circ';
-    if (ost === 'process') return rel === 1 ? 'chevron' : 'box';
-    if (ost === 'pyramid') return rel === 1 ? 'plain' : 'box';
+    if (ost === 'process') return rel === 1 ? (doc.theme.arrows === 'block' ? 'solid' : 'chevron') : 'box';
+    if (ost === 'pyramid' || ost === 'funnel') return rel === 1 ? 'plain' : 'box';
     if (ost === 'cycle') return rel === 1 ? 'solid' : 'box';
     if (ost === 'fish' || ost === 'fishL') return rel === 1 ? 'round' : 'plain';
     return rel === 1 && own === info(n.id).r ? 'solid' : 'box';
@@ -1890,10 +1940,13 @@ function syncNodes() {
         el.style.padding = `${Math.round(py)}px ${Math.round(px)}px`;
         // El ancho lo marca la imagen o el vídeo: el texto se reparte debajo sin ensanchar el tema
         el.style.width = Math.round(W + 2 * px + 2 * (bw != null ? bw : 2)) + 'px';
-      } else el.style.padding = (BSHAPES[sh] && BSHAPES[sh].pad) || '';
+      } else {
+        el.style.padding = (BSHAPES[sh] && BSHAPES[sh].pad) || '';
+      }
       // Tamaño puesto a mano con los tiradores (la letra no cambia)
       if (n.sz && !cover) { el.style.width = n.sz[0] + 'px'; el.style.minHeight = n.sz[1] + 'px'; el.style.maxWidth = 'none'; el.classList.add('sized'); }
-      else { el.style.minHeight = ''; el.style.maxWidth = ''; el.classList.remove('sized'); }
+      else { el.style.minHeight = ''; el.style.maxWidth = CV_MAXW.has(n.id) ? CV_MAXW.get(n.id) + 'px' : RM_W.has(n.id) ? 'none' : ''; el.style.width = RM_W.has(n.id) ? Math.round(RM_W.get(n.id)) + 'px' : ''; el.classList.remove('sized'); }
+      el.classList.toggle('cv-hid', CV_HID.has(n.id)); el.classList.toggle('rm-bar', RM_W.has(n.id));
       // (solo en esas formas: si no, se borraría el grosor puesto arriba, por ejemplo border=0)
       if (sh === 'card') el.style.borderLeftWidth = bw != null ? bw + 'px' : '';
       if (sh === 'line') el.style.borderBottomWidth = bw != null ? Math.max(bw, 0) + 'px' : '';
@@ -1906,6 +1959,8 @@ function syncNodes() {
       el.style.justifyContent = al === 'center' ? 'center' : al === 'right' ? 'flex-end' : '';
       el.style.textDecoration = E('under') ? 'underline' : '';
       if (editId !== n.id) { const h = (csh && csh.svg ? artDiv(csh, inf.color) : csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none">${fgr ? `<defs><linearGradient id="fg${n.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${esc(fgr[0])}"/><stop offset="1" stop-color="${esc(fgr[1])}"/></linearGradient></defs>` : ''}<path d="${csh.d}"${fgr ? ` style="fill:url(#fg${n.id})"` : ''} vector-effect="non-scaling-stroke"/><path class="sk" d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
+      { const ins = !mOn && BS_INSET[sh];   // formas con puntas o muescas: el texto, dentro de la parte útil (ya con su letra y su texto)
+        if (ins && !n.sz) { el.style.paddingLeft = el.style.paddingRight = '8px'; let T = (el.clientWidth - 16) / (1 - ins[0] - ins[1]); for (let k = 0; k < 2; k++) { el.style.paddingLeft = Math.round(ins[0] * T + 8) + 'px'; el.style.paddingRight = Math.round(ins[1] * T + 8) + 'px'; T = el.offsetWidth; } } }
       kidsOf(n).forEach(walk);
     };
     walk(r);
@@ -2137,7 +2192,7 @@ function branchText(seg, c, lw, cone, d) {
 const POS0 = new Map(), XF = new Map(), EDGE = new Map();
 const CURVY = st => st === 'organic' || st === 'right' || st === 'left';
 // Estructuras que puede tener una sola rama (las curvas y la radial solo valen para el mapa entero)
-const SUBABLE = st => !!STRUCTS[st] && !CURVY(st) && !['radial', 'bubble', 'cycle', 'process', 'pyramid'].includes(st);
+const SUBABLE = st => !!STRUCTS[st] && !CURVY(st) && !['radial', 'bubble', 'cycle', 'process', 'pyramid', 'funnel', 'canvas', 'roadmap'].includes(st);
 const MIRROR = ['tree', 'brace', 'fishL', 'timeline', 'stairs'];   // crecen hacia la derecha: en el lado izquierdo se dan la vuelta
 const MIRROR_R = ['treeL', 'fish'];                                // crecen hacia la izquierda: en el lado derecho se dan la vuelta
 const SIDE_ANCHOR = ['org', 'logic', 'kanban', 'table'];  // el tema va arriba: se arrima al lado de su rama padre
@@ -2286,10 +2341,11 @@ function branchHandles() {
   return h + '</g>';
 }
 let EDGEW1 = 0; const ENDW = new Map();
-function blockArrow(seg, col, lw, d) {
-  let pts = seg.c ? cubicPts(...seg.c, 30) : seg.l ? [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]] : seg.e.map(p => [p[0], p[1]]);
+var EDGE_PLAIN = false;   // conectores de lista (proceso, ciclo, pirámide): siempre línea fina
+function blockArrow(seg, col, lw, d, W0) {
+  let pts = seg.pts || (seg.c ? cubicPts(...seg.c, 30) : seg.l ? [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]] : seg.e.map(p => [p[0], p[1]]));
   let len = 0; const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
-  const W = Math.min(Math.max(d === 1 ? 14 : 8, lw * 3), len / 2.6), H = W * 1.5; if (W < 3) return '';
+  const W = Math.min(W0 || Math.max(d === 1 ? 14 : 8, lw * 3), len / 2.6), H = W * 1.5; if (W < 3) return '';
   const cut = len - H, body = []; for (let i = 0; i < pts.length; i++) { if (cum[i] < cut) body.push(pts[i]); else { const t = (cut - cum[i - 1]) / ((cum[i] - cum[i - 1]) || 1); body.push([pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * t, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t]); break; } }
   const nrm = i => { const a = body[Math.max(0, i - 1)], b = body[Math.min(body.length - 1, i + 1)], l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; return [-(b[1] - a[1]) / l, (b[0] - a[0]) / l]; };
   const L = body.map((p, i) => { const n = nrm(i); return [p[0] + n[0] * W / 2, p[1] + n[1] * W / 2]; }), R = body.map((p, i) => { const n = nrm(i); return [p[0] - n[0] * W / 2, p[1] - n[1] * W / 2]; }).reverse();
@@ -2298,7 +2354,7 @@ function blockArrow(seg, col, lw, d) {
   return `<path d="M${all.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')} Z" fill="${col}" fill-opacity=".22" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/>`;
 }
 function edgeSvg(seg, col, lw, cone, d, cap, pw, cid) {
-  if (doc.theme.arrows === 'block') { const h = blockArrow(seg, col, lw, d + 1); if (h) return h; }
+  if (doc.theme.arrows === 'block' && !EDGE_PLAIN) { const h = blockArrow(seg, col, lw, d + 1); if (h) return h; }
   const b3 = false;
   // Las ramas muy gruesas no pueden ser más anchas que los temas que unen: donde no cabe, se estrechan (cap = alto de los dos temas)
   if (cap && !cone) lw = Math.min(lw, Math.max(1, cap.b * 0.55), Math.max(1, cap.a * 0.8));
@@ -2452,9 +2508,9 @@ function treeSeg(p, q, L, org) {
     : L === 'fan' ? { c: [s0, { x: ax, y: b.y }, { x: ax, y: b.y }, b] }
     : { c: [s0, { x: ax, y: s0.y + (b.y - s0.y) * 0.75 }, { x: ax + (b.x - ax) * 0.35, y: b.y }, b] };
 }
-function descBox(n) {   // caja de un tema y todo lo que cuelga de él
+function descBox(n, skip) {   // caja de un tema y todo lo que cuelga de él (sin los temas de «skip»)
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  const go = m => { const b = POS.get(m.id); if (b) { x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.w); y1 = Math.max(y1, b.y + b.h); } kidsOf(m).forEach(go); };
+  const go = m => { if (skip && m !== n && skip.has(m.id)) return; const b = POS.get(m.id); if (b) { x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.w); y1 = Math.max(y1, b.y + b.h); } kidsOf(m).forEach(go); };
   go(n); return { x0, y0, x1, y1 };
 }
 function blockEdge(st, n, c, p, q, top, L, fc, lw) {
@@ -2473,15 +2529,25 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
       const i = kids.indexOf(c), pr = i > 0 ? POS.get(kids[i - 1].id) || p : p;
       return { seg: horizSeg({ x: q.m ? pr.x : pr.x + pr.w, y: mid(pr) }, { x: q.m ? q.x + q.w : q.x, y: mid(q) }, L === 'curve' || L === 'fan' ? 'straight' : L) };
     }
-    case 'bubble': { const pc = { x: cx(p), y: mid(p) }, qc = { x: cx(q), y: mid(q) }; return { seg: { l: [boxEdgePt(p, qc.x, qc.y), boxEdgePt(q, pc.x, pc.y)] } }; }
-    case 'process': return top ? null : { seg: treeSeg(p, q, lc) };
+    case 'bubble': {
+      const pc = { x: cx(p), y: mid(p) }, qc = { x: cx(q), y: mid(q) }, round = o => Math.abs(o.w - o.h) < 3;
+      const edge = (o, c0, t) => { if (!round(o)) return boxEdgePt(o, t.x, t.y); const dx = t.x - c0.x, dy = t.y - c0.y, l = Math.hypot(dx, dy) || 1, r = o.w / 2 - 0.5; return { x: c0.x + dx / l * r, y: c0.y + dy / l * r }; };
+      return { seg: { l: [edge(p, pc, qc), edge(q, qc, pc)] } };
+    }
+    case 'process': {
+      if (!top) return { seg: treeSeg(p, q, lc), plain: true };
+      if (doc.theme.arrows !== 'block') return null;
+      const i = kids.indexOf(c), nx = kids[i + 1] && POS.get(kids[i + 1].id); if (!nx) return null;
+      const y = mid(q), ba = blockArrow({ pts: [[q.x + q.w + 6, y], [nx.x - 6, y]] }, info(c.id).color, lw, 1, 18); return ba ? { svg: ba } : null;
+    }
+    case 'funnel':
     case 'pyramid': {
-      if (!top) return { seg: treeSeg(p, q, lc) };
+      if (!top) return { seg: treeSeg(p, q, lc), plain: true };
       const b = q.pb; if (!b) return null; const X = v => f1(q.x + v), Y = v => f1(q.y + v), cc = info(c.id).color;
       return { svg: `<path d="M${X(b.tl)},${Y(b.t)} L${X(b.tr)},${Y(b.t)} L${X(b.br)},${Y(b.b)} L${X(b.bl)},${Y(b.b)} Z" fill="${cc}" fill-opacity=".28" stroke="${cc}" stroke-width="1.6" stroke-linejoin="round"/>` };
     }
     case 'cycle': {
-      if (!top) return { seg: treeSeg(p, q, lc) };
+      if (!top) return { seg: treeSeg(p, q, lc), plain: true };
       if (kids.length < 2) return null;
       const i = kids.indexOf(c), nx = POS.get(kids[(i + 1) % kids.length].id); if (!nx || !q.cb || !nx.cb) return null;
       const pc = { x: cx(p), y: mid(p) }, A = { x: q.x + q.cb.dx, y: q.y + q.cb.dy }, B = { x: nx.x + nx.cb.dx, y: nx.y + nx.cb.dy };
@@ -2491,6 +2557,7 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
       const P0 = { x: pc.x + R * Math.cos(a0), y: pc.y + R * Math.sin(a0) }, P1 = { x: pc.x + R * Math.cos(a1), y: pc.y + R * Math.sin(a1) };
       const tx = -Math.sin(a1), ty = Math.cos(a1), nx2 = Math.cos(a1), ny2 = Math.sin(a1), hw = Math.max(5, lw * 2.2), cc = info(c.id).color;
       const arrow = `M${f1(P1.x - tx * hw * 1.6 + nx2 * hw)},${f1(P1.y - ty * hw * 1.6 + ny2 * hw)} L${f1(P1.x)},${f1(P1.y)} L${f1(P1.x - tx * hw * 1.6 - nx2 * hw)},${f1(P1.y - ty * hw * 1.6 - ny2 * hw)}`;
+      { const pts = []; for (let k = 0; k <= 36; k++) { const a = a0 + (a1 - a0) * k / 36; pts.push([pc.x + R * Math.cos(a), pc.y + R * Math.sin(a)]); } const ba = blockArrow({ pts }, cc, lw, 1, Math.max(14, Math.min(26, R * 0.12))); if (ba) return { svg: ba }; }
       return { svg: `<path d="M${f1(P0.x)},${f1(P0.y)} A${f1(R)},${f1(R)} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${f1(P1.x)},${f1(P1.y)}" fill="none" stroke="${cc}" stroke-width="${f1(Math.max(2, lw))}" stroke-linecap="round"/><path d="${arrow}" fill="none" stroke="${cc}" stroke-width="${f1(Math.max(2, lw))}" stroke-linecap="round" stroke-linejoin="round"/>` };
     }
     case 'brace': {
@@ -2515,9 +2582,11 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
       const t = Math.min(1, Math.abs(mid(q) - sy) / cat.fH), bx = tip.x + sg * cat.fdx * (1 - t);
       return { seg: { l: [{ x: m ? q.x - 2 : q.x + q.w + 2, y: mid(q) }, { x: bx, y: mid(q) }] }, lw: Math.min(lw, 1.4) };
     }
+    case 'canvas': return cvEdge(n, c, p, q, top, first);
+    case 'roadmap': return rmEdge(n, c, p, q, top, first);
     case 'kanban': {
       if (!top) return null;
-      const b = descBox(c), col = info(c.id).color;
+      const b = descBox(c, drag && drag.kind === 'node' && drag.items ? new Set(drag.items.map(x => x.id)) : null), col = info(c.id).color;
       return { svg: `<path d="${rr(b.x0 - 10, b.y0 - 10, b.x1 + 10, b.y1 + 10, 10)}" fill="${col}" fill-opacity=".09" stroke="${col}" stroke-opacity=".35" stroke-width="1.2"/>` };
     }
     case 'table': {
@@ -2658,6 +2727,7 @@ function drawRels() {
 
 /* ---------- Render completo ---------- */
 function render(opts = {}) {
+  cvPrep(); rmPrep();
   
   const texCls = applyBgLayer();
   reindex();
@@ -2675,6 +2745,8 @@ function render(opts = {}) {
   updateRibbon(); drawMini(); status(); try { updateDocName(); } catch (e) {}
   if (!opts.light) { schedOutline(); schedSave(); }
   if (FIND) markHits();
+  try { cvHandles(); } catch (e) {}
+  { const t = $('[data-tab="lienzo"]'); if (t) t.hidden = !doc.roots.some(r => r.structure === 'canvas' || r.structure === 'roadmap'); }
 }
 function placeNewRoots() {
   doc.roots.forEach((r, i) => {
@@ -3577,6 +3649,7 @@ board.addEventListener('pointermove', e => {
       }
       // En la estructura Kanban no se anida al pasar: solo vale soltar sobre la cabecera de otra columna
       const kr = kbRole(moving); if (kr && !(kr.card && tgt && info(tgt.id) && info(tgt.id).p === kr.host)) tgt = null;
+      if (cvRole(moving) || rmRole(moving)) tgt = null;
     }
     if ((drag.tgt && drag.tgt.id) !== (tgt && tgt.id)) { if (drag.tgt && EL.get(drag.tgt.id)) EL.get(drag.tgt.id).classList.remove('drop'); drag.tgt = tgt; if (tgt) EL.get(tgt.id).classList.add('drop'); }
     renderPositions();
@@ -3608,6 +3681,7 @@ function endDrag(e) {
   if (d.kind === 'node' && d.moved) {
     qbSuppress = true; qbNear = false; // tras mover un tema, no sale hasta que el ratón sale de él y vuelve
     $$('.n.dragging').forEach(x => x.classList.remove('dragging'));
+    if (!(e && e.altKey) && d.items.length === 1 && (cvDrop(d.items[0]) || rmDrop(d.items[0]))) return;
     if (!(e && e.altKey) && d.items.length === 1 && kbDrop(d.items[0], d.tgt)) { if (d.tgt && EL.get(d.tgt.id)) EL.get(d.tgt.id).classList.remove('drop'); return; }
     if (d.tgt) { EL.get(d.tgt.id) && EL.get(d.tgt.id).classList.remove('drop'); reparent(d.items[0], d.tgt); return; }
     // En el mapa orgánico, una rama principal llevada al otro lado cambia de lado
@@ -4398,6 +4472,7 @@ function nodeAttrs(n, relIds) {
   if (n.btext) a.btext = n.btext; if (n.bimg) a.bimg = imgSrc(n.bimg);
   if (n.col) a.collapsed = 'yes';
   if (n.src) a.src = n.src;
+  if (n.area) a.area = n.area; if (n.areav) a.areav = n.areav; if (n.zone) a.zone = n.zone; if (n.zonev) a.zonev = n.zonev; if (n.from) a.from = n.from; if (n.to) a.to = n.to;
   if (n.o) for (const st in n.o) { const o = n.o[st]; if (Math.abs(o[0]) + Math.abs(o[1]) >= 1) a[st] = Math.round(o[0]) + ',' + Math.round(o[1]); }
   return a;
 }
@@ -4594,6 +4669,7 @@ function buildPageMd() {
     if (r.line) m.lines = r.line;
     if (i > 0 || Math.round(r.x) || Math.round(r.y)) { m.x = Math.round(r.x); m.y = Math.round(r.y); }
     if (r.col) m.collapsed = 'yes';
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -4688,6 +4764,7 @@ function parseMd(src, forPaste) {
     if (a.size && /^\d+,\d+$/.test(a.size)) n.sz = a.size.split(',').map(x => clamp(+x, 20, 2000));
     if (a.collapsed === 'yes') n.col = true;
     if (a.src && /^[\w.-]{1,40}$/.test(a.src)) n.src = a.src;
+    if (a.area && cvA(a.area)) n.area = a.area; if (a.areav && cvA(a.areav)) n.areav = a.areav; if (a.zone) n.zone = a.zone; if (a.zonev) n.zonev = a.zonev; if (rmD(a.from)) n.from = a.from; if (rmD(a.to)) n.to = a.to;
     if (a.group && /^(auto|#?[0-9a-f]{3,8})$/i.test(a.group)) {
       n.grp = a.group.toLowerCase() === 'auto' ? 'auto' : '#' + a.group.replace('#', '').toLowerCase();
       if (['solid', 'dash', 'none'].includes(a.gborder)) n.gbd = a.gborder;
@@ -4730,6 +4807,7 @@ function parseMd(src, forPaste) {
       const r = out.roots[out.roots.length - 1]; if (!r) continue; const a = parseAttrs(m[1]);
       if (a.structure && STRUCTS[a.structure]) r.structure = a.structure;
       if (a.lines && LINES[a.lines]) r.line = a.lines;
+      if (a.grid || a.gridv || a.ratio || a.canvasbg) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -4825,7 +4903,7 @@ function saveBig(md) {
   if (document.activeElement !== mdtext) mdtext.value = md;
   try { wfAutoSave(); } catch (e) {}
 }
-let IMP = null;   // diálogo de importar abierto: { D, o, prev, p, done }. Mientras se ve la vista previa no se guarda nada
+let IMP = null;   // diálogo de importar abierto (con .ai: la respuesta de la IA pegada): { D, o, prev, p, done }. Mientras se ve la vista previa no se guarda nada
 function schedSave() {
   if (IMP) return;
   clearTimeout(saveT);
@@ -5073,6 +5151,22 @@ function cmd(c, el) {
     case 'dupPage': dupPage(book.cur); break;
     case 'open': openPicked(); break;
     case 'importDoc': pickImportDoc(); break;
+    case 'canvasNew': cvNewDialog(); break;
+    case 'cvSplitH': cvSplit('h'); break;
+    case 'cvSplitV': cvSplit('v'); break;
+    case 'cvMerge': cvMerge(); break;
+    case 'cvRemove': cvRemove(); break;
+    case 'cvTitles': cvSet(cv => { if (cv.titles === 'no') delete cv.titles; else cv.titles = 'no'; }); break;
+    case 'cvFrames': cvSet(cv => { if (cv.frames === 'no') delete cv.frames; else cv.frames = 'no'; }); break;
+    case 'cvRatio': cvSet(cv => { cv.ratio = CV_RATIOS[(CV_RATIOS.indexOf(cv.ratio || '16:9') + 1) % CV_RATIOS.length]; toast(trStr('Proporción') + ': ' + cv.ratio); }); break;
+    case 'cvBg': cvBg(); break;
+    case 'cvBgOff': cvSet(cv => { delete cv.bg; }); break;
+    case 'cvMobile': cvMobile(); break;
+    case 'cvPreview': CV_FORCE = CV_FORCE === 'v' ? 'h' : 'v'; render(); setTimeout(() => fit(), 30); toast(trStr(CV_FORCE === 'v' ? 'Viendo el lienzo como en el móvil' : 'Viendo el lienzo como en el ordenador')); break;
+    case 'cvSaveTpl': cvSaveTpl(); break;
+    case 'cvEdit': CV_EDIT = !CV_EDIT; render(); toast(trStr(CV_EDIT ? 'Editar lienzo: arrastra las asas de las líneas para ensanchar columnas y filas, y las de cada recuadro para moverlo o cambiar su tamaño' : 'Lienzo listo')); break;
+    case 'cvGrid': cvSet((cv, r) => { const G = cvGeom(r, cvPort()); r.kids.forEach(b => { delete b[cvPort() ? 'zonev' : 'zone']; }); delete cv[cvPort() ? 'cwv' : 'cw']; delete cv[cvPort() ? 'rwv' : 'rw']; }); break;
+    case 'rmDates': rmDates(); break;
     case 'workFolder': workFolderMenu(el); break;
     case 'cfgExport': cfgExport(); break;
     case 'cfgImport': cfgImport(); break;
@@ -6156,6 +6250,242 @@ Object.assign(EN, {"Botones de ajustar": "Fit buttons", "«Ajustar», Ctrl+0 y e
 Object.assign(EN, {"Encuadrar la rama: el tema seleccionado con sus hijos": "Frame the branch: the selected topic with its children", "Ajustar todo el mapa a la ventana": "Fit the whole map to the window", "Todo el mapa a la vista": "The whole map in view"});
 Object.assign(EN, {"Ajustar: los temas seleccionados (sin selección, todo el mapa)": "Fit: the selected topics (nothing selected: the whole map)", "Los temas seleccionados; sin selección, todo el mapa (Ctrl+0)": "The selected topics; nothing selected: the whole map (Ctrl+0)"});
 Object.assign(EN, {"Círculo": "Circle", "Proceso": "Process", "Pirámide": "Pyramid", "Flechas anchas": "Block arrows", "Las ramas como flechas anchas con borde, como en un diagrama de presentación": "Branches as wide outlined arrows, like in a presentation diagram"});
+/* ---------- Lienzos (estructura «canvas»): recuadros en una cuadrícula con proporción fija; las tarjetas son sus hijos ----------
+   Mapa: <!-- map: structure=canvas grid=10x3 gridv=6x4 ratio=16:9 titles=no frames=no canvasbg=… mobile=b -->
+   Recuadro (tema de 1.er nivel): <!-- area=1-2,1-2 areav=1-2,1 cv=socios -->  (columnas, filas; 1 = primera)  */
+Object.assign(EN, {"Lienzo": "Canvas", "Lienzo nuevo": "New canvas", "Recuadros con tarjetas que se arrastran de uno a otro. Se crea como hoja nueva o en lugar de lo abierto.": "Boxes with cards you drag between them. Created as a new sheet or replacing what is open.", "Recuadro": "Box", "Nuevo": "New", "y": "and", "Selecciona un recuadro del lienzo.": "Select a box of the canvas.", "Selecciona dos recuadros vecinos (Ctrl + clic).": "Select two neighbouring boxes (Ctrl + click).", "Solo se pueden unir dos recuadros que juntos formen un rectángulo.": "Only two boxes that together form a rectangle can be merged.", "Ningún recuadro vecino ocupa todo el hueco: las tarjetas han pasado a": "No neighbouring box fills the gap: the cards moved to", "Abre o selecciona un lienzo.": "Open or select a canvas.", "Guardado en «Lienzo nuevo» como": "Saved in “New canvas” as", "Colocación en móvil": "Mobile layout", "Colocación en móvil: la cuadrícula girada": "Mobile layout: the grid rotated", "Proporción": "Proportion", "Viendo el lienzo como en el móvil": "Viewing the canvas as on a phone", "Viendo el lienzo como en el ordenador": "Viewing the canvas as on a computer", "Mapa de empatía": "Empathy map", "DAFO": "SWOT", "Fortalezas": "Strengths", "Debilidades": "Weaknesses", "Oportunidades": "Opportunities", "Amenazas": "Threats", "Socios clave": "Key partners", "Actividades clave": "Key activities", "Recursos clave": "Key resources", "Propuesta de valor": "Value proposition", "Relaciones con clientes": "Customer relationships", "Canales": "Channels", "Segmentos de clientes": "Customer segments", "Estructura de costes": "Cost structure", "Fuentes de ingresos": "Revenue streams", "Problema": "Problem", "Solución": "Solution", "Métricas clave": "Key metrics", "Propuesta única de valor": "Unique value proposition", "Ventaja injusta": "Unfair advantage", "Piensa y siente": "Thinks and feels", "Cliente": "Customer", "Ve": "Sees", "Oye": "Hears", "Dice y hace": "Says and does", "Esfuerzos": "Pains", "Resultados": "Gains", "Cuadrícula 3 × 2": "Grid 3 × 2", "Cuadrícula 4 × 2": "Grid 4 × 2", "Cuadrícula 5 × 3": "Grid 5 × 3", "Cuadrícula 4 × 4": "Grid 4 × 4", "Títulos de recuadros": "Box titles", "Bordes de recuadros": "Box borders", "Imagen de fondo…": "Background image…", "Quitar fondo": "Remove background", "Ver como móvil / ordenador": "View as phone / computer", "⭐ Guardar como plantilla": "⭐ Save as template", "⬌ Dividir recuadro": "⬌ Split box", "⬍ Dividir recuadro": "⬍ Split box", "⧉ Unir recuadros": "⧉ Merge boxes", "✕ Quitar recuadro": "✕ Remove box"});
+/* ---------- Hoja de ruta (estructura «roadmap», tipo Gantt) ----------
+   Temas de 1.er nivel = fases (filas con su nombre a la izquierda); sus hijos = tareas, barras con fechas: <!-- from=2026-01-12 to=2026-02-06 -->
+   Sin fechas: cada tarea empieza al acabar la anterior y dura una semana. Arrastrar una barra en horizontal cambia sus fechas.  */
+const DAY = 864e5, rmD = s => { const m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) : null; };
+const rmS = t => new Date(t).toISOString().slice(0, 10);
+function rmPlan(r) {   // fechas efectivas de cada tarea y rango de la hoja de ruta
+  const out = new Map(); const now = new Date(), mon = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - ((now.getDay() + 6) % 7) * DAY;
+  let last = null;
+  const walk = (n, d) => { n.kids.forEach(c => { let a = rmD(c.from), b = rmD(c.to); if (a == null) a = last != null ? last : mon; if (b == null || b < a) b = a + 7 * DAY; out.set(c.id, [a, b]); if (d >= 1) last = b; walk(c, d + 1); }); };
+  r.kids.forEach(ph => { if (ph.kids.length) walk(ph, 1); else { let a = rmD(ph.from), b = rmD(ph.to); if (a == null) a = last != null ? last : mon; if (b == null || b < a) b = a + 7 * DAY; out.set(ph.id, [a, b]); last = b; } });
+  let lo = Infinity, hi = -Infinity; out.forEach(([a, b]) => { lo = Math.min(lo, a); hi = Math.max(hi, b); });
+  if (!isFinite(lo)) { lo = mon; hi = mon + 28 * DAY; }
+  const d0 = new Date(lo); lo = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), 1); const d1 = new Date(hi); hi = Date.UTC(d1.getUTCFullYear(), d1.getUTCMonth() + 1, 1);
+  const ppd = Math.max(10, Math.min(18, 1400 / ((hi - lo) / DAY)));
+  return { dates: out, lo, hi, ppd };
+}
+var RM_W = new Map();
+function rmPrep() { RM_W = new Map(); doc.roots.forEach(r => { if (r.structure !== 'roadmap' || (LITE && !TRIAL)) return; const P = rmPlan(r); P.dates.forEach(([a, b], id) => RM_W.set(id, Math.max(28, (b - a) / DAY * P.ppd))); }); }
+function rmLayout(r, kidsOf, sizeOf, set, L, sp) {
+  const P = rmPlan(r), s0 = sizeOf(r), lab = Math.max(...r.kids.map(k => sizeOf(k).w), 80) + 24, top = s0.h + 40, vg = 6 * sp;
+  set(r, 0, 0, 6); let y = top;
+  const X = t => lab + (t - P.lo) / DAY * P.ppd;
+  r.kids.forEach(ph => {
+    const hs = sizeOf(ph);
+    if (!ph.kids.length && P.dates.has(ph.id)) { set(ph, X(P.dates.get(ph.id)[0]), y, 3); y += hs.h + vg * 2; return; }
+    set(ph, 0, y, 3); y += hs.h + vg;
+    const walk = n => kidsOf(n).forEach(c => { const dd = P.dates.get(c.id); if (dd) set(c, X(dd[0]), y, 3); y += sizeOf(c).h + vg; walk(c); }); walk(ph);
+    y += vg * 2;
+  });
+  L.get(r.id).rm = { lo: P.lo, hi: P.hi, ppd: P.ppd, lab, top: top - 26, h: y - top + 26 };
+}
+function rmEdge(r, c, p, q, top, first) {
+  if (!top || !first || !p.rm) return null; const R = p.rm, x0 = p.x + R.lab, y0 = p.y + R.top, y1 = y0 + R.h; let h = '';
+  const MES = trStr('ene,feb,mar,abr,may,jun,jul,ago,sep,oct,nov,dic').split(',');
+  for (let t = R.lo; t < R.hi;) { const d = new Date(t), nx = Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1), x = x0 + (t - R.lo) / DAY * R.ppd, w = (nx - t) / DAY * R.ppd;
+    h += `<rect x="${f1(x)}" y="${f1(y0)}" width="${f1(w)}" height="${f1(R.h)}" fill="${d.getUTCMonth() % 2 ? 'rgba(127,127,127,.05)' : 'none'}" stroke="rgba(127,127,127,.25)" stroke-width="1"/><text x="${f1(x + 6)}" y="${f1(y0 + 16)}" font-size="12" fill="currentColor" opacity=".6">${MES[d.getUTCMonth()]}${d.getUTCMonth() === 0 || t === R.lo ? ' ' + d.getUTCFullYear() : ''}</text>`; t = nx; }
+  const now = Date.now(); if (now > R.lo && now < R.hi) { const x = x0 + (now - R.lo) / DAY * R.ppd; h += `<path d="M${f1(x)},${f1(y0)}V${f1(y1)}" stroke="#e53935" stroke-width="1.5" stroke-dasharray="4 3"/>`; }
+  return { svg: h };
+}
+function rmRole(n) { const inf = info(n.id); return inf && inf.r && inf.r.structure === 'roadmap' && inf.p && !(LITE && !TRIAL) && (inf.p !== inf.r || !n.kids.length) ? inf.r : null; }
+function rmDrop(n) {   // al soltar una barra: sus fechas se mueven los días que se ha desplazado (la duración no cambia)
+  const r = rmRole(n); if (!r) return false; const P = rmPlan(r), dd = P.dates.get(n.id), q = POS.get(n.id), R = POS.get(r.id) && POS.get(r.id).rm;
+  if (!dd || !q || !R) { if (n.o) delete n.o.roadmap; render(); return true; }
+  const a = Math.round((R.lo + (q.x - POS.get(r.id).x - R.lab) / R.ppd * DAY) / DAY) * DAY, len = dd[1] - dd[0];
+  if (n.o) delete n.o.roadmap; n.from = rmS(a); n.to = rmS(a + len); render(); return true;
+}
+function rmDates() {
+  const n = primary(); if (!n || !rmRole(n)) { toast(trStr('Selecciona una tarea de la hoja de ruta.')); return; }
+  const P = rmPlan(rmRole(n)), dd = P.dates.get(n.id) || [Date.now(), Date.now() + 7 * DAY];
+  dialog('Fechas', plainTopic(n), `<label class="nx-chk">${esc(trStr('Desde'))} <input type="date" id="rm-a" value="${rmS(dd[0])}"></label><label class="nx-chk">${esc(trStr('Hasta'))} <input type="date" id="rm-b" value="${rmS(dd[1])}"></label>`, () => { const a = $('#rm-a').value, b = $('#rm-b').value; if (!rmD(a)) return; snap(); n.from = a; n.to = rmD(b) && rmD(b) >= rmD(a) ? b : rmS(rmD(a) + 7 * DAY); render(); }, 'Aceptar');
+}
+
+Object.assign(EN, {"Embudo": "Funnel", "Hoja de ruta": "Roadmap", "Fechas": "Dates", "Desde": "From", "Hasta": "To", "Selecciona una tarea de la hoja de ruta.": "Select a roadmap task.", "ene,feb,mar,abr,may,jun,jul,ago,sep,oct,nov,dic": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec", "Editar lienzo": "Edit canvas", "Lienzo listo": "Canvas ready", "Volver a la cuadrícula": "Back to the grid", "Títulos encontrados": "Headings found", "negrita": "bold", "Texto": "Text", "Capítulo": "Chapter", "Apartado": "Section", "Subapartado": "Subsection", "4.º nivel": "4th level", "con índice impreso": "with printed contents", "sin índice: títulos deducidos por el tamaño de letra y la negrita": "no bookmarks: headings from font size and bold", "Imagen de fondo para el móvil": "Background image for phones", "Imagen de fondo": "Background image"});
+var CV_FORCE = null;   // null: según el ancho · 'v': ver como móvil
+const cvPort = () => CV_FORCE === 'v' || (CV_FORCE == null && (board.clientWidth || innerWidth) < 700);
+const cvG = s => { const m = String(s || '').match(/^(\d+)x(\d+)$/); return m ? [+m[1], +m[2]] : null; };
+const cvA = s => { const m = String(s || '').match(/^(\d+)(?:-(\d+))?,(\d+)(?:-(\d+))?$/); return m ? [+m[1], +(m[2] || m[1]), +m[3], +(m[4] || m[3])] : null; };
+const cvAs = a => (a[0] === a[1] ? a[0] : a[0] + '-' + a[1]) + ',' + (a[2] === a[3] ? a[2] : a[2] + '-' + a[3]);
+const CV_RATIOS = ['16:9', '4:3', '1:1'];
+// Geometría del lienzo: rejilla, proporción y el recuadro de cada tema de 1.er nivel (en unidades del mapa, sin escalar)
+function cvGeom(r, port, k = 1) {
+  const cv = r.cnv || {}, ks = r.kids;
+  let g = cvG(port ? cv.gv || '' : cv.g);
+  const key = port ? 'areav' : 'area';
+  if (!g && port && cvG(cv.g)) { const h = cvG(cv.g); g = [h[1], h[0]]; }   // sin rejilla vertical: se gira la horizontal
+  if (!g) { const c = Math.max(1, Math.ceil(Math.sqrt(ks.length * (port ? 0.6 : 1.8)))); g = [c, Math.max(1, Math.ceil(ks.length / c))]; }
+  const [ra, rb] = String(cv.ratio || '16:9').split(':').map(Number), W = (port ? 560 : 1120) * k, H = W * (port ? Math.max(ra, rb) / Math.min(ra, rb) : Math.min(ra, rb) / Math.max(ra, rb));
+  const occ = new Set(), areas = new Map();
+  ks.forEach(b => { let a = cvA(b[key]); if (!a && port && !cv.gv && cvA(b.area)) { const h = cvA(b.area); a = [h[2], h[3], h[0], h[1]]; } if (a) { a = [Math.max(1, a[0]), Math.min(g[0], a[1]), Math.max(1, a[2]), a[3]]; if (a[3] > g[1]) g = [g[0], a[3]]; areas.set(b.id, a); for (let c = a[0]; c <= a[1]; c++) for (let y = a[2]; y <= a[3]; y++) occ.add(c + ',' + y); } });
+  ks.forEach(b => { if (areas.has(b.id)) return; let put = null; for (let y = 1; !put; y++) { for (let c = 1; c <= g[0]; c++) if (!occ.has(c + ',' + y)) { put = [c, c, y, y]; break; } if (!put && y >= g[1]) g = [g[0], y + 1]; } occ.add(put[0] + ',' + put[2]); areas.set(b.id, put); });
+  const wts = (str, n) => { const a = String(str || '').split(',').map(Number).filter(x => x > 0); return a.length === n ? a : Array(n).fill(1); };
+  const cwt = wts(port ? cv.cwv : cv.cw, g[0]), rwt = wts(port ? cv.rwv : cv.rw, g[1]), sc = cwt.reduce((a, b) => a + b, 0), sr = rwt.reduce((a, b) => a + b, 0);
+  const xs = [0], ys = [0]; cwt.forEach(w => xs.push(xs[xs.length - 1] + w / sc * W)); rwt.forEach(w => ys.push(ys[ys.length - 1] + w / sr * H));
+  const gap = 8, zkey = port ? 'zonev' : 'zone';
+  const rect = (a, b) => { const z = b && String(b[zkey] || '').split(',').map(Number); if (z && z.length === 4 && z.every(isFinite)) return { x: z[0] / 100 * W + gap / 2, y: z[1] / 100 * H + gap / 2, w: z[2] / 100 * W - gap, h: z[3] / 100 * H - gap, zone: true };
+    return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
+  return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
+}
+var CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false;
+// Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
+function cvHandles() {
+  nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
+  doc.roots.forEach(r => {
+    const R = POS.get(r.id); if (r.structure !== 'canvas' || !R || !R.cvc) return; const C = R.cvc, ox = R.x + C.dx, oy = R.y + C.dy, port = C.port;
+    const add = (cls, x, y, w, h, fn, title) => { const d = document.createElement('div'); d.className = 'cv-hdl no-tr ' + cls; d.style.transform = `translate(${x}px, ${y}px)`; d.style.width = w + 'px'; d.style.height = h + 'px'; if (title) d.title = trStr(title); d.addEventListener('pointerdown', e => cvHdlDrag(e, r, fn)); nodesEl.appendChild(d); };
+    C.xs.slice(1, -1).forEach((x, i) => add('cv-hv', ox + x - 4, oy, 8, C.h, (dx) => cvWeight(r, port, 'c', i, dx, C), 'Arrastra para ensanchar o estrechar las columnas'));
+    C.ys.slice(1, -1).forEach((y, i) => add('cv-hh', ox, oy + y - 4, C.w, 8, (dx, dy) => cvWeight(r, port, 'r', i, dy, C), 'Arrastra para cambiar el alto de las filas'));
+    r.kids.forEach(b => { const q = POS.get(b.id); if (!q || !q.cv) return; const bx = q.x + q.cv.dx, by = q.y + q.cv.dy;
+      add('cv-mv', bx + q.cv.w - 22, by + 4, 18, 18, (dx, dy, st) => cvZone(r, b, port, C, st, dx, dy, false), 'Mover el recuadro (pasa a posición libre)');
+      add('cv-rs', bx + q.cv.w - 12, by + q.cv.h - 12, 14, 14, (dx, dy, st) => cvZone(r, b, port, C, st, dx, dy, true), 'Cambiar el tamaño del recuadro (pasa a posición libre)'); });
+  });
+}
+function cvHdlDrag(e, r, fn) {
+  e.preventDefault(); e.stopPropagation(); snap(); cvWeight.key = null; const sx = e.clientX, sy = e.clientY, st = {}; let raf = 0;
+  const mv = ev => { const dx = (ev.clientX - sx) / V.s, dy = (ev.clientY - sy) / V.s; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { fn(dx, dy, st); render(); }); };
+  const up = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); };
+  addEventListener('pointermove', mv); addEventListener('pointerup', up);
+}
+function cvWeight(r, port, k, i, d, C) {
+  r.cnv = r.cnv || {}; const key = (k === 'c' ? 'cw' : 'rw') + (port ? 'v' : ''), arr = k === 'c' ? C.xs : C.ys, tot = arr[arr.length - 1];
+  if (!cvWeight.base || cvWeight.key !== key + i) { cvWeight.key = key + i; cvWeight.base = arr.slice(1).map((v, j) => v - arr[j]); }
+  const w = cvWeight.base.slice(), m = Math.min(Math.max(d, -w[i] + tot * 0.03), w[i + 1] - tot * 0.03); w[i] += m; w[i + 1] -= m;
+  r.cnv[key] = w.map(v => +(v / tot * 100).toFixed(1)).join(',');
+}
+function cvZone(r, b, port, C, st, dx, dy, resize) {
+  const zk = port ? 'zonev' : 'zone';
+  if (!st.z) { const q = POS.get(b.id); st.z = [(q.x + q.cv.dx - (POS.get(r.id).x + C.dx) - 4) / C.w * 100, (q.y + q.cv.dy - (POS.get(r.id).y + C.dy) - 4) / C.h * 100, (q.cv.w + 8) / C.w * 100, (q.cv.h + 8) / C.h * 100]; }
+  const z = st.z.slice(), px = dx / C.w * 100, py = dy / C.h * 100;
+  if (resize) { z[2] = Math.max(5, z[2] + px); z[3] = Math.max(5, z[3] + py); } else { z[0] = clamp(z[0] + px, 0, 100 - z[2]); z[1] = clamp(z[1] + py, 0, 100 - z[3]); }
+  b[zk] = z.map(v => +v.toFixed(1)).join(',');
+}
+function cvPrep() {   // antes de pintar: ancho máximo de las tarjetas y títulos ocultos
+  CV_MAXW = new Map(); CV_HID = new Set();
+  doc.roots.forEach(r => {
+    if (r.structure !== 'canvas' || (LITE && !TRIAL)) return; const G = cvGeom(r, cvPort());
+    r.kids.forEach(b => { const R = G.rect(G.areas.get(b.id), b); CV_MAXW.set(b.id, Math.max(60, R.w - 20)); if (r.cnv && r.cnv.titles === 'no') CV_HID.add(b.id);
+      const w = (n, d) => n.kids.forEach(c => { CV_MAXW.set(c.id, Math.max(60, R.w - 22 - (d - 1) * 14)); w(c, d + 1); }); w(b, 1); });
+  });
+}
+function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
+  const port = cvPort(), s0 = sizeOf(r), top = s0.h + 16 * sp, vg = 6 * sp, ind = 14 * sp;
+  const flat = (n, dep = 1, out = []) => { for (const c of kidsOf(n)) { out.push([c, dep]); flat(c, dep + 1, out); } return out; };
+  let G = cvGeom(r, port), k = 1;
+  r.kids.forEach(b => { const R = G.rect(G.areas.get(b.id), b), need = 18 + sizeOf(b).h + flat(b).reduce((a, [d]) => a + sizeOf(d).h + vg, 0); k = Math.max(k, need / R.h); });
+  if (k > 1) G = cvGeom(r, port, Math.min(k, 4));
+  set(r, 0, 0, 6); L.get(r.id).cvc = { dx: 0, dy: top, w: G.W, h: G.H, xs: G.xs, ys: G.ys, port };
+  r.kids.forEach(b => {
+    const R = G.rect(G.areas.get(b.id), b), bs = sizeOf(b);
+    set(b, R.x + 10, top + R.y + 8, 3); L.get(b.id).cv = { dx: -10, dy: -8, w: R.w, h: R.h };
+    let y = top + R.y + 8 + bs.h + 8; for (const [d, dep] of flat(b)) { set(d, R.x + 10 + (dep - 1) * ind, y, 3); y += sizeOf(d).h + vg; }
+  });
+}
+function cvEdge(r, c, p, q, top, first) {
+  if (!top) return null; const cv = r.cnv || {}; let h = ''; const rr = (x0, y0, x1, y1, k) => `M${f1(x0 + k)},${f1(y0)} H${f1(x1 - k)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + k)} V${f1(y1 - k)} Q${f1(x1)},${f1(y1)} ${f1(x1 - k)},${f1(y1)} H${f1(x0 + k)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - k)} V${f1(y0 + k)} Q${f1(x0)},${f1(y0)} ${f1(x0 + k)},${f1(y0)} Z`;
+  const bg = p.cvc && p.cvc.port ? cv.bgv || cv.bg : cv.bg;
+  if (first && bg && p.cvc) h += `<image href="${esc(bg)}" x="${f1(p.x + p.cvc.dx)}" y="${f1(p.y + p.cvc.dy)}" width="${f1(p.cvc.w)}" height="${f1(p.cvc.h)}" preserveAspectRatio="none" opacity="${cv.frames === 'no' ? 1 : 0.22}"/>`;
+  if (q.cv && cv.frames !== 'no') { const col = info(c.id).color, x = q.x + q.cv.dx, y = q.y + q.cv.dy; h += `<path d="${rr(x, y, x + q.cv.w, y + q.cv.h, 9)}" fill="${col}" fill-opacity=".08" stroke="${col}" stroke-opacity=".55" stroke-width="1.5"${CV_EDIT ? ' stroke-dasharray="6 4"' : ''}/>`; }
+  else if (q.cv && CV_EDIT) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy; h += `<path d="${rr(x, y, x + q.cv.w, y + q.cv.h, 9)}" fill="none" stroke="#0e7470" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="6 4"/>`; }
+  return h ? { svg: h } : null;
+}
+// Arrastrar: una tarjeta cae en el recuadro que hay debajo, en la posición según la altura; los recuadros no se mueven al arrastrar
+function cvRole(n) { const inf = info(n.id); if (!inf || !inf.p || !inf.r || inf.r.structure !== 'canvas' || (LITE && !TRIAL)) return null; let b = n, f = inf; while (f.p !== inf.r) { b = f.p; f = info(b.id); } return { r: inf.r, block: b, card: b !== n }; }
+function cvDrop(n) {
+  const cr = cvRole(n); if (!cr) return false; if (n.o) delete n.o.canvas;
+  if (!cr.card) { render(); return true; }
+  const p = POS.get(n.id); if (!p) return false; const cx = p.x + p.w / 2, cy = p.y + Math.min(p.h, 30) / 2;
+  const tb = cr.r.kids.find(b => { const q = POS.get(b.id); return q && q.cv && cx >= q.x + q.cv.dx && cx <= q.x + q.cv.dx + q.cv.w && cy >= q.y + q.cv.dy && cy <= q.y + q.cv.dy + q.cv.h; });
+  if (!tb) { render(); return true; }
+  const par = info(n.id).p; par.kids.splice(par.kids.indexOf(n), 1);
+  let i = tb.kids.findIndex(k => { const q = POS.get(k.id); return q && cy < q.y + q.h / 2; }); if (i < 0) i = tb.kids.length;
+  tb.kids.splice(i, 0, n); sel = new Set([n.id]); render(); return true;
+}
+// Editar: dividir, unir, quitar (sobre la colocación que se ve ahora: ordenador o móvil)
+function cvCur() { const n = primary(), cr = n && cvRole(n); if (cr) return cr; const r = n && info(n.id) && info(n.id).r || doc.roots[0]; return r && r.structure === 'canvas' ? { r, block: null } : null; }
+function cvFix(r, G) { r.cnv = r.cnv || {}; const key = G.key; r.cnv[key === 'area' ? 'g' : 'gv'] = G.g.join('x'); r.kids.forEach(b => { b[key] = cvAs(G.areas.get(b.id)); }); }
+function cvSplit(dir) {
+  const c = cvCur(); if (!c || !c.block) { toast(trStr('Selecciona un recuadro del lienzo.')); return; }
+  snap(); const r = c.r, b = c.block, port = cvPort(); let G = cvGeom(r, port); cvFix(r, G); const key = G.key, ax = dir === 'h' ? 0 : 2;
+  let a = cvA(b[key]);
+  if (a[ax + 1] === a[ax]) { r.kids.forEach(x => { const q = cvA(x[key]); q[ax] = q[ax] * 2 - 1; q[ax + 1] = q[ax + 1] * 2; x[key] = cvAs(q); }); G.g[dir === 'h' ? 0 : 1] *= 2; r.cnv[key === 'area' ? 'g' : 'gv'] = G.g.join('x'); a = cvA(b[key]); }
+  const mid = Math.floor((a[ax] + a[ax + 1]) / 2), a1 = a.slice(), a2 = a.slice(); a1[ax + 1] = mid; a2[ax] = mid + 1;
+  b[key] = cvAs(a1); const nb = mk(trStr('Nuevo')); nb[key] = cvAs(a2);
+  r.kids.splice(r.kids.indexOf(b) + 1, 0, nb); sel = new Set([nb.id]); render(); startEdit(nb.id);
+}
+function cvMerge() {
+  const bs = [...sel].map(id => node(id)).filter(Boolean).map(n => cvRole(n)).filter(x => x && !x.card);
+  if (bs.length !== 2 || bs[0].r !== bs[1].r) { toast(trStr('Selecciona dos recuadros vecinos (Ctrl + clic).')); return; }
+  const r = bs[0].r, port = cvPort(), G = cvGeom(r, port), A = G.areas.get(bs[0].block.id), B = G.areas.get(bs[1].block.id);
+  const U = [Math.min(A[0], B[0]), Math.max(A[1], B[1]), Math.min(A[2], B[2]), Math.max(A[3], B[3])], cells = a => (a[1] - a[0] + 1) * (a[3] - a[2] + 1);
+  if (cells(U) !== cells(A) + cells(B)) { toast(trStr('Solo se pueden unir dos recuadros que juntos formen un rectángulo.')); return; }
+  snap(); cvFix(r, G); const [x, y] = [bs[0].block, bs[1].block];
+  x[G.key] = cvAs(U); x.text = x.text + ' ' + trStr('y') + ' ' + y.text; x.kids.push(...y.kids); r.kids.splice(r.kids.indexOf(y), 1); sel = new Set([x.id]); render();
+}
+function cvRemove() {
+  const c = cvCur(); if (!c || !c.block) { toast(trStr('Selecciona un recuadro del lienzo.')); return; }
+  snap(); const r = c.r, b = c.block, G = cvGeom(r, cvPort()); cvFix(r, G); const A = G.areas.get(b.id), key = G.key;
+  const nb = r.kids.find(x => { if (x === b) return false; const q = G.areas.get(x.id); return (q[2] === A[2] && q[3] === A[3] && (q[1] + 1 === A[0] || A[1] + 1 === q[0])) || (q[0] === A[0] && q[1] === A[1] && (q[3] + 1 === A[2] || A[3] + 1 === q[2])); });
+  const to = nb || r.kids.find(x => x !== b);
+  if (nb) { const q = G.areas.get(nb.id); nb[key] = cvAs([Math.min(q[0], A[0]), Math.max(q[1], A[1]), Math.min(q[2], A[2]), Math.max(q[3], A[3])]); }
+  if (to) to.kids.push(...b.kids); r.kids.splice(r.kids.indexOf(b), 1); sel = new Set(to ? [to.id] : []); render();
+  if (!nb) toast(trStr('Ningún recuadro vecino ocupa todo el hueco: las tarjetas han pasado a') + ' «' + plainTopic(to) + '»');
+}
+// Plantillas (horizontal 16:9) y colocaciones para móvil de los lienzos de 9 recuadros (A girado, B columna central, C grupos, D pasillo)
+const CV_MOB9 = {
+  a: ['2x6', ['1-2,1', '1,2', '2,2', '1-2,3', '1,4', '2,4', '1-2,5', '1,6', '2,6']],
+  b: ['6x4', ['1-2,1', '1-2,2', '1-2,3', '3-4,1-3', '5-6,2', '5-6,3', '5-6,1', '1-3,4', '4-6,4']],
+  c: ['12x13', ['1-5,5-6', '1-5,7-8', '1-5,9-10', '1-12,1-3', '8-12,7-8', '8-12,9-10', '8-12,5-6', '1-5,12-13', '8-12,12-13']],
+  d: ['12x13', ['1-6,5-6', '1-5,7-8', '1-5,9-10', '1-12,1-3', '8-12,7-8', '8-12,9-10', '7-12,5-6', '1-6,12-13', '7-12,12-13']],
+};
+const CV_9 = ['1-2,1-2', '3-4,1', '3-4,2', '5-6,1-2', '7-8,1', '7-8,2', '9-10,1-2', '1-5,3', '6-10,3'];
+const CV_TPL = {
+  bmc: { name: 'Business Model Canvas', g: '10x3', mob: 'b', blocks: ['Socios clave', 'Actividades clave', 'Recursos clave', 'Propuesta de valor', 'Relaciones con clientes', 'Canales', 'Segmentos de clientes', 'Estructura de costes', 'Fuentes de ingresos'], a: CV_9 },
+  lean: { name: 'Lean Canvas', g: '10x3', mob: 'b', blocks: ['Problema', 'Solución', 'Métricas clave', 'Propuesta única de valor', 'Ventaja injusta', 'Canales', 'Segmentos de clientes', 'Estructura de costes', 'Fuentes de ingresos'], a: CV_9 },
+  dafo: { name: 'DAFO', g: '2x2', gv: '2x2', blocks: ['Fortalezas', 'Debilidades', 'Oportunidades', 'Amenazas'], a: ['1,1', '2,1', '1,2', '2,2'], av: ['1,1', '2,1', '1,2', '2,2'] },
+  empatia: { name: 'Mapa de empatía', g: '4x3', gv: '2x4', blocks: ['Piensa y siente', 'Cliente', 'Ve', 'Oye', 'Dice y hace', 'Esfuerzos', 'Resultados'], a: ['1,1', '2-3,1-2', '4,1', '1,2', '4,2', '1-2,3', '3-4,3'], av: ['1,2', '1-2,1', '2,2', '1,3', '2,3', '1,4', '2,4'] },
+  g32: { name: 'Cuadrícula 3 × 2', g: '3x2', n: 6 }, g42: { name: 'Cuadrícula 4 × 2', g: '4x2', n: 8 }, g53: { name: 'Cuadrícula 5 × 3', g: '5x3', n: 15 }, g44: { name: 'Cuadrícula 4 × 4', g: '4x4', n: 16 },
+};
+function cvTplMd(k, own) {
+  const t = own || CV_TPL[k], m = t.mob && CV_MOB9[t.mob];
+  const blocks = t.blocks || Array.from({ length: t.n }, (_, i) => trStr('Recuadro') + ' ' + (i + 1));
+  let s = `# ${escText(trStr(t.name))}\n<!-- map: ${attrs({ structure: 'canvas', grid: t.g, gridv: m ? m[0] : t.gv || null, ratio: t.ratio || null, mobile: t.mob || null, titles: t.titles || null, frames: t.frames || null })} -->\n\n`;
+  blocks.forEach((b, i) => { s += `- ${escText(trStr(b))} <!-- ${attrs({ area: t.a ? t.a[i] : null, areav: m ? m[1][i] : t.av ? t.av[i] : null })} -->\n`; });
+  return s;
+}
+function cvNewDialog() {
+  const own = PR.cvTpl || [];
+  dialog('Lienzo nuevo', 'Recuadros con tarjetas que se arrastran de uno a otro. Se crea como hoja nueva o en lugar de lo abierto.', `<div class="cv-tpls">${Object.entries(CV_TPL).map(([k, t]) => `<button type="button" class="btn-sec" data-cvt="${k}">${esc(trStr(t.name))}</button>`).join('')}${own.map((t, i) => `<button type="button" class="btn-sec" data-cvo="${i}">⭐ ${esc(t.name)}</button>`).join('')}</div>`, null, null);
+  modal.querySelector('.cv-tpls').addEventListener('click', e => {
+    const b = e.target.closest('[data-cvt], [data-cvo]'); if (!b) return;
+    const md = b.dataset.cvt ? cvTplMd(b.dataset.cvt) : cvTplMd(null, own[+b.dataset.cvo]); closeDialog();
+    const p = parseBook(md); if (p) setTimeout(() => replaceGuard(() => { if (WF) WF.file = null; loadBook(p); U.stack = []; U.redo = []; render(); drawSheets(); setTimeout(() => fit(), 30); schedSave(); }, p, plainTopic(p.pages[0].roots[0])), 0);
+  });
+}
+function cvSaveTpl() {
+  const c = cvCur(); if (!c) { toast(trStr('Abre o selecciona un lienzo.')); return; }
+  const r = c.r, G = cvGeom(r, false), V = cvGeom(r, true), name = plainTopic(r);
+  const t = { name, g: G.g.join('x'), gv: V.g.join('x'), ratio: r.cnv && r.cnv.ratio, titles: r.cnv && r.cnv.titles, frames: r.cnv && r.cnv.frames, blocks: r.kids.map(b => plainTopic(b)), a: r.kids.map(b => cvAs(G.areas.get(b.id))), av: r.kids.map(b => cvAs(V.areas.get(b.id))) };
+  PR.cvTpl = [...(PR.cvTpl || []).filter(x => x.name !== name), t].slice(-20); savePrefs(); toast(trStr('Guardado en «Lienzo nuevo» como') + ' «' + name + '»');
+}
+function cvSet(fn) { const c = cvCur(); if (!c) { toast(trStr('Abre o selecciona un lienzo.')); return; } snap(); c.r.cnv = c.r.cnv || {}; fn(c.r.cnv, c.r); render(); }
+function cvMobile() {   // A → B → C → D en los lienzos de 9 recuadros; en el resto, recoloca girando la cuadrícula
+  cvSet((cv, r) => {
+    if (r.kids.length === 9) { const o = ['a', 'b', 'c', 'd'], v = o[(o.indexOf(cv.mobile) + 1) % 4]; cv.mobile = v; cv.gv = CV_MOB9[v][0]; r.kids.forEach((b, i) => b.areav = CV_MOB9[v][1][i]); toast(trStr('Colocación en móvil') + ': ' + v.toUpperCase()); }
+    else { delete cv.gv; r.kids.forEach(b => delete b.areav); toast(trStr('Colocación en móvil: la cuadrícula girada')); }
+  });
+  if (!cvPort()) { CV_FORCE = 'v'; render(); setTimeout(() => fit(), 30); }
+}
+function cvBg() {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = () => { const f = inp.files[0]; if (!f) return; const fr = new FileReader(); fr.onload = () => cvSet(cv => { cv[cvPort() ? 'bgv' : 'bg'] = fr.result; toast(trStr(cvPort() ? 'Imagen de fondo para el móvil' : 'Imagen de fondo')); }); fr.readAsDataURL(f); }; inp.click();
+}
+
 var FIND = null;   // { q, hits: [{ id, w, s }], i }
 const normS = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 function findOpen() {
@@ -6300,6 +6630,8 @@ function openReader(id) {
     readWin.addEventListener('click', e => {
       const b = e.target.closest('[data-rw]'); if (!b || b.disabled) return; const k = b.dataset.rw, o = book.src ? book.src.order : [], i = o.indexOf(readFor);
       if (k === 'x') closeReader();
+      else if (k === 'fs-' || k === 'fs+') { PR.readFs = clamp((PR.readFs || 14.5) + (k === 'fs+' ? 1 : -1), 11, 22); savePrefs(); readWin.querySelector('.rw-d').style.fontSize = PR.readFs + 'px'; }
+      else if (k === 'serif') { PR.readSerif = !PR.readSerif; savePrefs(); readWin.classList.toggle('serif', !!PR.readSerif); }
       else if (k === 'prev' && i > 0) openReader(o[i - 1]);
       else if (k === 'next' && i >= 0 && i < o.length - 1) openReader(o[i + 1]);
       else if (k === 'ai') { const n = srcNode(readFor), y = book.src && book.src.secs[readFor]; const md = n ? notesMd([n], { all: true, ctx: true, src: true }) : y ? (y.t ? '# ' + y.t + '\n\n' : '') + y.md + '\n' : ''; if (md) copyText(md, trStr('Copiado para pegar en una IA') + ' · ≈ ' + tokEst(md).toLocaleString() + ' tokens'); }
@@ -6309,8 +6641,8 @@ function openReader(id) {
   const i = S.order.indexOf(id), pv = S.secs[S.order[i - 1]], nx = S.secs[S.order[i + 1]], lab = y => esc(cutText(y && y.t || '…', 34).replace(/ …$/, '…'));
   readWin.innerHTML = `<div class="nw-h"><b class="nw-t" title="${esc(x.t || '')}">📖 ${esc(x.t || S.name || '')}</b>${x.p ? `<span class="rw-p">${esc(trStr('pág.'))} ${esc(x.p)}</span>` : ''}<button class="btn-sec" data-rw="ai" title="${esc(trStr('Copia este tema y sus subtemas con su texto, listos para pegar en una IA'))}">⧉ ${esc(trStr('Copiar para IA'))}</button><button class="nw-x" data-rw="x" title="${esc(trStr('Cerrar'))}">×</button></div>`
     + `<div class="nw-d ndoc rw-d">${noteHtml(x.md || '') || `<p style="color:var(--muted)">${esc(trStr('Este apartado no tiene texto propio: su contenido está en los subtemas.'))}</p>`}</div>`
-    + `<div class="rw-f"><button class="btn-sec" data-rw="prev"${pv ? '' : ' disabled'}>‹ ${pv ? lab(pv) : ''}</button><span>${i + 1} / ${S.order.length}</span><button class="btn-sec" data-rw="next"${nx ? '' : ' disabled'}>${nx ? lab(nx) : ''} ›</button></div>`;
-  readWin.hidden = false; readWin.querySelector('.rw-d').scrollTop = 0;
+    + `<div class="rw-f"><button class="btn-sec rw-sz" data-rw="fs-" title="${esc(trStr('Letra más pequeña'))}">A−</button><button class="btn-sec rw-sz" data-rw="fs+" title="${esc(trStr('Letra más grande'))}">A+</button><button class="btn-sec rw-sz" data-rw="serif" title="${esc(trStr('Letra de libro'))}">Aa</button><button class="btn-sec" data-rw="prev"${pv ? '' : ' disabled'}>‹ ${pv ? lab(pv) : ''}</button><span>${i + 1} / ${S.order.length}</span><button class="btn-sec" data-rw="next"${nx ? '' : ' disabled'}>${nx ? lab(nx) : ''} ›</button></div>`;
+  readWin.hidden = false; readWin.querySelector('.rw-d').scrollTop = 0; readWin.classList.toggle('serif', !!PR.readSerif); if (PR.readFs) readWin.querySelector('.rw-d').style.fontSize = PR.readFs + 'px';
   const n = srcNode(id);
   if (n) {   // el tema en el mapa: abre sus ramas plegadas, lo selecciona y lo trae a la vista
     let ch = false, f = info(n.id); while (f && f.p) { if (f.p.col) { f.p.col = false; ch = true; } f = info(f.p.id); }
@@ -6340,6 +6672,7 @@ function docFromMd(text, name, kind, meta = {}) {
     if (secs.length === 1 && secs[0].p == null) secs[0].p = page;
   }
   secs.forEach(s => { s.md = s.md.join('\n').replace(/\n{3,}/g, '\n\n').trim(); });
+  if (!meta.paras) { meta = { ...meta, paras: [] }; secs.forEach(s => { if (s.t) meta.paras.push({ p: s.p, t: s.t, h: 1 }); s.md.split(/\n{2,}/).forEach(t => { if (t.trim()) meta.paras.push({ p: s.p, t: t.trim() }); }); }); }
   return docNorm({ name: String(name || '').replace(/\.\w+$/, '') || trStr('Documento'), file: name, kind, secs, ...meta });
 }
 // Niveles seguidos (1, 2, 3…) y, si hay un único título de primer nivel al principio, ese es el título del documento
@@ -6408,6 +6741,15 @@ function importMd(D, o) {
   return md + (o.text === 'end' ? '\n' + srcMd(S) : '');
 }
 const countTopics = p => { let c = 0; const w = n => { c++; n.kids.forEach(w); }; p.pages.forEach(pg => pg.roots.forEach(w)); return c; };
+const AI_KINDS = [['fiel', 'Índice fiel', 'los capítulos y apartados tal como están en el documento'], ['conceptos', 'Conceptos clave', 'los temas e ideas principales aunque estén repartidos por el documento; cada concepto puede citar varios sitios'], ['resumen', 'Mapa resumido', 'un mapa mental corto con lo esencial de todo el documento, como el de NotebookLM'], ['estudio', 'Para estudiar', 'por capítulo: ideas clave, definiciones y ejemplos'], ['preguntas', 'Preguntas de repaso', 'preguntas para repasar cada capítulo, cada una citando dónde está la respuesta']];
+function aiIndexPrompt(kinds, extra, D) {
+  const ks = AI_KINDS.filter(k => kinds.includes(k[0])), pg = !!(D && D.pages);
+  let s = trStr('Te adjunto un documento') + (D ? ' («' + (D.file || D.name) + '»)' : '') + '. ' + trStr('No copies su texto: solo necesito un ÍNDICE en forma de mapa mental para MarkDawn Mind, con referencias a dónde está cada cosa. Yo ya tengo el texto completo.') + '\n\n';
+  s += trStr('Haz') + ' ' + (ks.length > 1 ? ks.length + ' ' + trStr('mapas, cada uno en su hoja') : trStr('un mapa')) + ':\n' + ks.map(k => '- ' + trStr(k[1]) + ': ' + trStr(k[2]) + '.').join('\n') + (extra ? '\n- ' + trStr('Además, ten en cuenta') + ': ' + extra : '') + '\n\n';
+  s += trStr('Formato exacto (Markdown, sin nada antes ni después):') + '\n\n```\n' + (ks.length > 1 ? '<!-- page: ' + trStr(ks[0][1]) + ' -->\n' : '') + '# ' + trStr('Título del mapa') + '\n\n- ' + trStr('Tema') + ' [[' + (pg ? 'p34 ' : '') + '«' + trStr('primeras palabras exactas del párrafo donde empieza') + '»]]\n  ' + trStr('Una frase de resumen (opcional).') + '\n  - ' + trStr('Subtema') + ' [[' + (pg ? 'p35 ' : '') + '«…»]]\n' + (ks.length > 1 ? '\n<!-- page: ' + trStr(ks[1][1]) + ' -->\n# …\n' : '') + '```\n\n';
+  s += trStr('Reglas:') + '\n- ' + trStr('Títulos cortos (2 a 7 palabras), como mucho 4 niveles, sangría de dos espacios por nivel.') + '\n- ' + trStr('Cada tema lleva entre [[ ]]') + (pg ? ' ' + trStr('la página del PDF (pN) y') : '') + ' ' + trStr('las 5 a 10 primeras palabras del párrafo donde empieza, copiadas EXACTAMENTE, entre « ».') + '\n- ' + trStr('Si un tema está en varios sitios, pon varias referencias: [[p12 «…»]] [[p40 «…»]]. Si quieres marcar dónde acaba: [[p40 «…» → p41 «…»]].') + '\n- ' + trStr('No copies párrafos del documento; como mucho una frase tuya de resumen bajo cada tema.') + '\n';
+  return s;
+}
 const AI_DOC_PROMPT = () => trStr('Convierte el documento que te adjunto en un mapa mental para MarkDawn Mind, en Markdown, siguiendo estas reglas:') + '\n\n'
   + '- ' + trStr('Primera línea: «# » y el título del documento.') + '\n'
   + '- ' + trStr('Debajo, una lista con guiones: cada capítulo o idea principal es un elemento de primer nivel, numerado («- 1. Nombre»).') + '\n'
@@ -6424,9 +6766,10 @@ function importDialog(D) {
   IMP = { D, o, prev: { book, doc, V: { ...V } }, p: null, done: false };
   const seg = (k, opts) => `<div class="imp-seg" data-k="${k}">${opts.map(([v, t, tip]) => `<button type="button" data-v="${v}"${tip ? ` title="${esc(trStr(tip))}"` : ''}>${esc(trStr(t))}</button>`).join('')}</div>`;
   const LV = ['Capítulos', '+ apartados', '+ subapartados', '+ 4.º nivel'];
-  const info = [D.kind === 'pdf' ? '📄 PDF' : D.kind === 'docx' ? '📄 Word' : '📄 ' + (D.kind === 'md' ? 'Markdown' : trStr('Texto')), D.pages ? D.pages + ' ' + trStr('páginas') : '', D.kind === 'pdf' ? trStr(D.outline ? 'con índice' : 'sin índice: títulos deducidos por el tamaño de letra') : ''].filter(Boolean).join(' · ');
+  const info = [D.kind === 'pdf' ? '📄 PDF' : D.kind === 'docx' ? '📄 Word' : '📄 ' + (D.kind === 'md' ? 'Markdown' : trStr('Texto')), D.pages ? D.pages + ' ' + trStr('páginas') : '', D.kind === 'pdf' ? trStr(D.toc ? 'con índice impreso' : D.outline ? 'con índice' : 'sin índice: títulos deducidos por el tamaño de letra y la negrita') : ''].filter(Boolean).join(' · ');
   dialog('Importar documento como mapa', '', `<div class="imp">
       <div class="imp-src">${esc(D.name)}<small>${esc(info)}</small></div>
+      ${D.types && D.types.length ? `<div class="imp-h">${esc(trStr('Títulos encontrados'))}</div><div class="imp-types">${D.types.map(t => `<div><span>${t.size} pt${t.bold ? ' ' + esc(trStr('negrita')) : ''} · ${t.count}× <i>«${esc(t.sample)}»</i></span><select data-tk="${t.k}">${[[0, 'Texto'], [1, 'Capítulo'], [2, 'Apartado'], [3, 'Subapartado'], [4, '4.º nivel']].map(([v, l]) => `<option value="${v}"${t.lvl === v ? ' selected' : ''}>${esc(trStr(l))}</option>`).join('')}</select></div>`).join('')}</div>` : ''}
       ${D.maxLvl ? `<div class="imp-h">${esc(trStr('Ramas'))}</div>${seg('depth', LV.slice(0, Math.min(4, D.maxLvl)).map((t, i) => [i + 1, t]))}` : `<div class="imp-warn">${esc(trStr('No se han encontrado títulos: todo el texto irá al tema central. Prueba «Preparar con IA».'))}</div>`}
       <div class="imp-h">${esc(trStr('El texto del documento'))}</div>${seg('text', [['end', 'Al final, referenciado', 'Se guarda una vez al final del archivo y cada tema apunta a su trozo'], ['notes', 'En las notas', 'Cada tema lleva su trozo en la nota'], ['none', 'Sin texto', 'Solo los títulos']])}
       <div class="imp-h">${esc(trStr('Hojas'))}</div>${seg('sheets', [['one', 'Todo en una hoja'], ['chapters', 'Una hoja por capítulo', 'Primera hoja con el índice y una hoja por capítulo']])}
@@ -6434,7 +6777,12 @@ function importDialog(D) {
       <div class="imp-h">${esc(trStr('Al abrir'))}</div>${seg('open', [[1, 'Solo capítulos'], [2, 'Un nivel más'], [99, 'Todo abierto']])}
       <label class="nx-chk" style="margin-top:8px"><input type="checkbox" id="imp-num" checked> <span>${esc(trStr('Numerar (1, 1.1, 1.2…)'))}</span></label>
       <div class="imp-info" id="imp-info"></div>
-      <button type="button" class="imp-ai" id="imp-ai" title="${esc(trStr('Copia unas instrucciones para que tu IA convierta el documento en un mapa; luego pega aquí lo que te devuelva'))}">✨ ${esc(trStr('¿No sale bien? Preparar con IA'))}</button>
+      <div class="imp-h">✨ ${esc(trStr('Con tu IA (opcional)'))}</div>
+      <div class="imp-aibox">${AI_KINDS.map((k, i) => `<label class="nx-chk"><input type="checkbox" data-aik="${k[0]}"${i < 1 ? ' checked' : ''}> <span title="${esc(trStr(k[2]))}">${esc(trStr(k[1]))}</span></label>`).join('')}
+        <input type="text" id="imp-aix" placeholder="${esc(trStr('Algo más (opcional): «céntrate en…»'))}">
+        <div class="imp-aibtn"><button type="button" class="btn-sec" id="imp-ai">1 · ${esc(trStr('Copiar instrucciones'))}</button><button type="button" class="btn-sec" id="imp-aip">2 · ${esc(trStr('Pegar respuesta'))}</button></div>
+        <small>${esc(trStr('Pega las instrucciones en tu IA junto con el documento adjunto. Te devolverá solo el índice con referencias; Mind lo une con el texto.'))}</small>
+        <textarea id="imp-ait" hidden placeholder="${esc(trStr('Pega aquí la respuesta de la IA'))}"></textarea></div>
     </div>`, () => { IMP.done = true; }, 'Importar');
   modal.classList.add('clear'); const dl = modal.querySelector('.dialog'); if (dl) dl.classList.add('imp-dlg');
   onDialogClose = importClosed;
@@ -6442,14 +6790,17 @@ function importDialog(D) {
   const sync = () => box.querySelectorAll('.imp-seg').forEach(s => s.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(o[s.dataset.k]) === b.dataset.v)));
   box.addEventListener('click', e => {
     const b = e.target.closest('.imp-seg button'); if (b) { const k = b.parentNode.dataset.k; o[k] = /^\d+$/.test(b.dataset.v) ? +b.dataset.v : b.dataset.v; sync(); importPreview(); return; }
-    if (e.target.closest('#imp-ai')) copyText(AI_DOC_PROMPT(), trStr('Instrucciones copiadas: pégalas en tu IA junto con el documento'));
+    if (e.target.closest('#imp-ai')) { const ks = [...box.querySelectorAll('[data-aik]:checked')].map(x => x.dataset.aik); copyText(aiIndexPrompt(ks.length ? ks : ['fiel'], $('#imp-aix').value.trim(), IMP.D), trStr('Instrucciones copiadas: pégalas en tu IA junto con el documento')); }
+    if (e.target.closest('#imp-aip')) { const t = $('#imp-ait'); t.hidden = false; t.focus(); }
   });
   $('#imp-num').onchange = e => { o.num = e.target.checked; importPreview(); };
+  box.querySelectorAll('[data-tk]').forEach(sl => sl.onchange = () => { const lv = {}; box.querySelectorAll('[data-tk]').forEach(x => lv[x.dataset.tk] = +x.value); IMP.D = IMP.D.rebuild(lv); o.depth = Math.max(1, Math.min(o.depth, IMP.D.maxLvl || 1)); importPreview(); });
+  $('#imp-ait').addEventListener('input', e => { IMP.ai = e.target.value.trim() || null; importPreview(); if (IMP.ai) $('#imp-info').textContent += IMP.miss ? ' · ⚠ ' + IMP.miss + ' ' + trStr('referencias sin encontrar (marcadas en el mapa)') : ' · ' + trStr('todas las referencias encontradas'); });
   sync(); importPreview();
 }
 function importPreview() {
   if (!IMP) return; const { D, o } = IMP;
-  let p = null; try { p = parseBook(importMd(D, o)); } catch (e) { console.error(e); }
+  let p = null; try { p = parseBook(IMP.ai ? aiMd(D, IMP.ai, IMP) : importMd(D, o)); } catch (e) { console.error(e); }
   if (!p) return; IMP.p = p;
   liteNormalize(p.pages); book = p; doc = p.pages[0]; sel = new Set(); render(); drawSheets();
   fit(true);
@@ -6457,6 +6808,38 @@ function importPreview() {
   if (ov > 0 && ov < r.width * 0.7) { const w = r.width - ov, k = Math.min(1, w / r.width); V.s *= k; V.x = w / 2 - (r.width / 2 - V.x) * k; V.y = r.height / 2 - (r.height / 2 - V.y) * k; applyView(); }
   const S = p.src, chars = S ? S.order.reduce((a, id) => a + S.secs[id].md.length, 0) : 0;
   $('#imp-info').textContent = [countTopics(p) + ' ' + trStr('temas'), p.pages.length > 1 ? p.pages.length + ' ' + trStr('hojas') : '', '≈ ' + D.words.toLocaleString() + ' ' + trStr('palabras'), chars > 2.5e6 ? trStr('muy grande para guardarlo en el navegador: guárdalo como archivo') : ''].filter(Boolean).join(' · ');
+}
+// La respuesta de la IA → Markdown de Mind: cada [[p34 «…»]] se busca en el texto y el tema apunta a su trozo
+function aiMd(D, txt, st) {
+  const P = D.paras || [], np = P.map(p => normS(p.t).replace(/[^\p{L}\p{N}]+/gu, ' ').trim()), N1 = t => normS(t).replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const find = (page, q, from) => {
+    const k = N1(q).split(' ').slice(0, 8).join(' '); if (!k) return -1;
+    const ok = i => np[i].includes(k) || (k.length > 24 && np[i].includes(k.slice(0, 24)));
+    let best = -1; for (let i = 0; i < P.length; i++) if (ok(i) && (page == null || Math.abs((P[i].p || 0) - page) <= 1)) { best = i; break; }
+    if (best < 0) for (let i = 0; i < P.length; i++) if (ok(i)) { best = i; break; }
+    if (best < 0) { const w = k.split(' ').filter(x => x.length > 3); let sc = 0; for (let i = 0; i < P.length; i++) { if (page != null && Math.abs((P[i].p || 0) - page) > 1) continue; const c = w.filter(x => np[i].includes(x)).length / (w.length || 1); if (c > sc) { sc = c; best = i; } } if (sc < 0.6) best = -1; }
+    return best;
+  };
+  const RE = /\[\[\s*(?:p\.?\s*(\d+)\s*)?[«"“]([^»"”]*)[»"”]\s*(?:(?:→|->)\s*(?:p\.?\s*(\d+)\s*)?[«"“]([^»"”]*)[»"”])?\s*\]\]/g;
+  txt = String(txt).replace(/^\s*```\w*\s*$/gm, '');
+  const L = txt.split('\n'), items = []; let miss = 0, sheet = 0;
+  L.forEach((l, i) => { if (/^\s*<!--\s*page:/.test(l)) sheet++; const m = l.match(/^(\s*)[-*+]\s+(.*)$/); if (!m) return; const refs = []; let r; RE.lastIndex = 0; while ((r = RE.exec(m[2]))) refs.push({ p: r[1] ? +r[1] : null, q: r[2], p2: r[3] ? +r[3] : null, q2: r[4] }); items.push({ i, refs, sheet, ind: m[1], text: m[2].replace(RE, '').replace(/\s+$/, '') }); });
+  // inicios de cada referencia y, sin final marcado, el trozo acaba donde empieza la siguiente referencia de esa hoja
+  items.forEach(it => it.refs.forEach(r => { r.a = find(r.p, r.q); r.b = r.q2 ? find(r.p2, r.q2) : -1; if (r.a < 0) miss++; }));
+  const S = { name: D.file || D.name, secs: {}, order: [] }, startsBy = new Map();
+  items.forEach(it => it.refs.forEach(r => { if (r.a >= 0) { if (!startsBy.has(it.sheet)) startsBy.set(it.sheet, []); startsBy.get(it.sheet).push(r.a); } }));
+  startsBy.forEach(a => a.sort((x, y) => x - y));
+  const out = L.slice(); let n = 0;
+  items.forEach(it => {
+    const parts = it.refs.filter(r => r.a >= 0).map(r => { let b = r.b >= r.a ? r.b : (startsBy.get(it.sheet).find(x => x > r.a) ?? P.length) - 1; b = Math.min(b, r.a + 60); return P.slice(r.a, b + 1).map((p, k, arr) => (k && p.p !== arr[k - 1].p && p.p ? `*— ${trStr('pág.')} ${p.p} —*\n\n` : '') + (p.h ? '#### ' + p.t : p.t)).join('\n\n'); });
+    const lost = it.refs.filter(r => r.a < 0).map(r => (r.p ? 'p. ' + r.p + ' ' : '') + '«' + r.q + '»');
+    let attr = '';
+    if (parts.length) { const id = 'a' + (++n); const p0 = P[it.refs.find(r => r.a >= 0).a].p; S.secs[id] = { id, p: p0, t: it.text, md: parts.join('\n\n* * *\n\n'), l: Math.max(1, it.ind.length / 2 + 1) }; S.order.push(id); attr = ` <!-- src=${id} -->`; }
+    out[it.i] = it.ind + '- ' + it.text + attr + (lost.length ? '\n' + it.ind + '  ⚠ ' + trStr('No encontrado en el documento') + ': ' + lost.join(' · ') : '');
+  });
+  if (st) st.miss = miss;
+  let md = out.join('\n').trim(); if (!/^\s*(<!--|#)/.test(md)) md = '# ' + (D.title || D.name) + '\n\n' + md;
+  return '<!-- markdawn-mind 0.3 · palette=vivo line=curve -->\n\n' + md + '\n\n' + srcMd(S);
 }
 function importClosed() {
   const st = IMP; IMP = null; if (!st) return;
