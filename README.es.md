@@ -114,7 +114,7 @@ flowchart LR
 
 Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz está en español y en inglés y sigue el idioma del navegador. Puedes cambiarla con el botón ES / EN.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade 27 estructuras (organigrama, línea de tiempo, Kanban, lienzos, hoja de ruta tipo Gantt…), importar PDF y Word con índices hechos por tu IA, todos los estilos de mapa, más de 30 formas y exportación en alta resolución y SVG.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** añade 29 estructuras (organigrama, línea de tiempo, Kanban, lienzos, hoja de ruta tipo Gantt…), importar PDF y Word con índices hechos por tu IA, todos los estilos de mapa, más de 30 formas y exportación en alta resolución y SVG.
 
 - **Pensada para el teclado**: Tab crea un tema hijo, Intro uno hermano, y basta con escribir para editar
 - **Mapas orgánicos** con ramas curvas y cónicas, además de mapa a la derecha, a la izquierda, árbol (tipo carpetas) y lógico hacia abajo
@@ -134,7 +134,7 @@ Este repositorio tiene **MarkDawn Mind**, la edición gratuita. La interfaz est�
 
 **Mind Pro** abre los mismos archivos y añade:
 
-- **27 estructuras**: organigrama, línea de tiempo, radial, escalera, espina de pescado, llaves, matriz, tabla en árbol, Kanban, burbujas, ciclo, proceso, pirámide y embudo
+- **29 estructuras**: organigrama, línea de tiempo, radial, escalera, espina de pescado, llaves, matriz, tabla en árbol, Kanban, burbujas, ciclo, proceso, pirámide y embudo
 - **Lienzos**: Business Model Canvas, Lean Canvas, DAFO, mapa de empatía y cuadrículas libres, con tarjetas que arrastras entre recuadros, imagen de fondo, 16:9, 4:3 o 1:1, versión para el móvil y plantillas propias
 - **Hoja de ruta tipo Gantt**: fases, tareas con fechas sobre los meses y barras que se arrastran
 - **Importar PDF y Word** (marcadores, índice impreso o títulos por tamaño de letra) e **índices hechos por tu IA**: la IA devuelve solo temas y citas, y Mind une cada tema con su texto
