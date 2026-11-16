@@ -510,6 +510,10 @@
   .n.sel.rf-soft:is(.s-round, .s-rect, .s-pill, .s-solid, .s-ellipse, .s-dashed, .s-double, .s-leaf) { box-shadow: 0 0 0 2px var(--board), 0 0 0 4px var(--acc), 0 4px 8px rgba(0,0,0,.2); }
   .n.rf-shine:is(.s-round, .s-rect, .s-pill, .s-solid, .s-ellipse, .s-dashed, .s-double, .s-box, .s-card, .s-circ, .s-circs, .s-chevron) { background-image: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0) 48%, rgba(0,0,0,.16)); box-shadow: 0 3px 6px rgba(0,0,0,.18); }
   .n.rf-3d:is(.s-round, .s-rect, .s-pill, .s-solid, .s-ellipse, .s-dashed, .s-double, .s-box, .s-card, .s-circ, .s-circs) { background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0) 50%); box-shadow: 4px 5px 0 color-mix(in srgb, var(--fill, var(--bc)) 55%, #000), 4px 7px 10px rgba(0,0,0,.18); }
+  .board.fxfast .n.rf-soft:not(.s-custom), .board.fxfast .n.rf-soft .csh, .board.fxfast .n.rf-soft .csart, .board.fxfast .n.rf-shadow .csh, .board.fxfast .n.rf-shadow .csart, .board.fxfast .n.rf-shadow:not(.s-custom) { filter: none; }
+  .board.fxfast .n.rf-soft:not(.s-custom):not(.sel), .board.fxfast .n.rf-shadow:not(.s-custom):not(.sel) { box-shadow: 3px 4px 0 rgba(0,0,0,.16); }
+  .board.fxfast .n { backdrop-filter: none !important; text-shadow: none; } .board.fxfast .n.s-glass { box-shadow: 3px 4px 0 rgba(0,0,0,.12); }
+  .board.fxfast #edges [filter] { filter: url(#fxSh); }
   .n.rf-none, .n.rf-none .csh, .n.rf-shadow.s-handcard, .n.rf-soft.s-handcard, .n.rf-stroke.s-handcard { box-shadow: none !important; }
   .n.rf-none { filter: none !important; }
   .ytw, .wcard { position: relative; display: block; flex: none; margin: 2px auto 6px; border-radius: 8px; max-width: 100%; cursor: pointer; }
@@ -588,7 +592,7 @@
   .csnew { font-size: 16px; }
   .gmore { width: 18px; border: 1px solid transparent; border-radius: 3px; background: none; cursor: pointer; color: var(--muted); font-size: 11px; padding: 0; }
   .gmore:hover { background: var(--hover); color: var(--ink); }
-  .lvgrid { display: grid; grid-template-columns: 92px repeat(4, 1fr); gap: 5px 8px; align-items: center; font-size: 12px; }
+  .lvgrid { display: grid; grid-template-columns: 92px repeat(6, 1fr); gap: 5px 8px; align-items: center; font-size: 12px; }
   .lvgrid .h { font-weight: 600; text-align: center; }
   .lvgrid select, .lvgrid input[type=color] { width: 100%; height: 26px; }
   .lvgrid .tg { display: flex; gap: 3px; } .lvgrid .tg button { flex: 1; height: 26px; border: 1px solid var(--line); border-radius: 3px; background: none; cursor: pointer; color: var(--ink); }
@@ -737,6 +741,7 @@
   .cpick { display: flex; align-items: center; gap: 6px; }
   .cpick input[type=color] { width: 34px; height: 26px; border: 1px solid var(--line); border-radius: 3px; padding: 1px; background: none; cursor: pointer; flex: none; }
   .cpick input[type=text] { width: 78px; height: 26px; border: 1px solid var(--line); border-radius: 3px; padding: 0 6px; font: 12px var(--mono, monospace); background: var(--panel); color: var(--ink); }
+  .gdirs { display: flex; gap: 5px; margin: 6px 0 2px; } .gdirs button { width: 34px; height: 22px; border-radius: 5px; border: 2px solid transparent; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); } .gdirs button[aria-pressed="true"] { border-color: var(--ink); }
   .cpick .cp-bar { flex: 1; min-width: 40px; height: 14px; border-radius: 7px; border: 1px solid rgba(0,0,0,.15); }
   .cpick .btn-sec { height: 26px; padding: 0 10px; font-size: 12px; }
   .modal { position: fixed; inset: 0; z-index: 60; background: rgba(20,20,20,.3); display: flex; align-items: center; justify-content: center; padding: 16px; }
@@ -951,7 +956,7 @@
       </div>
       <div class="stack tight">
         <button class="rb" data-cmd="b3d" title="Ramas con sombra y brillo, como tubos"><span class="ico" data-i="tube"></span>Ramas 3D</button>
-        <button class="rb" data-cmd="barrow" title="Las ramas como flechas anchas con borde, como en un diagrama de presentación"><span class="ico" data-i="barrow"></span>Flechas anchas</button>
+        <button class="rb" data-cmd="barrowMenu" title="Las ramas como flechas anchas, como en un diagrama de presentación: relleno y punta"><span class="ico" data-i="barrow"></span>Flechas anchas <span class="caret">▾</span></button>
         <button class="rb" data-cmd="fxMenu" title="Efecto de las formas grandes (recuadros del lienzo, columnas del Kanban, franjas, anillo y flechas): plano, con borde, sombra, brillo o 3D"><span class="ico" data-i="shape"></span>Efecto <span class="caret">▾</span></button>
         <button class="rb" data-cmd="radiusMenu" title="Cuánto se redondean las esquinas de las ramas en ángulo"><span class="ico" data-i="lelbow"></span>Esquinas <span class="caret">▾</span></button>
       </div>
@@ -1148,8 +1153,8 @@
             <small>Se ven con ramas curvas, en abanico o rectas.</small></div>
           <div class="fp-sec"><label>Trazo a mano <span id="fp-hand-v"></span></label><input type="range" min="0" max="10" step="1" data-tk="hand">
             <small>Ramas cónicas como pintadas con rotulador · 0 = perfectas</small></div>
-          <div class="fp-sec"><label>Esquinas de las ramas en ángulo <span id="fp-rad-v"></span></label><input type="range" min="0" max="40" step="1" data-tk="radius">
-            <small>0 = esquina viva · 30 = muy redondeada</small></div>
+          <div class="fp-sec"><label>Esquinas de las ramas en ángulo <span id="fp-rad-v"></span></label><input type="range" min="0" max="100" step="1" data-tk="radius">
+            <small>0 = esquina viva · al máximo, curva completa</small></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="b3d" id="fp-b3d" style="width:100%;height:28px">Ramas 3D: no</button></div>
           <div class="fp-sec"><label>Grosor de la rama <span id="fp-lw-v"></span></label><input type="range" min="0.5" max="16" step="0.5" data-fk="lw"></div>
           <div class="fp-sec"><label>Color</label><div class="fp-row"><button class="fp-sw" data-cmd="colorMenu" data-k="color"><i id="fp-color2"></i>Color de la rama</button><button class="fp-sw" data-cmd="colorMenu" data-k="lc"><i id="fp-lc"></i>Color de la línea</button></div>
@@ -1159,6 +1164,7 @@
           <div class="fp-sec"><label>Estilo del mapa</label><select data-ms></select><div style="display:flex;gap:6px;margin-top:6px"><button class="btn-sec" data-cmd="styleEditor" style="flex:1;height:28px">Personalizar por niveles…</button><button class="btn-sec" data-cmd="styleMenu" style="height:28px">Mis estilos ▾</button></div></div>
           <div class="fp-sec"><label>Colores de rama</label><select data-tk="pal"></select></div>
           <div class="fp-sec"><label>Separación entre temas <span id="fp-sp-v"></span></label><input type="range" min="0.6" max="5" step="0.1" data-tk="space"></div>
+          <div class="fp-sec"><label>Separación entre niveles <span id="fp-lsp-v"></span></label><input type="range" min="0.4" max="4" step="0.1" data-tk="lspace"><small>Distancia de un tema a sus subtemas, aparte de la que hay entre temas del mismo nivel.</small></div>
           <div class="fp-sec" id="fp-levels"></div>
           <div class="fp-sec"><label>Texto largo</label><select data-tk="maxl"><option value="0">Todo el texto</option><option value="1">1 línea</option><option value="2">2 líneas</option><option value="3">3 líneas</option><option value="4">4 líneas</option><option value="6">6 líneas</option></select><small>Los temas largos se cortan con «…». El texto completo se ve al pasar el ratón y al editar.</small></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="appearanceMenu" style="width:100%;height:28px">Fondo, rejilla y tono…</button></div>
@@ -1220,7 +1226,7 @@ const LITE_OK = {
   pal: ['vivo', 'suave', 'oceano'],
   tex: ['', 'paper', 'linen', 'notebook'],
 };
-const LITE_CMDS = ['fxMenu', 'bigfx', 'rmDates', 'cvEdit', 'cvGrid', 'canvasNew', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvTitles', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
+const LITE_CMDS = ['fxMenu', 'bigfx', 'barrowMenu', 'barrowSet', 'afill', 'atip', 'rmDates', 'cvEdit', 'cvGrid', 'canvasNew', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvTitles', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
 // Probar lo Pro en la gratuita: estilos, estructuras, formas, líneas, letras, colores y texturas se pueden aplicar para verlos; no se guardan sin licencia
 const TRIAL_KEYS = ['mapStyle', 'struct', 'shape', 'line', 'font', 'pal', 'tex'];
 let TRIAL = null;
@@ -1786,9 +1792,9 @@ const primary = () => { const a = [...sel]; return a.length ? node(a[a.length - 
 function countAll(n) { return n.kids.reduce((a, k) => a + 1 + countAll(k), 0); }
 function offOf(n, st) { const o = n.o && n.o[st]; return o || [0, 0]; }
 const STYLE_KEYS = ['relief', 'color', 'bc', 'lc', 'shape', 'fill', 'tc', 'bw', 'lw', 'fs', 'bold', 'italic', 'case', 'font', 'align', 'weight', 'under', 'ls'];
-// Niveles de formato: 0 central, 1 principales, 2 subtemas, 3 sub-subtemas (y más hondos). El 3 hereda del 2 lo que no cambie
-const LVN = ['root', 'main', 'sub', 'deep'], LV = d => Math.min(d, 3);
-const lvOf = d => { const lv = doc.theme.lv || {}; return d >= 3 ? (lv[3] ? { ...(lv[2] || {}), ...lv[3] } : lv[2] || {}) : lv[d] || {}; };
+// Niveles de formato: 0 central, 1 principales, 2 subtemas, 3, 4 y 5 (el 5 vale también para los más hondos). Del 3 en adelante cada nivel hereda del anterior lo que no cambie
+const LVN = ['root', 'main', 'sub', 'deep', 'level4', 'level5'], LVMAX = 5, LV = d => Math.min(d, LVMAX), LVALL = [0, 1, 2, 3, 4, 5];
+const lvOf = d => { const lv = doc.theme.lv || {}; if (d < 3) return lv[d] || {}; let o = lv[2] || {}; for (let k = 3; k <= Math.min(d, LVMAX); k++) if (lv[k]) o = { ...o, ...lv[k] }; return o; };
 function eff(n, k, d) {
   if (n[k] != null) return n[k];
   if (d == null) { const inf = info(n.id); d = inf ? inf.d : 0; }
@@ -1809,8 +1815,20 @@ const CLEAR_SHAPES = ['line', 'plain', 'mark', 'box', 'card'];
 // ¿El fondo de la pizarra es oscuro? (modo oscuro, o una textura oscura como Pizarra o Plano)
 const surfDark = () => BGL && BGL.c ? BGL.tone === 'dark' : !!PR.dark;
 // Relleno degradado: «#color1,#color2» (Pro)
-const gradOf = v => { if (!v || !String(v).includes(',')) return null; const p = String(v).split(','); return p.length === 2 && p[0] && p[1] ? p : null; };
+const GDIRS = ['v', 'h', 'd', 'rv', 'rh'];
+// Relleno degradado: «#color1,#color2» o «#color1,#color2,dirección» (v vertical, h horizontal, d diagonal, rv/rh reflejado: el primer color en el centro)
+const gradOf = v => { if (!v || !String(v).includes(',')) return null; const p = String(v).split(','); if (!(p[0] && p[1]) || p.length > 3) return null; const g = [p[0], p[1]]; g.dir = GDIRS.includes(p[2]) ? p[2] : 'd'; return g; };
+const gradCss = g => g.dir === 'rv' || g.dir === 'rh' ? `linear-gradient(${g.dir === 'rv' ? 180 : 90}deg, ${g[1]}, ${g[0]} 50%, ${g[1]})` : `linear-gradient(${g.dir === 'v' ? 180 : g.dir === 'h' ? 90 : 135}deg, ${g[0]}, ${g[1]})`;
+const tcCss = v => v === 'auto' ? 'linear-gradient(90deg,#0b4f52 50%,#fff 50%)' : v;
+const fillCss = v => { const g = gradOf(v); return g ? gradCss(g) : v === 'branch' ? 'var(--acc)' : v; };
+const gradSvg = (id, g) => { const v = g.dir === 'v' || g.dir === 'rv', h = g.dir === 'h' || g.dir === 'rh', r = g.dir === 'rv' || g.dir === 'rh';
+  return `<linearGradient id="${id}" x1="0" y1="0" x2="${v ? 0 : 1}" y2="${h ? 0 : 1}">${r ? `<stop offset="0" stop-color="${esc(g[1])}"/><stop offset=".5" stop-color="${esc(g[0])}"/><stop offset="1" stop-color="${esc(g[1])}"/>` : `<stop offset="0" stop-color="${esc(g[0])}"/><stop offset="1" stop-color="${esc(g[1])}"/>`}</linearGradient>`; };
 const NOFILL_SH = ['line', 'plain', 'branch', 'mark'];
+// «3D real» (Diseño › Efecto): embudo, pirámide y proceso con volumen de verdad
+const R3D = () => doc.theme.bigfx === 'real3d';
+// Calidad de sombras y transparencias: automática (rápida en mapas grandes), siempre alta o siempre rápida. Al exportar no cuenta
+const FXFAST = () => PR.fxq === 'fast' || (PR.fxq !== 'high' && IDX.size > 220);
+function R3D_PROC(n) { const inf = info(n.id); return !!(inf && inf.p && inf.p === inf.r && inf.r.structure === 'process'); }
 function bgLum(sh, fill, bc) {
   if (fill) return lumOf(fill);
   if (METAL_BG[sh]) return lumOf(METAL_BG[sh]);
@@ -1896,11 +1914,14 @@ function syncNodes() {
       let el = EL.get(n.id);
       if (!el) { el = document.createElement('div'); el.dataset.id = n.id; nodesEl.appendChild(el); EL.set(n.id, el); }
       const sh = shapeOf(n, inf.d, st);
-      const E = k => eff(n, k, inf.d), bold = E('bold'), fs = E('fs'), bw = E('bw'), fillRaw = BIGHEAD(n) ? null : E('fill'), fgr = gradOf(fillRaw), fill = fgr ? fgr[0] : fillRaw;
+      const E = k => eff(n, k, inf.d), bold = E('bold'), fs = E('fs'), bw = E('bw'), fillRaw = BIGHEAD(n) ? null : E('fill') || (R3D() && R3D_PROC(n) ? 'branch' : null), fgr = gradOf(fillRaw), fill = fgr ? fgr[0] : fillRaw === 'branch' ? (E('bc') || inf.color) : fillRaw;
       // Sin color de texto propio, el texto se pone oscuro o claro según el fondo del tema
-      let tc = E('tc');
+      let tc = E('tc'); const tAuto = tc === 'auto'; if (tAuto) tc = null;
       const bl = fgr ? ((lumOf(fgr[0]) ?? 0.5) + (lumOf(fgr[1]) ?? 0.5)) / 2 : bgLum(sh, fill, inf.color);
       if (!tc) { if ((fill || SOLIDISH.includes(sh) || METAL_BG[sh]) && !(PLATES.includes(sh) && !fill)) tc = bl == null ? null : bl > 0.4 ? '#1f2224' : '#ffffff'; }
+      // Texto «automático»: sobre un fondo claro, un tono oscuro del color de la rama; sobre uno oscuro, blanco
+      if (tAuto) { const b2 = bl == null ? (surfDark() ? 0.05 : 0.95) : bl; tc = b2 > 0.4 ? hexMix(inf.color, '#000000', 0.5) : '#ffffff'; }
+      if (!E('tc') && BIGHEAD(n) && R3D() && ['pyramid', 'funnel'].includes(inf.r.structure)) tc = contrastText(inf.color) || '#ffffff';
       else { const tl = lumOf(tc); if (tl != null && bl != null && (Math.max(tl, bl) + 0.05) / (Math.min(tl, bl) + 0.05) < 2.6) tc = bl > 0.4 ? '#1f2224' : '#ffffff'; }
       const weight = E('weight'), cs = E('case'), al = E('align');
       const csh = pathShape(sh);
@@ -1909,7 +1930,7 @@ function syncNodes() {
       if (el.className !== cls2) { const hv = el.classList.contains('hov'), yf = el.classList.contains('yfree'); el.className = cls2; if (hv) el.classList.add('hov'); if (yf) el.classList.add('yfree'); }
       el.style.setProperty('--bc', E('bc') || inf.color); el.classList.toggle('bighead', BIGHEAD(n));
       if (fill) el.style.setProperty('--fill', fill); else el.style.removeProperty('--fill');
-      el.style.backgroundImage = fgr && !pathShape(sh) && !NOFILL_SH.includes(sh) ? `linear-gradient(135deg, ${fgr[0]}, ${fgr[1]})` : '';
+      el.style.backgroundImage = fgr && !pathShape(sh) && !NOFILL_SH.includes(sh) ? gradCss(fgr) : '';
       if (tc) el.style.setProperty('--tc', tc); else el.style.removeProperty('--tc');
       { const sc = CV_SC.get(n.id); el.style.fontSize = fs || sc ? (BASE[Math.min(inf.d, 2)] * (1 + 0.15 * (fs || 0)) * (sc || 1)).toFixed(1) + 'px' : ''; }
       el.style.fontFamily = FONT_CSS[E('font')] || '';
@@ -1955,7 +1976,7 @@ function syncNodes() {
       el.style.textAlign = al || '';
       el.style.justifyContent = al === 'center' ? 'center' : al === 'right' ? 'flex-end' : '';
       el.style.textDecoration = E('under') ? 'underline' : '';
-      if (editId !== n.id) { const h = (csh && csh.svg ? artDiv(csh, inf.color) : csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none">${fgr ? `<defs><linearGradient id="fg${n.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${esc(fgr[0])}"/><stop offset="1" stop-color="${esc(fgr[1])}"/></linearGradient></defs>` : ''}<path d="${csh.d}"${fgr ? ` style="fill:url(#fg${n.id})"` : ''} vector-effect="non-scaling-stroke"/><path class="sk" d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
+      if (editId !== n.id) { const h = (csh && csh.svg ? artDiv(csh, inf.color) : csh ? `<svg class="csh" viewBox="-2 -2 104 104" preserveAspectRatio="none">${fgr ? `<defs>${gradSvg('fg' + n.id, fgr)}</defs>` : ''}<path d="${csh.d}"${fgr ? ` style="fill:url(#fg${n.id})"` : ''} vector-effect="non-scaling-stroke"/><path class="sk" d="${csh.d}" vector-effect="non-scaling-stroke"/></svg>` : '') + nodeInner(n, inf); if (el._h !== h) { el.innerHTML = h; el._h = h; el.querySelectorAll('img').forEach(im => { if (!im.complete) im.onload = im.onerror = imgLoaded; }); } }
       { const ins = !mOn && BS_INSET[sh];   // formas con puntas o muescas: el texto, dentro de la parte útil (ya con su letra y su texto)
         if (ins && !n.sz) { el.style.paddingLeft = el.style.paddingRight = '8px'; let T = (el.clientWidth - 16) / (1 - ins[0] - ins[1]); for (let k = 0; k < 2; k++) { el.style.paddingLeft = Math.round(ins[0] * T + 8) + 'px'; el.style.paddingRight = Math.round(ins[1] * T + 8) + 'px'; T = el.offsetWidth; } } }
       circFit(el, n, (sh === 'circ' || sh === 'circs') && !mOn && !n.sz);
@@ -1991,7 +2012,7 @@ const GAP = { h1: 58, h: 30, v1: 16, v: 7, orgV: 44, orgH: 16, treeI: 28, treeV:
 const KIDS = n => kidsOf(n);
 const blockBox = L => { let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity; for (const e of L.values()) { x0 = Math.min(x0, e.x); y0 = Math.min(y0, e.y); x1 = Math.max(x1, e.x + e.w); y1 = Math.max(y1, e.y + e.h); } return { L, x0, y0, x1, y1 }; };
 function layBlock(r, st) {
-  const sp = doc.theme.space || 1;
+  const sp = doc.theme.space || 1, LSP = doc.theme.lspace || 1, LX = Math.max(0, 10 * LSP - 4) * sp;   // separación entre niveles: en los árboles y listas, al cambiar de nivel se deja LX de más
   const L = new Map(), BLK = new Map();
   const kidsOf = n => n !== r && hasSub(n) ? [] : KIDS(n);
   const sz = n => {
@@ -2004,7 +2025,7 @@ function layBlock(r, st) {
   if (st === 'organic' || st === 'right' || st === 'left') {
     // «En la rama»: más recorrido, para que el texto vaya por la parte suave de la curva
     const brGap = (c, d) => shapeOf(c, d, st) === 'branch' ? 18 * sp + sizeOf(c).w * 0.45 : 0;
-    const hgap = d => (d === 0 ? GAP.h1 : GAP.h) * sp, vgap = d => Math.max(2, (d <= 1 ? GAP.v1 : GAP.v) * sp + (sp - 1) * 16);
+    const hgap = d => (d === 0 ? GAP.h1 : GAP.h) * sp * Math.max(0.5, LSP), vgap = d => Math.max(2, (d <= 1 ? GAP.v1 : GAP.v) * sp + (sp - 1) * 16);
     const memo = new Map();
     const subH = (n, d) => {
       if (memo.has(n.id)) return memo.get(n.id);
@@ -2043,9 +2064,10 @@ function layBlock(r, st) {
     };
     col(R, 1); col(Lf.reverse(), -1);
   } else { // tree
-    let y = 0;
+    let y = 0, pd = 0;
     const place = (n, x, d) => {
-      const s = sizeOf(n); set(n, x, y, 3); y += s.h + Math.max(2, (d === 0 ? 14 : GAP.treeV) * sp + (sp - 1) * 14);
+      if (d !== pd && d > 1) y += LX; pd = d;
+      const s = sizeOf(n); set(n, x, y, 3); y += s.h + Math.max(2, (d === 0 ? 14 * LSP : GAP.treeV) * sp + (sp - 1) * 14);
       for (const c of kidsOf(n)) place(c, x + GAP.treeI * sp, d + 1);
     };
     place(r, 0, 0);
@@ -2136,7 +2158,7 @@ function taperD(pts, w0, w1, rough = 0, seed = 1) {
   return 'M' + L.join(' L') + ' L' + Rr.reverse().join(' L') + ' Z';
 }
 const lineOf = r => { const L = r.line || doc.theme.line || 'curve'; return LITE && !TRIAL && !LITE_OK.line.includes(L) ? 'curve' : L; };
-const radiusOf = () => doc.theme.radius ?? 8;
+const radiusOf = () => doc.theme.radius ?? 8, radTxt = () => radiusOf() >= 100 ? trStr('Curva completa') : radiusOf() + ' px';
 const LINES = {
   curve: { name: 'Curva', svg: '<circle cx="4" cy="12" r="2"/><path d="M6 12c6 0 6-7 12-7M6 12c6 0 6 7 12 7"/>' },
   fan: { name: 'Abanico', svg: '<circle cx="4" cy="12" r="2"/><path d="M5 10.5C5 6 8 5 19 5M5 13.5C5 18 8 19 19 19"/>' },
@@ -2359,12 +2381,14 @@ var EDGE_PLAIN = false;   // conectores de lista (proceso, ciclo, pirámide): si
 function blockArrow(seg, col, lw, d, W0, fxn) {
   let pts = seg.pts || (seg.c ? cubicPts(...seg.c, 30) : seg.l ? [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]] : seg.e.map(p => [p[0], p[1]]));
   let len = 0; const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
-  const W = Math.min(W0 || Math.max(d === 1 ? 14 : 8, lw * 3), len / 2.6), H = W * 1.5; if (W < 3) return '';
-  const cut = len - H, body = []; for (let i = 0; i < pts.length; i++) { if (cum[i] < cut) body.push(pts[i]); else { const t = (cut - cum[i - 1]) / ((cum[i] - cum[i - 1]) || 1); body.push([pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * t, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t]); break; } }
+  const tm = doc.theme.atip || '', W = Math.min(W0 || Math.max(d === 1 ? 14 : 8, lw * 3), len / 2.6), H = tm === 'none' ? 0 : W * 1.5; if (W < 3) return '';
+  const cut = len - H - 0.01, body = []; for (let i = 0; i < pts.length; i++) { if (cum[i] < cut) body.push(pts[i]); else { const t = (cut - cum[i - 1]) / ((cum[i] - cum[i - 1]) || 1); body.push([pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * t, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t]); break; } }
   const nrm = i => { const a = body[Math.max(0, i - 1)], b = body[Math.min(body.length - 1, i + 1)], l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; return [-(b[1] - a[1]) / l, (b[0] - a[0]) / l]; };
   const L = body.map((p, i) => { const n = nrm(i); return [p[0] + n[0] * W / 2, p[1] + n[1] * W / 2]; }), R = body.map((p, i) => { const n = nrm(i); return [p[0] - n[0] * W / 2, p[1] - n[1] * W / 2]; }).reverse();
   const e = body[body.length - 1], n = nrm(body.length - 1), tip = pts[pts.length - 1];
-  const all = [...L, [e[0] + n[0] * W, e[1] + n[1] * W], tip, [e[0] - n[0] * W, e[1] - n[1] * W], ...R];
+  // Punta: normal, sin punta (banda recta) o con muesca al empezar
+  const all = tm === 'none' ? [...L, ...R] : [...L, [e[0] + n[0] * W, e[1] + n[1] * W], tip, [e[0] - n[0] * W, e[1] - n[1] * W], ...R];
+  if (tm === 'notch' && body.length > 1) { const a = body[0], b = body[1], l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, k = Math.min(W * 0.6, len * 0.2); all.push([a[0] + (b[0] - a[0]) / l * k, a[1] + (b[1] - a[1]) / l * k]); }
   const dd = `M${all.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')} Z`;
   const fx = bigFx(fxn || { id: 0 }, col, { fo: 0.22, so: 1, sw: 1.5, dx: 4, dy: 4 }, null, true); return fx.defs + fx.shape(dd);
 }
@@ -2551,14 +2575,16 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
     }
     case 'process': {
       if (!top) return { seg: treeSeg(p, q, lc), plain: true };
-      if (doc.theme.arrows !== 'block') return null;
-      const i = kids.indexOf(c), nx = kids[i + 1] && POS.get(kids[i + 1].id); if (!nx) return null;
-      const y = mid(q), ba = blockArrow({ pts: [[q.x + q.w + 6, y], [nx.x - 6, y]] }, lineCol(c), lw, 1, 18, c); return ba ? { svg: ba } : null;
+      const ex = R3D() ? r3dStep(c, q) : '';
+      if (doc.theme.arrows !== 'block') return ex ? { svg: ex } : null;
+      const i = kids.indexOf(c), nx = kids[i + 1] && POS.get(kids[i + 1].id); if (!nx) return ex ? { svg: ex } : null;
+      const y = mid(q), ba = blockArrow({ pts: [[q.x + q.w + 6, y], [nx.x - 6, y]] }, lineCol(c), lw, 1, 18, c); return ba || ex ? { svg: ex + (ba || '') } : null;
     }
     case 'funnel':
     case 'pyramid': {
       if (!top) return { seg: treeSeg(p, q, lc), plain: true };
       const b = q.pb; if (!b) return null; const X = v => f1(q.x + v), Y = v => f1(q.y + v), cc = info(c.id).color;
+      if (R3D()) return { svg: kids[0] === c ? r3dBands(st, kids) : '' };   // en 3D real se pintan todas juntas, de la de detrás a la de delante
       const fx = bigFx(c, cc, { fo: 0.28, so: 1, sw: 1.6, dx: 6, dy: -4 }); return { svg: fx.defs + fx.shape(`M${X(b.tl)},${Y(b.t)} L${X(b.tr)},${Y(b.t)} L${X(b.br)},${Y(b.b)} L${X(b.bl)},${Y(b.b)} Z`) };
     }
     case 'cycle': case 'cycleIn': case 'cycleRing': {
@@ -2569,7 +2595,7 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
       if (Y.ring) {   // segmento del anillo: de borde a borde, con muesca al empezar y punta al acabar
         const Ro = Y.R + Y.ringW / 2, Ri = Y.R - Y.ringW / 2, a0 = a - Y.step / 2 + 0.012, a1 = a + Y.step / 2 - 0.012, tip = Math.min(0.2, Y.step * 0.22) * (Y.R / Ro + 0.2), N = 40;
         const pts = []; for (let t = 0; t <= N; t++) pts.push(P(Ro, a0 + (a1 - a0) * t / N));
-        pts.push(P(Y.R, a1 + tip)); for (let t = N; t >= 0; t--) pts.push(P(Ri, a0 + (a1 - a0) * t / N)); if (Y.n > 1) pts.push(P(Y.R, a0 + tip));
+        const nt = doc.theme.atip === 'none'; if (!nt) pts.push(P(Y.R, a1 + tip)); for (let t = N; t >= 0; t--) pts.push(P(Ri, a0 + (a1 - a0) * t / N)); if (Y.n > 1 && !nt) pts.push(P(Y.R, a0 + tip));
         const fx = bigFx(c, cc, { fo: 0.28, so: 1, sw: 1.6, dx: 4, dy: 5 }); return { svg: fx.defs + fx.shape(`M${pts.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')} Z`) };
       }
       if (Y.n < 2) return null;
@@ -2631,6 +2657,34 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
   }
 }
 // Color de la línea: el propio, o el de la rama donde se puso (hacia arriba), o el del nivel; si no, el color de la rama
+// «3D real»: color base de una forma (su relleno liso, o el de la rama)
+function r3dCol(c) { const f = eff(c, 'fill'); return f && /^#[0-9a-f]{6}$/i.test(f) ? f : info(c.id).color; }
+function r3dBands(st, kids) {
+  let h = '';
+  for (const c of kids.slice().reverse()) {
+    const q = POS.get(c.id), b = q && q.pb; if (!b) continue;
+    const col = r3dCol(c), dk = hexMix(col, '#000000', 0.38), lt = hexMix(col, '#ffffff', 0.38), P = (x, y) => [q.x + x, q.y + y], S = a => a.map(p => f1(p[0]) + ',' + f1(p[1])).join(' ');
+    const A = P(b.tl, b.t), B = P(b.tr, b.t), C = P(b.br, b.b), D = P(b.bl, b.b), wA = b.tr - b.tl, wB = b.br - b.bl, id = 'r3' + c.id;
+    if (st === 'pyramid') {   // pirámide vista en perspectiva: cara de delante, lateral en sombra y la parte de arriba con luz
+      const vA = [wA * 0.2, -wA * 0.12], vB = [wB * 0.2, -wB * 0.12], add = (p, v) => [p[0] + v[0], p[1] + v[1]];
+      h += `<polygon points="${S([A, B, add(B, vA), add(A, vA)])}" fill="${lt}"/><polygon points="${S([B, C, add(C, vB), add(B, vA)])}" fill="${dk}"/>`
+        + `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${hexMix(col, '#ffffff', 0.12)}"/><stop offset="1" stop-color="${hexMix(col, '#000000', 0.1)}"/></linearGradient></defs><polygon points="${S([A, B, C, D])}" fill="url(#${id})"/>`;
+    } else {   // embudo: cada franja es un tramo de cono, con su tapa y luz de lado
+      const cx = (A[0] + B[0]) / 2, H = b.b - b.t, ra = wA / 2, rb = wB / 2, ea = Math.min(ra * 0.2, H * 0.3), eb = Math.min(rb * 0.2, H * 0.3);
+      h += `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${hexMix(col, '#000000', 0.42)}"/><stop offset=".35" stop-color="${hexMix(col, '#ffffff', 0.22)}"/><stop offset=".55" stop-color="${col}"/><stop offset="1" stop-color="${hexMix(col, '#000000', 0.5)}"/></linearGradient></defs>`
+        + `<path d="M${f1(A[0])},${f1(A[1])} L${f1(D[0])},${f1(D[1])} A${f1(rb)},${f1(eb)} 0 0 0 ${f1(C[0])},${f1(C[1])} L${f1(B[0])},${f1(B[1])} A${f1(ra)},${f1(ea)} 0 0 1 ${f1(A[0])},${f1(A[1])} Z" fill="url(#${id})"/>`
+        + `<ellipse cx="${f1(cx)}" cy="${f1(A[1])}" rx="${f1(ra)}" ry="${f1(ea)}" fill="${hexMix(col, '#ffffff', 0.42)}" stroke="${hexMix(col, '#000000', 0.2)}" stroke-width="1"/>`;
+    }
+  }
+  return h;
+}
+// «3D real» en el proceso: el canto de arriba y el lateral de la punta, detrás de cada paso
+function r3dStep(c, q) {
+  const col = r3dCol(c), sh = shapeOf(c, 1, 'process'), D = [Math.min(12, q.h * 0.2), -Math.min(10, q.h * 0.17)];
+  const pt = (vx, vy) => [q.x + (vx + 2) / 106 * q.w, q.y + (vy + 2) / 106 * q.h], add = p => [p[0] + D[0], p[1] + D[1]], S = a => a.map(p => f1(p[0]) + ',' + f1(p[1])).join(' ');
+  const P = sh === 'chevron' ? [pt(0, 0), pt(80, 0), pt(100, 50)] : [[q.x + 2, q.y], [q.x + q.w, q.y], [q.x + q.w, q.y + q.h - 2]];
+  return `<polygon points="${S([P[0], P[1], add(P[1]), add(P[0])])}" fill="${hexMix(col, '#ffffff', 0.4)}"/><polygon points="${S([P[1], P[2], add(P[2]), add(P[1])])}" fill="${hexMix(col, '#000000', 0.35)}"/>`;
+}
 function lineCol(c) { for (let f = info(c.id); f; f = f.p ? info(f.p.id) : null) { if (f.n.lc) return f.n.lc; if (!f.p) break; } const inf = info(c.id), lv = inf && lvOf(inf.d).lc; return lv || (inf ? inf.color : '#888'); }
 // Temas que son la cabecera de una forma grande (recuadro del lienzo, columna del Kanban, franja de pirámide o embudo, segmento del anillo):
 // su relleno, borde y relieve los toma la forma, y el tema se queda como texto
@@ -2645,11 +2699,16 @@ function BIGHEAD(n) {
 function hexMix(c, t, k) { const h = x => { const m = /^#?([0-9a-f]{6})$/i.exec(String(x || '')); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : null; }; const a = h(c), b = h(t); if (!a || !b) return c; return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * k).toString(16).padStart(2, '0')).join(''); }
 function bigFx(n0, col, def, d, arrow) {
   const E = k => n0.id && info(n0.id) ? eff(n0, k) : n0[k], n = arrow ? { id: n0.id, relief: n0.relief } : { id: n0.id, fill: E('fill'), bc: E('bc'), bw: E('bw'), relief: E('relief') };   // en las flechas solo cuenta el relieve: el color es el de la línea
-  const g = gradOf(n.fill), id = 'bf' + n.id + (bigFx.k = (bigFx.k || 0) + 1), rf = n.relief || doc.theme.bigfx || '';
+  const id = 'bf' + n.id + (bigFx.k = (bigFx.k || 0) + 1); let rf = n.relief || doc.theme.bigfx || ''; if (rf === 'real3d') rf = '3d';
+  if (n.fill === 'branch') n.fill = col;
+  // Flechas anchas: relleno claro (el de siempre), sólido o degradado, según Diseño › Flechas anchas
+  const af = arrow ? doc.theme.afill || '' : '';
+  if (af === 'solid') { n.fill = col; n.bc = hexMix(col, '#000000', 0.22); } else if (af === 'grad') { n.fill = hexMix(col, '#ffffff', 0.55) + ',' + col + ',h'; n.bc = hexMix(col, '#000000', 0.15); }
+  const g = gradOf(n.fill);
   const sc = n.bc || col, bw = n.bw != null ? n.bw : rf === 'stroke' ? Math.max(2.5, (def.sw || 1.5) * 1.8) : def.sw;
   let defs = '', fill, fo, so = n.bc || n.bw != null || rf === 'stroke' ? 1 : def.so;
   const base = g ? g[0] : n.fill || col;
-  if (g) { defs += `<linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g[0]}"/><stop offset="1" stop-color="${g[1]}"/></linearGradient>`; fill = `url(#${id}g)`; fo = 1; }
+  if (g) { defs += gradSvg(id + 'g', g); fill = `url(#${id}g)`; fo = 1; }
   else if (n.fill) { fill = n.fill; fo = 1; } else { fill = col; fo = def.fo; }
   if (rf === 'shine' || rf === '3d') { if (!g && !n.fill) { fill = hexMix(col, '#ffffff', 0.18); fo = 1; } }
   const filt = rf === 'shadow' ? 'url(#fxSh)' : rf === 'soft' || rf === '3d' || rf === 'shine' ? 'url(#fxSoft)' : '';
@@ -2797,7 +2856,7 @@ function render(opts = {}) {
   for (const [id, p] of POS) EL.get(id).style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`;
   for (const [id, el] of EL) { const t = el.querySelector('.t'), cut = maxl && t && t.scrollHeight > t.clientHeight + 2; if (cut) el.title = IDX.get(id) ? IDX.get(id).n.text : ''; else if (el.title) el.removeAttribute('title'); }
   drawEdges(); drawFolds(); drawRels(); applyIz(true);
-  board.className = 'board bg-' + (doc.theme.bg || 'plain') + texCls + (tool === 'hand' || spaceDown ? ' hand' : '') + (relFrom != null ? ' relmode' : '');
+  board.className = 'board bg-' + (doc.theme.bg || 'plain') + texCls + (tool === 'hand' || spaceDown ? ' hand' : '') + (relFrom != null ? ' relmode' : '') + (FXFAST() ? ' fxfast' : '');
   updateRibbon(); drawMini(); status(); try { updateDocName(); } catch (e) {}
   if (!opts.light) { schedOutline(); schedSave(); }
   if (FIND) markHits();
@@ -3236,12 +3295,12 @@ function styleEditor() {
   const caseOpts = '<option value="">Como se escribe</option><option value="upper">MAYÚSCULAS</option><option value="title">Cada Palabra</option><option value="smallcaps">Versalitas</option><option value="lower">minúsculas</option>';
   const bwOpts = '<option value="">Automático</option>' + [0, 1, 1.5, 2, 3, 4, 5, 6].map(v => `<option value="${v}">${v} px</option>`).join('');
   const lwOpts = '<option value="">Automático</option>' + [1, 1.5, 2, 3, 4, 6, 8].map(v => `<option value="${v}">${v} px</option>`).join('');
-  const L = [0, 1, 2, 3], cell = f => L.map(f).join('');
+  const L = LVALL, cell = f => L.map(f).join('');
   const colorCell = (k, l, def) => `<div class="cl"><input type="color" data-lk="${k}" data-l="${l}" value="${th.lv[l] && th.lv[l][k] || def}"><button data-lclr="${k}" data-l="${l}" title="Volver al automático">${th.lv[l] && th.lv[l][k] ? '×' : 'auto'}</button></div>`;
   const lineOpts = Object.entries(LINES).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
-  modal.innerHTML = `<div class="dialog" role="dialog" style="width:min(780px,96vw)"><header><h2>Personalizar el estilo por niveles</h2><p>Cada columna es un nivel del mapa; los sub-subtemas usan lo de los subtemas salvo lo que cambies. Los cambios se ven al momento; después puedes guardarlo como estilo propio.</p></header>
+  modal.innerHTML = `<div class="dialog" role="dialog" style="width:min(1060px,97vw)"><header><h2>Personalizar el estilo por niveles</h2><p>Cada columna es un nivel del mapa; del nivel 3 en adelante cada uno usa lo del anterior salvo lo que cambies, y el 5 vale también para los más hondos. Los cambios se ven al momento; después puedes guardarlo como estilo propio.</p></header>
     <div class="body"><div class="lvgrid">
-      <span></span><span class="h">Tema central</span><span class="h">Principales</span><span class="h">Subtemas</span><span class="h">Sub-subtemas</span>
+      <span></span><span class="h">Tema central</span><span class="h">Principales</span><span class="h">Subtemas</span><span class="h">Nivel 3</span><span class="h">Nivel 4</span><span class="h">Nivel 5+</span>
       <span>Forma</span>${cell(l => `<select data-lk="shape" data-l="${l}">${shapeOpts()}</select>`)}
       <span>Relleno</span>${cell(l => colorCell('fill', l, '#ffffff'))}
       <span>Color de rama</span>${cell(l => l === 0 ? colorCell('color', l, '#0d767a') : l === 1 ? '<span style="font-size:11px;color:var(--muted);text-align:center">De la paleta</span>' : colorCell('color', l, '#888888'))}
@@ -3943,7 +4002,7 @@ function resetPos(all) {
   if (all) doc.roots.forEach(clear); else topSel().forEach(n => { if (isRoot(n)) clear(n); else delete n.o; });
   render();
 }
-const lvName = ['Tema central', 'Temas principales', 'Subtemas', 'Sub-subtemas'];
+const lvName = ['Tema central', 'Temas principales', 'Subtemas', 'Nivel 3', 'Nivel 4', 'Nivel 5'];
 function setProp(k, v, noSnap) { setProps({ [k]: v }, noSnap); }
 // --- Copiar formato (como la brocha de Word): forma, colores, letra, tamaño, bordes y grosor de la rama
 let FMTP = null;   // { st, armed, sticky }
@@ -3973,9 +4032,9 @@ function setProps(obj, noSnap) {
     if (v === '') v = undefined;
     if (scope === 'node') items.forEach(n => { if (v == null) delete n[k]; else n[k] = v; });
     else {
-      const levels = scope === 'all' ? [0, 1, 2, 3] : [...new Set(items.map(n => LV(info(n.id).d)))];
+      const levels = scope === 'all' ? LVALL : [...new Set(items.map(n => LV(info(n.id).d)))];
       doc.theme.lv = doc.theme.lv || {};
-      levels.forEach(L => { if (L === 3 && scope === 'all') { if (doc.theme.lv[3]) delete doc.theme.lv[3][k]; return; } const o = doc.theme.lv[L] = doc.theme.lv[L] || {}; if (v == null) delete o[k]; else o[k] = v; });
+      levels.forEach(L => { if (L >= 3 && scope === 'all') { if (doc.theme.lv[L]) delete doc.theme.lv[L][k]; return; } const o = doc.theme.lv[L] = doc.theme.lv[L] || {}; if (v == null) delete o[k]; else o[k] = v; });
       for (const inf of IDX.values()) if (levels.includes(LV(inf.d))) delete inf.n[k];
     }
   }
@@ -4002,7 +4061,7 @@ function clearFormat() {
   snap();
   if (scope === 'node') items.forEach(n => STYLE_KEYS.forEach(k => delete n[k]));
   else {
-    const levels = scope === 'all' ? [0, 1, 2, 3] : [...new Set(items.map(n => LV(info(n.id).d)))];
+    const levels = scope === 'all' ? LVALL : [...new Set(items.map(n => LV(info(n.id).d)))];
     levels.forEach(L => { if (doc.theme.lv) delete doc.theme.lv[L]; });
     for (const inf of IDX.values()) if (levels.includes(LV(inf.d))) STYLE_KEYS.forEach(k => delete inf.n[k]);
   }
@@ -4728,7 +4787,7 @@ function withDoc(pg, fn) { const d = doc; doc = pg; try { return fn(); } finally
 function buildPageMd() {
   const t = doc.theme, relIds = refMap(); const RF = id => relIds.get(id) ?? id;
   const tp = taperMode();
-  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, arrows: t.arrows || null, effect: t.bigfx || null, hand: t.hand ? t.hand : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, media: t.msz ? t.msz.join(',') : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
+  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, arrows: t.arrows || null, arrowfill: t.afill || null, arrowtip: t.atip || null, effect: t.bigfx || null, hand: t.hand ? t.hand : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, levelspacing: t.lspace && t.lspace !== 1 ? t.lspace : null, media: t.msz ? t.msz.join(',') : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
   { const used = new Set(); const look = o => { if (o && o.shape && String(o.shape).startsWith('c:')) used.add(o.shape.slice(2)); }; Object.values(t.lv || {}).forEach(look); const w = n => { look(n); n.kids.forEach(w); }; doc.roots.forEach(w);
     used.forEach(id => { const c = CSHAPES[id]; if (c && c.d && !c.svg) s += `<!-- shape c:${id}: ${attrs({ name: c.name, path: c.d })} -->\n`; }); }
   if (t.img) s += `<!-- background: ${attrs({ image: imgSrc(t.img), fit: t.imgfit === 'tile' ? 'tile' : null, fade: t.imgfade ? +(+t.imgfade).toFixed(2) : null })} -->\n`;
@@ -4740,7 +4799,7 @@ function buildPageMd() {
     if (r.line) m.lines = r.line;
     if (i > 0 || Math.round(r.x) || Math.round(r.y)) { m.x = Math.round(r.x); m.y = Math.round(r.y); }
     if (r.col) m.collapsed = 'yes';
-    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, fit: r.cnv.fit || null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, fit: r.cnv.fit || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -4767,7 +4826,7 @@ function parseBook(src) {
   });
   return pages.length ? { pages, cur: 0, src: S } : null;
 }
-const okCol = v => !!v && String(v).includes(',') ? String(v).split(',').length === 2 && String(v).split(',').every(x => okCol1(x)) : okCol1(v);
+const okCol = v => !!v && String(v).includes(',') ? (p => (p.length === 2 || (p.length === 3 && GDIRS.includes(p[2]))) && okCol1(p[0]) && okCol1(p[1]))(String(v).split(',')) : v === 'branch' || v === 'auto' || okCol1(v);
 const okCol1 = v => !!v && (/^#[0-9a-f]{3,8}$/i.test(v) || v === 'none' || (typeof CSS !== 'undefined' && CSS.supports && CSS.supports('color', v)));
 function parseAttrs(s) { const o = {}; (s || '').replace(/([\w.-]+)=(?:"([^"]*)"|(\S+))/g, (m, k, q, v) => { o[k] = q != null ? q : v; }); return o; }
 function cleanInline(raw) {
@@ -4864,22 +4923,24 @@ function parseMd(src, forPaste) {
       if (a.line && LINES[a.line]) out.theme.line = a.line; if (a.taper) out.theme.taper = a.taper === 'no' ? 'none' : a.taper === 'all' ? 'all' : 'main';
       if (a.branches === '3d') out.theme.b3d = true;
       if (a.arrows === 'block') out.theme.arrows = 'block';
-      if (['stroke', 'shadow', 'soft', 'shine', '3d'].includes(a.effect)) out.theme.bigfx = a.effect;
+      if (['stroke', 'shadow', 'soft', 'shine', '3d', 'real3d'].includes(a.effect)) out.theme.bigfx = a.effect;
+      if (['solid', 'grad'].includes(a.arrowfill)) out.theme.afill = a.arrowfill; if (['none', 'notch'].includes(a.arrowtip)) out.theme.atip = a.arrowtip;
+      if (a.levelspacing != null && isFinite(+a.levelspacing)) out.theme.lspace = clamp(+a.levelspacing, 0.4, 4);
       if (a.hand != null && isFinite(+a.hand) && +a.hand > 0) out.theme.hand = clamp(Math.round(+a.hand), 0, 10);
-      if (a.radius != null && isFinite(+a.radius)) out.theme.radius = clamp(+a.radius, 0, 40);
+      if (a.radius != null && isFinite(+a.radius)) out.theme.radius = clamp(+a.radius, 0, 999);
       if (a.bg) out.theme.bg = a.bg; if (a.texture && TEX[a.texture]) out.theme.tex = a.texture; if (a.spacing) out.theme.space = +a.spacing || 1; if (a.media && /^\d+,\d+,\d+$/.test(a.media)) out.theme.msz = a.media.split(',').map(x => clamp(+x, 40, 800)); if (+a.textlines > 0) out.theme.maxl = Math.min(20, Math.round(+a.textlines));
       continue;
     }
     if ((m = raw.match(/^\s*<!--\s*shape\s+c:([\w-]+):\s*(.*?)\s*-->\s*$/))) { const a = parseAttrs(m[2]); if (a.path && /^[MLCZmlcz0-9.,\s-]+$/.test(a.path)) { CSHAPES[m[1]] = { name: a.name || 'Forma propia', d: a.path }; } continue; }
     if ((m = raw.match(/^\s*<!--\s*background:\s*(.*?)\s*-->\s*$/))) { const a = parseAttrs(m[1]); if (a.image) { out.theme.img = /^data:/.test(a.image) ? memImg(a.image) : a.image; out.theme.imgfit = a.fit === 'tile' ? 'tile' : 'cover'; if (a.fade != null && isFinite(+a.fade)) out.theme.imgfade = clamp(+a.fade, 0, 0.95); } continue; }
-    if ((m = raw.match(/^\s*<!--\s*style\s+(root|main|sub|deep):\s*(.*?)\s*-->\s*$/))) {
+    if ((m = raw.match(/^\s*<!--\s*style\s+(root|main|sub|deep|level4|level5):\s*(.*?)\s*-->\s*$/))) {
       const o = {}; applyStyle(o, parseAttrs(m[2])); out.theme.lv[LVN.indexOf(m[1])] = o; continue;
     }
     if ((m = raw.match(/^\s*<!--\s*map:\s*(.*?)\s*-->\s*$/))) {
       const r = out.roots[out.roots.length - 1]; if (!r) continue; const a = parseAttrs(m[1]);
       if (a.structure && STRUCTS[a.structure]) r.structure = a.structure;
       if (a.lines && LINES[a.lines]) r.line = a.lines;
-      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
+      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.margin != null || a.corners != null) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -5068,8 +5129,8 @@ function updateRibbon() {
   $('[data-cmd="relation"]').setAttribute('aria-pressed', relFrom != null);
   const inf = n && info(n.id);
   $('#sw-color').style.background = inf ? inf.color : '#fff';
-  $('#sw-fill').style.background = n && n.fill ? (v => gradOf(v) ? `linear-gradient(135deg,${v})` : v)(n.fill) : '#fff';
-  $('#sw-tc').style.background = n && n.tc ? n.tc : '#262626';
+  $('#sw-fill').style.background = n && n.fill ? fillCss(n.fill) : '#fff';
+  $('#sw-tc').style.background = n && n.tc ? tcCss(n.tc) : '#262626';
 }
 function applyPanels() {
   const m = $('#main');
@@ -5340,11 +5401,12 @@ function cmd(c, el) {
     case 'pal': if (v === 'custom') { customPalMenu(el && el.closest && el.closest('#pop') ? palAnchor : fixedAnchor(el)); break; } snap(); doc.theme.pal = v; render(); hidePop(); break;
     case 'palMenu': palMenu(el); break;
     case 'spaceMenu': {
-      openPop(el, `<h4>Separación entre temas</h4><div style="width:240px"><input type="range" min="0.6" max="5" step="0.1" value="${doc.theme.space || 1}" id="sp-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Juntos</span><span id="sp-v">×${(+(doc.theme.space || 1)).toFixed(1)}</span><span>Muy separados</span></div><div style="border-top:1px solid var(--line-soft);margin-top:10px;padding-top:10px">${levelSliderHtml()}</div><div style="border-top:1px solid var(--line-soft);margin-top:10px;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px"><b style="font-weight:600">Texto largo</b><select id="sp-maxl"><option value="0">Todo el texto</option><option value="1">1 línea</option><option value="2">2 líneas</option><option value="3">3 líneas</option><option value="4">4 líneas</option><option value="6">6 líneas</option></select></div></div>`);
+      openPop(el, `<h4>Separación entre temas</h4><div style="width:240px"><input type="range" min="0.6" max="5" step="0.1" value="${doc.theme.space || 1}" id="sp-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Juntos</span><span id="sp-v">×${(+(doc.theme.space || 1)).toFixed(1)}</span><span>Muy separados</span></div><div style="margin-top:10px;font-size:12px;display:flex;justify-content:space-between"><b style="font-weight:600">${esc(trStr('Entre niveles'))}</b><span id="lsp-v">×${(+(doc.theme.lspace || 1)).toFixed(1)}</span></div><input type="range" min="0.4" max="4" step="0.1" value="${doc.theme.lspace || 1}" id="lsp-in" style="width:100%;accent-color:var(--acc)"${isLocked('branchShape') ? ' disabled' : ''}><div style="border-top:1px solid var(--line-soft);margin-top:10px;padding-top:10px">${levelSliderHtml()}</div><div style="border-top:1px solid var(--line-soft);margin-top:10px;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px"><b style="font-weight:600">Texto largo</b><select id="sp-maxl"><option value="0">Todo el texto</option><option value="1">1 línea</option><option value="2">2 líneas</option><option value="3">3 líneas</option><option value="4">4 líneas</option><option value="6">6 líneas</option></select></div></div>`);
       bindLevelSlider(pop);
       { const ml = $('#sp-maxl'); ml.value = String(+doc.theme.maxl || 0); ml.onchange = () => { snap(); doc.theme.maxl = +ml.value || undefined; render(); }; }
       const si = $('#sp-in'); let sn = false;
       si.addEventListener('input', () => { if (!sn) { snap(); sn = true; } doc.theme.space = +si.value; $('#sp-v').textContent = '×' + (+si.value).toFixed(1); render(); });
+      { const li = $('#lsp-in'); let s2 = false; li.addEventListener('input', () => { if (!s2) { snap(); s2 = true; } doc.theme.lspace = +li.value === 1 ? undefined : +li.value; $('#lsp-v').textContent = '×' + (+li.value).toFixed(1); render(); }); }
       break;
     }
     case 'line': {
@@ -5355,13 +5417,23 @@ function cmd(c, el) {
     }
     case 'taper': snap(); doc.theme.taper = v; render(); break;
     case 'b3d': snap(); doc.theme.b3d = !doc.theme.b3d; render(); break;
-    case 'fxMenu': { const cur = doc.theme.bigfx || ''; openPop(el, `<h4>${esc(trStr('Efecto de las formas'))}</h4>` + [['', 'Plano'], ['stroke', 'Con borde'], ['shadow', 'Sombra'], ['soft', 'Sombra suave'], ['shine', 'Brillo'], ['3d', '3D']].map(([k, t]) => `<button class="opt" data-cmd="bigfx" data-v="${k}"${cur === k ? ' aria-pressed="true"' : ''}>${esc(trStr(t))}</button>`).join('') + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:240px">${esc(trStr('Para recuadros del lienzo, columnas del Kanban, franjas de pirámide y embudo, el anillo de flechas y las flechas anchas. Cada tema puede tener el suyo en Formato › Relieve.'))}</p>`); break; }
+    case 'fxMenu': { const cur = doc.theme.bigfx || '', q = PR.fxq || 'auto'; openPop(el, `<h4>${esc(trStr('Efecto de las formas'))}</h4>` + [['', 'Plano'], ['stroke', 'Con borde'], ['shadow', 'Sombra'], ['soft', 'Sombra suave'], ['shine', 'Brillo'], ['3d', '3D'], ['real3d', '3D real (embudo, pirámide y proceso)']].map(([k, t]) => `<button class="opt" data-cmd="bigfx" data-v="${k}"${cur === k ? ' aria-pressed="true"' : ''}>${esc(trStr(t))}</button>`).join('') + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:250px">${esc(trStr('Para recuadros del lienzo, columnas del Kanban, franjas de pirámide y embudo, el anillo de flechas y las flechas anchas. Cada tema puede tener el suyo en Formato › Relieve.'))}</p>`
+      + `<hr><div class="shcat">${esc(trStr('Calidad de sombras y transparencias'))}</div>` + [['auto', 'Automática (rápida en mapas grandes)'], ['high', 'Siempre alta'], ['fast', 'Siempre rápida']].map(([k, t]) => `<button class="opt" data-cmd="fxq" data-v="${k}"${q === k ? ' aria-pressed="true"' : ''}>${esc(trStr(t))}</button>`).join('') + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:250px">${esc(trStr('En rápida, las sombras no se difuminan y los cristales no desenfocan lo de detrás: el mapa va más fluido. Al exportar se usa siempre la alta.'))}</p>`); break; }
+    case 'fxq': PR.fxq = v === 'auto' ? undefined : v; savePrefs(); hidePop(); render(); break;
+    case 'barrowMenu': { const t = doc.theme, on = t.arrows === 'block', o = (c, v, cur, txt) => `<button class="opt" data-cmd="${c}" data-v="${v}"${cur ? ' aria-pressed="true"' : ''}>${esc(trStr(txt))}</button>`;
+      openPop(el, `<h4>${esc(trStr('Flechas anchas'))}</h4>` + o('barrowSet', on ? 'off' : 'on', on, on ? 'Activadas ✓ (pulsa para quitarlas)' : 'Activar flechas anchas')
+        + `<div class="shcat">${esc(trStr('Relleno'))}</div>` + o('afill', '', !t.afill, 'Claro (con borde)') + o('afill', 'solid', t.afill === 'solid', 'Sólido') + o('afill', 'grad', t.afill === 'grad', 'Degradado')
+        + `<div class="shcat">${esc(trStr('Punta'))}</div>` + o('atip', '', !t.atip, 'Con punta') + o('atip', 'none', t.atip === 'none', 'Sin punta') + o('atip', 'notch', t.atip === 'notch', 'Con muesca')
+        + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:240px">${esc(trStr('El relleno y la punta valen también para las flechas del ciclo y del proceso; la punta, también para el anillo.'))}</p>`); break; }
+    case 'barrowSet': snap(); if (v === 'off') delete doc.theme.arrows; else doc.theme.arrows = 'block'; hidePop(); render(); break;
+    case 'afill': snap(); if (v) doc.theme.afill = v; else delete doc.theme.afill; if (doc.theme.arrows !== 'block' && !doc.roots.some(r => /cycle|process/.test(r.structure || ''))) doc.theme.arrows = 'block'; render(); cmd('barrowMenu', $('[data-cmd="barrowMenu"]')); break;
+    case 'atip': snap(); if (v) doc.theme.atip = v; else delete doc.theme.atip; if (doc.theme.arrows !== 'block' && !doc.roots.some(r => /cycle|process/.test(r.structure || ''))) doc.theme.arrows = 'block'; render(); cmd('barrowMenu', $('[data-cmd="barrowMenu"]')); break;
     case 'bigfx': snap(); if (v) doc.theme.bigfx = v; else delete doc.theme.bigfx; hidePop(); render(); break;
     case 'barrow': snap(); if (doc.theme.arrows === 'block') delete doc.theme.arrows; else doc.theme.arrows = 'block'; render(); break;
     case 'radiusMenu': {
-      openPop(el, `<h4>Esquinas de las ramas en ángulo</h4><div style="width:230px"><input type="range" min="0" max="40" step="1" value="${radiusOf()}" id="rad-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Viva</span><span id="rad-v">${radiusOf()} px</span><span>Muy redondeada</span></div></div>`);
+      openPop(el, `<h4>Esquinas de las ramas en ángulo</h4><div style="width:250px"><input type="range" min="0" max="100" step="1" value="${Math.min(100, radiusOf())}" id="rad-in" style="width:100%;accent-color:var(--acc)"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span>Viva</span><span id="rad-v">${radTxt()}</span><span>Curva completa</span></div></div>`);
       const ri = $('#rad-in'); let sn = false;
-      ri.addEventListener('input', () => { if (!sn) { snap(); sn = true; } doc.theme.radius = +ri.value; $('#rad-v').textContent = ri.value + ' px'; render(); });
+      ri.addEventListener('input', () => { if (!sn) { snap(); sn = true; } doc.theme.radius = +ri.value >= 100 ? 999 : +ri.value; $('#rad-v').textContent = radTxt(); render(); });
       break;
     }
     case 'bg': snap(); doc.theme.bg = v; render(); break;
@@ -5478,20 +5550,24 @@ function colorMenu(btn) {
   const title = trStr({ color: 'Color de rama', fill: 'Relleno', tc: 'Color del texto', bc: 'Color del borde', lc: 'Color de la línea' }[k]);
   const curV = String(curVal(k) || ''), g = gradOf(curV), c1 = (g ? g[0] : curV) || (k === 'tc' ? '#1f2224' : '#0d767a'), hex = c => /^#[0-9a-f]{6}$/i.test(c) ? c : '#0d767a';
   const rec = (PR.recentCols || []).slice(0, 10);
-  openPop(btn, `<h4>${title} · ${scopeLabel()}</h4><button class="opt" data-col=""><span class="sw-ico"><i style="background:linear-gradient(135deg,#e8743b,#3a86c8)"></i></span>Automático</button><div class="pal">${SWATCH.map(c => `<button data-col="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div>
-    ${rec.length ? `<div class="shcat">${esc(trStr('Recientes'))}</div><div class="pal">${rec.map(c => `<button data-col="${esc(c)}" style="background:${gradOf(c) ? `linear-gradient(135deg,${esc(c)})` : esc(c)}" title="${esc(c)}"></button>`).join('')}</div>` : ''}
+  openPop(btn, `<h4>${title} · ${scopeLabel()}</h4><button class="opt" data-col=""><span class="sw-ico"><i style="background:linear-gradient(135deg,#e8743b,#3a86c8)"></i></span>Automático</button>${k === 'fill' ? `<button class="opt" data-col="branch"><span class="sw-ico"><i style="background:var(--acc)"></i></span>${esc(trStr('Sólido (color de la rama)'))}</button>` : k === 'tc' ? `<button class="opt" data-col="auto"><span class="sw-ico"><i style="background:linear-gradient(90deg,#0b4f52 50%,#fff 50%);outline:1px solid #ccc"></i></span>${esc(trStr('Automático (tono del color del tema)'))}</button>` : k === 'bc' ? `<button class="opt" data-nobd><span class="sw-ico"><i style="background:none;outline:1px dashed #aaa"></i></span>${esc(trStr('Sin borde'))}</button>` : ''}<div class="pal">${SWATCH.map(c => `<button data-col="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div>
+    ${rec.length ? `<div class="shcat">${esc(trStr('Recientes'))}</div><div class="pal">${rec.map(c => `<button data-col="${esc(c)}" style="background:${esc(fillCss(c))}" title="${esc(c)}"></button>`).join('')}</div>` : ''}
     <div class="shcat">${esc(trStr('Más colores'))}</div>
     <div class="cpick"><input type="color" id="cp-c" value="${hex(c1)}"><input type="text" id="cp-hex" value="${esc(hex(c1))}" maxlength="7" spellcheck="false" aria-label="Hex"><button class="btn-sec" data-cpok>${esc(trStr('Aplicar'))}</button></div>
-    ${k === 'fill' ? `<div class="shcat">${esc(trStr('Degradado'))}</div><div class="cpick"><input type="color" id="cp-g1" value="${hex(g ? g[0] : c1)}"><span class="cp-bar" id="cp-bar"></span><input type="color" id="cp-g2" value="${hex(g ? g[1] : '#5f3dc4')}"><button class="btn-sec" data-cmd="gradFill" data-cpgrad>${esc(trStr('Aplicar'))}</button></div>` : ''}`);
-  const apply = c => { if (c) { PR.recentCols = [c, ...(PR.recentCols || []).filter(x => x !== c)].slice(0, 10); savePrefs(); } setProp(k, c || undefined); hidePop(); };
+    ${k === 'fill' ? `<div class="shcat">${esc(trStr('Degradado'))}</div><div class="cpick"><input type="color" id="cp-g1" value="${hex(g ? g[0] : c1)}"><span class="cp-bar" id="cp-bar"></span><input type="color" id="cp-g2" value="${hex(g ? g[1] : '#5f3dc4')}"><button class="btn-sec" data-cmd="gradFill" data-cpgrad>${esc(trStr('Aplicar'))}</button></div><div class="gdirs" title="${esc(trStr('Dirección del degradado'))}">${GDIRS.map(d => `<button data-gdir="${d}"${(g ? g.dir : 'd') === d ? ' aria-pressed="true"' : ''} title="${esc(trStr({ v: 'Vertical', h: 'Horizontal', d: 'Diagonal', rv: 'Reflejado (vertical)', rh: 'Reflejado (horizontal)' }[d]))}"></button>`).join('')}</div>` : ''}`);
+  const apply = c => { if (c && c !== 'branch' && c !== 'auto') { PR.recentCols = [c, ...(PR.recentCols || []).filter(x => x !== c)].slice(0, 10); savePrefs(); } if (k === 'bc' && c && curVal('bw') === 0) setProps({ bc: c, bw: undefined }); else setProp(k, c || undefined); hidePop(); };
   const cc = $('#cp-c'), hx = $('#cp-hex'), bar = $('#cp-bar'), g1 = $('#cp-g1'), g2 = $('#cp-g2');
-  const drawBar = () => { if (bar) bar.style.background = `linear-gradient(90deg, ${g1.value}, ${g2.value})`; }; drawBar();
+  let gdir = g ? g.dir : 'd';
+  const drawBar = () => { if (bar) bar.style.background = `linear-gradient(90deg, ${g1.value}, ${g2.value})`; pop.querySelectorAll('[data-gdir]').forEach(b => { const q = [g1.value, g2.value]; q.dir = b.dataset.gdir; b.style.background = gradCss(q); b.setAttribute('aria-pressed', b.dataset.gdir === gdir); }); }; if (g1) drawBar();
+  const gval = () => g1.value + ',' + g2.value + (gdir === 'd' ? '' : ',' + gdir);
   cc.oninput = () => { hx.value = cc.value; }; hx.oninput = () => { if (/^#[0-9a-f]{6}$/i.test(hx.value)) cc.value = hx.value; };
   hx.onkeydown = e => { e.stopPropagation(); if (e.key === 'Enter' && /^#[0-9a-f]{6}$/i.test(hx.value)) apply(hx.value.toLowerCase()); };
   if (g1) { g1.oninput = drawBar; g2.oninput = drawBar; }
   pop.onclick = e => {
     if (e.target.closest('[data-cpok]')) { if (/^#[0-9a-f]{6}$/i.test(hx.value)) apply(hx.value.toLowerCase()); return; }
-    if (e.target.closest('[data-cpgrad]')) { if (isLocked('gradFill')) return; apply(g1.value + ',' + g2.value); return; }
+    if (e.target.closest('[data-cpgrad]')) { if (isLocked('gradFill')) return; apply(gval()); return; }
+    { const gd = e.target.closest('[data-gdir]'); if (gd) { if (isLocked('gradFill')) { upsell(); return; } gdir = gd.dataset.gdir; drawBar(); setProp(k, gval()); return; } }
+    if (e.target.closest('[data-nobd]')) { setProp('bw', 0); hidePop(); return; }
     const b = e.target.closest('[data-col]'); if (!b) return;
     const c = b.dataset.col; if (gradOf(c) && isLocked('gradFill')) { upsell(); return; } if (c) apply(c); else { setProp(k, undefined); hidePop(); }
   };
@@ -5734,8 +5810,8 @@ function placeQbar() {
   $('#qb-scope').textContent = scopeLabel();
   const inf = info(n.id);
   $('#qb-color').style.background = inf.color;
-  $('#qb-fill').style.background = (v => gradOf(v) ? `linear-gradient(135deg,${v})` : v)(eff(n, 'fill')) || 'var(--nbase)';
-  $('#qb-tc').style.background = eff(n, 'tc') || '#262626';
+  $('#qb-fill').style.background = fillCss(eff(n, 'fill')) || 'var(--nbase)';
+  $('#qb-tc').style.background = tcCss(eff(n, 'tc')) || '#262626';
   qbar.hidden = false;
   const r = board.getBoundingClientRect(), w = qbar.offsetWidth, h = qbar.offsetHeight;
   const cx = ((b.x0 + b.x1) / 2) * V.s + V.x, top = b.y0 * V.s + V.y, bot = b.y1 * V.s + V.y;
@@ -5758,8 +5834,8 @@ function updateFmt() {
   $$('[data-fptab]').forEach(b => b.setAttribute('aria-selected', b.dataset.fptab === PR.fptab));
   $$('[data-fppage]').forEach(pg => pg.hidden = pg.dataset.fppage !== PR.fptab);
   $('#fp-color').style.background = inf ? inf.color : '#ccc'; { const n0 = primary(); $('#fp-bc').style.background = n0 && n0.bc || (inf ? inf.color : '#ccc'); $('#fp-lc').style.background = n0 ? lineCol(n0) : '#ccc'; const sb = $('#sw-bc'); if (sb) sb.style.background = n0 && n0.bc || (inf ? inf.color : '#ccc'); }
-  $('#fp-fill').style.background = (v => gradOf(v) ? `linear-gradient(135deg,${v})` : v)(val('fill')) || '#fff';
-  $('#fp-tc').style.background = val('tc') || '#262626';
+  $('#fp-fill').style.background = fillCss(val('fill')) || '#fff';
+  $('#fp-tc').style.background = tcCss(val('tc')) || '#262626';
   $$('[data-fk="font"]').forEach(x => { if (document.activeElement !== x) x.value = val('font') || ''; });
   $$('[data-fk="weight"]').forEach(x => { if (document.activeElement !== x) x.value = val('weight') || ''; });
   $$('[data-fk="case"]').forEach(x => { if (document.activeElement !== x) x.value = val('case') || 'normal'; });
@@ -5775,10 +5851,10 @@ function updateFmt() {
   const lsI = $('[data-fk="ls"]'), ls = val('ls') ?? 0; if (document.activeElement !== lsI) lsI.value = ls; $('#fp-ls-v').textContent = (+ls).toFixed(2) + ' em';
   { const fl = $('#fp-levels'); if (fl && !fl.contains(document.activeElement)) { fl.innerHTML = levelSliderHtml(); bindLevelSlider(fl); } }
   $('#fp-sp-v').textContent = '×' + (+(doc.theme.space || 1)).toFixed(1);
-  $('#fp-rad-v').textContent = radiusOf() + ' px';
+  $('#fp-rad-v').textContent = radTxt(); $('#fp-lsp-v').textContent = '×' + (+(doc.theme.lspace || 1)).toFixed(1);
   $('#fp-b3d').textContent = 'Ramas 3D: ' + (doc.theme.b3d ? 'sí' : 'no');
   const cr = n ? info(n.id).r : doc.roots[0];
-  $$('[data-tk]').forEach(x => { if (document.activeElement !== x) x.value = x.dataset.tk === 'taper' ? taperMode() : x.dataset.tk === 'space' ? (doc.theme.space || 1) : x.dataset.tk === 'radius' ? radiusOf() : x.dataset.tk === 'maxl' ? String(+doc.theme.maxl || 0) : x.dataset.tk === 'line' && cr ? lineOf(cr) : x.dataset.tk === 'hand' ? (doc.theme.hand || 0) : doc.theme[x.dataset.tk]; });
+  $$('[data-tk]').forEach(x => { if (document.activeElement !== x) x.value = x.dataset.tk === 'taper' ? taperMode() : x.dataset.tk === 'space' ? (doc.theme.space || 1) : x.dataset.tk === 'lspace' ? (doc.theme.lspace || 1) : x.dataset.tk === 'radius' ? Math.min(100, radiusOf()) : x.dataset.tk === 'maxl' ? String(+doc.theme.maxl || 0) : x.dataset.tk === 'line' && cr ? lineOf(cr) : x.dataset.tk === 'hand' ? (doc.theme.hand || 0) : doc.theme[x.dataset.tk]; });
   { const hv = $('#fp-hand-v'); if (hv) hv.textContent = doc.theme.hand ? doc.theme.hand + ' / 10' : trStr('no'); }
 }
 $$('[data-fptab]').forEach(b => b.addEventListener('click', () => { PR.fptab = b.dataset.fptab; savePrefs(); updateFmt(); }));
@@ -5797,7 +5873,7 @@ $$('[data-fk]').forEach(x => {
 $$('[data-tk]').forEach(x => {
   if (x.type === 'range') {
     x.addEventListener('pointerdown', () => snap());
-    x.addEventListener('input', () => { if (x.dataset.tk === 'hand' && isLocked('branchShape')) { x.value = 0; upsell(); return; } doc.theme[x.dataset.tk] = +x.value || (x.dataset.tk === 'hand' ? undefined : +x.value); render(); updateFmt(); });
+    x.addEventListener('input', () => { if (x.dataset.tk === 'hand' && isLocked('branchShape')) { x.value = 0; upsell(); return; } doc.theme[x.dataset.tk] = x.dataset.tk === 'radius' && +x.value >= 100 ? 999 : +x.value || (x.dataset.tk === 'hand' ? undefined : +x.value); render(); updateFmt(); });
   } else x.addEventListener('change', () => { if (x.dataset.tk === 'pal' && lockGate('pal', x.value)) { updateRibbon(); return; } if (x.dataset.tk === 'pal' && x.value === 'custom') { customPalMenu(fixedAnchor(x)); return; } if (x.dataset.tk === 'line') { cmd('line', { dataset: { v: x.value } }); return; } snap(); doc.theme[x.dataset.tk] = x.dataset.tk === 'maxl' ? (+x.value || undefined) : x.value; render(); });
 });
 function widthMenu(btn) {
@@ -6014,7 +6090,7 @@ function markLocks(rootEl) {
     if (o.value === '' && kind === 'mapStyle') return;
     if (isLocked(kind, o.value) && !o.textContent.includes('· Pro')) o.textContent += '  · Pro';
   });
-  if (!rootEl) ['[data-fk="ls"]', '[data-tk="space"]', '[data-tk="radius"]'].forEach(q => $$(q).forEach(i => { i.disabled = true; i.title = 'Disponible en Mind Pro'; const l = i.closest('.fp-sec'); if (l && !l.querySelector('.lk')) l.querySelector('label').insertAdjacentHTML('beforeend', '<span class="lk" style="font-weight:400">🔒</span>'); }));
+  if (!rootEl) ['[data-fk="ls"]', '[data-tk="space"]', '[data-tk="lspace"]', '[data-tk="radius"]'].forEach(q => $$(q).forEach(i => { i.disabled = true; i.title = 'Disponible en Mind Pro'; const l = i.closest('.fp-sec'); if (l && !l.querySelector('.lk')) l.querySelector('label').insertAdjacentHTML('beforeend', '<span class="lk" style="font-weight:400">🔒</span>'); }));
 }
 
 /* ---------- Archivo ---------- */
@@ -6346,6 +6422,7 @@ Object.assign(EN, {"Brillo (relieve con luz)": "Shine (lit relief)", "3D (con vo
 Object.assign(EN, {"Botones de ajustar": "Fit buttons", "«Ajustar», Ctrl+0 y el de la barra de herramientas": "“Fit”, Ctrl+0 and the toolbar button", "Con temas seleccionados, ajusta esos temas": "With topics selected, fit those topics", "Con un tema seleccionado, encuadra su rama": "With a topic selected, frame its branch", "Siempre todo el mapa": "Always the whole map"});
 Object.assign(EN, {"Encuadrar la rama: el tema seleccionado con sus hijos": "Frame the branch: the selected topic with its children", "Ajustar todo el mapa a la ventana": "Fit the whole map to the window", "Todo el mapa a la vista": "The whole map in view"});
 Object.assign(EN, {"Ajustar: los temas seleccionados (sin selección, todo el mapa)": "Fit: the selected topics (nothing selected: the whole map)", "Los temas seleccionados; sin selección, todo el mapa (Ctrl+0)": "The selected topics; nothing selected: the whole map (Ctrl+0)"});
+Object.assign(EN, {"Nivel 3": "Level 3", "Nivel 4": "Level 4", "Nivel 5": "Level 5", "Nivel 5+": "Level 5+", "Curva completa": "Full curve", "Entre niveles": "Between levels", "Separación entre niveles": "Spacing between levels", "Distancia de un tema a sus subtemas, aparte de la que hay entre temas del mismo nivel.": "Distance from a topic to its subtopics, separate from the spacing between topics on the same level.", "Margen entre recuadros": "Margin between boxes", "Esquinas de los recuadros": "Box corners", "Sólido (color de la rama)": "Solid (branch color)", "Automático (tono del color del tema)": "Automatic (shade of the topic color)", "Sin borde": "No border", "Dirección del degradado": "Gradient direction", "Vertical": "Vertical", "Horizontal": "Horizontal", "Diagonal": "Diagonal", "Reflejado (vertical)": "Mirrored (vertical)", "Reflejado (horizontal)": "Mirrored (horizontal)", "3D real (embudo, pirámide y proceso)": "Real 3D (funnel, pyramid and process)", "Calidad de sombras y transparencias": "Shadow and transparency quality", "Automática (rápida en mapas grandes)": "Automatic (fast on large maps)", "Siempre alta": "Always high", "Siempre rápida": "Always fast", "En rápida, las sombras no se difuminan y los cristales no desenfocan lo de detrás: el mapa va más fluido. Al exportar se usa siempre la alta.": "In fast mode shadows are not blurred and glass shapes don't blur what's behind them, so the map runs smoother. Exports always use high quality.", "Activadas ✓ (pulsa para quitarlas)": "On ✓ (click to turn off)", "Activar flechas anchas": "Turn on block arrows", "Relleno": "Fill", "Claro (con borde)": "Light (outlined)", "Sólido": "Solid", "Degradado": "Gradient", "Punta": "Tip", "Con punta": "With tip", "Sin punta": "No tip", "Con muesca": "Notched", "El relleno y la punta valen también para las flechas del ciclo y del proceso; la punta, también para el anillo.": "Fill and tip also apply to cycle and process arrows; the tip also applies to the ring.", "Cada columna es un nivel del mapa; del nivel 3 en adelante cada uno usa lo del anterior salvo lo que cambies, y el 5 vale también para los más hondos. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level; from level 3 on, each one uses the previous level's settings except what you change, and level 5 also applies to deeper levels. Changes show right away; then you can save it as your own style.", "0 = esquina viva · al máximo, curva completa": "0 = sharp corner · at the maximum, a full curve", "Del tema central hasta el quinto nivel": "From the central topic down to the fifth level", "Personalizar el estilo por niveles": "Customize the style by level", "Las ramas como flechas anchas, como en un diagrama de presentación: relleno y punta": "Branches as block arrows, like in a presentation diagram: fill and tip"});
 Object.assign(EN, {"Círculo": "Circle", "Proceso": "Process", "Pirámide": "Pyramid", "Flechas anchas": "Block arrows", "Las ramas como flechas anchas con borde, como en un diagrama de presentación": "Branches as wide outlined arrows, like in a presentation diagram"});
 /* ---------- Lienzos (estructura «canvas»): recuadros en una cuadrícula con proporción fija; las tarjetas son sus hijos ----------
    Mapa: <!-- map: structure=canvas grid=10x3 gridv=6x4 ratio=16:9 titles=no frames=no canvasbg=… mobile=b -->
@@ -6424,7 +6501,7 @@ function cvGeom(r, port, k = 1) {
   const wts = (str, n) => { const a = String(str || '').split(',').map(Number).filter(x => x > 0); return a.length === n ? a : Array(n).fill(1); };
   const cwt = wts(port ? cv.cwv : cv.cw, g[0]), rwt = wts(port ? cv.rwv : cv.rw, g[1]), sc = cwt.reduce((a, b) => a + b, 0), sr = rwt.reduce((a, b) => a + b, 0);
   const xs = [0], ys = [0]; cwt.forEach(w => xs.push(xs[xs.length - 1] + w / sc * W)); rwt.forEach(w => ys.push(ys[ys.length - 1] + w / sr * H));
-  const gap = 8, zkey = port ? 'zonev' : 'zone';
+  const gap = cv.gap != null ? clamp(+cv.gap, 0, 60) : 8, zkey = port ? 'zonev' : 'zone';
   const rect = (a, b) => { const z = b && String(b[zkey] || '').split(',').map(Number); if (z && z.length === 4 && z.every(isFinite)) return { x: z[0] / 100 * W + gap / 2, y: z[1] / 100 * H + gap / 2, w: z[2] / 100 * W - gap, h: z[3] / 100 * H - gap, zone: true };
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
@@ -6514,8 +6591,15 @@ function cvBarPlace() {
 { const pq = placeQbar; placeQbar = function () { pq(); try { cvBarPlace(); } catch (e) {} }; }
 function cvMenu(el) {
   const it = (c, t) => `<button class="opt" data-cmd="${c}">${esc(trStr(t))}</button>`;
-  openPop(el, `<h4>${esc(trStr('Lienzo'))}</h4>` + it('cvRatio', 'Proporción (16:9, 4:3, 1:1)') + it('cvFit', cvCur() && cvCur().r.cnv && cvCur().r.cnv.fit === 'grow' ? 'Al llenarse un recuadro: agrandar el lienzo ✓ (cambiar a reducir las tarjetas)' : 'Al llenarse un recuadro: reducir las tarjetas ✓ (cambiar a agrandar el lienzo)') + it('cvMobile', 'Colocación en móvil') + it('cvPreview', 'Ver como móvil / ordenador') + '<hr>' + it('cvGrid', 'Volver a la cuadrícula') + it('cvBgOff', 'Quitar la imagen de fondo') + '<hr>' + it('cvSaveTpl', '⭐ Guardar como plantilla') + it('canvasNew', 'Lienzo nuevo…'));
+  openPop(el, `<h4>${esc(trStr('Lienzo'))}</h4>` + it('cvRatio', 'Proporción (16:9, 4:3, 1:1)') + it('cvFit', cvCur() && cvCur().r.cnv && cvCur().r.cnv.fit === 'grow' ? 'Al llenarse un recuadro: agrandar el lienzo ✓ (cambiar a reducir las tarjetas)' : 'Al llenarse un recuadro: reducir las tarjetas ✓ (cambiar a agrandar el lienzo)') + cvSliders() + it('cvMobile', 'Colocación en móvil') + it('cvPreview', 'Ver como móvil / ordenador') + '<hr>' + it('cvGrid', 'Volver a la cuadrícula') + it('cvBgOff', 'Quitar la imagen de fondo') + '<hr>' + it('cvSaveTpl', '⭐ Guardar como plantilla') + it('canvasNew', 'Lienzo nuevo…'));
 }
+// Margen entre recuadros y redondeo de sus esquinas, para todo el lienzo
+function cvSliders() {
+  const c = cvCur(), cv = c && c.r.cnv || {}, g = cv.gap != null ? +cv.gap : 8, k = cv.rad != null ? +cv.rad : 9;
+  return `<div style="padding:6px 10px 8px;width:250px;font-size:12px"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(trStr('Margen entre recuadros'))}</b><span data-cvv="gap">${g} px</span></div><input type="range" min="0" max="40" step="1" value="${g}" data-cvs="gap" style="width:100%;accent-color:var(--acc)">
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><b style="font-weight:600">${esc(trStr('Esquinas de los recuadros'))}</b><span data-cvv="rad">${k} px</span></div><input type="range" min="0" max="40" step="1" value="${k}" data-cvs="rad" style="width:100%;accent-color:var(--acc)"></div><hr>`;
+}
+document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-cvs]'); if (!i) return; const c = cvCur(); if (!c) return; if (!i._sn) { snap(); i._sn = true; } c.r.cnv = c.r.cnv || {}; c.r.cnv[i.dataset.cvs] = +i.value; const v = i.parentElement.querySelector(`[data-cvv="${i.dataset.cvs}"]`); if (v) v.textContent = i.value + ' px'; render(); });
 function cvHdlDrag(e, r, fn) {
   e.preventDefault(); e.stopPropagation(); snap(); cvWeight.key = null; const sx = e.clientX, sy = e.clientY, st = {}; let raf = 0;
   const mv = ev => { const dx = (ev.clientX - sx) / V.s, dy = (ev.clientY - sy) / V.s; st.free = ev.shiftKey; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { st.guides = []; fn(dx, dy, st); render(); cvGuides(st.guides); }); };
@@ -6605,11 +6689,11 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
   });
 }
 function cvEdge(r, c, p, q, top, first) {
-  if (!top) return null; const cv = r.cnv || {}; let h = ''; const rr = (x0, y0, x1, y1, k) => `M${f1(x0 + k)},${f1(y0)} H${f1(x1 - k)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + k)} V${f1(y1 - k)} Q${f1(x1)},${f1(y1)} ${f1(x1 - k)},${f1(y1)} H${f1(x0 + k)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - k)} V${f1(y0 + k)} Q${f1(x0)},${f1(y0)} ${f1(x0 + k)},${f1(y0)} Z`;
+  if (!top) return null; const cv = r.cnv || {}, RK = cv.rad != null ? clamp(+cv.rad, 0, 60) : 9; let h = ''; const rr = (x0, y0, x1, y1, k) => `M${f1(x0 + k)},${f1(y0)} H${f1(x1 - k)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + k)} V${f1(y1 - k)} Q${f1(x1)},${f1(y1)} ${f1(x1 - k)},${f1(y1)} H${f1(x0 + k)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - k)} V${f1(y0 + k)} Q${f1(x0)},${f1(y0)} ${f1(x0 + k)},${f1(y0)} Z`;
   const bg = p.cvc && p.cvc.port ? cv.bgv || cv.bg : cv.bg;
   if (first && bg && p.cvc) h += `<image href="${esc(bg)}" x="${f1(p.x + p.cvc.dx)}" y="${f1(p.y + p.cvc.dy)}" width="${f1(p.cvc.w)}" height="${f1(p.cvc.h)}" preserveAspectRatio="none" opacity="${cv.frames === 'no' ? 1 : 0.22}"/>`;
-  if (q.cv && cv.frames !== 'no') { const col = info(c.id).color, x = q.x + q.cv.dx, y = q.y + q.cv.dy, fx = bigFx(c, col, { fo: 0.08, so: 0.55, sw: 1.5 }); h += fx.defs + fx.shape(rr(x, y, x + q.cv.w, y + q.cv.h, 9), CV_EDIT ? ' stroke-dasharray="6 4"' : ''); }
-  else if (q.cv && CV_EDIT) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy; h += `<path d="${rr(x, y, x + q.cv.w, y + q.cv.h, 9)}" fill="none" stroke="#0e7470" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="6 4"/>`; }
+  if (q.cv && cv.frames !== 'no') { const col = info(c.id).color, x = q.x + q.cv.dx, y = q.y + q.cv.dy, fx = bigFx(c, col, { fo: 0.08, so: 0.55, sw: 1.5 }); h += fx.defs + fx.shape(rr(x, y, x + q.cv.w, y + q.cv.h, Math.min(RK, q.cv.w / 2, q.cv.h / 2)), CV_EDIT ? ' stroke-dasharray="6 4"' : ''); }
+  else if (q.cv && CV_EDIT) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy; h += `<path d="${rr(x, y, x + q.cv.w, y + q.cv.h, Math.min(RK, q.cv.w / 2, q.cv.h / 2))}" fill="none" stroke="#0e7470" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="6 4"/>`; }
   return h ? { svg: h } : null;
 }
 // Arrastrar: una tarjeta cae en el recuadro que hay debajo, en la posición según la altura; los recuadros no se mueven al arrastrar
