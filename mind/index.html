@@ -2032,7 +2032,8 @@ function syncNodes() {
     while (el.offsetHeight > el.offsetWidth + 1 && f > f0 * 0.62) { f -= 0.5; el.style.fontSize = f + 'px'; }
     if (el.offsetHeight > el.offsetWidth + 1) el.style.width = el.offsetHeight + 'px';
   }
-  for (const id of seen) { const el = EL.get(id); if (el && el.classList.contains('s-rounder')) el.style.borderRadius = Math.round(Math.min(el.offsetHeight * 0.34, 40)) + 'px'; }
+  // «Muy redondeada»: radio según el alto (bien distinto de la redondeada); el resto de formas, sin radio propio (si no, se quedaría puesto al cambiar de forma)
+  for (const id of seen) { const el = EL.get(id); if (el) el.style.borderRadius = el.classList.contains('s-rounder') ? Math.round(Math.min(Math.max(14, el.offsetHeight * 0.4), 40)) + 'px' : ''; }
   for (const els of EQ.values()) { if (els.length < 2) continue; const w = Math.max(...els.map(e => e.offsetWidth)) + 1; els.forEach(e => { e.style.width = w + 'px'; });   /* +1: offsetWidth redondea hacia abajo y el más ancho se partiría */ }
 }
 
@@ -2607,6 +2608,7 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
   const rr = (x0, y0, x1, y1, rad) => `M${f1(x0 + rad)},${f1(y0)} H${f1(x1 - rad)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + rad)} V${f1(y1 - rad)} Q${f1(x1)},${f1(y1)} ${f1(x1 - rad)},${f1(y1)} H${f1(x0 + rad)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - rad)} V${f1(y0 + rad)} Q${f1(x0)},${f1(y0)} ${f1(x0 + rad)},${f1(y0)} Z`;
   switch (st) {
     case 'treeCols': {   // árbol en columnas en una rama: del tema a la barra común, al tronco de la columna y al capítulo
+      if (q.tcc) return { seg: tcContSeg(q, lc) };
       if (!top || !p.tc || q.tcx == null) return { seg: treeSeg(p, q, lc) };
       const t = p.tc, tx = p.x + q.tcx, b = [q.x, mid(q)], r0 = lc === 'sharp' || lc === 'straight' ? 0 : radiusOf();
       return { seg: t.pos === 'wide' ? { e: [[tx, p.y + p.h], [tx, b[1]], b], r: r0 } : { e: [[p.x + t.sx, p.y + p.h], [p.x + t.sx, p.y + t.bus], [tx, p.y + t.bus], [tx, b[1]], b], r: r0 } };
@@ -2711,6 +2713,11 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
   }
 }
 // Color de la línea: el propio, o el de la rama donde se puso (hacia arriba), o el del nivel; si no, el color de la rama
+// Árbol en columnas: un subtema que sigue en otra columna que la de su tema cuelga del tronco de su columna (unido por la barra común)
+function tcContSeg(q, L) {
+  const t = q.tcc, b = [q.x, q.y + q.h / 2], tx = q.x + t.dx, ty = q.y + t.dy, rr = L === 'sharp' || L === 'straight' ? 0 : radiusOf();
+  return t.wide ? { e: [[tx, ty], [tx, b[1]], b], r: rr } : { e: [[q.x + t.px, ty], [tx, ty], [tx, b[1]], b], r: rr };
+}
 // «3D real»: color base de una forma (su relleno liso, o el de la rama)
 function r3dCol(c) { const f = eff(c, 'fill'); return f && /^#[0-9a-f]{6}$/i.test(f) ? f : info(c.id).color; }
 function r3dBands(st, kids) {
@@ -2795,6 +2802,8 @@ function drawEdges() {
           seg = organicSeg(n, c, d, st, L);
           EDGE.set(c.id, seg); if (CURVY(st) && !seg.e) BRH.push(brHit(n, c, seg));
           if (shapeOf(c, d + 1, st) === 'branch') onBr.add(c.id);
+        } else if (q.tcc) {
+          seg = tcContSeg(q, L);
         } else if (st === 'treeCols' && d === 0 && p.tc && q.tcx != null) {
           // del tema central a la barra común, de ahí al tronco de su columna y al tema
           const t = p.tc, tx = p.x + q.tcx, b = [q.x, q.y + q.h / 2], rr = L === 'sharp' || L === 'straight' ? 0 : radiusOf();
