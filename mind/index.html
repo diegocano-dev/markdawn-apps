@@ -603,6 +603,15 @@
   .n .t:empty::before { content: "\200b"; }
   .n.s-round { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); }
   .n.s-rect { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); border-radius: 2px; }
+  .n.s-rounder { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); border-radius: 16px; padding-inline: 13px; }
+  /* Nota adhesiva: cuadrada, papel con degradado y la esquina de abajo levantada (la sombra va detrás del papel) */
+  .n.s-sticky { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 40%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; width: 150px; max-width: none; aspect-ratio: 1; justify-content: center; text-align: center; padding: 9%; overflow-wrap: break-word; }
+  .n.s-sticky::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,.05) 0, rgba(0,0,0,0) 14%), linear-gradient(180deg, color-mix(in srgb, var(--stc) 72%, #fff) 0%, var(--stc) 100%); border-bottom-right-radius: 32% 5%; box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 8px 10px -7px rgba(0,0,0,.24); }
+  .n.s-sticky::after { content: ""; position: absolute; z-index: -2; left: 4%; right: 4%; bottom: 3%; height: 14%; border-radius: 50%; box-shadow: 0 15px 11px rgba(0,0,0,.30); }   /* sombra a todo lo ancho, bajo el borde de abajo */
+  .n.s-strip { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 40%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; padding: 9px 18px 9px 22px; max-width: 340px; }
+  .n.s-strip::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.06) 0, rgba(0,0,0,0) 16px), linear-gradient(180deg, color-mix(in srgb, var(--stc) 72%, #fff) 0%, var(--stc) 100%); border-bottom-right-radius: 12% 20%; box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 6px 8px -5px rgba(0,0,0,.28); }
+  .n.s-strip::after { content: ""; position: absolute; z-index: -2; right: 4%; bottom: 14%; width: 40%; height: 30%; box-shadow: 5px 10px 10px rgba(0,0,0,.32); transform: rotate(3deg); }
+  .board.fxfast .n.s-strip::after, .board.fxfast .n.s-sticky::after { box-shadow: 3px 8px 0 rgba(0,0,0,.12); }
   .n.s-pill { background: var(--fill, color-mix(in srgb, var(--bc) var(--tintp, 13%), var(--nbase))); border-color: var(--bc); border-radius: 999px; padding-inline: 14px; }
   .n.s-solid { background: var(--fill, var(--bc)); border-color: var(--fill, var(--bc)); color: var(--tc, #fff); }
   .n.s-box { background: var(--fill, var(--nbase)); border: 1.5px solid color-mix(in srgb, var(--bc) 60%, var(--nbase)); }
@@ -741,6 +750,9 @@
   .cpick { display: flex; align-items: center; gap: 6px; }
   .cpick input[type=color] { width: 34px; height: 26px; border: 1px solid var(--line); border-radius: 3px; padding: 1px; background: none; cursor: pointer; flex: none; }
   .cpick input[type=text] { width: 78px; height: 26px; border: 1px solid var(--line); border-radius: 3px; padding: 0 6px; font: 12px var(--mono, monospace); background: var(--panel); color: var(--ink); }
+  .btn-sec[aria-pressed="true"] { background: var(--acc); color: #fff; border-color: var(--acc); }
+  .palsl { margin-top: 6px; border-top: 1px solid var(--line-soft); padding-top: 4px; } .palsl label { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 2px 8px; } .palsl label span { width: 70px; } .palsl input { flex: 1; accent-color: var(--acc); }
+  .shsl { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 0 8px 6px 34px; } .shsl input { flex: 1; min-width: 60px; accent-color: var(--acc); }
   .gdirs { display: flex; gap: 5px; margin: 6px 0 2px; } .gdirs button { width: 34px; height: 22px; border-radius: 5px; border: 2px solid transparent; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); } .gdirs button[aria-pressed="true"] { border-color: var(--ink); }
   .cpick .cp-bar { flex: 1; min-width: 40px; height: 14px; border-radius: 7px; border: 1px solid rgba(0,0,0,.15); }
   .cpick .btn-sec { height: 26px; padding: 0 10px; font-size: 12px; }
@@ -809,7 +821,7 @@
   <button class="qa" data-cmd="redo" title="Rehacer (Ctrl+Y)"></button>
   <button class="qa" data-cmd="ribbonMenu" title="Opciones de la cinta"></button>
   <div class="name" id="docname">Mapa mental.md<span>Guardado en este navegador</span></div>
-  <span class="app">MarkDawn Mind · 0.9.12 beta</span>
+  <span class="app">MarkDawn Mind · 0.9.13 beta</span>
   <button class="qa lang-btn no-tr" data-cmd="lang" title="Idioma · Language"></button>
   <button class="qa" data-cmd="dark" title="Modo oscuro"></button>
   <button class="qa" data-cmd="help" title="Ayuda (F1)"></button>
@@ -1156,7 +1168,7 @@
           <div class="fp-sec"><label>Esquinas de las ramas en ángulo <span id="fp-rad-v"></span></label><input type="range" min="0" max="100" step="1" data-tk="radius">
             <small>0 = esquina viva · al máximo, curva completa</small></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="b3d" id="fp-b3d" style="width:100%;height:28px">Ramas 3D: no</button></div>
-          <div class="fp-sec"><label>Grosor de la rama <span id="fp-lw-v"></span></label><input type="range" min="0.5" max="16" step="0.5" data-fk="lw"></div>
+          <div class="fp-sec"><label>Grosor de la rama <span id="fp-lw-v"></span></label><input type="range" min="0" max="16" step="0.5" data-fk="lw"><small>0 = sin línea: los temas quedan como una lista.</small></div>
           <div class="fp-sec"><label>Color</label><div class="fp-row"><button class="fp-sw" data-cmd="colorMenu" data-k="color"><i id="fp-color2"></i>Color de la rama</button><button class="fp-sw" data-cmd="colorMenu" data-k="lc"><i id="fp-lc"></i>Color de la línea</button></div>
             <small>El color de la rama tiñe el tema, su borde y su línea; el borde y la línea se pueden cambiar aparte.</small></div>
         </div>
@@ -1166,6 +1178,8 @@
           <div class="fp-sec"><label>Separación entre temas <span id="fp-sp-v"></span></label><input type="range" min="0.6" max="5" step="0.1" data-tk="space"></div>
           <div class="fp-sec"><label>Separación entre niveles <span id="fp-lsp-v"></span></label><input type="range" min="0.4" max="4" step="0.1" data-tk="lspace"><small>Distancia de un tema a sus subtemas, aparte de la que hay entre temas del mismo nivel.</small></div>
           <div class="fp-sec" id="fp-levels"></div>
+          <div class="fp-sec" id="fp-tcols" hidden></div>
+          <div class="fp-sec"><button class="btn-sec" data-cmd="eqw" id="fp-eqw" style="width:100%;height:28px">Mismo ancho en todo el nivel</button><small>Los temas del nivel del seleccionado toman todos el ancho del más ancho.</small></div>
           <div class="fp-sec"><label>Texto largo</label><select data-tk="maxl"><option value="0">Todo el texto</option><option value="1">1 línea</option><option value="2">2 líneas</option><option value="3">3 líneas</option><option value="4">4 líneas</option><option value="6">6 líneas</option></select><small>Los temas largos se cortan con «…». El texto completo se ve al pasar el ratón y al editar.</small></div>
           <div class="fp-sec"><button class="btn-sec" data-cmd="appearanceMenu" style="width:100%;height:28px">Fondo, rejilla y tono…</button></div>
         </div>
@@ -1204,7 +1218,7 @@
 <div class="ctx" id="ctx" hidden></div>
 <div class="modal" id="modal" hidden></div>
 <div class="toast" id="toast" hidden></div>
-<input type="file" id="file" accept=".md,.markdown,.txt,.opml,text/markdown,text/plain,text/x-opml" hidden>
+<input type="file" id="file" accept=".md,.markdown,.txt,.opml,.xmind,.mm,text/markdown,text/plain,text/x-opml" hidden>
 
 <script>
 (() => {
@@ -1220,13 +1234,13 @@ const FULL_URL = 'https://diegocanodev.gumroad.com/l/markdawn-mind';
 const LITE_OK = {
   mapStyle: ['mano', 'pildoras', 'clasico', 'minimal', 'plano'],
   struct: ['organic', 'right', 'tree', 'left', 'logic'],
-  shape: ['auto', 'round', 'rect', 'pill', 'ellipse', 'solid', 'line', 'plain', 'handcard', 'wave'],
+  shape: ['auto', 'round', 'rounder', 'rect', 'pill', 'ellipse', 'solid', 'line', 'plain', 'handcard', 'wave'],
   line: ['curve', 'elbow', 'straight'],
   font: ['', 'patrick', 'patricksc', 'nunito'],
   pal: ['vivo', 'suave', 'oceano'],
   tex: ['', 'paper', 'linen', 'notebook'],
 };
-const LITE_CMDS = ['fxMenu', 'bigfx', 'barrowMenu', 'barrowSet', 'afill', 'atip', 'rmDates', 'cvEdit', 'cvGrid', 'canvasNew', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvTitles', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
+const LITE_CMDS = ['tcMenu', 'tcHead', 'fxMenu', 'bigfx', 'barrowMenu', 'barrowSet', 'afill', 'atip', 'rmDates', 'cvEdit', 'cvGrid', 'canvasNew', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvTitles', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
 // Probar lo Pro en la gratuita: estilos, estructuras, formas, líneas, letras, colores y texturas se pueden aplicar para verlos; no se guardan sin licencia
 const TRIAL_KEYS = ['mapStyle', 'struct', 'shape', 'line', 'font', 'pal', 'tex'];
 let TRIAL = null;
@@ -1372,11 +1386,22 @@ const PALETTES = {
 };
 // Colores de rama del mapa: una paleta de la lista o una propia («custom»: central + ramas)
 function palOf(th = doc.theme) {
-  if (th.pal === 'custom' && th.pcol && th.pcol.length > 1 && !LITE) return { name: 'Personalizada', root: th.pcol[0], c: th.pcol.slice(1) };
-  return PALETTES[th.pal] || PALETTES.vivo;
+  const p = th.pal === 'custom' && th.pcol && th.pcol.length > 1 && !LITE ? { name: 'Personalizada', root: th.pcol[0], c: th.pcol.slice(1) } : PALETTES[th.pal] || PALETTES.vivo;
+  const sa = th.sat ?? 1, li = th.lig ?? 1; if (sa === 1 && li === 1) return p;
+  // Intensidad y claridad de este mapa (se guardan en él): cambian todos los colores de la paleta a la vez
+  const k = p.root + p.c.join() + sa + li; if (palOf.k === k) return palOf.v;
+  const adj = c => { const h = hexHsl(c); if (!h) return c; const l = li >= 1 ? h[2] + (100 - h[2]) * (li - 1) * 0.9 : h[2] * li; return hslHex(h[0], clamp(h[1] * sa, 0, 100), clamp(l, 3, 97)); };
+  palOf.k = k; palOf.v = { ...p, root: adj(p.root), c: p.c.map(adj) }; return palOf.v;
 }
+function hexHsl(c) { const m = /^#?([0-9a-f]{6})$/i.exec(c || ''); if (!m) return null; const v = parseInt(m[1], 16), r = (v >> 16) / 255, g = (v >> 8 & 255) / 255, b = (v & 255) / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  let h = 0, s2 = 0; if (d) { s2 = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; if (h < 0) h += 360; } return [h, s2 * 100, l * 100]; }
 // Estilos de mapa: formato completo por niveles (central, principales, subtemas)
 const MAP_STYLES = {
+  // Estilos de Diego Cano: tarjetas blancas con sombra suave sobre ramas de colores neón (se leen de su cabecera al usarlos)
+  capsulas: { name: 'Cápsulas neón', theme: {}, lv: {}, src: '<!-- markdawn-mind 0.3 · palette=neon line=curve taper=no arrowfill=grad effect=soft radius=43 bg=plain -->\n<!-- style root: fill=#ffffff text=auto shape=round border=0 line=3 case=upper align=center weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style main: fill=#ffffff text=auto shape=round border=0 line=3 case=upper align=center weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style sub: fill=#ffffff text=auto shape=round border=0 line=3 align=center weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style deep: shape=round weight=600 bold=no -->',
+    svg: '<path d="M14 18c7 0 7-9 14-9M14 18c7 0 7 9 14 9" stroke="#ff2e88" stroke-width="2" fill="none"/><path d="M38 18c-4 0-4-9-10-9" stroke="#00d1ff" stroke-width="2" fill="none"/><rect x="3" y="13" width="18" height="10" rx="4" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><rect x="27" y="5" width="20" height="8" rx="3.5" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><rect x="27" y="23" width="20" height="8" rx="3.5" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><path d="M30 9h14M30 27h14" stroke="#ff2e88" stroke-width="1.6"/><path d="M6 18h12" stroke="#1b1b2f" stroke-width="1.8"/>' },
+  capsulas2: { name: 'Cápsulas neón 2', theme: {}, lv: {}, src: '<!-- markdawn-mind 0.3 · palette=neon line=curve taper=no arrowfill=grad radius=43 bg=plain -->\n<!-- style root: fill=#ffffff bordercolor=#000000 shape=round border=0 line=3 case=upper weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style main: fill=#ffffff bordercolor=#000000 shape=round border=0 line=3 case=upper weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style sub: fill=#ffffff bordercolor=#000000 shape=round border=0 line=3 weight=800 letters=0.02 relief=soft bold=yes -->\n<!-- style deep: weight=600 bold=no -->',
+    svg: '<path d="M14 18c7 0 7-9 14-9M14 18c7 0 7 9 14 9" stroke="#39ff14" stroke-width="2" fill="none"/><rect x="3" y="13" width="18" height="10" rx="4" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><rect x="27" y="5" width="20" height="8" rx="3.5" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><rect x="27" y="23" width="20" height="8" rx="3.5" fill="#fff" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.3))"/><path d="M29 9h12M29 27h12M6 18h12" stroke="#222" stroke-width="1.6"/>' },
   ramas: { name: 'Ramas', theme: { taper: 'all', line: 'curve' },
     lv: { 0: { shape: 'blob', fill: '#ececec', tc: '#2a2a2a', bw: 0, relief: 'none', font: 'patricksc', case: 'upper', fs: 3, align: 'center' }, 1: { shape: 'branch', font: 'patricksc', case: 'upper', fs: 4, lw: 11 }, 2: { shape: 'branch', font: 'patricksc', case: 'upper', fs: 2, lw: 5.5 }, 3: { shape: 'branch', font: 'patricksc', case: 'upper', fs: 0, lw: 3 } },
     svg: '<path d="M18.5 13.5C21 10.5 31 10.5 34.5 13C37.5 15.5 36.5 21.5 33 23C28 25 20 24.5 17.5 21.5C15.5 19 16.5 15.5 18.5 13.5Z" fill="#e2e2e2"/><path d="M34 17C40 17 42 9 51 8L51 10C43 11.5 42 19 34 19.5Z" fill="#e8743b"/><path d="M18 18C12 18 10 27 1 28L1 26C9 25 10 17.5 18 16.5Z" fill="#9b59b6"/><path d="M38 12.5l4.5-2.6M40.5 13.5l4-2.2" stroke="#222" stroke-width=".9"/><path d="M7 25.5l4-1.8" stroke="#222" stroke-width=".9"/><path d="M42 12C45 14 47 18 51 19" stroke="#e8743b" stroke-width="1.2" fill="none"/>' },
@@ -1431,6 +1456,7 @@ const STRUCTS = {
   organic: { name: 'Orgánico', svg: '<rect x="20" y="15" width="12" height="7" rx="2" fill="var(--acc)"/><path d="M32 18.5c5 0 5-9 10-9M32 18.5c5 0 5 8 10 8M20 18.5c-5 0-5-9-10-9M20 18.5c-5 0-5 8-10 8" stroke="#e8743b" stroke-width="1.6" fill="none"/><path d="M42 9.5h7M42 26.5h7M3 9.5h7M3 26.5h7" stroke="#3a86c8" stroke-width="1.6"/>' },
   right: { name: 'A la derecha', svg: '<rect x="3" y="15" width="12" height="7" rx="2" fill="var(--acc)"/><path d="M15 18.5c5 0 5-12 10-12M15 18.5h10M15 18.5c5 0 5 12 10 12" stroke="#e8743b" stroke-width="1.6" fill="none"/><path d="M25 6.5h10M25 18.5h10M25 30.5h10M37 4h10M37 9h10" stroke="#3a86c8" stroke-width="1.6"/>' },
   tree: { name: 'Árbol', svg: '<rect x="4" y="2" width="16" height="6" rx="1.5" fill="var(--acc)"/><path d="M8 8v24M8 14h6M8 23h6M8 32h6M17 17v4h5" stroke="#8a9399" stroke-width="1.4" fill="none"/><rect x="14" y="11.5" width="18" height="5" rx="1" fill="#e8743b"/><rect x="22" y="18.5" width="16" height="5" rx="1" fill="#f4c6ad"/><rect x="14" y="20.5" width="0" height="0"/><rect x="14" y="29.5" width="20" height="5" rx="1" fill="#3a86c8"/>' },
+  treeCols: { name: 'Árbol en columnas', svg: '<rect x="18" y="2" width="16" height="6" rx="1.5" fill="var(--acc)"/><path d="M26 8v3M6 11h40M6 11v20M26 11v20M46 11v12" stroke="#8a9399" stroke-width="1.4" fill="none"/><rect x="9" y="14" width="12" height="4" rx="1" fill="#4a90d9"/><rect x="9" y="21" width="12" height="4" rx="1" fill="#4a90d9"/><rect x="9" y="28" width="12" height="4" rx="1" fill="#4a90d9"/><rect x="29" y="14" width="12" height="4" rx="1" fill="#e8743b"/><rect x="29" y="21" width="12" height="4" rx="1" fill="#e8743b"/><rect x="29" y="28" width="12" height="4" rx="1" fill="#e8743b"/><rect x="49" y="14" width="2" height="4" fill="none"/>' },
   left: { name: 'A la izquierda', svg: '<rect x="37" y="15" width="12" height="7" rx="2" fill="var(--acc)"/><path d="M37 18.5c-5 0-5-12-10-12M37 18.5H27M37 18.5c-5 0-5 12-10 12" stroke="#e8743b" stroke-width="1.6" fill="none"/><path d="M27 6.5H17M27 18.5H17M27 30.5H17M15 4H5M15 9H5" stroke="#3a86c8" stroke-width="1.6"/>' },
   timeline: { name: 'Línea de tiempo', svg: '<rect x="1" y="15" width="9" height="7" rx="2" fill="var(--acc)"/><path d="M10 18.5H51" stroke="#8a9399" stroke-width="2"/><rect x="13" y="15.5" width="9" height="6" rx="2" fill="#e8743b"/><rect x="27" y="15.5" width="9" height="6" rx="2" fill="#3a86c8"/><rect x="41" y="15.5" width="9" height="6" rx="2" fill="#4caf7d"/><path d="M15 21.5v8h4M15 25.5h4M29 15.5v-8h4M43 21.5v6h4" stroke="#8a9399" stroke-width="1.2" fill="none"/>' },
   radial: { name: 'Radial', svg: '<circle cx="26" cy="18" r="5" fill="var(--acc)"/><path d="M26 18L26 5M26 18L38 25M26 18L14 25M26 18L39 11M26 18L13 11" stroke="#8a9399" stroke-width="1.3"/><circle cx="26" cy="4.5" r="3" fill="#e8743b"/><circle cx="39" cy="26" r="3" fill="#3a86c8"/><circle cx="13" cy="26" r="3" fill="#4caf7d"/><circle cx="40" cy="10.5" r="3" fill="#9b59b6"/><circle cx="12" cy="10.5" r="3" fill="#d4a017"/>' },
@@ -1460,6 +1486,9 @@ const STRUCTS = {
 const SHAPES = {
   auto: { name: 'Automática', svg: '<rect x="8" y="10" width="36" height="16" rx="5" fill="none" stroke="#8a9399" stroke-dasharray="3 2"/><text x="26" y="22" text-anchor="middle" font-size="10" fill="#605e5c">auto</text>' },
   round: { name: 'Redondeada', svg: '<rect x="6" y="10" width="40" height="16" rx="5" fill="#e1f2f2" stroke="#0d767a" stroke-width="2"/>' },
+  rounder: { name: 'Muy redondeada', svg: '<rect x="6" y="10" width="40" height="16" rx="6" fill="#e1f2f2" stroke="#0d767a" stroke-width="2"/>' },
+  strip: { name: 'Tira adhesiva', svg: '<path d="M5 12h42v11.5c-2 .3-6 .6-42 0z" fill="#a9f0c3"/><path d="M36 23.8c5 .1 9-.2 11-.5" stroke="#000" stroke-opacity=".22" stroke-width="1.5" fill="none"/>' },
+  sticky: { name: 'Nota adhesiva', svg: '<path d="M16 6.5h21v21.5c-3 .2-7 .5-21 0z" fill="#fff176"/><path d="M16 6.5h21v21.5c-3 .2-7 .5-21 0z" fill="none" stroke="#d4b106" stroke-width=".6"/><path d="M28 28.6c4 .1 7-.2 9-.6" stroke="#000" stroke-opacity=".25" stroke-width="1.6" fill="none"/>' },
   rect: { name: 'Rectángulo', svg: '<rect x="6" y="10" width="40" height="16" rx="1" fill="#e1f2f2" stroke="#0d767a" stroke-width="2"/>' },
   pill: { name: 'Píldora', svg: '<rect x="6" y="10" width="40" height="16" rx="8" fill="#e1f2f2" stroke="#0d767a" stroke-width="2"/>' },
   solid: { name: 'Sólida', svg: '<rect x="6" y="10" width="40" height="16" rx="5" fill="#0d767a"/>' },
@@ -1514,7 +1543,6 @@ const BSHAPES = {
   chevron: { name: 'Galón', d: 'M0 0H80L100 50L80 100H0L20 50Z', pad: '10px 34px' },
   banner: { name: 'Cinta', d: 'M0 0H100L88 50L100 100H0L12 50Z', pad: '10px 30px' },
   callout: { name: 'Bocadillo', d: 'M8 0H92Q100 0 100 8V68Q100 76 92 76H42L22 100L27 76H8Q0 76 0 68V8Q0 0 8 0Z', pad: '10px 18px 26px' },
-  sticky: { name: 'Nota adhesiva', d: 'M0 0H100V78L78 100H0ZM100 78H78V100', pad: '12px 18px 20px' },
   folder: { name: 'Carpeta', d: 'M0 4Q0 0 4 0H36L44 12H96Q100 12 100 16V96Q100 100 96 100H4Q0 100 0 96Z', pad: '18px 18px 10px' },
   triangle: { name: 'Triángulo', d: 'M50 0L100 100H0Z', pad: '30px 34px 10px' },
   trapezoid: { name: 'Trapecio', d: 'M18 0H82L100 100H0Z', pad: '10px 30px' },
@@ -1533,16 +1561,16 @@ for (const [k, b] of Object.entries(BSHAPES)) SHAPES[k] = { name: b.name, svg: `
 const BS_INSET = { diamond: [.25, .25], parallelogram: [.18, .18], prep: [.15, .15], terminal: [.2, .2], hexagon: [.2, .2], octagon: [.14, .14], star: [.3, .3], tag: [.03, .2], arrow: [.03, .3], chevron: [.2, .2], banner: [.12, .12], triangle: [.3, .3], trapezoid: [.18, .18], pentagon: [.18, .18], dblarrow: [.22, .22], heart: [.2, .2], plus: [.33, .33], burst: [.2, .2], cube: [.02, .18], subprocess: [.1, .1], circle: [.15, .15] };
 const pathShape = sh => sh && sh.startsWith('c:') ? CSHAPES[sh.slice(2)] : BSHAPES[sh] || null;
 const SHAPE_GROUPS = {
-  'Básicas': ['auto', 'round', 'rect', 'pill', 'circ', 'ellipse', 'solid', 'line', 'branch', 'plain'],
+  'Básicas': ['auto', 'round', 'rounder', 'rect', 'pill', 'circ', 'ellipse', 'solid', 'line', 'branch', 'plain'],
   'Orgánicas': ['handcard', 'blob', 'hand', 'leaf', 'pebble', 'petal', 'marker', 'sketch', 'wave', 'cloud'],
-  'Detalles': ['dashed', 'double', 'card', 'mark'],
+  'Detalles': ['dashed', 'double', 'card', 'mark', 'sticky', 'strip'],
   'Diagrama de flujo': ['rect', 'terminal', 'diamond', 'parallelogram', 'document', 'cylinder', 'subprocess', 'prep', 'manual', 'circle'],
-  'Más formas': ['triangle', 'trapezoid', 'pentagon', 'hexagon', 'octagon', 'plus', 'heart', 'star', 'burst', 'shield', 'tag', 'arrow', 'dblarrow', 'chevron', 'banner', 'flag', 'callout', 'ovalcall', 'puffy', 'sticky', 'folder', 'cube'],
+  'Más formas': ['triangle', 'trapezoid', 'pentagon', 'hexagon', 'octagon', 'plus', 'heart', 'star', 'burst', 'shield', 'tag', 'arrow', 'dblarrow', 'chevron', 'banner', 'flag', 'callout', 'ovalcall', 'puffy', 'folder', 'cube'],
   '3D': ['g3d', 'pill3d', 'button', 'glass'],
   'Placas con marco': ['pgold', 'psilver', 'pbronze', 'pdark'],
   'Metal macizo': ['gold', 'silver', 'bronze'],
 };
-const SHAPE_FAV = ['auto', 'round', 'rect', 'pill', 'ellipse', 'solid', 'line', 'plain', 'handcard', 'blob', 'hand', 'pebble', 'g3d', 'pill3d', 'pgold', 'psilver'];
+const SHAPE_FAV = ['auto', 'round', 'rounder', 'sticky', 'strip', 'rect', 'pill', 'ellipse', 'solid', 'line', 'plain', 'handcard', 'blob', 'hand', 'pebble', 'g3d', 'pill3d', 'pgold', 'psilver'];
 // Cada dibujo con degradados necesita ids propios: si se repiten, el navegador usa el primero (que puede estar oculto)
 let svgUid = 0;
 const uniqSvg = svg => { const u = 'u' + (++svgUid); return svg.replace(/id="([^"]+)"/g, `id="$1${u}"`).replace(/url\(#([^)]+)\)/g, `url(#$1${u})`); };
@@ -1791,7 +1819,7 @@ function topSel() { return [...sel].map(node).filter(n => n && ![...sel].some(o 
 const primary = () => { const a = [...sel]; return a.length ? node(a[a.length - 1]) : null; };
 function countAll(n) { return n.kids.reduce((a, k) => a + 1 + countAll(k), 0); }
 function offOf(n, st) { const o = n.o && n.o[st]; return o || [0, 0]; }
-const STYLE_KEYS = ['relief', 'color', 'bc', 'lc', 'shape', 'fill', 'tc', 'bw', 'lw', 'fs', 'bold', 'italic', 'case', 'font', 'align', 'weight', 'under', 'ls'];
+const STYLE_KEYS = ['relief', 'color', 'bc', 'lc', 'shape', 'fill', 'tc', 'bw', 'lw', 'fs', 'bold', 'italic', 'case', 'font', 'align', 'weight', 'under', 'ls', 'eqw'];
 // Niveles de formato: 0 central, 1 principales, 2 subtemas, 3, 4 y 5 (el 5 vale también para los más hondos). Del 3 en adelante cada nivel hereda del anterior lo que no cambie
 const LVN = ['root', 'main', 'sub', 'deep', 'level4', 'level5'], LVMAX = 5, LV = d => Math.min(d, LVMAX), LVALL = [0, 1, 2, 3, 4, 5];
 const lvOf = d => { const lv = doc.theme.lv || {}; if (d < 3) return lv[d] || {}; let o = lv[2] || {}; for (let k = 3; k <= Math.min(d, LVMAX); k++) if (lv[k]) o = { ...o, ...lv[k] }; return o; };
@@ -1819,13 +1847,22 @@ const GDIRS = ['v', 'h', 'd', 'rv', 'rh'];
 // Relleno degradado: «#color1,#color2» o «#color1,#color2,dirección» (v vertical, h horizontal, d diagonal, rv/rh reflejado: el primer color en el centro)
 const gradOf = v => { if (!v || !String(v).includes(',')) return null; const p = String(v).split(','); if (!(p[0] && p[1]) || p.length > 3) return null; const g = [p[0], p[1]]; g.dir = GDIRS.includes(p[2]) ? p[2] : 'd'; return g; };
 const gradCss = g => g.dir === 'rv' || g.dir === 'rh' ? `linear-gradient(${g.dir === 'rv' ? 180 : 90}deg, ${g[1]}, ${g[0]} 50%, ${g[1]})` : `linear-gradient(${g.dir === 'v' ? 180 : g.dir === 'h' ? 90 : 135}deg, ${g[0]}, ${g[1]})`;
+// Deslizador del tono de «Automático» (relleno: lo claro que sale; texto: lo oscuro). Vale para todo el mapa y se guarda en él
+const shadeSl = (key, a, b, def, inv) => { const v = doc.theme[key] ?? def; return `<div class="shsl" title="${esc(trStr('Tono de «Automático» en todo el mapa'))}"><span>${esc(trStr(a))}</span><input type="range" min="0.1" max="0.95" step="0.01" value="${inv ? 1.05 - v : v}" data-shade="${key}"${inv ? ' data-inv' : ''}><span>${esc(trStr(b))}</span></div>`; };
+document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-shade]'); if (!i) return; if (!i._sn) { snap(); i._sn = true; } doc.theme[i.dataset.shade] = +(i.hasAttribute('data-inv') ? 1.05 - i.value : i.value).toFixed(2); render(); });
 const tcCss = v => v === 'auto' ? 'linear-gradient(90deg,#0b4f52 50%,#fff 50%)' : v;
-const fillCss = v => { const g = gradOf(v); return g ? gradCss(g) : v === 'branch' ? 'var(--acc)' : v; };
+const fillCss = v => { const g = gradOf(v); return g ? gradCss(g) : v === 'branch' ? 'var(--acc)' : v === 'auto' ? 'linear-gradient(90deg,#fff 50%,#9cc3ef 50%)' : v; };
 const gradSvg = (id, g) => { const v = g.dir === 'v' || g.dir === 'rv', h = g.dir === 'h' || g.dir === 'rh', r = g.dir === 'rv' || g.dir === 'rh';
   return `<linearGradient id="${id}" x1="0" y1="0" x2="${v ? 0 : 1}" y2="${h ? 0 : 1}">${r ? `<stop offset="0" stop-color="${esc(g[1])}"/><stop offset=".5" stop-color="${esc(g[0])}"/><stop offset="1" stop-color="${esc(g[1])}"/>` : `<stop offset="0" stop-color="${esc(g[0])}"/><stop offset="1" stop-color="${esc(g[1])}"/>`}</linearGradient>`; };
 const NOFILL_SH = ['line', 'plain', 'branch', 'mark'];
 // «3D real» (Diseño › Efecto): embudo, pirámide y proceso con volumen de verdad
 const R3D = () => doc.theme.bigfx === 'real3d';
+// «Colocación natural»: cada nota o tira adhesiva un poco girada y movida, siempre igual para la misma (sale de su número)
+function natRot(id, el) {
+  if (!doc.theme.nat || !el || !(el.classList.contains('s-sticky') || el.classList.contains('s-strip'))) return '';
+  const h = k => { let x = Math.imul(+id + 1, 2654435761) ^ (k * 97531); x ^= x >>> 15; return ((x >>> 0) % 1000) / 1000 - 0.5; };
+  return ` translate(${(h(1) * 6).toFixed(1)}px,${(h(2) * 6).toFixed(1)}px) rotate(${(h(3) * 4.4).toFixed(2)}deg)`;
+}
 // Calidad de sombras y transparencias: automática (rápida en mapas grandes), siempre alta o siempre rápida. Al exportar no cuenta
 const FXFAST = () => PR.fxq === 'fast' || (PR.fxq !== 'high' && IDX.size > 220);
 function R3D_PROC(n) { const inf = info(n.id); return !!(inf && inf.p && inf.p === inf.r && inf.r.structure === 'process'); }
@@ -1845,7 +1882,7 @@ function shapeOf(n, d, st) {
   if (own && (own !== info(n.id).r || !OLDST.includes(stOfOwner(own)))) {   // dentro de una estructura por rama o de una de las nuevas
     const ost = stOfOwner(own), rel = d - info(own.id).d;
     if (ost === 'kanban') return rel === 1 ? 'solid' : 'card';
-    if (ost === 'canvas') return rel === 1 ? 'plain' : 'round';
+    if (ost === 'canvas') return rel === 1 ? 'plain' : rel === 2 && own.cnv && own.cnv.notes ? 'sticky' : 'round';
     if (ost === 'roadmap') return rel === 1 && n.kids.length ? 'plain' : 'solid';
     if (ost === 'table' || ost === 'matrix') return 'plain';
     if (ost === 'brace') return 'plain';
@@ -1857,7 +1894,7 @@ function shapeOf(n, d, st) {
     if (ost === 'fish' || ost === 'fishL') return rel === 1 ? 'round' : 'plain';
     return rel === 1 && own === info(n.id).r ? 'solid' : 'box';
   }
-  if (d === 1) return st === 'tree' || st === 'org' ? 'solid' : 'round';
+  if (d === 1) return st === 'tree' || st === 'treeCols' || st === 'org' ? 'solid' : 'round';
   if (st === 'radial') return 'round';
   return st === 'organic' || st === 'right' || st === 'left' ? 'line' : 'box';
 }
@@ -1914,14 +1951,15 @@ function syncNodes() {
       let el = EL.get(n.id);
       if (!el) { el = document.createElement('div'); el.dataset.id = n.id; nodesEl.appendChild(el); EL.set(n.id, el); }
       const sh = shapeOf(n, inf.d, st);
-      const E = k => eff(n, k, inf.d), bold = E('bold'), fs = E('fs'), bw = E('bw'), fillRaw = BIGHEAD(n) ? null : E('fill') || (R3D() && R3D_PROC(n) ? 'branch' : null), fgr = gradOf(fillRaw), fill = fgr ? fgr[0] : fillRaw === 'branch' ? (E('bc') || inf.color) : fillRaw;
+      const E = k => eff(n, k, inf.d), bold = E('bold'), fs = E('fs'), bw = E('bw'), fillRaw = BIGHEAD(n) ? null : E('fill') || (R3D() && R3D_PROC(n) ? 'branch' : null), fgr = gradOf(fillRaw), fill = fgr ? fgr[0] : fillRaw === 'branch' ? (E('bc') || inf.color) : fillRaw === 'auto' ? hexMix(inf.color, '#ffffff', doc.theme.fshade ?? 0.82) : fillRaw;
       // Sin color de texto propio, el texto se pone oscuro o claro según el fondo del tema
       let tc = E('tc'); const tAuto = tc === 'auto'; if (tAuto) tc = null;
       const bl = fgr ? ((lumOf(fgr[0]) ?? 0.5) + (lumOf(fgr[1]) ?? 0.5)) / 2 : bgLum(sh, fill, inf.color);
       if (!tc) { if ((fill || SOLIDISH.includes(sh) || METAL_BG[sh]) && !(PLATES.includes(sh) && !fill)) tc = bl == null ? null : bl > 0.4 ? '#1f2224' : '#ffffff'; }
       // Texto «automático»: sobre un fondo claro, un tono oscuro del color de la rama; sobre uno oscuro, blanco
-      if (tAuto) { const b2 = bl == null ? (surfDark() ? 0.05 : 0.95) : bl; tc = b2 > 0.4 ? hexMix(inf.color, '#000000', 0.5) : '#ffffff'; }
+      if (tAuto) { const b2 = bl == null ? (surfDark() ? 0.05 : 0.95) : bl; tc = b2 > 0.4 ? hexMix(inf.color, '#000000', doc.theme.tshade ?? 0.5) : '#ffffff'; }
       if (!E('tc') && BIGHEAD(n) && R3D() && ['pyramid', 'funnel'].includes(inf.r.structure)) tc = contrastText(inf.color) || '#ffffff';
+      if (!tc && (sh === 'sticky' || sh === 'strip')) tc = hexMix(inf.color, '#000000', 0.62);
       else { const tl = lumOf(tc); if (tl != null && bl != null && (Math.max(tl, bl) + 0.05) / (Math.min(tl, bl) + 0.05) < 2.6) tc = bl > 0.4 ? '#1f2224' : '#ffffff'; }
       const weight = E('weight'), cs = E('case'), al = E('align');
       const csh = pathShape(sh);
@@ -1963,7 +2001,7 @@ function syncNodes() {
       }
       // Tamaño puesto a mano con los tiradores (la letra no cambia)
       if (n.sz && !cover) { el.style.width = n.sz[0] + 'px'; el.style.minHeight = n.sz[1] + 'px'; el.style.maxWidth = 'none'; el.classList.add('sized'); }
-      else { el.style.minHeight = ''; el.style.maxWidth = CV_MAXW.has(n.id) ? CV_MAXW.get(n.id) + 'px' : RM_W.has(n.id) ? 'none' : ''; el.style.width = RM_W.has(n.id) ? Math.round(RM_W.get(n.id)) + 'px' : ''; el.classList.remove('sized'); }
+      else { el.style.minHeight = ''; el.style.maxWidth = CV_NOTE.has(n.id) ? 'none' : CV_MAXW.has(n.id) ? CV_MAXW.get(n.id) + 'px' : RM_W.has(n.id) ? 'none' : ''; el.style.width = CV_NOTE.has(n.id) && sh === 'sticky' ? CV_NOTE.get(n.id) + 'px' : RM_W.has(n.id) ? Math.round(RM_W.get(n.id)) + 'px' : ''; el.classList.remove('sized'); }
       el.classList.toggle('cv-hid', CV_HID.has(n.id)); el.classList.toggle('rm-bar', RM_W.has(n.id));
       // (solo en esas formas: si no, se borraría el grosor puesto arriba, por ejemplo border=0)
       if (sh === 'card') el.style.borderLeftWidth = bw != null ? bw + 'px' : '';
@@ -1985,6 +2023,17 @@ function syncNodes() {
     walk(r);
   });
   for (const [id, el] of EL) if (!seen.has(id)) { el.remove(); EL.delete(id); }
+  // «Mismo ancho»: los temas de un nivel que lo tengan toman el ancho del más ancho de ese nivel en su mapa
+  const EQ = new Map();
+  for (const id of seen) { const inf = info(id); if (!inf || !eff(inf.n, 'eqw', inf.d) || inf.n.sz || BIGHEAD(inf.n) || RM_W.has(id) || inf.n.img) continue; const k = inf.r.id + ':' + inf.d; if (!EQ.has(k)) EQ.set(k, []); EQ.get(k).push(EL.get(id)); }
+  for (const id of seen) { const el = EL.get(id); if (!el || !el.classList.contains('s-sticky')) continue;
+    if (el.offsetHeight <= el.offsetWidth + 1) continue;
+    const f0 = parseFloat(getComputedStyle(el).fontSize); let f = f0;
+    while (el.offsetHeight > el.offsetWidth + 1 && f > f0 * 0.62) { f -= 0.5; el.style.fontSize = f + 'px'; }
+    if (el.offsetHeight > el.offsetWidth + 1) el.style.width = el.offsetHeight + 'px';
+  }
+  for (const id of seen) { const el = EL.get(id); if (el && el.classList.contains('s-rounder')) el.style.borderRadius = Math.round(Math.min(el.offsetHeight * 0.34, 40)) + 'px'; }
+  for (const els of EQ.values()) { if (els.length < 2) continue; const w = Math.max(...els.map(e => e.offsetWidth)) + 1; els.forEach(e => { e.style.width = w + 'px'; });   /* +1: offsetWidth redondea hacia abajo y el más ancho se partiría */ }
 }
 
 // Círculos de verdad: el texto se reparte en un bloque casi cuadrado y el diámetro es su diagonal (más un margen), así nunca se sale
@@ -2025,7 +2074,7 @@ function layBlock(r, st) {
   if (st === 'organic' || st === 'right' || st === 'left') {
     // «En la rama»: más recorrido, para que el texto vaya por la parte suave de la curva
     const brGap = (c, d) => shapeOf(c, d, st) === 'branch' ? 18 * sp + sizeOf(c).w * 0.45 : 0;
-    const hgap = d => (d === 0 ? GAP.h1 : GAP.h) * sp * Math.max(0.5, LSP), vgap = d => Math.max(2, (d <= 1 ? GAP.v1 : GAP.v) * sp + (sp - 1) * 16);
+    const hgap = d => (d === 0 ? GAP.h1 : GAP.h) * sp, vgap = d => Math.max(2, (d <= 1 ? GAP.v1 * LSP : GAP.v) * sp + (sp - 1) * 16);   // «entre niveles»: en los mapas separa los grupos de cada rama principal
     const memo = new Map();
     const subH = (n, d) => {
       if (memo.has(n.id)) return memo.get(n.id);
@@ -2066,7 +2115,7 @@ function layBlock(r, st) {
   } else { // tree
     let y = 0, pd = 0;
     const place = (n, x, d) => {
-      if (d !== pd && d > 1) y += LX; pd = d;
+      if (d !== pd && pd > 0) y += LX; pd = d;   // hueco extra en cada cambio de nivel, al bajar y al volver a subir
       const s = sizeOf(n); set(n, x, y, 3); y += s.h + Math.max(2, (d === 0 ? 14 * LSP : GAP.treeV) * sp + (sp - 1) * 14);
       for (const c of kidsOf(n)) place(c, x + GAP.treeI * sp, d + 1);
     };
@@ -2232,7 +2281,7 @@ const SUBABLE = st => !!STRUCTS[st] && !CURVY(st) && !['radial', 'bubble', 'cycl
 const MIRROR = ['tree', 'brace', 'fishL', 'timeline', 'stairs'];   // crecen hacia la derecha: en el lado izquierdo se dan la vuelta
 const MIRROR_R = ['treeL', 'fish'];                                // crecen hacia la izquierda: en el lado derecho se dan la vuelta
 const SIDE_ANCHOR = ['org', 'logic', 'kanban', 'table'];  // el tema va arriba: se arrima al lado de su rama padre
-const OLDST = ['organic', 'right', 'left', 'tree', 'org', 'timeline', 'radial'];
+const OLDST = ['organic', 'right', 'left', 'tree', 'treeCols', 'org', 'timeline', 'radial'];
 const mMul = (A, B) => [A[0] * B[0] + A[2] * B[1], A[1] * B[0] + A[3] * B[1], A[0] * B[2] + A[2] * B[3], A[1] * B[2] + A[3] * B[3], A[0] * B[4] + A[2] * B[5] + A[4], A[1] * B[4] + A[3] * B[5] + A[5]];
 const mRot = (a, c) => { const k = Math.cos(a), s = Math.sin(a); return [k, s, -s, k, c.x - k * c.x + s * c.y, c.y - s * c.x - k * c.y]; };
 const mAp = (M, x, y) => ({ x: M[0] * x + M[2] * y + M[4], y: M[1] * x + M[3] * y + M[5] });
@@ -2557,6 +2606,11 @@ function blockEdge(st, n, c, p, q, top, L, fc, lw) {
   const fr = (d, extra = '') => `<path d="${d}" fill="none" stroke="${fc}" stroke-opacity=".55" stroke-width="1.3"${extra}/>`;
   const rr = (x0, y0, x1, y1, rad) => `M${f1(x0 + rad)},${f1(y0)} H${f1(x1 - rad)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + rad)} V${f1(y1 - rad)} Q${f1(x1)},${f1(y1)} ${f1(x1 - rad)},${f1(y1)} H${f1(x0 + rad)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - rad)} V${f1(y0 + rad)} Q${f1(x0)},${f1(y0)} ${f1(x0 + rad)},${f1(y0)} Z`;
   switch (st) {
+    case 'treeCols': {   // árbol en columnas en una rama: del tema a la barra común, al tronco de la columna y al capítulo
+      if (!top || !p.tc || q.tcx == null) return { seg: treeSeg(p, q, lc) };
+      const t = p.tc, tx = p.x + q.tcx, b = [q.x, mid(q)], r0 = lc === 'sharp' || lc === 'straight' ? 0 : radiusOf();
+      return { seg: t.pos === 'wide' ? { e: [[tx, p.y + p.h], [tx, b[1]], b], r: r0 } : { e: [[p.x + t.sx, p.y + p.h], [p.x + t.sx, p.y + t.bus], [tx, p.y + t.bus], [tx, b[1]], b], r: r0 } };
+    }
     case 'org': case 'orgUp': if (q.dir === 3) return { seg: treeSeg(p, q, lc, true) };
       return { seg: p.vf ? vertSeg({ x: cx(p), y: p.y }, { x: cx(q), y: q.y + q.h }, lc) : vertSeg({ x: cx(p), y: p.y + p.h }, { x: cx(q), y: q.y }, lc) };
     case 'logic': return { seg: top ? vertSeg({ x: cx(p), y: p.y + p.h }, { x: cx(q), y: q.y }, lc) : treeSeg(p, q, lc) };
@@ -2700,7 +2754,7 @@ function hexMix(c, t, k) { const h = x => { const m = /^#?([0-9a-f]{6})$/i.exec(
 function bigFx(n0, col, def, d, arrow) {
   const E = k => n0.id && info(n0.id) ? eff(n0, k) : n0[k], n = arrow ? { id: n0.id, relief: n0.relief } : { id: n0.id, fill: E('fill'), bc: E('bc'), bw: E('bw'), relief: E('relief') };   // en las flechas solo cuenta el relieve: el color es el de la línea
   const id = 'bf' + n.id + (bigFx.k = (bigFx.k || 0) + 1); let rf = n.relief || doc.theme.bigfx || ''; if (rf === 'real3d') rf = '3d';
-  if (n.fill === 'branch') n.fill = col;
+  if (n.fill === 'branch') n.fill = col; else if (n.fill === 'auto') n.fill = hexMix(col, '#ffffff', doc.theme.fshade ?? 0.82);
   // Flechas anchas: relleno claro (el de siempre), sólido o degradado, según Diseño › Flechas anchas
   const af = arrow ? doc.theme.afill || '' : '';
   if (af === 'solid') { n.fill = col; n.bc = hexMix(col, '#000000', 0.22); } else if (af === 'grad') { n.fill = hexMix(col, '#ffffff', 0.55) + ',' + col + ',h'; n.bc = hexMix(col, '#000000', 0.15); }
@@ -2734,12 +2788,17 @@ function drawEdges() {
       const ost = stOfOwner(own);
       for (const c of kidsOf(n)) {
         const q = POS.get(c.id), col = lineCol(c);
-        const lw = eff(c, 'lw', d + 1) ?? (d === 0 ? 3 : d === 1 ? 2.2 : 1.6);
+        const lw = eff(c, 'lw', d + 1) ?? (d === 0 ? 3 : d === 1 ? 2.2 : 1.6), noLine = lw === 0;
         let seg;
+        if (noLine && own === r && OLDST.includes(ost)) { walk(c, d + 1, own); continue; }   // grosor 0: sin rama, los temas quedan como una lista
         if (st === 'organic' || st === 'right' || st === 'left') {
           seg = organicSeg(n, c, d, st, L);
           EDGE.set(c.id, seg); if (CURVY(st) && !seg.e) BRH.push(brHit(n, c, seg));
           if (shapeOf(c, d + 1, st) === 'branch') onBr.add(c.id);
+        } else if (st === 'treeCols' && d === 0 && p.tc && q.tcx != null) {
+          // del tema central a la barra común, de ahí al tronco de su columna y al tema
+          const t = p.tc, tx = p.x + q.tcx, b = [q.x, q.y + q.h / 2], rr = L === 'sharp' || L === 'straight' ? 0 : radiusOf();
+          seg = t.pos === 'wide' ? { e: [[tx, p.y + p.h], [tx, b[1]], b], r: rr } : { e: [[p.x + t.sx, p.y + p.h], [p.x + t.sx, p.y + t.bus], [tx, p.y + t.bus], [tx, b[1]], b], r: rr };
         } else if (st === 'org' && q.dir !== 3) {
           seg = vertSeg({ x: p.x + p.w / 2, y: p.y + p.h }, { x: q.x + q.w / 2, y: q.y }, L);
         } else {
@@ -2781,7 +2840,7 @@ function foldPos(n, p, st, d) {
   }
   if (st === 'org' && p.dir !== 3 && !(n.kids.length && n.kids.every(c => !c.kids.length) && info(n.id).d >= 1)) return { x: p.x + p.w / 2, y: p.y + p.h + 9 };
   if (st === 'org') return { x: p.x + Math.min(8, p.w / 2), y: p.y + p.h + 6 };
-  if (st === 'tree') return { x: p.x + Math.min(16, p.w / 2), y: p.y + p.h + 7 };
+  if (st === 'tree' || st === 'treeCols') return { x: p.x + Math.min(16, p.w / 2), y: p.y + p.h + 7 };
   if (st === 'timeline') { if (d === 0) return { x: p.x + p.w + 10, y: p.y + p.h / 2 }; const kid = POS.get((n.kids[0] || {}).id); const up = kid && kid.y < p.y; return { x: p.x + Math.min(16, p.w / 2), y: up ? p.y - 7 : p.y + p.h + 7 }; }
   if (st === 'radial' || st === 'bubble') { if (d === 0) return { x: p.x + p.w + 10, y: p.y + p.h / 2 }; const pp = POS.get(info(n.id).p.id); const vx = p.x + p.w / 2 - (pp.x + pp.w / 2), vy = p.y + p.h / 2 - (pp.y + pp.h / 2), l = Math.hypot(vx, vy) || 1; const e = boxEdgePt(p, p.x + p.w / 2 + vx / l * 1000, p.y + p.h / 2 + vy / l * 1000); return { x: e.x + vx / l * 8, y: e.y + vy / l * 8 }; }
   if (d === 0) return { x: p.x + p.w + 10, y: p.y + p.h / 2 };
@@ -2853,7 +2912,7 @@ function render(opts = {}) {
   POS.clear();
   placeNewRoots();
   doc.roots.forEach(layoutRoot); applyRotations();
-  for (const [id, p] of POS) EL.get(id).style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`;
+  for (const [id, p] of POS) { const el = EL.get(id); el.style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)` + natRot(id, el); if (p.ww) { el.style.width = p.ww + 'px'; el.style.maxWidth = 'none'; } }
   for (const [id, el] of EL) { const t = el.querySelector('.t'), cut = maxl && t && t.scrollHeight > t.clientHeight + 2; if (cut) el.title = IDX.get(id) ? IDX.get(id).n.text : ''; else if (el.title) el.removeAttribute('title'); }
   drawEdges(); drawFolds(); drawRels(); applyIz(true);
   board.className = 'board bg-' + (doc.theme.bg || 'plain') + texCls + (tool === 'hand' || spaceDown ? ' hand' : '') + (relFrom != null ? ' relmode' : '') + (FXFAST() ? ' fxfast' : '');
@@ -3294,7 +3353,7 @@ function styleEditor() {
   const sizeOpts = [-2, -1, 0, 1, 2, 3, 4, 6].map(v => `<option value="${v}">${v > 0 ? '+' + v : v === 0 ? 'Normal' : v}</option>`).join('');
   const caseOpts = '<option value="">Como se escribe</option><option value="upper">MAYÚSCULAS</option><option value="title">Cada Palabra</option><option value="smallcaps">Versalitas</option><option value="lower">minúsculas</option>';
   const bwOpts = '<option value="">Automático</option>' + [0, 1, 1.5, 2, 3, 4, 5, 6].map(v => `<option value="${v}">${v} px</option>`).join('');
-  const lwOpts = '<option value="">Automático</option>' + [1, 1.5, 2, 3, 4, 6, 8].map(v => `<option value="${v}">${v} px</option>`).join('');
+  const lwOpts = '<option value="">Automático</option><option value="0">Sin línea</option>' + [1, 1.5, 2, 3, 4, 6, 8].map(v => `<option value="${v}">${v} px</option>`).join('');
   const L = LVALL, cell = f => L.map(f).join('');
   const colorCell = (k, l, def) => `<div class="cl"><input type="color" data-lk="${k}" data-l="${l}" value="${th.lv[l] && th.lv[l][k] || def}"><button data-lclr="${k}" data-l="${l}" title="Volver al automático">${th.lv[l] && th.lv[l][k] ? '×' : 'auto'}</button></div>`;
   const lineOpts = Object.entries(LINES).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
@@ -3311,6 +3370,7 @@ function styleEditor() {
       <span>Mayúsculas</span>${cell(l => `<select data-lk="case" data-l="${l}">${caseOpts}</select>`)}
       <span>Borde</span>${cell(l => `<select data-lk="bw" data-l="${l}" data-num>${bwOpts}</select>`)}
       <span>Grosor de rama</span>${cell(l => `<select data-lk="lw" data-l="${l}" data-num>${lwOpts}</select>`)}
+      <span>Ancho</span>${cell(l => `<select data-lk="eqw" data-l="${l}" data-num><option value="">Según el texto</option><option value="1">Todos iguales</option></select>`)}
     </div>
     <div class="lvgrid" style="grid-template-columns:92px 1fr 1fr;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)">
       <span>Todo el mapa</span><select data-tk2="pal">${Object.entries(PALETTES).map(([k, p]) => `<option value="${k}">Colores: ${p.name}</option>`).join('')}<option value="custom">Colores: Personalizados</option></select><select data-tk2="line">${lineOpts}</select>
@@ -3805,7 +3865,7 @@ function endDrag(e) {
     qbSuppress = true; qbNear = false; // tras mover un tema, no sale hasta que el ratón sale de él y vuelve
     $$('.n.dragging').forEach(x => x.classList.remove('dragging'));
     if (!(e && e.altKey) && d.items.length === 1 && (cvDrop(d.items[0], d.tgt) || rmDrop(d.items[0]))) { if (d.tgt && EL.get(d.tgt.id)) EL.get(d.tgt.id).classList.remove('drop'); return; }
-    if (!(e && e.altKey) && d.items.length === 1 && kbDrop(d.items[0], d.tgt)) { if (d.tgt && EL.get(d.tgt.id)) EL.get(d.tgt.id).classList.remove('drop'); return; }
+    if (!(e && e.altKey) && d.items.length === 1 && kbDrop(d.items[0], d.tgt, e && e.clientX != null ? toWorld(e.clientX, e.clientY) : null)) { if (d.tgt && EL.get(d.tgt.id)) EL.get(d.tgt.id).classList.remove('drop'); return; }
     if (d.tgt) { EL.get(d.tgt.id) && EL.get(d.tgt.id).classList.remove('drop'); reparent(d.items[0], d.tgt); return; }
     // En el mapa orgánico, una rama principal llevada al otro lado cambia de lado
     d.items.forEach(n => {
@@ -3822,7 +3882,7 @@ board.addEventListener('pointerleave', () => { if (hoverId != null && !drag) { c
 
 function renderPositions() {
   POS.clear(); doc.roots.forEach(layoutRoot); applyRotations();
-  for (const [id, p] of POS) EL.get(id).style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`;
+  for (const [id, p] of POS) { const el = EL.get(id); el.style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)` + natRot(id, el); if (p.ww) { el.style.width = p.ww + 'px'; el.style.maxWidth = 'none'; } }
   drawEdges(); drawFolds(); drawRels(); drawMini();
 }
 
@@ -3940,9 +4000,9 @@ function kbRole(n) {
   const h = kbHostOf(n); if (h) return { host: h, card: false };
   const h2 = kbHostOf(inf.p); return h2 && !hasSub(n) ? { host: h2, card: true } : null;
 }
-function kbDrop(n, tgt) {
+function kbDrop(n, tgt, wp) {
   const kr = kbRole(n), p = POS.get(n.id); if (!kr || !p) return false;
-  const cx = p.x + p.w / 2, cy = p.y + p.h / 2, inf = info(n.id), place = (arr, key) => { let i = arr.findIndex(k => { const q = POS.get(k.id); return q && key(q); }); return i < 0 ? arr.length : i; };
+  const cx = wp ? wp.x : p.x + p.w / 2, cy = p.y + p.h / 2, inf = info(n.id), place = (arr, key) => { let i = arr.findIndex(k => { const q = POS.get(k.id); return q && key(q); }); return i < 0 ? arr.length : i; };
   if (n.o) delete n.o.kanban;
   if (!kr.card) { const arr = kr.host.kids; arr.splice(arr.indexOf(n), 1); arr.splice(place(arr, q => cx < q.x + q.w / 2), 0, n); render(); return true; }
   // Dentro de la misma columna, soltar una tarjeta encima de otra la mete dentro; desde otra columna, primero cae como tarjeta
@@ -3950,6 +4010,8 @@ function kbDrop(n, tgt) {
     const inSub = m => { let f = info(m.id); while (f && f.p) { if (f.p === n) return true; f = info(f.p.id); } return false; };
     if (tgt && tgt !== n && !inSub(tgt) && info(tgt.id) && info(tgt.id).p !== kr.host && colOf(tgt) && colOf(tgt) === inf.p) { inf.p.kids.splice(inf.p.kids.indexOf(n), 1); tgt.kids.push(n); tgt.col = false; sel = new Set([n.id]); render(); return true; } }
   let col = tgt && info(tgt.id) && info(tgt.id).p === kr.host ? tgt : null;
+  // la columna donde cae el puntero (cada columna va desde su cabecera hasta la siguiente), no la más cercana al centro de la tarjeta: una tarjeta ancha también entra en una columna estrecha
+  if (!col && wp) { const cs = kr.host.kids.map(k => [k, POS.get(k.id)]).filter(([, q]) => q).sort((a, b) => a[1].x - b[1].x); for (const [k, q] of cs) if (q.x - 15 <= cx) col = k; if (!col && cs.length) col = cs[0][0]; }
   if (!col) { let best = Infinity; kr.host.kids.forEach(k => { const q = POS.get(k.id); if (!q) return; const dd = Math.abs(cx - (q.x + q.w / 2)); if (dd < best) { best = dd; col = k; } }); }
   if (!col) { render(); return true; }
   inf.p.kids.splice(inf.p.kids.indexOf(n), 1);
@@ -4554,6 +4616,50 @@ function outlineMd(items, rootName) {
   const one = items.length === 1;
   return `# ${escText(one ? items[0].text : rootName)}\n\n` + (one ? items[0].kids : items).map(n => li(n, 0)).join('');
 }
+/* ---------- Abrir mapas de otros programas: XMind (.xmind), FreeMind / Freeplane (.mm) y OPML ---------- */
+// Cada hoja: { title, root: { text, kids, note, link, fold }, st }. Se convierte en Markdown y se lee como siempre
+const XM_ST = [[/fishbone/, 'fish'], [/org-chart\.up/, 'orgUp'], [/org-chart|logic\.down|tree\.down/, 'org'], [/tree\.(right|left)/, 'tree'], [/timeline/, 'timeline'], [/brace/, 'brace'], [/spreadsheet|matrix/, 'table'], [/logic\.right/, 'right'], [/logic\.left/, 'left'], [/map/, 'organic']];
+function foreignMd(sheets) {
+  const one = t => String(t || '').replace(/\s*\n\s*/g, ' ').trim() || '…';
+  const li = (n, d) => { const t = escText(one(n.text)), a = attrs({ collapsed: n.fold && n.kids.length ? 'yes' : null }), nt = (n.note || '').trim();
+    return '  '.repeat(d) + '- ' + (n.link ? `[${t}](${n.link.replace(/\s/g, '%20')})` : t) + (a ? ` <!-- ${a} -->` : '') + '\n' + (nt ? noteLines(nt, '  '.repeat(d + 1)) + '\n' : '') + n.kids.map(k => li(k, d + 1)).join(''); };
+  const many = sheets.length > 1;
+  return sheets.map(sh => { const r = sh.root, nt = (r.note || '').trim();
+    return (many ? `<!-- page: ${one(sh.title || r.text).slice(0, 40).replace(/-->/g, '')} -->\n` : '') + '<!-- markdawn-mind 0.3 · palette=vivo line=curve -->\n\n'
+      + `# ${escText(one(r.text))}\n<!-- map: ${attrs({ structure: sh.st || 'organic' })} -->\n` + (nt ? '\n' + noteLines(nt, '') + '\n' : '') + '\n' + r.kids.map(k => li(k, 0)).join(''); }).join('\n---\n\n');
+}
+const xmSt = c => { for (const [rx, st] of XM_ST) if (rx.test(c || '')) return st; return 'organic'; };
+async function xmindMd(buf) {
+  const z = await zipRead(buf, ['content.json', 'content.xml']);
+  if (z['content.json']) {   // XMind 2020 en adelante
+    const J = JSON.parse(z['content.json']);
+    const tp = t => ({ text: t.title, note: t.notes && t.notes.plain && t.notes.plain.content, link: /^https?:/i.test(t.href || '') ? t.href : null, fold: t.branch === 'folded', kids: ((t.children && t.children.attached) || []).map(tp) });
+    return foreignMd((Array.isArray(J) ? J : [J]).filter(s => s.rootTopic).map(s => ({ title: s.title, root: tp(s.rootTopic), st: xmSt(s.rootTopic.structureClass) })));
+  }
+  if (z['content.xml']) {   // XMind 8
+    const x = new DOMParser().parseFromString(z['content.xml'], 'text/xml'), kid = (el, tag) => [...el.children].find(c => c.localName === tag);
+    const tp = t => { const ch = kid(t, 'children'), att = ch ? [...ch.children].filter(c => c.localName === 'topics' && (c.getAttribute('type') || 'attached') === 'attached') : [], nt = kid(t, 'notes'), pl = nt && kid(nt, 'plain');
+      return { text: (kid(t, 'title') || {}).textContent, note: pl && pl.textContent, link: /^https?:/i.test(t.getAttribute('xlink:href') || '') ? t.getAttribute('xlink:href') : null, fold: t.getAttribute('branch') === 'folded', kids: att.flatMap(g => [...g.children].filter(c => c.localName === 'topic').map(tp)) }; };
+    return foreignMd([...x.getElementsByTagName('sheet')].map(s => { const t = kid(s, 'topic'); return t && { title: (kid(s, 'title') || {}).textContent, root: tp(t), st: xmSt(t.getAttribute('structure-class')) }; }).filter(Boolean));
+  }
+  throw new Error('xmind');
+}
+function mmMd(t) {   // FreeMind y Freeplane (también lo exportan Coggle, MindMeister y otros)
+  const x = new DOMParser().parseFromString(t, 'text/xml'), map = x.querySelector('map'); if (!map) return null;
+  const txt = h => { const d = new DOMParser().parseFromString(h, 'text/html'); return (d.body.innerText || d.body.textContent || '').trim(); };
+  const tp = el => { let text = el.getAttribute('TEXT'), note = null;
+    for (const rc of [...el.children].filter(c => c.tagName === 'richcontent')) { const ty = (rc.getAttribute('TYPE') || '').toUpperCase(), v = txt(rc.innerHTML || rc.textContent); if (ty === 'NOTE' || ty === 'DETAILS') note = (note ? note + '\n\n' : '') + v; else if (text == null) text = v; }
+    return { text, note, link: /^https?:/i.test(el.getAttribute('LINK') || '') ? el.getAttribute('LINK') : null, fold: el.getAttribute('FOLDED') === 'true', kids: [...el.children].filter(c => c.tagName === 'node').map(tp) }; };
+  const r = [...map.children].find(c => c.tagName === 'node'); if (!r) return null;
+  return foreignMd([{ title: r.getAttribute('TEXT'), root: tp(r), st: 'organic' }]);
+}
+// Abrir cualquier archivo que entienda Mind; devuelve el libro ya leído (o null)
+async function readMapFile(f) {
+  if (/\.xmind$/i.test(f.name)) return parseBook(await xmindMd(await f.arrayBuffer()));
+  const t = await f.text();
+  if (/\.mm$/i.test(f.name) || /^\s*(<\?xml[^>]*>\s*)?<map[\s>]/i.test(t)) { const m = mmMd(t); if (m) return parseBook(m); }
+  return parseAny(t, f.name);
+}
 function parseAny(src, name) {
   if (looksOutline(src)) { const it = parseOutline(src); if (it && it.length) return parseBook(outlineMd(it, (name || C('Mapa mental')).replace(/\.\w+$/, ''))); }
   return parseBook(src);
@@ -4573,6 +4679,7 @@ function styleAttrs(o, level) {
   if (o.bc) a.bordercolor = o.bc;
   if (o.lc) a.linecolor = o.lc;
   if (o.tc) a.text = o.tc;
+  if (o.eqw) a.samewidth = 'yes';
   if (o.shape && o.shape !== 'auto') a.shape = o.shape;
   if (o.fs != null && (o.fs || !level)) a.size = o.fs > 0 ? '+' + o.fs : o.fs;
   if (o.font) a.font = o.font;
@@ -4594,6 +4701,7 @@ function nodeAttrs(n, relIds) {
   Object.assign(a, styleAttrs(n, false));
   if (n.side) a.side = n.side === 'L' ? 'left' : 'right';
   if (n.sub) a.structure = n.sub;
+  if (n.sub === 'treeCols' && n.tcols) { if (n.tcols.max) a.percolumn = n.tcols.max; if (n.tcols.head && n.tcols.head !== 'left') a.head = n.tcols.head; }
   if ((n.img || vidOf(n) || n.card) && n.imgw) a.imgw = n.imgw;
   if (n.vid) a.video = n.vid; if (n.vstart != null) a.vstart = n.vstart; if (n.vchap) a.chapter = n.vchap;
   if (n.mfit === 'cover') a.mfit = 'cover'; if (n.card) a.card = 'yes';
@@ -4787,7 +4895,7 @@ function withDoc(pg, fn) { const d = doc; doc = pg; try { return fn(); } finally
 function buildPageMd() {
   const t = doc.theme, relIds = refMap(); const RF = id => relIds.get(id) ?? id;
   const tp = taperMode();
-  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, arrows: t.arrows || null, arrowfill: t.afill || null, arrowtip: t.atip || null, effect: t.bigfx || null, hand: t.hand ? t.hand : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, levelspacing: t.lspace && t.lspace !== 1 ? t.lspace : null, media: t.msz ? t.msz.join(',') : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
+  let s = `<!-- markdawn-mind 0.3 · ${attrs({ palette: t.pal, colors: t.pal === 'custom' && t.pcol ? t.pcol.map(c => c.replace('#', '')).join(',') : null, line: t.line, taper: tp === 'main' ? null : tp === 'none' ? 'no' : 'all', branches: t.b3d ? '3d' : null, arrows: t.arrows || null, natural: t.nat ? 'yes' : null, saturation: t.sat != null ? t.sat : null, lightness: t.lig != null ? t.lig : null, fillshade: t.fshade != null ? t.fshade : null, textshade: t.tshade != null ? t.tshade : null, arrowfill: t.afill || null, arrowtip: t.atip || null, effect: t.bigfx || null, hand: t.hand ? t.hand : null, radius: t.radius != null && t.radius !== 8 ? t.radius : null, bg: t.bg, spacing: t.space !== 1 ? t.space : null, levelspacing: t.lspace && t.lspace !== 1 ? t.lspace : null, media: t.msz ? t.msz.join(',') : null, textlines: +t.maxl || null, texture: t.tex || null })} -->\n`;
   { const used = new Set(); const look = o => { if (o && o.shape && String(o.shape).startsWith('c:')) used.add(o.shape.slice(2)); }; Object.values(t.lv || {}).forEach(look); const w = n => { look(n); n.kids.forEach(w); }; doc.roots.forEach(w);
     used.forEach(id => { const c = CSHAPES[id]; if (c && c.d && !c.svg) s += `<!-- shape c:${id}: ${attrs({ name: c.name, path: c.d })} -->\n`; }); }
   if (t.img) s += `<!-- background: ${attrs({ image: imgSrc(t.img), fit: t.imgfit === 'tile' ? 'tile' : null, fade: t.imgfade ? +(+t.imgfade).toFixed(2) : null })} -->\n`;
@@ -4799,7 +4907,8 @@ function buildPageMd() {
     if (r.line) m.lines = r.line;
     if (i > 0 || Math.round(r.x) || Math.round(r.y)) { m.x = Math.round(r.x); m.y = Math.round(r.y); }
     if (r.col) m.collapsed = 'yes';
-    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, fit: r.cnv.fit || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
+    if (r.tcols) { if (r.tcols.max) m.percolumn = r.tcols.max; if (r.tcols.head && r.tcols.head !== 'left') m.head = r.tcols.head; }
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, fit: r.cnv.fit || null, notes: r.cnv.notes ? 'yes' : null, notesize: r.cnv.notes && r.cnv.nsz ? r.cnv.nsz : null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -4866,11 +4975,12 @@ function parseMd(src, forPaste) {
     if (a.size != null && a.size !== '' && !/,/.test(a.size)) { const v = clamp(parseInt(a.size, 10) || 0, -3, 6); n.fs = v; }
     if (a.font && (FONT_CSS[a.font] || xFont(a.font))) n.font = a.font;
     if (a.border != null && isFinite(+a.border)) n.bw = clamp(+a.border, 0, 12);
-    if (a.line != null && a.line !== '' && isFinite(+a.line)) n.lw = clamp(+a.line, 0.25, 16);
+    if (a.line != null && a.line !== '' && isFinite(+a.line)) n.lw = +a.line === 0 ? 0 : clamp(+a.line, 0.25, 16);
     if (a.case && CASES[a.case]) n.case = a.case;
     if (a.align && /^(left|center|right)$/.test(a.align)) n.align = a.align;
     if (a.weight && WEIGHTS[a.weight]) n.weight = +a.weight;
     if (a.underline === 'yes') n.under = true;
+    if (a.samewidth === 'yes') n.eqw = 1;
     if (a.letters != null && isFinite(+a.letters)) n.ls = clamp(+a.letters, -0.1, 0.5);
     if (a.bold === 'no' || a.bold === 'yes') n.bold = a.bold === 'yes';
     if (a.italic === 'no' || a.italic === 'yes') n.italic = a.italic === 'yes';
@@ -4880,6 +4990,7 @@ function parseMd(src, forPaste) {
     applyStyle(n, a);
     if (a.side) n.side = a.side === 'left' ? 'L' : 'R';
     if (a.structure && SUBABLE(a.structure)) n.sub = a.structure;
+    if (a.structure === 'treeCols') { const t = tcParse(a); if (t) n.tcols = t; }
     if (a.imgw && isFinite(+a.imgw)) n.imgw = clamp(Math.round(+a.imgw), 30, 800);
     if (a.video && ytId(a.video)) n.vid = a.video;
     if (a.vstart != null && /^\d+$/.test(a.vstart)) n.vstart = +a.vstart;
@@ -4924,6 +5035,8 @@ function parseMd(src, forPaste) {
       if (a.branches === '3d') out.theme.b3d = true;
       if (a.arrows === 'block') out.theme.arrows = 'block';
       if (['stroke', 'shadow', 'soft', 'shine', '3d', 'real3d'].includes(a.effect)) out.theme.bigfx = a.effect;
+      for (const [k, key, lo, hi] of [['saturation', 'sat', 0.3, 1.6], ['lightness', 'lig', 0.6, 1.5], ['fillshade', 'fshade', 0.05, 0.98], ['textshade', 'tshade', 0.05, 0.98]]) if (a[k] != null && isFinite(+a[k])) out.theme[key] = clamp(+a[k], lo, hi);
+      if (a.natural === 'yes') out.theme.nat = true;
       if (['solid', 'grad'].includes(a.arrowfill)) out.theme.afill = a.arrowfill; if (['none', 'notch'].includes(a.arrowtip)) out.theme.atip = a.arrowtip;
       if (a.levelspacing != null && isFinite(+a.levelspacing)) out.theme.lspace = clamp(+a.levelspacing, 0.4, 4);
       if (a.hand != null && isFinite(+a.hand) && +a.hand > 0) out.theme.hand = clamp(Math.round(+a.hand), 0, 10);
@@ -4940,7 +5053,8 @@ function parseMd(src, forPaste) {
       const r = out.roots[out.roots.length - 1]; if (!r) continue; const a = parseAttrs(m[1]);
       if (a.structure && STRUCTS[a.structure]) r.structure = a.structure;
       if (a.lines && LINES[a.lines]) r.line = a.lines;
-      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.margin != null || a.corners != null) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
+      { const t = tcParse(a); if (t) r.tcols = t; }
+      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.margin != null || a.corners != null) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: a.notes === 'yes' || undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -5063,7 +5177,7 @@ mdtext.addEventListener('input', () => {
 mdtext.addEventListener('blur', () => { mdSnapped = false; schedSave(); });
 function loadParsed(p) { liteNormalize([p]); delete p.headless; if (!p.name) p.name = SHEET + '1'; doc = p; book = { pages: [p], cur: 0 }; sel = new Set(); selRel = null; }
 // La edición gratuita abre los mapas de la completa: las estructuras que no tiene se ven como orgánicas
-function liteNormalize(pages) { if (LITE) pages.forEach(pg => pg.roots.forEach(r => { if (r.structure && !LITE_OK.struct.includes(r.structure)) r.structure = r.structure === 'org' ? 'tree' : 'organic'; })); }
+function liteNormalize(pages) { if (LITE) pages.forEach(pg => pg.roots.forEach(r => { if (r.structure && !LITE_OK.struct.includes(r.structure)) r.structure = ['org', 'treeCols'].includes(r.structure) ? 'tree' : 'organic'; })); }
 function loadBook(b, cur) { if (FOC) { FOC = null; const fb = $('#focusbar'); if (fb) fb.hidden = true; } FH = null; FH_OK = false; liteNormalize(b.pages); book = b; book.cur = clamp(cur || 0, 0, b.pages.length - 1); doc = book.pages[book.cur]; sel = new Set(); selRel = null; U.stack = []; U.redo = []; }
 
 /* ---------- Cinta ---------- */
@@ -5287,7 +5401,14 @@ function cmd(c, el) {
     case 'importDoc': pickImportDoc(); break;
     case 'canvasNew': cvNewDialog(); break;
     case 'cvMenu': cvMenu(el); break;
+    case 'natural': snap(); if (doc.theme.nat) delete doc.theme.nat; else doc.theme.nat = true; render(); hidePop(); break;
+    case 'cvNotes': cvSet(cv => { if (cv.notes) delete cv.notes; else cv.notes = true; CV_BSC = new Map(); }); break;
     case 'cvFit': cvSet(cv => { if (cv.fit === 'grow') delete cv.fit; else cv.fit = 'grow'; CV_BSC = new Map(); toast(trStr(cv.fit === 'grow' ? 'Al llenarse un recuadro, el lienzo crece' : 'Al llenarse un recuadro, sus tarjetas se hacen más pequeñas')); }); break;
+    case 'tcMenu': { const r = tcRoot(); if (!r) break; openPop(el && el.getBoundingClientRect ? el : $('#board'), `<h4>${esc(trStr('Árbol en columnas'))}</h4><div style="padding:2px 6px 8px;width:260px">${tcHtml(r)}</div>`); break; }
+    case 'tcHead': { const r = tcRoot(); if (!r) break; snap(); r.tcols = { ...(r.tcols || {}), head: v === 'left' ? undefined : v }; render(); $$('[data-cmd="tcHead"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === (r.tcols.head || 'left'))); break; }
+    case 'eqw': { const ns = [...sel].map(node).filter(Boolean); if (!ns.length) break; snap(); doc.theme.lv = doc.theme.lv || {}; const on = !eff(ns[0], 'eqw', info(ns[0].id).d);
+      new Set(ns.map(n => LV(info(n.id).d))).forEach(Lv => { const o = doc.theme.lv[Lv] = doc.theme.lv[Lv] || {}; if (on) o.eqw = 1; else delete o.eqw; });
+      ns.forEach(n => { const inf = info(n.id); IDX.forEach(x => { if (LV(x.d) === LV(inf.d)) delete x.n.eqw; }); }); render(); updateFmt(); break; }
     case 'cvAddHere': { const n = primary(), c = n && cvRole(n); if (c) cvAddCard(c.block); break; }
     case 'cvSplitH': cvSplit('h'); break;
     case 'cvSplitV': cvSplit('v'); break;
@@ -5394,7 +5515,7 @@ function cmd(c, el) {
       snap(); roots.forEach(r => {
         r.structure = v;
         // Árbol, organigrama y línea de tiempo empiezan con líneas en ángulo; se pueden cambiar a curvas
-        if (['tree', 'org', 'timeline'].includes(v)) { if (!r.line && (lineOf(r) === 'curve' || lineOf(r) === 'fan')) r.line = 'elbow'; }
+        if (['tree', 'treeCols', 'org', 'timeline'].includes(v)) { if (!r.line && (lineOf(r) === 'curve' || lineOf(r) === 'fan')) r.line = 'elbow'; }
         else if (['elbow', 'near', 'sharp', 'soft', 'bracket', 'step'].includes(r.line) && doc.theme.line !== r.line) delete r.line;
       }); render(); break;
     }
@@ -5419,6 +5540,7 @@ function cmd(c, el) {
     case 'b3d': snap(); doc.theme.b3d = !doc.theme.b3d; render(); break;
     case 'fxMenu': { const cur = doc.theme.bigfx || '', q = PR.fxq || 'auto'; openPop(el, `<h4>${esc(trStr('Efecto de las formas'))}</h4>` + [['', 'Plano'], ['stroke', 'Con borde'], ['shadow', 'Sombra'], ['soft', 'Sombra suave'], ['shine', 'Brillo'], ['3d', '3D'], ['real3d', '3D real (embudo, pirámide y proceso)']].map(([k, t]) => `<button class="opt" data-cmd="bigfx" data-v="${k}"${cur === k ? ' aria-pressed="true"' : ''}>${esc(trStr(t))}</button>`).join('') + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:250px">${esc(trStr('Para recuadros del lienzo, columnas del Kanban, franjas de pirámide y embudo, el anillo de flechas y las flechas anchas. Cada tema puede tener el suyo en Formato › Relieve.'))}</p>`
       + `<hr><div class="shcat">${esc(trStr('Calidad de sombras y transparencias'))}</div>` + [['auto', 'Automática (rápida en mapas grandes)'], ['high', 'Siempre alta'], ['fast', 'Siempre rápida']].map(([k, t]) => `<button class="opt" data-cmd="fxq" data-v="${k}"${q === k ? ' aria-pressed="true"' : ''}>${esc(trStr(t))}</button>`).join('') + `<p style="margin:6px 4px 0;font-size:11.5px;color:var(--muted);max-width:250px">${esc(trStr('En rápida, las sombras no se difuminan y los cristales no desenfocan lo de detrás: el mapa va más fluido. Al exportar se usa siempre la alta.'))}</p>`); break; }
+    case 'palReset': snap(); delete doc.theme.sat; delete doc.theme.lig; render(); $$('#pop [data-palk]').forEach(i => { i.value = 1; }); break;
     case 'fxq': PR.fxq = v === 'auto' ? undefined : v; savePrefs(); hidePop(); render(); break;
     case 'barrowMenu': { const t = doc.theme, on = t.arrows === 'block', o = (c, v, cur, txt) => `<button class="opt" data-cmd="${c}" data-v="${v}"${cur ? ' aria-pressed="true"' : ''}>${esc(trStr(txt))}</button>`;
       openPop(el, `<h4>${esc(trStr('Flechas anchas'))}</h4>` + o('barrowSet', on ? 'off' : 'on', on, on ? 'Activadas ✓ (pulsa para quitarlas)' : 'Activar flechas anchas')
@@ -5517,8 +5639,10 @@ function palMenu(el) {
   const cur = doc.theme.pal || 'vivo';
   const row = pl => `<span class="palrow">${[pl.root, ...pl.c.slice(0, 7)].map((c, i) => `<i style="background:${c};height:14px;width:${i ? 9 : 13}px;${i ? '' : 'margin-right:2px;border-radius:2px'}"></i>`).join('')}</span>`;
   openPop(el, `<h4>Colores de rama</h4><div class="palgrid">${Object.entries(PALETTES).map(([k, pl]) => `<button class="opt" data-cmd="pal" data-v="${k}"${cur === k ? ' style="background:var(--acc-tint)"' : ''}>${row(pl)}<span>${pl.name}</span></button>`).join('')}</div>
-    <button class="opt" data-cmd="pal" data-v="custom" style="margin-top:4px;border-top:1px solid var(--line-soft);${cur === 'custom' ? 'background:var(--acc-tint)' : ''}">${cur === 'custom' ? row(palOf()) : '<span class="palrow"><i style="width:60px;height:14px;background:linear-gradient(90deg,#e53935,#fdd835,#43a047,#1e88e5,#8e24aa)"></i></span>'}<span>Personalizados…</span></button>`);
+    <button class="opt" data-cmd="pal" data-v="custom" style="margin-top:4px;border-top:1px solid var(--line-soft);${cur === 'custom' ? 'background:var(--acc-tint)' : ''}">${cur === 'custom' ? row(palOf()) : '<span class="palrow"><i style="width:60px;height:14px;background:linear-gradient(90deg,#e53935,#fdd835,#43a047,#1e88e5,#8e24aa)"></i></span>'}<span>Personalizados…</span></button>
+    <div class="palsl"><div class="shcat">${esc(trStr('Solo en este mapa'))}</div><label><span>${esc(trStr('Intensidad'))}</span><input type="range" min="0.3" max="1.6" step="0.05" value="${doc.theme.sat ?? 1}" data-palk="sat"></label><label><span>${esc(trStr('Claridad'))}</span><input type="range" min="0.6" max="1.5" step="0.05" value="${doc.theme.lig ?? 1}" data-palk="lig"></label><button class="opt" data-cmd="palReset" style="justify-content:center">${esc(trStr('Como viene la paleta'))}</button></div>`);
 }
+document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-palk]'); if (!i) return; if (!i._sn) { snap(); i._sn = true; } const v = +i.value; if (Math.abs(v - 1) < 0.03) delete doc.theme[i.dataset.palk]; else doc.theme[i.dataset.palk] = v; render(); });
 // Editor de colores propios: el color del tema central y la lista de colores que se reparten las ramas principales
 function customPalMenu(el) {
   const th = doc.theme;
@@ -5550,7 +5674,7 @@ function colorMenu(btn) {
   const title = trStr({ color: 'Color de rama', fill: 'Relleno', tc: 'Color del texto', bc: 'Color del borde', lc: 'Color de la línea' }[k]);
   const curV = String(curVal(k) || ''), g = gradOf(curV), c1 = (g ? g[0] : curV) || (k === 'tc' ? '#1f2224' : '#0d767a'), hex = c => /^#[0-9a-f]{6}$/i.test(c) ? c : '#0d767a';
   const rec = (PR.recentCols || []).slice(0, 10);
-  openPop(btn, `<h4>${title} · ${scopeLabel()}</h4><button class="opt" data-col=""><span class="sw-ico"><i style="background:linear-gradient(135deg,#e8743b,#3a86c8)"></i></span>Automático</button>${k === 'fill' ? `<button class="opt" data-col="branch"><span class="sw-ico"><i style="background:var(--acc)"></i></span>${esc(trStr('Sólido (color de la rama)'))}</button>` : k === 'tc' ? `<button class="opt" data-col="auto"><span class="sw-ico"><i style="background:linear-gradient(90deg,#0b4f52 50%,#fff 50%);outline:1px solid #ccc"></i></span>${esc(trStr('Automático (tono del color del tema)'))}</button>` : k === 'bc' ? `<button class="opt" data-nobd><span class="sw-ico"><i style="background:none;outline:1px dashed #aaa"></i></span>${esc(trStr('Sin borde'))}</button>` : ''}<div class="pal">${SWATCH.map(c => `<button data-col="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div>
+  openPop(btn, `<h4>${title} · ${scopeLabel()}</h4><button class="opt" data-col=""><span class="sw-ico"><i style="background:linear-gradient(135deg,#e8743b,#3a86c8)"></i></span>Automático</button>${k === 'fill' ? `<button class="opt" data-col="branch"><span class="sw-ico"><i style="background:var(--acc)"></i></span>${esc(trStr('Sólido (color de la rama)'))}</button><button class="opt" data-col="auto"><span class="sw-ico"><i style="background:linear-gradient(90deg,#fff 50%,#9cc3ef 50%);outline:1px solid #ccc"></i></span>${esc(trStr('Automático (tono del color del tema)'))}</button>${shadeSl('fshade', 'Casi blanco', 'Como la rama', 0.82, true)}` : k === 'tc' ? `<button class="opt" data-col="auto"><span class="sw-ico"><i style="background:linear-gradient(90deg,#0b4f52 50%,#fff 50%);outline:1px solid #ccc"></i></span>${esc(trStr('Automático (tono del color del tema)'))}</button>${shadeSl('tshade', 'Como la rama', 'Casi negro', 0.5)}` : k === 'bc' ? `<button class="opt" data-nobd><span class="sw-ico"><i style="background:none;outline:1px dashed #aaa"></i></span>${esc(trStr('Sin borde'))}</button>` : ''}<div class="pal">${SWATCH.map(c => `<button data-col="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div>
     ${rec.length ? `<div class="shcat">${esc(trStr('Recientes'))}</div><div class="pal">${rec.map(c => `<button data-col="${esc(c)}" style="background:${esc(fillCss(c))}" title="${esc(c)}"></button>`).join('')}</div>` : ''}
     <div class="shcat">${esc(trStr('Más colores'))}</div>
     <div class="cpick"><input type="color" id="cp-c" value="${hex(c1)}"><input type="text" id="cp-hex" value="${esc(hex(c1))}" maxlength="7" spellcheck="false" aria-label="Hex"><button class="btn-sec" data-cpok>${esc(trStr('Aplicar'))}</button></div>
@@ -5668,6 +5792,8 @@ function openCtxAt(e, id) {
     if (!many) items.push(['relation', 'rel', 'Relación con…']);
     if (!many && info(id) && info(id).p) items.push(['branchLabel', 'rel', n.btext || n.bimg ? 'Editar texto en la rama…' : 'Texto o imagen en la rama…']);
     if (!many && n.kids.length) items.push(['fold', 'fold', n.col ? 'Desplegar rama' : 'Plegar rama', 'Ctrl+/']);
+    if (!many && tcRoot()) items.push('-', ['tcMenu', 'shape', 'Columnas del árbol…']);
+    items.push(['eqw', 'shape', n && eff(n, 'eqw', info(n.id).d) ? 'Ancho según el texto en su nivel' : 'Mismo ancho en todo su nivel']);
     { const cr = !many && cvRole(n); if (cr) { items.push('-', ['cvAddHere', 'child', 'Añadir una tarjeta']); if (!cr.card) items.push(['cvSplitH', 'shape', 'Dividir el recuadro (lado a lado)'], ['cvSplitV', 'shape', 'Dividir el recuadro (arriba y abajo)'], ['cvRemove', 'del', 'Quitar el recuadro']); items.push(['cvEdit', 'shape', CV_EDIT ? 'Terminar de editar el lienzo' : 'Editar el lienzo…']); }
       else if (many && [...sel].every(i => { const c = cvRole(node(i) || {}); return c && !c.card; }) && sel.size === 2) items.push('-', ['cvMerge', 'shape', 'Unir los dos recuadros']);
       if (!many && rmRole(n)) items.push('-', ['rmDates', 'shape', 'Fechas…']); }
@@ -5750,8 +5876,9 @@ function navDialog() {
 }
 
 /* ---------- Estilos de mapa ---------- */
+const msFix = m => { if (m && m.src && !m.ok) { const t = parseMd(m.src + '\n\n# x\n').theme; m.lv = t.lv || {}; delete t.lv; m.theme = t; m.ok = true; } return m; };
 function applyMapStyle(k) {
-  const m = MAP_STYLES[k]; if (!m) return;
+  const m = msFix(MAP_STYLES[k]); if (!m) return;
   snap();
   doc.theme.lv = JSON.parse(JSON.stringify(m.lv));
   delete doc.theme.b3d; delete doc.theme.hand;
@@ -5759,6 +5886,7 @@ function applyMapStyle(k) {
   const byStyle = key => Object.values(MAP_STYLES).some(o => o.theme[key] && o.theme[key] === doc.theme[key]);
   if (!m.theme.pal && byStyle('pal')) doc.theme.pal = 'vivo';
   if (!m.theme.tex && byStyle('tex')) delete doc.theme.tex;
+  if (m.src) ['bigfx', 'afill', 'atip', 'radius', 'arrows'].forEach(k => delete doc.theme[k]);   // los estilos leídos de una cabecera la traen entera
   Object.assign(doc.theme, m.theme);
   for (const inf of IDX.values()) STYLE_KEYS.forEach(key => { if (key !== 'color' || inf.d > 1) delete inf.n[key]; });
   render();
@@ -5850,6 +5978,8 @@ function updateFmt() {
   $('#fp-bw-v').textContent = bw + ' px'; $('#fp-lw-v').textContent = lw + ' px';
   const lsI = $('[data-fk="ls"]'), ls = val('ls') ?? 0; if (document.activeElement !== lsI) lsI.value = ls; $('#fp-ls-v').textContent = (+ls).toFixed(2) + ' em';
   { const fl = $('#fp-levels'); if (fl && !fl.contains(document.activeElement)) { fl.innerHTML = levelSliderHtml(); bindLevelSlider(fl); } }
+  { const ft = $('#fp-tcols'), r = tcRoot(); ft.hidden = !r; if (r && !ft.contains(document.activeElement)) ft.innerHTML = `<label>${esc(trStr('Árbol en columnas'))}</label>` + tcHtml(r); }
+  { const b = $('#fp-eqw'), n = primary(); if (b) { const on = !!(n && eff(n, 'eqw', info(n.id).d)); b.textContent = trStr(on ? 'Mismo ancho en todo el nivel: sí' : 'Mismo ancho en todo el nivel: no'); b.setAttribute('aria-pressed', on); } }
   $('#fp-sp-v').textContent = '×' + (+(doc.theme.space || 1)).toFixed(1);
   $('#fp-rad-v').textContent = radTxt(); $('#fp-lsp-v').textContent = '×' + (+(doc.theme.lspace || 1)).toFixed(1);
   $('#fp-b3d').textContent = 'Ramas 3D: ' + (doc.theme.b3d ? 'sí' : 'no');
@@ -5877,8 +6007,8 @@ $$('[data-tk]').forEach(x => {
   } else x.addEventListener('change', () => { if (x.dataset.tk === 'pal' && lockGate('pal', x.value)) { updateRibbon(); return; } if (x.dataset.tk === 'pal' && x.value === 'custom') { customPalMenu(fixedAnchor(x)); return; } if (x.dataset.tk === 'line') { cmd('line', { dataset: { v: x.value } }); return; } snap(); doc.theme[x.dataset.tk] = x.dataset.tk === 'maxl' ? (+x.value || undefined) : x.value; render(); });
 });
 function widthMenu(btn) {
-  const k = btn.dataset.k, vals = k === 'bw' ? [0, 1, 1.5, 2, 3, 4, 5, 6] : [1, 1.5, 2, 3, 4, 6, 8];
-  openPop(btn, `<h4>${k === 'bw' ? 'Grosor del borde' : 'Grosor de la rama'} · ${scopeLabel()}</h4><button class="opt" data-w="">Automático</button>${vals.map(v => `<button class="opt" data-w="${v}"><svg viewBox="0 0 60 10" style="width:60px;height:10px"><line x1="2" y1="5" x2="58" y2="5" stroke="#3b3a39" stroke-width="${Math.max(v, 0.5)}"/></svg>${v} px</button>`).join('')}`);
+  const k = btn.dataset.k, vals = k === 'bw' ? [0, 1, 1.5, 2, 3, 4, 5, 6] : [0, 1, 1.5, 2, 3, 4, 6, 8];
+  openPop(btn, `<h4>${k === 'bw' ? 'Grosor del borde' : 'Grosor de la rama'} · ${scopeLabel()}</h4><button class="opt" data-w="">Automático</button>${vals.map(v => `<button class="opt" data-w="${v}"><svg viewBox="0 0 60 10" style="width:60px;height:10px"><line x1="2" y1="5" x2="58" y2="5" stroke="#3b3a39" stroke-width="${Math.max(v, 0.5)}"${v ? '' : ' stroke-dasharray="2 3" opacity=".4"'}/></svg>${v ? v + ' px' : esc(trStr(k === 'bw' ? 'Sin borde' : 'Sin línea'))}</button>`).join('')}`);
   pop.onclick = e => { const b = e.target.closest('[data-w]'); if (!b) return; setProp(k, b.dataset.w === '' ? undefined : +b.dataset.w); hidePop(); };
 }
 
@@ -6253,9 +6383,9 @@ var FH = null, FH_OK = false;   // var: se usa también al arrancar, antes de ll
 async function openPicked() {
   if (typeof window.showOpenFilePicker !== 'function' || WF) { $('#file').click(); return; }
   try {
-    const [h] = await window.showOpenFilePicker({ id: 'markdawn-mind-open', types: [{ description: 'Markdown', accept: { 'text/markdown': ['.md', '.markdown'], 'text/plain': ['.txt'], 'text/x-opml': ['.opml'] } }] });
+    const [h] = await window.showOpenFilePicker({ id: 'markdawn-mind-open', types: [{ description: 'Markdown', accept: { 'text/markdown': ['.md', '.markdown'], 'text/plain': ['.txt'], 'text/x-opml': ['.opml'] } }, { description: 'XMind, FreeMind, Freeplane', accept: { 'application/octet-stream': ['.xmind', '.mm'] } }] });
     if (!confirmLose()) return;
-    const f = await h.getFile(), p = parseAny(await f.text(), f.name); if (!p) { toast('No se encontró contenido en el archivo.'); return; }
+    const f = await h.getFile(); let p = null; try { p = await readMapFile(f); } catch (e) { console.error(e); } if (!p) { toast(trStr('No se encontró contenido en el archivo.')); return; }
     replaceGuard(() => { loadBook(p); if (/\.(md|markdown)$/i.test(f.name)) FH = h; render(); drawSheets(); setTimeout(() => fit(), 30); updateDocName(); toast('Abierto: ' + f.name); }, p, f.name);
   } catch (e) { if (!e || e.name !== 'AbortError') $('#file').click(); }
 }
@@ -6391,10 +6521,8 @@ async function saveFile() {
   setTimeout(() => URL.revokeObjectURL(url), 3000); toast('Descargado: ' + name);
 }
 $('#file').addEventListener('change', e => {
-  const f = e.target.files[0]; if (!f) return;
-  const fr = new FileReader();
-  fr.onload = () => { const p = parseAny(String(fr.result), f.name); if (!p) { toast('No se encontró contenido en el archivo.'); return; } replaceGuard(() => { if (WF) WF.file = null; loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); }, p, f.name); };
-  fr.readAsText(f); e.target.value = '';
+  const f = e.target.files[0]; if (!f) return; e.target.value = '';
+  readMapFile(f).catch(err => { console.error(err); return null; }).then(p => { if (!p) { toast(trStr('No se encontró contenido en el archivo.')); return; } replaceGuard(() => { if (WF) WF.file = null; loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); }, p, f.name); });
 });
 function copyText(t, msg) {
   const done = () => toast(msg || 'Markdown copiado');
@@ -6415,13 +6543,16 @@ function replaceGuard(run, p, fname) {
 document.addEventListener('dragover', e => { if (e.dataTransfer && [...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
 // Abrir archivos desde el sistema: con la app instalada, doble clic en un .md (o «Abrir con») lo abre aquí
 if ('launchQueue' in window) window.launchQueue.setConsumer(async lp => { if (!lp.files || !lp.files.length) return; try { const f = await lp.files[0].getFile(), p = parseAny(await f.text(), f.name); if (p) { loadBook(p); if (/\.(md|markdown)$/i.test(f.name)) FH = lp.files[0]; render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); } } catch (e) {} });
-document.addEventListener('drop', e => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (!f) return; e.preventDefault(); if (/\.(pdf|docx)$/i.test(f.name)) { importDocFile(f); return; } const fr = new FileReader(); fr.onload = () => { const p = parseAny(String(fr.result), f.name); if (p) replaceGuard(() => { loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); }, p, f.name); }; fr.readAsText(f); });
+document.addEventListener('drop', e => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (!f) return; e.preventDefault(); if (/\.(pdf|docx)$/i.test(f.name)) { importDocFile(f); return; } readMapFile(f).catch(err => { console.error(err); return null; }).then(p => { if (p) replaceGuard(() => { loadBook(p); render(); drawSheets(); setTimeout(() => fit(), 30); toast('Abierto: ' + f.name); }, p, f.name); else toast(trStr('No se encontró contenido en el archivo.')); }); });
 
 /* ---------- Buscar (Ctrl+F): en los temas, en sus notas y en el texto 📖 de un documento importado ---------- */
 Object.assign(EN, {"Brillo (relieve con luz)": "Shine (lit relief)", "3D (con volumen)": "3D (with depth)", "Brillo": "Shine", "Efecto": "Effect", "Efecto de las formas": "Shape effect", "Plano": "Flat", "Con borde": "Bordered", "Sombra suave": "Soft shadow", "Efecto de las formas grandes (recuadros del lienzo, columnas del Kanban, franjas, anillo y flechas): plano, con borde, sombra, brillo o 3D": "Effect for large shapes (canvas boxes, Kanban columns, bands, ring and arrows): flat, bordered, shadow, shine or 3D", "Para recuadros del lienzo, columnas del Kanban, franjas de pirámide y embudo, el anillo de flechas y las flechas anchas. Cada tema puede tener el suyo en Formato › Relieve.": "For canvas boxes, Kanban columns, pyramid and funnel bands, the arrow ring and block arrows. Each topic can have its own in Format › Relief.", "Color del borde": "Border colour", "Color de la línea": "Line colour", "Borde": "Border", "Rama": "Branch", "El color de la rama tiñe el tema, su borde y su línea; el borde y la línea se pueden cambiar aparte.": "The branch colour tints the topic, its border and its line; border and line can be changed separately.", "Color del borde del tema (sin cambiar el de su rama)": "Topic border colour (without changing its branch)", "Añadir una tarjeta (también con doble clic en el hueco de la columna)": "Add a card (or double-click an empty part of the column)", "Al llenarse un recuadro: agrandar el lienzo ✓ (cambiar a reducir las tarjetas)": "When a box fills up: enlarge the canvas ✓ (switch to shrink the cards)", "Al llenarse un recuadro: reducir las tarjetas ✓ (cambiar a agrandar el lienzo)": "When a box fills up: shrink the cards ✓ (switch to enlarge the canvas)", "Al llenarse un recuadro, el lienzo crece": "When a box fills up, the canvas grows", "Al llenarse un recuadro, sus tarjetas se hacen más pequeñas": "When a box fills up, its cards get smaller", "Nuevo": "New", "Elige cómo empezar. Luego puedes cambiar la estructura cuando quieras.": "Choose how to start. You can change the layout at any time.", "Lienzos": "Canvases", "Tablero": "Board", "Por hacer": "To do", "En curso": "In progress", "Hecho": "Done", "Tarea 1": "Task 1", "Tarea 2": "Task 2", "Tarea 3": "Task 3", "Hoja de ruta": "Roadmap", "Fase 1": "Phase 1", "Fase 2": "Phase 2", "Proyecto": "Project", "Hito 1": "Milestone 1", "Hito 2": "Milestone 2", "Hito 3": "Milestone 3", "Hito 4": "Milestone 4", "Ciclo": "Cycle", "Paso 1": "Step 1", "Paso 2": "Step 2", "Paso 3": "Step 3", "Paso 4": "Step 4", "Proceso": "Process", "Pirámide": "Pyramid", "Nivel 1": "Level 1", "Nivel 2": "Level 2", "Nivel 3": "Level 3", "Nivel 4": "Level 4", "Embudo": "Funnel", "Etapa 1": "Stage 1", "Etapa 2": "Stage 2", "Etapa 3": "Stage 3", "Etapa 4": "Stage 4", "Problema": "Problem", "Causa 1": "Cause 1", "Causa 2": "Cause 2", "Causa 3": "Cause 3", "Causa 4": "Cause 4", "Detalle": "Detail", "Matriz": "Matrix", "Fila 1": "Row 1", "Fila 2": "Row 2", "Columna 1": "Column 1", "Columna 2": "Column 2", "Tabla": "Table", "Grupo 1": "Group 1", "Grupo 2": "Group 2", "Dato": "Item", "Mapa nuevo: elige la estructura (mapa, organigrama, Kanban, hoja de ruta, lienzos…)": "New map: choose the layout (map, org chart, Kanban, roadmap, canvases…)", "Lienzo": "Canvas", "Terminar": "Done", "Títulos": "Titles", "Bordes": "Borders", "Fondo…": "Background…", "Más": "More", "📅 Fechas": "📅 Dates", "Fechas…": "Dates…", "Añadir una tarjeta": "Add a card", "Añadir una tarjeta (también con doble clic en el hueco del recuadro)": "Add a card (or double-click an empty part of the box)", "Dividir el recuadro (lado a lado)": "Split the box (side by side)", "Dividir el recuadro (arriba y abajo)": "Split the box (top and bottom)", "Quitar el recuadro": "Remove the box", "Editar el lienzo…": "Edit the canvas…", "Terminar de editar el lienzo": "Finish editing the canvas", "Unir los dos recuadros": "Merge the two boxes", "Divide el recuadro seleccionado en dos, uno al lado del otro": "Splits the selected box in two, side by side", "Divide el recuadro seleccionado en dos, uno encima del otro": "Splits the selected box in two, one above the other", "Une los dos recuadros seleccionados (Ctrl + clic)": "Merges the two selected boxes (Ctrl + click)", "Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas": "Removes the box; its neighbour fills the gap and keeps its cards", "Muestra u oculta los títulos de los recuadros": "Shows or hides the box titles", "Muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)": "Shows or hides the box borders (to use your own background image)", "Imagen de fondo (suave con bordes; tal cual sin bordes)": "Background image (faded with borders; as is without borders)", "Proporción, móvil, cuadrícula y plantillas": "Proportion, phone, grid and templates", "Proporción (16:9, 4:3, 1:1)": "Proportion (16:9, 4:3, 1:1)", "Ver como móvil / ordenador": "View as phone / computer", "Quitar la imagen de fondo": "Remove the background image", "⭐ Guardar como plantilla": "⭐ Save as template", "Lienzo nuevo…": "New canvas…", "Fechas de inicio y fin de la tarea seleccionada (también se mueven arrastrando la barra)": "Start and end dates of the selected task (you can also drag the bar)", "Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro": "Handles to resize columns and rows, and to move or resize each box", "Buscar": "Search", "Busca en los temas, sus notas y el texto del documento (Ctrl+F)": "Searches topics, their notes and the document text (Ctrl+F)", "Buscar en temas, notas y documento…": "Search topics, notes and document…", "Anterior": "Previous", "Siguiente": "Next", "Nada": "None", "Centrar el tema": "Center topic", "Encuadrar la rama": "Frame the branch", "Solo esta rama": "Only this branch", "Buscar y enfocar": "Search and focus", "Ver todo el mapa": "Show whole map", "Lleva el tema seleccionado al centro de la pantalla": "Brings the selected topic to the middle of the screen", "Acerca o aleja para ver el tema con todos sus hijos": "Zooms to show the topic with all its children", "Muestra solo esa rama; arriba, el camino para volver (Esc: todo el mapa)": "Shows only that branch; the path at the top takes you back (Esc: whole map)", "Elige una rama: la idea central ya es todo el mapa.": "Pick a branch: the central topic is already the whole map.", "Burbujas": "Bubbles", "Ciclo": "Cycle", "Ciclo con flechas dentro": "Cycle with inner arrows", "Anillo de flechas": "Arrow ring"});
 Object.assign(EN, {"Botones de ajustar": "Fit buttons", "«Ajustar», Ctrl+0 y el de la barra de herramientas": "“Fit”, Ctrl+0 and the toolbar button", "Con temas seleccionados, ajusta esos temas": "With topics selected, fit those topics", "Con un tema seleccionado, encuadra su rama": "With a topic selected, frame its branch", "Siempre todo el mapa": "Always the whole map"});
 Object.assign(EN, {"Encuadrar la rama: el tema seleccionado con sus hijos": "Frame the branch: the selected topic with its children", "Ajustar todo el mapa a la ventana": "Fit the whole map to the window", "Todo el mapa a la vista": "The whole map in view"});
 Object.assign(EN, {"Ajustar: los temas seleccionados (sin selección, todo el mapa)": "Fit: the selected topics (nothing selected: the whole map)", "Los temas seleccionados; sin selección, todo el mapa (Ctrl+0)": "The selected topics; nothing selected: the whole map (Ctrl+0)"});
+Object.assign(EN, {"Tira adhesiva": "Sticky strip", "Tamaño de las notas": "Note size", "Si en un recuadro no caben, las suyas se hacen más pequeñas.": "If a box gets full, its notes get smaller.", "Colocación natural": "Natural placement", "Colocación natural ✓": "Natural placement ✓", "No se encontró contenido en el archivo.": "No content was found in the file."});
+Object.assign(EN, {"Muy redondeada": "Extra rounded", "Nota adhesiva": "Sticky note", "Tarjetas como notas adhesivas": "Cards as sticky notes", "Tarjetas como notas adhesivas ✓": "Cards as sticky notes ✓", "Casi blanco": "Almost white", "Como la rama": "Like the branch", "Casi negro": "Almost black", "Tono de «Automático» en todo el mapa": "Shade of “Automatic” for the whole map", "Solo en este mapa": "Only in this map", "Intensidad": "Intensity", "Claridad": "Lightness", "Como viene la paleta": "As the palette comes", "Plantilla": "Template", "Como siempre": "As usual", "Índice por partes": "Index by parts", "Cada parte con sus capítulos en columnas, a lo ancho y sin líneas, como el índice del libro": "Each part with its chapters in columns, full width and without lines, like the book's index", "Columnas": "Columns", "Todo en un árbol en columnas": "Everything in a tree in columns", "Organigrama": "Org chart", "Cápsulas neón": "Neon capsules", "Cápsulas neón 2": "Neon capsules 2"});
+Object.assign(EN, {"Árbol en columnas": "Tree in columns", "Máximo de temas por columna": "Maximum topics per column", "Cuentan también los subtemas; un tema nunca se separa de los suyos.": "Subtopics count too; a topic never gets split from its own.", "Tema central": "Central topic", "A la izquierda": "Left", "Centrado": "Centered", "A lo ancho": "Full width", "Para una lista sin líneas: Grosor de la rama › Sin línea.": "For a list without lines: Branch width › No line.", "Columnas del árbol…": "Tree columns…", "Ancho según el texto en su nivel": "Width by text on its level", "Mismo ancho en todo su nivel": "Same width across its level", "Mismo ancho en todo el nivel: sí": "Same width across the level: on", "Mismo ancho en todo el nivel: no": "Same width across the level: off", "Mismo ancho en todo el nivel": "Same width across the level", "Los temas del nivel del seleccionado toman todos el ancho del más ancho.": "All topics on the selected topic's level take the width of the widest one.", "Sin línea": "No line", "0 = sin línea: los temas quedan como una lista.": "0 = no line: topics look like a list.", "Ancho": "Width", "Según el texto": "By text", "Todos iguales": "All the same", "Libro": "Book", "Capítulo 1": "Chapter 1", "Capítulo 2": "Chapter 2", "Capítulo 3": "Chapter 3", "Capítulo 4": "Chapter 4", "Capítulo 5": "Chapter 5", "Capítulo 6": "Chapter 6", "Capítulo 7": "Chapter 7", "Capítulo 8": "Chapter 8", "Capítulo 9": "Chapter 9", "Capítulo 10": "Chapter 10", "Capítulo 11": "Chapter 11", "Capítulo 12": "Chapter 12", "Capítulo 13": "Chapter 13", "Capítulo 14": "Chapter 14", "Capítulo 15": "Chapter 15", "Capítulo 16": "Chapter 16"});
 Object.assign(EN, {"Nivel 3": "Level 3", "Nivel 4": "Level 4", "Nivel 5": "Level 5", "Nivel 5+": "Level 5+", "Curva completa": "Full curve", "Entre niveles": "Between levels", "Separación entre niveles": "Spacing between levels", "Distancia de un tema a sus subtemas, aparte de la que hay entre temas del mismo nivel.": "Distance from a topic to its subtopics, separate from the spacing between topics on the same level.", "Margen entre recuadros": "Margin between boxes", "Esquinas de los recuadros": "Box corners", "Sólido (color de la rama)": "Solid (branch color)", "Automático (tono del color del tema)": "Automatic (shade of the topic color)", "Sin borde": "No border", "Dirección del degradado": "Gradient direction", "Vertical": "Vertical", "Horizontal": "Horizontal", "Diagonal": "Diagonal", "Reflejado (vertical)": "Mirrored (vertical)", "Reflejado (horizontal)": "Mirrored (horizontal)", "3D real (embudo, pirámide y proceso)": "Real 3D (funnel, pyramid and process)", "Calidad de sombras y transparencias": "Shadow and transparency quality", "Automática (rápida en mapas grandes)": "Automatic (fast on large maps)", "Siempre alta": "Always high", "Siempre rápida": "Always fast", "En rápida, las sombras no se difuminan y los cristales no desenfocan lo de detrás: el mapa va más fluido. Al exportar se usa siempre la alta.": "In fast mode shadows are not blurred and glass shapes don't blur what's behind them, so the map runs smoother. Exports always use high quality.", "Activadas ✓ (pulsa para quitarlas)": "On ✓ (click to turn off)", "Activar flechas anchas": "Turn on block arrows", "Relleno": "Fill", "Claro (con borde)": "Light (outlined)", "Sólido": "Solid", "Degradado": "Gradient", "Punta": "Tip", "Con punta": "With tip", "Sin punta": "No tip", "Con muesca": "Notched", "El relleno y la punta valen también para las flechas del ciclo y del proceso; la punta, también para el anillo.": "Fill and tip also apply to cycle and process arrows; the tip also applies to the ring.", "Cada columna es un nivel del mapa; del nivel 3 en adelante cada uno usa lo del anterior salvo lo que cambies, y el 5 vale también para los más hondos. Los cambios se ven al momento; después puedes guardarlo como estilo propio.": "Each column is a map level; from level 3 on, each one uses the previous level's settings except what you change, and level 5 also applies to deeper levels. Changes show right away; then you can save it as your own style.", "0 = esquina viva · al máximo, curva completa": "0 = sharp corner · at the maximum, a full curve", "Del tema central hasta el quinto nivel": "From the central topic down to the fifth level", "Personalizar el estilo por niveles": "Customize the style by level", "Las ramas como flechas anchas, como en un diagrama de presentación: relleno y punta": "Branches as block arrows, like in a presentation diagram: fill and tip"});
 Object.assign(EN, {"Círculo": "Circle", "Proceso": "Process", "Pirámide": "Pyramid", "Flechas anchas": "Block arrows", "Las ramas como flechas anchas con borde, como en un diagrama de presentación": "Branches as wide outlined arrows, like in a presentation diagram"});
 /* ---------- Lienzos (estructura «canvas»): recuadros en una cuadrícula con proporción fija; las tarjetas son sus hijos ----------
@@ -6506,7 +6637,7 @@ function cvGeom(r, port, k = 1) {
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
 }
-var CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
+var CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
 // Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
 function cvHandles() {
   nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
@@ -6591,15 +6722,31 @@ function cvBarPlace() {
 { const pq = placeQbar; placeQbar = function () { pq(); try { cvBarPlace(); } catch (e) {} }; }
 function cvMenu(el) {
   const it = (c, t) => `<button class="opt" data-cmd="${c}">${esc(trStr(t))}</button>`;
-  openPop(el, `<h4>${esc(trStr('Lienzo'))}</h4>` + it('cvRatio', 'Proporción (16:9, 4:3, 1:1)') + it('cvFit', cvCur() && cvCur().r.cnv && cvCur().r.cnv.fit === 'grow' ? 'Al llenarse un recuadro: agrandar el lienzo ✓ (cambiar a reducir las tarjetas)' : 'Al llenarse un recuadro: reducir las tarjetas ✓ (cambiar a agrandar el lienzo)') + cvSliders() + it('cvMobile', 'Colocación en móvil') + it('cvPreview', 'Ver como móvil / ordenador') + '<hr>' + it('cvGrid', 'Volver a la cuadrícula') + it('cvBgOff', 'Quitar la imagen de fondo') + '<hr>' + it('cvSaveTpl', '⭐ Guardar como plantilla') + it('canvasNew', 'Lienzo nuevo…'));
+  openPop(el, `<h4>${esc(trStr('Lienzo'))}</h4>` + it('cvRatio', 'Proporción (16:9, 4:3, 1:1)') + it('cvNotes', cvCur() && cvCur().r.cnv && cvCur().r.cnv.notes ? 'Tarjetas como notas adhesivas ✓' : 'Tarjetas como notas adhesivas') + (cvCur() && cvCur().r.cnv && cvCur().r.cnv.notes ? `<div style="padding:4px 10px 6px;width:250px;font-size:12px"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(trStr('Tamaño de las notas'))}</b><span data-cvv="nsz">${cvCur().r.cnv.nsz || 100} px</span></div><input type="range" min="50" max="240" step="5" value="${cvCur().r.cnv.nsz || 100}" data-cvs="nsz" style="width:100%;accent-color:var(--acc)"><small style="color:var(--muted)">${esc(trStr('Si en un recuadro no caben, las suyas se hacen más pequeñas.'))}</small></div>` + it('natural', doc.theme.nat ? 'Colocación natural ✓' : 'Colocación natural') : '') + it('cvFit', cvCur() && cvCur().r.cnv && cvCur().r.cnv.fit === 'grow' ? 'Al llenarse un recuadro: agrandar el lienzo ✓ (cambiar a reducir las tarjetas)' : 'Al llenarse un recuadro: reducir las tarjetas ✓ (cambiar a agrandar el lienzo)') + cvSliders() + it('cvMobile', 'Colocación en móvil') + it('cvPreview', 'Ver como móvil / ordenador') + '<hr>' + it('cvGrid', 'Volver a la cuadrícula') + it('cvBgOff', 'Quitar la imagen de fondo') + '<hr>' + it('cvSaveTpl', '⭐ Guardar como plantilla') + it('canvasNew', 'Lienzo nuevo…'));
 }
+// Árbol en columnas: máximo de temas por columna y dónde va el tema central. Vale para el mapa entero o para una rama
+// (una sección del libro con sus capítulos): se ajusta el árbol en columnas más cercano al tema seleccionado
+const tcParse = a => (a.percolumn != null && isFinite(+a.percolumn)) || ['center', 'wide'].includes(a.head) ? { max: a.percolumn != null && isFinite(+a.percolumn) ? clamp(Math.round(+a.percolumn), 2, 500) : undefined, head: ['center', 'wide'].includes(a.head) ? a.head : undefined } : null;
+function tcRoot() {
+  const n = primary(); if (!n) { const r = doc.roots.length === 1 ? doc.roots[0] : null; return r && r.structure === 'treeCols' ? r : null; }
+  for (let m = n; m; m = info(m.id) && info(m.id).p) { const inf = info(m.id); if (!inf) break; if (inf.p ? m.sub === 'treeCols' : m.structure === 'treeCols') return m; if (!inf.p) break; }
+  return null;
+}
+function tcHtml(r) {
+  const t = r.tcols || {}, m = t.max || 12, h = t.head || 'left';
+  return `<div style="display:flex;justify-content:space-between;font-size:12px"><span>${esc(trStr('Máximo de temas por columna'))}</span><b data-tcv>${m}</b></div><input type="range" min="2" max="40" step="1" value="${m}" data-tcmax style="width:100%;accent-color:var(--acc)">
+    <small style="display:block;margin:2px 0 6px;color:var(--muted)">${esc(trStr('Cuentan también los subtemas; un tema nunca se separa de los suyos.'))}</small>
+    <div style="font-size:12px;margin-bottom:4px">${esc(trStr('Tema central'))}</div><div style="display:flex;gap:4px;flex-wrap:wrap">${[['left', 'A la izquierda'], ['center', 'Centrado'], ['wide', 'A lo ancho']].map(([k, x]) => `<button class="btn-sec" data-cmd="tcHead" data-v="${k}" aria-pressed="${k === h}" style="height:26px;padding:0 8px">${esc(trStr(x))}</button>`).join('')}</div>
+    <small style="display:block;margin-top:6px;color:var(--muted)">${esc(trStr('Para una lista sin líneas: Grosor de la rama › Sin línea.'))}</small>`;
+}
+document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-tcmax]'); if (!i) return; const r = tcRoot(); if (!r) return; if (!i._sn) { snap(); i._sn = true; } r.tcols = { ...(r.tcols || {}), max: +i.value }; const v = i.parentElement.querySelector('[data-tcv]'); if (v) v.textContent = i.value; render(); });
 // Margen entre recuadros y redondeo de sus esquinas, para todo el lienzo
 function cvSliders() {
   const c = cvCur(), cv = c && c.r.cnv || {}, g = cv.gap != null ? +cv.gap : 8, k = cv.rad != null ? +cv.rad : 9;
   return `<div style="padding:6px 10px 8px;width:250px;font-size:12px"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(trStr('Margen entre recuadros'))}</b><span data-cvv="gap">${g} px</span></div><input type="range" min="0" max="40" step="1" value="${g}" data-cvs="gap" style="width:100%;accent-color:var(--acc)">
     <div style="display:flex;justify-content:space-between;margin-top:4px"><b style="font-weight:600">${esc(trStr('Esquinas de los recuadros'))}</b><span data-cvv="rad">${k} px</span></div><input type="range" min="0" max="40" step="1" value="${k}" data-cvs="rad" style="width:100%;accent-color:var(--acc)"></div><hr>`;
 }
-document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-cvs]'); if (!i) return; const c = cvCur(); if (!c) return; if (!i._sn) { snap(); i._sn = true; } c.r.cnv = c.r.cnv || {}; c.r.cnv[i.dataset.cvs] = +i.value; const v = i.parentElement.querySelector(`[data-cvv="${i.dataset.cvs}"]`); if (v) v.textContent = i.value + ' px'; render(); });
+document.addEventListener('input', e => { const i = e.target.closest && e.target.closest('[data-cvs]'); if (!i) return; const c = cvCur(); if (!c) return; if (!i._sn) { snap(); i._sn = true; } c.r.cnv = c.r.cnv || {}; c.r.cnv[i.dataset.cvs] = +i.value; if (i.dataset.cvs === 'nsz') CV_BSC = new Map(); const v = i.parentElement.querySelector(`[data-cvv="${i.dataset.cvs}"]`); if (v) v.textContent = i.value + ' px'; render(); });
 function cvHdlDrag(e, r, fn) {
   e.preventDefault(); e.stopPropagation(); snap(); cvWeight.key = null; const sx = e.clientX, sy = e.clientY, st = {}; let raf = 0;
   const mv = ev => { const dx = (ev.clientX - sx) / V.s, dy = (ev.clientY - sy) / V.s; st.free = ev.shiftKey; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { st.guides = []; fn(dx, dy, st); render(); cvGuides(st.guides); }); };
@@ -6644,9 +6791,16 @@ function cvGuides(G) {
   (G || []).forEach(([k, x, y, l]) => { const d = document.createElement('div'); d.className = 'cv-guide no-tr ' + k; d.style.transform = `translate(${f1(x)}px, ${f1(y)}px)`; d.style[k === 'x' ? 'height' : 'width'] = f1(l) + 'px'; nodesEl.appendChild(d); });
 }
 function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro, su ancho, su escala y los títulos ocultos
-  CV_MAXW = new Map(); CV_HID = new Set(); CV_COLS = new Map(); CV_SC = new Map();
+  CV_MAXW = new Map(); CV_HID = new Set(); CV_COLS = new Map(); CV_SC = new Map(); CV_NOTE = new Map();
   doc.roots.forEach(r => {
     if (r.structure !== 'canvas' || (LITE && !TRIAL)) return; const G = cvGeom(r, cvPort()), CW = 150;
+    if (r.cnv && r.cnv.notes) {   // notas adhesivas: un tamaño para todo el lienzo (ajustable); en un recuadro lleno se hacen más pequeñas
+      const ns = clamp(+r.cnv.nsz || 100, 50, 260);
+      r.kids.forEach(b => { const R = G.rect(G.areas.get(b.id), b), sc = CV_BSC.get(b.id) || 1; if (r.cnv.titles === 'no') CV_HID.add(b.id);
+        const fsc = sc * Math.min(1, ns / 120); b.kids.forEach(c => { CV_NOTE.set(c.id, Math.round(ns * sc)); if (fsc < 0.99) CV_SC.set(c.id, fsc); const w = (n, d) => n.kids.forEach(k => { CV_MAXW.set(k.id, Math.max(50, ns * sc)); if (sc < 1) CV_SC.set(k.id, sc); w(k, d + 1); }); w(c, 1); });
+        CV_MAXW.set(b.id, Math.max(60, R.w - 20)); });
+      return;
+    }
     r.kids.forEach(b => {
       const R = G.rect(G.areas.get(b.id), b), sc = CV_BSC.get(b.id) || 1, gap = 8, inner = R.w - 20, cols = Math.max(1, Math.floor((inner + gap) / (CW * sc + gap)));
       CV_COLS.set(b.id, cols); CV_MAXW.set(b.id, Math.max(60, R.w - 20)); if (r.cnv && r.cnv.titles === 'no') CV_HID.add(b.id);
@@ -6662,18 +6816,24 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
   const flat = (n, dep = 1, out = []) => { for (const c of kidsOf(n)) { out.push([c, dep]); flat(c, dep + 1, out); } return out; };
   const unitH = c => sizeOf(c).h + flat(c).reduce((a, [d]) => a + vg + sizeOf(d).h, 0);
   const head = b => CV_HID.has(b.id) ? 10 : sizeOf(b).h + 16;
-  const pack = (b, H) => { const cols = CV_COLS.get(b.id) || 1, out = [], hs = new Array(cols).fill(0); let col = 0;
+  const notes = r.cnv && r.cnv.notes, ng = 14, NP = 18;   // NP: margen de las notas con el borde del recuadro
+  // Notas adhesivas: en filas, de izquierda a derecha, con más aire; una nota agrandada ocupa su sitio
+  const flow = (b, W) => { const out = []; let x = 0, y = 0, rh = 0;
+    for (const c of kidsOf(b)) { const s = sizeOf(c), h = unitH(c); if (x > 0 && x + s.w > W + 1) { x = 0; y += rh + ng; rh = 0; } out.push([c, x, y]); x += s.w + ng; rh = Math.max(rh, h); }
+    return { out, used: y + rh }; };
+  const pack = (b, H) => { if (notes) { const R0 = cvGeom(r, port).rect(cvGeom(r, port).areas.get(b.id), b), f = flow(b, R0.w - 2 * NP); return { out: f.out.map(([c, x, y]) => [c, -1, y, x]), used: f.used }; }
+    const cols = CV_COLS.get(b.id) || 1, out = [], hs = new Array(cols).fill(0); let col = 0;
     for (const c of kidsOf(b)) { const h = unitH(c); if (hs[col] > 0 && hs[col] + h > H && col < cols - 1) col++; out.push([c, col, hs[col]]); hs[col] += h + vg; }
     return { out, used: Math.max(0, ...hs.map(x => x - vg)) }; };
   const need = (b, H) => { if (pack(b, H).used <= H) return H; let lo = H, hi = kidsOf(b).reduce((a, c) => a + unitH(c) + vg, 0) + 1; for (let i = 0; i < 18; i++) { const m = (lo + hi) / 2; if (pack(b, m).used <= m) hi = m; else lo = m; } return hi; };
   let G = cvGeom(r, port), k = 1, again = false;
   r.kids.forEach(b => {
-    const R = G.rect(G.areas.get(b.id), b), avail = R.h - head(b) - 8, nd = need(b, avail), cur = CV_BSC.get(b.id) || 1;
+    const R = G.rect(G.areas.get(b.id), b), avail = R.h - head(b) - 8 - (notes ? 30 : 0), nd = need(b, avail), cur = CV_BSC.get(b.id) || 1;
     let sc = cur;
-    if (!grow) { if (nd > avail + 1) sc = Math.max(0.6, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd)); }
+    if (!grow) { if (nd > avail + 1) sc = Math.max(notes ? 0.4 : 0.6, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd)); }
     else sc = 1;
     if (Math.abs(sc - cur) > 0.02) { if (sc >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, sc); again = true; }
-    if (nd > avail + 1 && (grow || cur <= 0.61)) k = Math.max(k, (nd + head(b) + 8) / R.h);
+    if (nd > avail + 1 && (grow || cur <= (notes ? 0.41 : 0.61))) k = Math.max(k, (nd + head(b) + 8) / R.h);
   });
   if (again && CV_PASS < 4) { CV_PASS++; requestAnimationFrame(() => render()); } else if (!again) CV_PASS = 0;
   if (k > 1) G = cvGeom(r, port, Math.min(k, 4));
@@ -6682,8 +6842,8 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
     const R = G.rect(G.areas.get(b.id), b), bs = sizeOf(b), cols = CV_COLS.get(b.id) || 1, colW = (R.w - 20 - (cols - 1) * gap) / cols, H = R.h - head(b) - 8;
     set(b, R.x + 10, top + R.y + 8, 3); L.get(b.id).cv = { dx: -10, dy: -8, w: R.w, h: R.h, cols, colW };
     const y0 = top + R.y + head(b) - (CV_HID.has(b.id) ? 0 : 0);
-    for (const [c, col, yy] of pack(b, H).out) {
-      const x = R.x + 10 + col * (colW + gap); let y = y0 + yy; set(c, x, y, 3); L.get(c.id).cvcol = col; y += sizeOf(c).h + vg;
+    for (const [c, col, yy, xx] of pack(b, H).out) {
+      const x = col < 0 ? R.x + NP + xx : R.x + 10 + col * (colW + gap); let y = y0 + yy + (col < 0 ? 6 : 0); set(c, x, y, 3); L.get(c.id).cvcol = col; y += sizeOf(c).h + vg;
       for (const [d, dep] of flat(c)) { set(d, x + dep * ind * (CV_BSC.get(b.id) || 1), y, 3); y += sizeOf(d).h + vg; }
     }
   });
@@ -6708,6 +6868,10 @@ function cvDrop(n, tgt) {
   // Dentro del mismo recuadro, soltarla encima de otra tarjeta la mete dentro; desde otro recuadro, primero cae como tarjeta
   if (tgt && tgt !== n && !inSub(tgt) && tb === cr.block) { const tr = cvRole(tgt); if (tr && tr.card && tr.block === tb) { par.kids.splice(par.kids.indexOf(n), 1); tgt.kids.push(n); tgt.col = false; sel = new Set([n.id]); render(); return true; } }
   par.kids.splice(par.kids.indexOf(n), 1);
+  if (cr.r.cnv && cr.r.cnv.notes) {   // notas en filas: va antes de la primera nota que quede después en el orden de lectura
+    const after = tb.kids.find(k => { const z = POS.get(k.id); return z && (cy < z.y - 8 ? true : cy <= z.y + z.h + 8 && cx < z.x + z.w / 2); });
+    tb.kids.splice(after ? tb.kids.indexOf(after) : tb.kids.length, 0, n); sel = new Set([n.id]); render(); return true;
+  }
   const q = POS.get(tb.id), cw = q.cv.colW || q.cv.w, col = Math.max(0, Math.min((q.cv.cols || 1) - 1, Math.floor((cx - (q.x + q.cv.dx + 10)) / (cw + 8))));
   const inCol = tb.kids.filter(k => { const z = POS.get(k.id); return z && (z.cvcol || 0) === col; });
   let i = -1; const hit = inCol.find(k => { const z = POS.get(k.id); return cy < z.y + z.h / 2; });
@@ -6772,6 +6936,7 @@ const NEW_SEED = {
   kanban: ['Tablero', ['Por hacer', ['Tarea 1', 'Tarea 2']], ['En curso', ['Tarea 3']], ['Hecho', []]],
   roadmap: ['Hoja de ruta', ['Fase 1', ['Tarea 1', 'Tarea 2']], ['Fase 2', ['Tarea 3']]],
   timeline: ['Proyecto', 'Hito 1', 'Hito 2', 'Hito 3', 'Hito 4'], timeV: ['Proyecto', 'Hito 1', 'Hito 2', 'Hito 3', 'Hito 4'],
+  treeCols: ['Libro', ...Array.from({ length: 16 }, (_, i) => 'Capítulo ' + (i + 1))],
   cycle: ['Ciclo', 'Paso 1', 'Paso 2', 'Paso 3', 'Paso 4'], cycleIn: ['Ciclo', 'Paso 1', 'Paso 2', 'Paso 3', 'Paso 4'], cycleRing: ['Ciclo', 'Paso 1', 'Paso 2', 'Paso 3', 'Paso 4'], process: ['Proceso', 'Paso 1', 'Paso 2', 'Paso 3', 'Paso 4'],
   pyramid: ['Pirámide', 'Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4'], funnel: ['Embudo', 'Etapa 1', 'Etapa 2', 'Etapa 3', 'Etapa 4'],
   fish: ['Problema', ['Causa 1', ['Detalle']], ['Causa 2', ['Detalle']], ['Causa 3', []], ['Causa 4', []]], fishL: ['Problema', ['Causa 1', ['Detalle']], ['Causa 2', ['Detalle']], ['Causa 3', []], ['Causa 4', []]],
@@ -7066,11 +7231,15 @@ function importMd(D, o) {
   ids(root, '');
   const pre = n => { if (o.text === 'end' && n.md) { S.secs[n.id] = { id: n.id, p: n.p, t: n.title, md: n.md, l: Math.max(1, n.lvl) }; S.order.push(n.id); } n.kids.forEach(pre); }; pre(root);
   const note = n => o.text === 'notes' && n.md ? (n.p ? `📖 ${trStr('pág.')} ${n.p}\n\n` : '') + n.md : '';
-  const at = (n, open) => { const a = attrs({ src: S.secs[n.id] ? n.id : null, collapsed: n.kids.length && n.lvl >= open ? 'yes' : null }); return a ? ` <!-- ${a} -->` : ''; };
+  const T = o.tpl || '', parts = root.kids.some(k => k.kids.length), tc = T === 'index' && parts && o.sheets !== 'chapters';
+  if (T === 'index') o = { ...o, open: Math.max(o.open, 2) };
+  const at = (n, open) => { const a = attrs({ structure: tc && n.lvl === 1 && n.kids.length ? 'treeCols' : null, percolumn: tc && n.lvl === 1 && n.kids.length ? 10 : null, head: tc && n.lvl === 1 && n.kids.length ? 'wide' : null, src: S.secs[n.id] ? n.id : null, collapsed: n.kids.length && n.lvl >= open ? 'yes' : null }); return a ? ` <!-- ${a} -->` : ''; };
   const li = (n, d, open, flat) => { const nt = note(n); return '  '.repeat(d) + '- ' + escText(n.title.replace(/\n/g, ' ')) + at(n, flat ? 99 : open) + '\n' + (nt ? noteLines(nt, '  '.repeat(d + 1)) + '\n' : '') + (flat ? '' : n.kids.map(k => li(k, d + 1, open)).join('')); };
-  const st = n => o.shape !== 'auto' ? o.shape : n.kids.length <= 8 ? 'organic' : 'right';
-  const map = (r, kidsMd, structure) => { const nt = note(r); return `# ${escText(r.title.replace(/\n/g, ' '))}\n<!-- map: ${attrs({ structure, src: S.secs[r.id] ? r.id : null })} -->\n` + (nt ? '\n' + noteLines(nt, '') + '\n' : '') + (kidsMd ? '\n' + kidsMd : ''); };
-  const head = '<!-- markdawn-mind 0.3 · palette=vivo line=curve -->\n\n';
+  const st = n => T === 'index' ? (tc && n === root ? 'tree' : 'treeCols') : T === 'cols' ? 'treeCols' : T === 'org' ? 'org' : o.shape !== 'auto' ? o.shape : n.kids.length <= 8 ? 'organic' : 'right';
+  const map = (r, kidsMd, structure) => { const nt = note(r); return `# ${escText(r.title.replace(/\n/g, ' '))}\n<!-- map: ${attrs({ structure, percolumn: structure === 'treeCols' ? 12 : null, head: structure === 'treeCols' ? (T === 'index' ? 'wide' : 'center') : null, src: S.secs[r.id] ? r.id : null })} -->\n` + (nt ? '\n' + noteLines(nt, '') + '\n' : '') + (kidsMd ? '\n' + kidsMd : ''); };
+  const head = T === 'neon' || T === 'neon2' ? MAP_STYLES[T === 'neon' ? 'capsulas' : 'capsulas2'].src + '\n\n'
+    : T === 'index' ? '<!-- markdawn-mind 0.3 · palette=vivo line=curve -->\n' + (tc ? '<!-- style sub: line=0 samewidth=yes -->' : '<!-- style main: line=0 samewidth=yes -->') + '\n\n'
+    : '<!-- markdawn-mind 0.3 · palette=vivo line=curve -->\n\n';
   let md;
   if (o.sheets === 'chapters' && root.kids.some(k => k.kids.length)) {
     const sh = t => cutText(t, 40).replace(/ …$/, '…').replace(/-->/g, '');
@@ -7101,7 +7270,7 @@ function importDialog(D) {
   if (!D) return;
   const topics = d => { let c = 1; D.secs.forEach(s => { if (s.lvl && s.lvl <= d) c++; }); return c; };
   let depth = 1; for (let d = 1; d <= Math.min(4, D.maxLvl); d++) if (topics(d) <= 140) depth = d;
-  const o = { depth: Math.max(1, depth), text: 'end', sheets: 'one', shape: 'auto', open: 1, num: true };
+  const o = { depth: Math.max(1, depth), text: 'end', sheets: 'one', shape: 'auto', open: 1, num: true, tpl: '' };
   IMP = { D, o, prev: { book, doc, V: { ...V } }, p: null, done: false };
   const seg = (k, opts) => `<div class="imp-seg" data-k="${k}">${opts.map(([v, t, tip]) => `<button type="button" data-v="${v}"${tip ? ` title="${esc(trStr(tip))}"` : ''}>${esc(trStr(t))}</button>`).join('')}</div>`;
   const LV = ['Capítulos', '+ apartados', '+ subapartados', '+ 4.º nivel'];
@@ -7112,6 +7281,7 @@ function importDialog(D) {
       ${D.maxLvl ? `<div class="imp-h">${esc(trStr('Ramas'))}</div>${seg('depth', LV.slice(0, Math.min(4, D.maxLvl)).map((t, i) => [i + 1, t]))}` : `<div class="imp-warn">${esc(trStr('No se han encontrado títulos: todo el texto irá al tema central. Prueba «Preparar con IA».'))}</div>`}
       <div class="imp-h">${esc(trStr('El texto del documento'))}</div>${seg('text', [['end', 'Al final, referenciado', 'Se guarda una vez al final del archivo y cada tema apunta a su trozo'], ['notes', 'En las notas', 'Cada tema lleva su trozo en la nota'], ['none', 'Sin texto', 'Solo los títulos']])}
       <div class="imp-h">${esc(trStr('Hojas'))}</div>${seg('sheets', [['one', 'Todo en una hoja'], ['chapters', 'Una hoja por capítulo', 'Primera hoja con el índice y una hoja por capítulo']])}
+      <div class="imp-h">${esc(trStr('Plantilla'))}</div>${seg('tpl', [['', 'Como siempre'], ['index', 'Índice por partes', 'Cada parte con sus capítulos en columnas, a lo ancho y sin líneas, como el índice del libro'], ['cols', 'Columnas', 'Todo en un árbol en columnas'], ['org', 'Organigrama'], ['neon', 'Cápsulas neón'], ['neon2', 'Cápsulas neón 2']])}
       <div class="imp-h">${esc(trStr('Forma'))}</div>${seg('shape', [['auto', 'Automática', 'A ambos lados si hay hasta 8 ramas; si hay más, a la derecha'], ['organic', 'Ambos lados'], ['right', 'A la derecha'], ['tree', 'Árbol']])}
       <div class="imp-h">${esc(trStr('Al abrir'))}</div>${seg('open', [[1, 'Solo capítulos'], [2, 'Un nivel más'], [99, 'Todo abierto']])}
       <label class="nx-chk" style="margin-top:8px"><input type="checkbox" id="imp-num" checked> <span>${esc(trStr('Numerar (1, 1.1, 1.2…)'))}</span></label>
@@ -7208,6 +7378,20 @@ function pickImportDoc() {
   inp.onchange = () => { const f = inp.files[0]; if (f) importDocFile(f); }; inp.click();
 }
 
+// Leer archivos de un .zip (Word, XMind…)
+async function zipRead(buf, want) {
+  const u = new Uint8Array(buf), dv = new DataView(buf), dec = new TextDecoder(), out = {};
+  let e = u.length - 22; while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--; if (e < 0) throw new Error('zip');
+  let p = dv.getUint32(e + 16, true); const n = dv.getUint16(e + 10, true);
+  for (let i = 0; i < n; i++) {
+    const meth = dv.getUint16(p + 10, true), csz = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lo = dv.getUint32(p + 42, true);
+    const name = dec.decode(u.subarray(p + 46, p + 46 + nl)); p += 46 + nl + xl + cl;
+    if (!want.includes(name)) continue;
+    const d0 = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true), raw = u.slice(d0, d0 + csz);
+    out[name] = meth === 0 ? dec.decode(raw) : meth === 8 ? await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text() : '';
+  }
+  return out;
+}
 
 
 /* ---------- Divisores de paneles ---------- */

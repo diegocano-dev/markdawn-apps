@@ -114,7 +114,7 @@ flowchart LR
 
 This repository has **MarkDawn Mind**, the free edition. Its interface is in English and Spanish and follows your browser's language. You can switch it with the ES / EN button.
 
-> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds 29 layouts (org chart, timeline, Kanban, canvases, Gantt roadmap…), PDF and Word import with AI-made indexes, every map style, 30+ shapes and high-resolution and SVG export.
+> **[Mind Pro](https://diegocanodev.gumroad.com/l/markdawn-mind)** adds 30 layouts (org chart, timeline, Kanban, canvases, Gantt roadmap…), PDF and Word import with AI-made indexes, every map style, 30+ shapes and high-resolution and SVG export.
 
 - **Keyboard first**: Tab adds a child topic, Enter a sibling, just start typing to edit
 - **Organic maps** with tapered, curved branches, plus right, left, tree (folder-like) and logic chart (downwards) layouts
@@ -134,7 +134,7 @@ This repository has **MarkDawn Mind**, the free edition. Its interface is in Eng
 
 **Mind Pro** opens the same files and adds:
 
-- **29 layouts**: org chart, timeline, radial, stairs, fishbone, braces, matrix, tree table, Kanban, bubbles, cycle, process, pyramid and funnel
+- **30 layouts**: tree in columns, org chart, timeline, radial, stairs, fishbone, braces, matrix, tree table, Kanban, bubbles, cycle, process, pyramid and funnel
 - **Canvases**: Business Model Canvas, Lean Canvas, SWOT, empathy map and free grids, with cards you drag between boxes, background images, 16:9, 4:3 or 1:1, a phone layout and your own templates
 - **Gantt roadmap**: phases, tasks with dates on a month timeline and bars you drag
 - **PDF and Word import** (bookmarks, printed table of contents or headings by font size) and **AI-made indexes**: your AI returns only topics and quotes, and Mind links each topic to its text
