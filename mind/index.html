@@ -2458,13 +2458,15 @@ function centerPts(a, b, style) {
 // Rama cónica: contorno a ambos lados de la línea central, siguiendo su dirección
 // rough (0–1): efecto de rotulador a mano; el dibujo depende de seed, así no tiembla al redibujar
 /* Final de las ramas: solo en las que acaban en un tema sin hijos (las demás siguen en sus hijas sin cortes) */
+/* El tema va sobre su rama («En la rama» o subrayado): la rama llega hasta el final del texto sin recortarse */
+const ONLINE = cid => { const c = cid && node(cid), inf = c && info(c.id); return !!(inf && ['branch', 'line'].includes(shapeOf(c, inf.d, inf.r.structure || 'organic'))); };
 const ENDS = cid => { const e = LITE && !TRIAL ? null : doc.theme.ends || null; if (!e || !cid) return e; const c = node(cid); return c && kidsOf(c).length && !c.col ? null : e; };
 const HSTYLES = { marker: 'Rotulador', brush: 'Pincel', chalk: 'Tiza' };
 let HSTYLE = 'marker';   /* tipo de trazo a mano (se fija en cada dibujado) */
-function taperD(pts, w0, w1, rough = 0, seed = 1, roundEnd = false, tail = 0) {
+function taperD(pts, w0, w1, rough = 0, seed = 1, roundEnd = false, tail = 0, noTrim = false) {
   if (tail && pts.length < 12) { const [a, b] = [pts[0], pts[pts.length - 1]]; pts = Array.from({ length: 24 }, (_, i) => [a[0] + (b[0] - a[0]) * i / 23, a[1] + (b[1] - a[1]) * i / 23]); }
   // Final redondeado o en pico: se recorta el último tramo, donde la curva gira de golpe hacia el tema, para que el remate no quede como un gancho
-  if (roundEnd && pts.length > 3) { const lim = Math.max(3, w1 * 0.8); let acc = 0, k = pts.length - 1; while (k > 2 && acc < lim) { acc += Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1]); k--; } pts = pts.slice(0, k + 1); }
+  if (roundEnd && !noTrim && pts.length > 3) { const lim = Math.max(3, w1 * 0.8); let acc = 0, k = pts.length - 1; while (k > 2 && acc < lim) { acc += Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1]); k--; } pts = pts.slice(0, k + 1); }
   const n = pts.length, L = [], Rr = [];
   let h = (seed * 2654435761) >>> 0; const rnd = () => ((h = (h * 1664525 + 1013904223) >>> 0) / 4294967296);
   const wave = () => { const a = 1.2 + rnd() * 1.8, b = 3.5 + rnd() * 4, c = 9 + rnd() * 6, p1 = rnd() * 6.3, p2 = rnd() * 6.3, p3 = rnd() * 6.3; return t => Math.sin(t * 6.283 * a + p1) * 0.55 + Math.sin(t * 6.283 * b + p2) * 0.3 + Math.sin(t * 6.283 * c + p3) * 0.15; };
@@ -2767,7 +2769,7 @@ function edgeSvg(seg, col, lw, cone, d, cap, pw, cid) {
     EDGEW1 = w1;
     const ends = ENDS(cid); if (ends === 'point') w1 = Math.min(w1, 0.6);
     HSTYLE = rough ? doc.theme.hstyle || 'marker' : 'marker';
-    const td = taperD(pts, w0, w1, rough, cid || 1, ends === 'tip' ? 'tip' : ends === 'round'); HSTYLE = 'marker';
+    const td = taperD(pts, w0, w1, rough, cid || 1, ends === 'tip' ? 'tip' : ends === 'round', 0, ONLINE(cid)); HSTYLE = 'marker';
     // Donde la rama sigue en las de sus hijos, un círculo de su grosor tapa la junta
     const cn = cid && node(cid), tip = cn && kidsOf(cn).length && !cn.col ? `<circle cx="${f1(pts[pts.length - 1][0])}" cy="${f1(pts[pts.length - 1][1])}" r="${f1(w1 / 2)}" fill="${col}"/>` : '';
     if (!b3) return `<path d="${td}" fill="${col}"/>` + tip;
@@ -2775,8 +2777,8 @@ function edgeSvg(seg, col, lw, cone, d, cap, pw, cid) {
   EDGEW1 = lw;
   const ends = ENDS(cid);
   // Grosor uniforme acabado en punta: el último tramo se estrecha (como en Coggle)
-  if (ends === 'round' && !seg.e && !b3) { const pts = seg.p ? seg.p : seg.c ? cubicPts(...seg.c, 40) : [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]]; return `<path d="${taperD(pts, lw, lw, 0, 1, true)}" fill="${col}"/>`; }
-  if (ends === 'tip' && !seg.e && !b3) { const pts = seg.p ? seg.p : seg.c ? cubicPts(...seg.c, 40) : [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]]; return `<path d="${taperD(pts, lw, lw, 0, 1, 'tip')}" fill="${col}"/>`; }
+  if (ends === 'round' && !seg.e && !b3) { const pts = seg.p ? seg.p : seg.c ? cubicPts(...seg.c, 40) : [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]]; return `<path d="${taperD(pts, lw, lw, 0, 1, true, 0, ONLINE(cid))}" fill="${col}"/>`; }
+  if (ends === 'tip' && !seg.e && !b3) { const pts = seg.p ? seg.p : seg.c ? cubicPts(...seg.c, 40) : [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]]; return `<path d="${taperD(pts, lw, lw, 0, 1, 'tip', 0, ONLINE(cid))}" fill="${col}"/>`; }
   if (ends === 'point' && !seg.e && !b3) { const pts = seg.p ? seg.p : seg.c ? cubicPts(...seg.c) : [[seg.l[0].x, seg.l[0].y], [seg.l[1].x, seg.l[1].y]]; return `<path d="${taperD(pts, lw, 0.6, 0, 1, false, 0.35)}" fill="${col}"/>`; }
   const base = `<path d="${dd}" stroke="${col}" stroke-width="${lw}" fill="none" stroke-linecap="${ends === 'flat' ? 'butt' : 'round'}" stroke-linejoin="round"/>`;
   if (!b3) return base;
@@ -3160,8 +3162,8 @@ function drawEdges() {
   doc.roots.forEach((r, i) => { if (!i || r.orig == null) return; const f = node(r.orig), p = f && POS.get(f.id), q = POS.get(r.id); if (!p || !q) return;
     const pc = { x: p.x + p.w / 2, y: p.y + p.h / 2 }, qc = { x: q.x + q.w / 2, y: q.y + q.h / 2 }, a = boxEdgePt(p, qc.x, qc.y), b = boxEdgePt(q, pc.x, pc.y);
     deco += `<path d="M${f1(a.x)},${f1(a.y)} L${f1(b.x)},${f1(b.y)}" stroke="${lineCol(f)}" stroke-width="2" stroke-dasharray="7 6" fill="none" opacity=".65"/>`; });
-  // Temas «sin relleno»: las ramas no se ven por dentro (una máscara las corta en el borde del tema)
-  { let mk = ''; for (const [id, q] of POS) { const nn = node(id); if (!nn || q.w == null) continue; const inf2 = info(id); if (!inf2) continue;
+  // Tema central «sin relleno» (o con salida desde el centro): las ramas no se ven por dentro (una máscara las corta en su borde)
+  { let mk = ''; for (const [id, q] of POS) { const nn = node(id); if (!nn || q.w == null) continue; const inf2 = info(id); if (!inf2 || inf2.d !== 0) continue;   /* solo el tema central (de donde salen las ramas) */
       const sh2 = shapeOf(nn, inf2.d, inf2.r.structure || 'organic');
       if (eff(nn, 'fill', inf2.d) !== 'none' && !(inf2.d === 0 && ROOTOUT() === 'center' && ['line', 'branch', 'plain', 'mark'].includes(sh2))) continue;
       mk += ['ellipse', 'circ', 'circs', 'blob', 'pebble', 'cloud'].includes(sh2) ? `<ellipse cx="${f1(q.x + q.w / 2)}" cy="${f1(q.y + q.h / 2)}" rx="${f1(q.w / 2 - 1)}" ry="${f1(q.h / 2 - 1)}"/>` : `<rect x="${f1(q.x + 1)}" y="${f1(q.y + 1)}" width="${f1(q.w - 2)}" height="${f1(q.h - 2)}" rx="${f1(['pill', 'pill3d'].includes(sh2) ? q.h / 2 : Math.min(14, q.h / 3))}"/>`; }
