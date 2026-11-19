@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://markdawn.net/sitemap.xml

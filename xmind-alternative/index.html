@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free XMind alternative that saves as Markdown · MarkDawn Mind</title>
+<meta name="description" content="MarkDawn Mind is a free XMind alternative: mind maps, org charts, Kanban and canvases saved as plain Markdown. Opens your .xmind files, works offline, no account.">
+<link rel="canonical" href="https://markdawn.net/xmind-alternative/">
+<link rel="alternate" hreflang="en" href="https://markdawn.net/xmind-alternative/">
+<link rel="alternate" hreflang="es" href="https://markdawn.net/es/alternativa-xmind/">
+<link rel="alternate" hreflang="x-default" href="https://markdawn.net/xmind-alternative/">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#201f1e">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free XMind alternative that saves as Markdown · MarkDawn Mind">
+<meta property="og:description" content="MarkDawn Mind is a free XMind alternative: mind maps, org charts, Kanban and canvases saved as plain Markdown. Opens your .xmind files, works offline, no account.">
+<meta property="og:url" content="https://markdawn.net/xmind-alternative/">
+<meta property="og:image" content="https://markdawn.net/mind-screenshot.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "MarkDawn Mind", "applicationCategory": "BusinessApplication", "operatingSystem": "Web, Windows, macOS, Linux", "url": "https://markdawn.net/mind/", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is MarkDawn Mind really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The free version is open source (GPL v3), has no account, no ads and no watermark. MarkDawn Mind Pro adds more layouts, canvases, PDF and Word import and more styles for a one-time payment."}}, {"@type": "Question", "name": "Can I open my existing XMind files?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. MarkDawn Mind opens files from current XMind and XMind 8, plus FreeMind and Freeplane (.mm) and OPML."}}, {"@type": "Question", "name": "Can I go back to XMind later?", "acceptedAnswer": {"@type": "Answer", "text": "Your maps are Markdown, which XMind and most mind-mapping apps can import. You are never locked in."}}, {"@type": "Question", "name": "Does it work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Install it from the browser as an app, or download the single HTML file. You only need internet to activate Pro."}}, {"@type": "Question", "name": "Where are my maps stored?", "acceptedAnswer": {"@type": "Answer", "text": "On your device: as .md files you save, or in your browser. In Chrome and Edge you can link a work folder so maps save straight to your files."}}]}</script>
+<style>
+:root{--bg:#f3f2f1;--card:#fff;--ink:#201f1e;--muted:#605e5c;--line:#e1dfdd;--mind:#0d767a;--soft:#edf2f8;--code:#faf9f8;--ui:"Segoe UI","Segoe UI Variable Text",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;--mono:"Cascadia Code",Consolas,"SFMono-Regular",Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#1b1a19;--card:#252423;--ink:#f3f2f1;--muted:#c8c6c4;--line:#3b3a39;--mind:#5cc3c5;--soft:#202a30;--code:#2d2c2b;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--ui)}
+.wrap{max-width:1080px;margin:0 auto;padding:28px max(20px,env(safe-area-inset-left,0px)) 40px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15px}
+.top a{color:var(--muted);text-decoration:none}.top a:hover{color:var(--ink)}
+.mark{display:inline-flex;align-items:center;gap:10px;font-weight:600}.mark b{display:grid;place-items:center;width:30px;height:30px;border-radius:6px;background:var(--ink);color:var(--bg);font-size:13px}
+.hero{margin:44px 0 28px;display:grid;gap:16px}
+.kicker{color:var(--mind);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px}
+h1{margin:0;font-size:clamp(32px,5vw,50px);line-height:1.08;letter-spacing:-.02em;max-width:20ch;text-wrap:balance}h1 span{color:var(--mind)}
+.lead{margin:0;font-size:19px;color:var(--muted);max-width:64ch}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);border:1px solid var(--line);border-radius:4px;padding:0 .3em}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;height:46px;padding:0 20px;border-radius:7px;font-weight:600;text-decoration:none;font-size:16px}
+.btn.primary{background:var(--mind);color:#fff}.btn.primary:hover{filter:brightness(1.08)}
+.btn.pro{background:#f6c453;color:#3d2a00;border:1px solid #e0a82e}.btn.pro:hover{background:#f8d06e}
+.note{color:var(--muted);font-size:14px}
+figure{margin:0}figure img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 40px rgba(20,50,80,.12)}
+section{margin-top:64px}h2{font-size:clamp(24px,3vw,32px);line-height:1.2;margin:0 0 20px;letter-spacing:-.01em}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:18px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+.why h3{margin:0 0 6px;font-size:18px}.why p{margin:0;color:var(--muted);font-size:15.5px}
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15.5px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-size:14px;color:var(--muted);font-weight:600}thead th:nth-child(2){color:var(--mind)}
+tbody th{font-weight:600;width:24%}td:nth-child(2){font-weight:600}tbody tr:last-child>*{border-bottom:0}
+.small{color:var(--muted);font-size:13.5px;margin-top:10px}
+.fair{background:var(--soft);border-radius:10px;padding:22px 24px}.fair h2{font-size:22px;margin-bottom:8px}.fair p{margin:0;color:var(--ink)}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.steps li{counter-increment:s;display:flex;gap:14px;align-items:baseline;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+ol.steps li::before{content:counter(s);flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--mind);color:#fff;font-weight:700;font-size:14px;transform:translateY(4px)}
+a{color:var(--mind)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+summary{font-weight:600;cursor:pointer}details p{margin:8px 0 0;color:var(--muted)}
+.end{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 20px}.end h2{margin-bottom:6px}.end p{color:var(--muted);margin:0 0 18px}.end .actions{justify-content:center}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;color:var(--muted);font-size:14px}footer a{color:inherit}
+@media (max-width:640px){table{min-width:0}thead{display:none}tbody tr{display:block;padding:12px 16px;border-bottom:1px solid var(--line)}tbody tr:last-child{border-bottom:0}tbody th,tbody td{display:block;width:auto;padding:2px 0;border:0}tbody th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}td::before{content:attr(data-l) ": ";color:var(--muted);font-weight:400}td:nth-child(2)::before{color:var(--mind);font-weight:600}}
+@media (prefers-color-scheme:dark){.btn.pro{background:#e3b13f;color:#2b1d00;border-color:#e3b13f}figure img{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="mark" href="/"><b>M↓</b> MarkDawn Apps</a><a href="/es/alternativa-xmind/" hreflang="es">Español</a></div>
+  <header class="hero">
+    <div class="kicker">XMind alternative</div>
+    <h1>A free XMind alternative that saves your maps as <span>plain Markdown</span></h1>
+    <p class="lead">MarkDawn Mind works like the mind-mapping apps you know, but every map is a plain <code>.md</code> file: readable in any editor, at home in Git or Obsidian, and ready for ChatGPT, Claude or Gemini. It opens your XMind files too.</p>
+    <div class="actions"><a class="btn primary" href="/mind/">Open MarkDawn Mind (free)</a><a class="btn pro" href="https://diegocanodev.gumroad.com/l/markdawn-mind">See MarkDawn Mind Pro</a></div>
+    <div class="note">Runs in your browser and offline · no account · no install needed</div>
+  </header>
+  <figure><img src="/mind-screenshot.png" width="1600" height="900" alt="MarkDawn Mind: a mind map with hand-drawn branches, the floating toolbar and the Format pane"></figure>
+  <section><h2>Why people switch from XMind</h2><div class="why"><div><h3>Your maps are plain text</h3><p>An XMind file is a zipped package that only XMind really understands. A MarkDawn map is Markdown: headings and lists you can read, search, diff and edit anywhere, even without MarkDawn.</p></div><div><h3>Made for working with AI</h3><p>Paste a map into any AI and it understands it straight away. Ask your AI to write a map, open it in MarkDawn and keep working visually. No export step, no plugin.</p></div><div><h3>No account, no subscription</h3><p>The free version has no sign-up and no watermark. MarkDawn Mind Pro is a one-time payment. Your maps live as files on your disk, never on our servers.</p></div><div><h3>Bring your XMind maps</h3><p>Open .xmind files from current XMind and XMind 8 directly. Topics, notes, links, folded branches, sheets and the layout come across when there is an equivalent.</p></div></div></section>
+  <section><h2>MarkDawn Mind vs XMind at a glance</h2><div class="tbl"><table><thead><tr><th scope="col"></th><th scope="col">MarkDawn Mind</th><th scope="col">XMind</th></tr></thead><tbody><tr><th scope="row">File format</th><td data-l="MarkDawn Mind">Plain Markdown (.md)</td><td data-l="XMind">Own .xmind format; Markdown export on paid plans</td></tr><tr><th scope="row">Price</th><td data-l="MarkDawn Mind">Free version · Pro: one-time payment</td><td data-l="XMind">Free plan with limits · Pro and Premium subscriptions</td></tr><tr><th scope="row">Account</th><td data-l="MarkDawn Mind">Never needed</td><td data-l="XMind">Needed for online maps, sync and AI</td></tr><tr><th scope="row">Works in</th><td data-l="MarkDawn Mind">Browser, installable app, offline, single HTML file</td><td data-l="XMind">Desktop, mobile and web apps</td></tr><tr><th scope="row">Opens .xmind files</th><td data-l="MarkDawn Mind">Yes (XMind and XMind 8)</td><td data-l="XMind">Yes</td></tr><tr><th scope="row">Working with AI</th><td data-l="MarkDawn Mind">Any AI reads the file as is; “Copy for AI”</td><td data-l="XMind">Built-in AI features with credits</td></tr><tr><th scope="row">Layouts</th><td data-l="MarkDawn Mind">Free: mind maps, trees, logic charts · Pro: 30 layouts incl. org chart, Kanban, Gantt roadmap, canvases</td><td data-l="XMind">Many layouts, including org charts, timelines and fishbone</td></tr><tr><th scope="row">Real-time collaboration</th><td data-l="MarkDawn Mind">No: share the .md file or use Git</td><td data-l="XMind">Yes, on paid plans</td></tr><tr><th scope="row">Open source</th><td data-l="MarkDawn Mind">Free version under GPL v3</td><td data-l="XMind">No</td></tr></tbody></table></div><p class="small">XMind details are from public information as of November 2026; plans and prices can change.</p></section>
+  <section class="fair"><h2>When XMind is still the better choice</h2><p>If your team needs to edit the same map at the same time, or you rely on polished native phone apps, XMind is a mature option and we would rather say so. MarkDawn Mind is for people who want their maps to be files they own, readable by humans, tools and AI.</p></section>
+  <section><figure><img src="/img/mind-layouts.jpg" width="1600" height="900" loading="lazy" alt="Six MarkDawn Mind layouts: hand-drawn branches, bubbles, org chart, Business Model Canvas, Kanban and Gantt roadmap"></figure></section>
+  <section><h2>Move your XMind maps in a minute</h2><ol class="steps"><li><span>Open <a href="/mind/">MarkDawn Mind</a> in Chrome, Edge, Firefox or Safari.</span></li><li><span>Choose <b>File › Open</b> and pick your <code>.xmind</code> file, or drop it on the map.</span></li><li><span>Check the map: topics, notes, links and sheets are kept.</span></li><li><span>Save it: you now have a <code>.md</code> file you can open anywhere.</span></li></ol></section>
+  <section><h2>What a map looks like underneath</h2><figure><img src="/img/mind-markdown-ai.jpg" width="1600" height="538" loading="lazy" alt="A MarkDawn mind map next to its Markdown file"></figure></section>
+  <section><h2>Questions</h2><details><summary>Is MarkDawn Mind really free?</summary><p>Yes. The free version is open source (GPL v3), has no account, no ads and no watermark. MarkDawn Mind Pro adds more layouts, canvases, PDF and Word import and more styles for a one-time payment.</p></details><details><summary>Can I open my existing XMind files?</summary><p>Yes. MarkDawn Mind opens files from current XMind and XMind 8, plus FreeMind and Freeplane (.mm) and OPML.</p></details><details><summary>Can I go back to XMind later?</summary><p>Your maps are Markdown, which XMind and most mind-mapping apps can import. You are never locked in.</p></details><details><summary>Does it work offline?</summary><p>Yes. Install it from the browser as an app, or download the single HTML file. You only need internet to activate Pro.</p></details><details><summary>Where are my maps stored?</summary><p>On your device: as .md files you save, or in your browser. In Chrome and Edge you can link a work folder so maps save straight to your files.</p></details></section>
+  <section class="end"><h2>Try it with one of your maps</h2><p>It takes less time than reading this page.</p><div class="actions"><a class="btn primary" href="/mind/">Open MarkDawn Mind (free)</a><a class="btn pro" href="https://diegocanodev.gumroad.com/l/markdawn-mind">See MarkDawn Mind Pro</a></div></section>
+  <footer><span>© 2026 Diego Cano · GPL v3 license · XMind is a trademark of its owner; MarkDawn is not affiliated with XMind.</span><span><a href="/">MarkDawn Apps</a> · <a href="https://github.com/diegocano-dev/markdawn-apps">GitHub</a> · <a href="mailto:hello@markdawn.net">hello@markdawn.net</a></span></footer>
+</div>
+</body>
+</html>
