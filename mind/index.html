@@ -737,7 +737,7 @@
   .n.s-stickys::before { background: linear-gradient(180deg, var(--sgl) 0, var(--sgl) 16%, var(--slt) 36%, var(--stc) 100%); }
   .n.s-sticky::after, .n.s-stickys::after { content: ""; position: absolute; z-index: -2; left: 6%; right: 6%; bottom: 4%; height: 14%; border-radius: 50%; box-shadow: 0 calc(11px * var(--sk, 1)) calc(9px * var(--sk, 1)) rgba(0,0,0,.26); }
   /* Tiras: rectas, sombra plana; el extremo derecho se despega poco a poco (el papel se oscurece y la sombra crece hasta el final) */
-  .n.s-strip { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 32%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; padding: 9px 20px 9px 15px; max-width: 260px; }
+  .n.s-strip { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 32%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; padding: calc(9px * var(--cvs, 1)) calc(20px * var(--cvs, 1)) calc(9px * var(--cvs, 1)) calc(15px * var(--cvs, 1)); max-width: 260px; }   /* el relleno se achica con la tira */
   .n.s-strip::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,0) 14px, rgba(0,0,0,0) 45%, rgba(0,0,0,.04) 75%, rgba(0,0,0,.11) 100%), linear-gradient(180deg, color-mix(in srgb, var(--stc) 72%, #fff) 0%, var(--stc) 100%); box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 4px 5px -4px rgba(0,0,0,.18); }
   .n.s-strip::after { content: ""; position: absolute; z-index: -2; left: 35%; right: -1px; bottom: calc(-5.5px * var(--sk, 1)); height: calc(9.5px * var(--sk, 1)); background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.14) 55%, rgba(0,0,0,.44)); filter: blur(3.5px); border-radius: 0 40% 40% 0; }
   .board.fxfast .n.s-strip::after { filter: none; opacity: .45; } .board.fxfast .n.s-sticky::after, .board.fxfast .n.s-stickys::after { box-shadow: 0 8px 0 rgba(0,0,0,.10); } .board.fxfast .n.s-sticky::before, .board.fxfast .n.s-stickys::before { transform: none; }
@@ -2266,7 +2266,7 @@ function syncNodes() {
       if (fill) { el.style.setProperty('--fill', fill); const lt = fillRaw === 'auto' || (!fgr && fillRaw !== 'branch' && (lumOf(fill) ?? 0) > 0.95); el.style.setProperty('--zgf', lt ? 'color-mix(in srgb, var(--zg-c) 40%, var(--nbase))' : 'var(--zg-c)'); } else { el.style.removeProperty('--fill'); el.style.removeProperty('--zgf'); }   /* en gris: un relleno claro sigue claro y uno fuerte se queda en el gris de las ramas */
       el.style.backgroundImage = fgr && !pathShape(sh) && !NOFILL_SH.includes(sh) ? gradCss(fgr) : '';
       if (tc) el.style.setProperty('--tc', tc); else el.style.removeProperty('--tc');
-      { const sc = CV_SC.get(n.id); el.style.fontSize = fs || sc ? (BASE[Math.min(inf.d, 2)] * (1 + 0.15 * (fs || 0)) * (sc || 1)).toFixed(1) + 'px' : ''; }
+      { const sc = CV_SC.get(n.id); if (sc) el.style.setProperty('--cvs', sc.toFixed(3)); else el.style.removeProperty('--cvs'); el.style.fontSize = fs || sc ? (BASE[Math.min(inf.d, 2)] * (1 + 0.15 * (fs || 0)) * (sc || 1)).toFixed(1) + 'px' : ''; }
       el.style.fontFamily = (sh === 'sticky' || sh === 'stickys' || sh === 'strip') && !n.font ? FONT_CSS.patrick : FONT_CSS[E('font')] || '';
       if (rf === 'stroke' && sh !== 'line' && sh !== 'card' && sh !== 'plain' && !csh) { const B = bw != null ? bw : 2; const T = (B + Math.min(B, 5) * 0.9).toFixed(1), N = Math.max(1, B * 0.7).toFixed(1); el.style.borderWidth = `${T}px ${T}px ${N}px ${N}px`; }
       else el.style.borderWidth = bw != null && sh !== 'line' && sh !== 'card' && !csh ? bw + 'px' : '';
@@ -6058,7 +6058,7 @@ function buildPageMd() {
     if (r.col) m.collapsed = 'yes';
     if (i > 0) { m.floating = 'yes'; const f = r.orig != null && node(r.orig); if (f || r.origTxt) m.origin = f ? plainTopic(f) : r.origTxt; }   // tema suelto: va después del principal y dice de dónde viene
     if (r.tcols) { if (r.tcols.max) m.percolumn = r.tcols.max; if (r.tcols.head && r.tcols.head !== 'left') m.head = r.tcols.head; }
-    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, titlestyle: r.cnv.tst || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null, canvasbgmode: r.cnv.bgop || null, cardgap: r.cnv.cgap != null ? r.cnv.cgap : null, subcards: r.cnv.sub || null, canvasbgfit: r.cnv.bgfit || null });
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, titlestyle: r.cnv.tst || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null, canvasbgmode: r.cnv.bgop || null, cardgap: r.cnv.cgap != null ? r.cnv.cgap : null, cardscale: r.cnv.bscale || null, subcards: r.cnv.sub || null, canvasbgfit: r.cnv.bgfit || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -6212,7 +6212,7 @@ function parseMd(src, forPaste) {
       if (a.origin) r.origTxt = String(a.origin);
       if (a.lines && LINES[a.lines]) r.line = a.lines;
       { const t = tcParse(a); if (t) r.tcols = t; }
-      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.titlestyle || a.margin != null || a.corners != null) r.cnv = { g: a.grid, tst: ['soft', 'band'].includes(a.titlestyle) ? a.titlestyle : undefined, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv, bgop: ['soft', 'full'].includes(a.canvasbgmode) ? a.canvasbgmode : undefined, cgap: a.cardgap != null && isFinite(+a.cardgap) ? clamp(+a.cardgap, 0, 60) : undefined, sub: a.subcards === 'list' ? 'list' : undefined, bgfit: ['cover', 'contain'].includes(a.canvasbgfit) ? a.canvasbgfit : undefined };
+      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.titlestyle || a.margin != null || a.corners != null) r.cnv = { g: a.grid, tst: ['soft', 'band'].includes(a.titlestyle) ? a.titlestyle : undefined, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv, bgop: ['soft', 'full'].includes(a.canvasbgmode) ? a.canvasbgmode : undefined, cgap: a.cardgap != null && isFinite(+a.cardgap) ? clamp(+a.cardgap, 0, 60) : undefined, sub: a.subcards === 'list' ? 'list' : undefined, bscale: a.cardscale === 'box' ? 'box' : undefined, bgfit: ['cover', 'contain'].includes(a.canvasbgfit) ? a.canvasbgfit : undefined };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -6336,7 +6336,7 @@ mdtext.addEventListener('blur', () => { mdSnapped = false; schedSave(); });
 function loadParsed(p) { liteNormalize([p]); delete p.headless; if (!p.name) p.name = SHEET + '1'; doc = p; book = { pages: [p], cur: 0 }; sel = new Set(); selRel = null; }
 // La edición gratuita abre los mapas de la completa: las estructuras que no tiene se ven como orgánicas
 function liteNormalize(pages) { if (LITE) pages.forEach(pg => pg.roots.forEach(r => { if (r.structure && !LITE_OK.struct.includes(r.structure)) r.structure = ['org', 'treeCols'].includes(r.structure) ? 'tree' : 'organic'; })); }
-function loadBook(b, cur) { if (FOC) { FOC = null; const fb = $('#focusbar'); if (fb) fb.hidden = true; } FH = null; FH_OK = false; liteNormalize(b.pages); book = b; book.cur = clamp(cur || 0, 0, b.pages.length - 1); doc = book.pages[book.cur]; sel = new Set(); selRel = null; U.stack = []; U.redo = []; }
+function loadBook(b, cur) { if (FOC) { FOC = null; const fb = $('#focusbar'); if (fb) fb.hidden = true; } FH = null; FH_OK = false; liteNormalize(b.pages); book = b; book.cur = clamp(cur || 0, 0, b.pages.length - 1); doc = book.pages[book.cur]; CV_BSC = new Map(); CV_BSH = new Map(); CV_OPEN = null; sel = new Set(); selRel = null; U.stack = []; U.redo = []; }
 
 /* ---------- Cinta ---------- */
 function buildGalleries() {
@@ -7520,7 +7520,7 @@ function switchPage(i) { if (FOC) focusExit(true);
   if (i == null || i < 0 || i >= book.pages.length || i === book.cur) return;
   if (editId != null) stopEdit();
   pageViews.set(doc, { ...V });
-  book.cur = i; doc = book.pages[i]; sel = new Set(); selRel = null; relFrom = null; U.stack = []; U.redo = [];
+  cvKeep(doc); book.cur = i; doc = book.pages[i]; cvKeep(null); sel = new Set(); selRel = null; relFrom = null; U.stack = []; U.redo = [];
   render(); drawSheets();
   const v = pageViews.get(doc); if (v) { stopZoom(); stopTween(); Object.assign(V, v); applyView(); } else fit(true);
 }
@@ -7547,7 +7547,7 @@ function deletePage(i) {
     const n = Math.min(i, book.pages.length - 1); book.cur = -1; doc = null; switchPageForce(n); schedSave();
   }, 'Eliminar');
 }
-function switchPageForce(n) { if (FOC) focusExit(true); book.cur = n; doc = book.pages[n]; sel = new Set(); selRel = null; U.stack = []; U.redo = []; render(); drawSheets(); const v = pageViews.get(doc); if (v) { Object.assign(V, v); applyView(); } else fit(true); }
+function switchPageForce(n) { if (FOC) focusExit(true); cvKeep(doc); book.cur = n; doc = book.pages[n]; cvKeep(null); sel = new Set(); selRel = null; U.stack = []; U.redo = []; render(); drawSheets(); const v = pageViews.get(doc); if (v) { Object.assign(V, v); applyView(); } else fit(true); }
 function movePage(i, d) {
   const j = i + d; if (j < 0 || j >= book.pages.length) return;
   const [pg] = book.pages.splice(i, 1); book.pages.splice(j, 0, pg); book.cur = book.pages.indexOf(doc); drawSheets(); schedSave();
@@ -8177,7 +8177,7 @@ function cvGeom(r, port, k = 1) {
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
 }
-var CV_CTX = new Map(), CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
+var CV_BND = new Map(), CV_CTX = new Map(), CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
 // Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
 function cvHandles() {
   nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
@@ -8423,7 +8423,7 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
     const v = VG(b); for (const c of kidsOf(b)) { const h = unitH(c); if (hs[col] > 0 && hs[col] + h > H && col < cols - 1) col++; out.push([c, col, hs[col]]); hs[col] += h + v; }
     return { out, used: Math.max(0, ...hs.map(x => x - v)) }; };
   const need = (b, H) => { if (pack(b, H).used <= H) return H; let lo = H, hi = kidsOf(b).reduce((a, c) => a + unitH(c) + vg, 0) + 1; for (let i = 0; i < 18; i++) { const m = (lo + hi) / 2; if (pack(b, m).used <= m) hi = m; else lo = m; } return hi; };
-  let G = cvGeom(r, port), k = 1, again = false;
+  let G = cvGeom(r, port), k = 1, again = false; const UNI = !grow && !CVFREE() && (r.cnv || {}).bscale !== 'box', DES = new Map();
   r.kids.forEach(b => {
     const R = G.rect(G.areas.get(b.id), b), avail = R.h - head(b) - 8 - (free(b) ? 30 : 0), nd = need(b, avail), cur = CV_BSC.get(b.id) || 1;
     let sc = cur;
@@ -8432,14 +8432,19 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
       const h0 = CV_BSH.get(b.id) || 1; let hf = h0;
       if (nd > avail + 1) hf = Math.max(0.45, h0 * avail / nd); else if (h0 < 1 && nd < avail * 0.85) hf = Math.min(1, h0 * avail / nd);
       if (Math.abs(hf - h0) > 0.02) { if (hf >= 0.999) CV_BSH.delete(b.id); else CV_BSH.set(b.id, hf); again = true; }
-      if (hf > 0.46) { if (cur < 1) { CV_BSC.delete(b.id); again = true; } return; }
+      if (hf > 0.46) { if (UNI) DES.set(b.id, 1); else if (cur < 1) { CV_BSC.delete(b.id); again = true; } return; }
     } else if (CV_BSH.has(b.id)) { CV_BSH.delete(b.id); again = true; }
-    if (!grow) { if (nd > avail + 1) sc = Math.max(free(b) ? 0.4 : 0.6, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd)); }
+    const pv = CV_BND.get(b.id), stuck = nd > avail + 1 && !!pv && (pv[2] || (cur < pv[0] - 0.01 && nd > pv[1] * 0.985)); CV_BND.set(b.id, [cur, nd, stuck && nd > avail + 1]);   // achicar ya no gana sitio: no se sigue achicando
+    if (!grow && stuck) sc = cur;
+    else if (!grow) { if (nd > avail + 1) sc = Math.max(free(b) ? 0.4 : 0.6, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd)); }
     else sc = 1;
-    if (Math.abs(sc - cur) > 0.02) { if (sc >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, sc); again = true; }
-    if (nd > avail + 1 && (grow || cur <= (free(b) ? 0.41 : 0.61))) k = Math.max(k, (nd + head(b) + 8) / R.h);
+    if (UNI) DES.set(b.id, sc); else if (Math.abs(sc - cur) > 0.02) { if (sc >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, sc); again = true; }
+    if (nd > avail + 1 && (grow || stuck || cur <= (free(b) ? 0.41 : 0.61))) k = Math.max(k, (nd + head(b) + 8) / R.h);
   });
-  if (again && CV_PASS < 4) { CV_PASS++; requestAnimationFrame(() => render()); } else if (!again) CV_PASS = 0;
+  if (UNI) {   // «Más pequeñas»: todas a la vez, con el mismo tamaño en todos los recuadros (el del recuadro más lleno)
+    const m = Math.min(1, ...r.kids.map(b => DES.has(b.id) ? DES.get(b.id) : CV_BSC.get(b.id) || 1));
+    r.kids.forEach(b => { const cur = CV_BSC.get(b.id) || 1; if (Math.abs(cur - m) > 0.02) { if (m >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, m); again = true; } }); }
+  if (again && CV_PASS < 6) { CV_PASS++; requestAnimationFrame(() => render()); } else if (!again) CV_PASS = 0;
   if (k > 1) G = cvGeom(r, port, Math.min(k, 4));
   set(r, 0, 0, 6); L.get(r.id).cvc = { dx: 0, dy: top, w: G.W, h: G.H, xs: G.xs, ys: G.ys, port };
   r.kids.forEach(b => {
@@ -8531,6 +8536,8 @@ function cvTitleSvg(r, c, q, RK) {
   return h;
 }
 // Subtarjetas (tarjetas dentro de una tarjeta): apiladas con su número (por defecto; se despliegan flotando encima, sin mover nada) o en lista
+// Cada hoja guarda lo que encogió sus recuadros: al volver a ella se dibuja a la primera (y los números de una hoja no se cuelan en otra)
+function cvKeep(d) { if (d) { d._cvk = [CV_BSC, CV_BSH]; return; } const k = doc && doc._cvk; CV_BSC = k ? k[0] : new Map(); CV_BSH = k ? k[1] : new Map(); CV_OPEN = null; }
 function cvSubMode(r, b) { if (CVFREE()) return 'stack'; const cv = r && r.cnv || {}, v = (b && b.csub) || cv.sub; return v === 'list' ? 'list' : 'stack'; }
 function cvCGap(r, b) { if (CVFREE()) return null; const cv = r && r.cnv || {}, v = b && b.ccgap != null ? b.ccgap : cv.cgap; return v != null && isFinite(+v) ? clamp(+v, 0, 60) : null; }   // separación entre tarjetas, notas o tiras (nada = la de siempre)
 function cvKeepGap(r) { const cv = r && r.cnv || {}; return cv.titles === 'no' && (cv.keep === 'yes' || (cv.keep !== 'no' && !!(cv.bg || cv.bgv))); }
