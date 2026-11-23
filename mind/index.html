@@ -226,6 +226,7 @@
   body.exporting .cv-add, body.demo-hidecv .cv-add { display: none; }
   @media (hover: none) { .cv-add, .cv-add.on { opacity: .9 !important; pointer-events: auto; } }
   .n.cv-hid { opacity: 0; } .n.cv-hid.sel, .n.cv-hid:hover { opacity: .45; }
+  .n.ct-one { white-space: nowrap; } .n.ct-one .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; }
   .n.cv-subh { visibility: hidden !important; pointer-events: none !important; } .n.cv-subp { z-index: 9; filter: saturate(.8) brightness(1.06); }
   .cv-lay { position: absolute; left: 0; top: 0; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,.14); filter: brightness(.96); }
   .cv-badge { position: absolute; left: 0; top: 0; z-index: 10; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; border: 2px solid #fff; background: var(--acc); color: #fff; font: 700 11px/16px system-ui, sans-serif; text-align: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
@@ -500,7 +501,7 @@
   .fc-tabs button[aria-selected="true"] { color: var(--acc); font-weight: 700; border-bottom-color: var(--acc); }
   .fc-body { overflow: auto; padding: 8px 12px 12px; display: flex; flex-direction: column; gap: 10px; }
   .fc-row { display: flex; align-items: center; gap: 6px; margin: 4px 0; } .fc-l { width: 74px; flex: none; font-size: 11.5px; color: var(--muted); } .fc-v { flex: 1; min-width: 0; }
-  .fc-v .seg button { font-size: 11.5px; } .fc-rng { display: flex; align-items: center; gap: 6px; } .fc-rng span { width: 42px; text-align: right; font-size: 11px; color: var(--muted); }
+  .fc-v .seg { display: inline-flex; flex-wrap: wrap; max-width: 100%; } .fc-v .seg button { font-size: 11.5px; padding-left: 6px; padding-right: 6px; } .fc-rng { display: flex; align-items: center; gap: 6px; } .fc-rng span { width: 42px; text-align: right; font-size: 11px; color: var(--muted); }
   .fc-col { width: 28px; height: 24px; padding: 0 2px; border: 1px solid var(--line); border-radius: 4px; background: #fff; cursor: pointer; }
   .fc-b { height: 26px !important; min-height: 26px !important; padding: 0 8px !important; } .fc-b[aria-pressed="true"] { background: var(--acc-tint); border-color: var(--acc); color: var(--acc); }
   .fc-edit { width: 100%; border: 0; border-radius: 6px; background: var(--acc); color: #fff; font: inherit; font-weight: 700; padding: 8px 10px; cursor: pointer; text-align: left; } .fc-edit.on { background: #b45309; }
@@ -2141,6 +2142,11 @@ const gradSvg = (id, g) => { const v = g.dir === 'v' || g.dir === 'rv', h = g.di
 const NOFILL_SH = ['line', 'plain', 'branch', 'mark'];
 // «3D real» (Diseño › Efecto): embudo, pirámide y proceso con volumen de verdad
 const R3D = () => doc.theme.bigfx === 'real3d';
+// Letra que se achica hasta caber: búsqueda binaria (unas 8 medidas en vez de decenas)
+function fitMany(A) { if (!A.length) return; A.forEach(o => { o.el.style.fontSize = o.lo + 'px'; }); const ok = A.map(o => !o.bad()); const B = A.filter((o, i) => ok[i]); A.forEach((o, i) => { if (!ok[i]) o.done = true; });   // en tandas: se escriben todas y se miden todas
+  for (let r = 0; r < 7 && B.length; r++) { B.forEach(o => { o.m = (o.lo + o.hi) / 2; o.el.style.fontSize = o.m + 'px'; }); const bd = B.map(o => o.bad()); B.forEach((o, i) => { if (bd[i]) o.hi = o.m; else o.lo = o.m; }); }
+  B.forEach(o => { o.el.style.fontSize = o.lo + 'px'; }); }
+function fitFont(el, f0, fmin, bad) { if (!bad()) return f0; el.style.fontSize = fmin + 'px'; if (bad()) return fmin; let lo = fmin, hi = f0; for (let i = 0; i < 7; i++) { const m = (lo + hi) / 2; el.style.fontSize = m + 'px'; if (bad()) hi = m; else lo = m; } el.style.fontSize = lo + 'px'; return lo; }
 // «Colocación natural»: cada nota o tira adhesiva un poco girada y movida, siempre igual para la misma (sale de su número)
 function natRot(id, el) {
   if (!doc.theme.nat || !el || !(el.classList.contains('s-sticky') || el.classList.contains('s-stickys') || el.classList.contains('s-strip'))) return '';
@@ -2295,7 +2301,7 @@ function syncNodes() {
       el.classList.remove('st-one', 'st-fix'); { const tt = el.querySelector(':scope > .t'); if (tt && tt.style.lineHeight) tt.style.lineHeight = ''; } if (el.dataset.cvh && !CV_NOTEH.has(n.id)) el.style.paddingTop = el.style.paddingBottom = '';
       if (CV_STR.has(n.id)) { const o = CV_STR.get(n.id); el.style.maxWidth = o.w + 'px'; el.style.width = o.full ? o.w + 'px' : ''; }
       if (CV_NOTEH.has(n.id)) { el.style.aspectRatio = 'auto'; el.style.height = CV_NOTEH.get(n.id) + 'px'; el.style.overflow = 'hidden'; el.dataset.cvh = 1; } else if (el.dataset.cvh) { el.style.aspectRatio = el.style.height = el.style.overflow = ''; delete el.dataset.cvh; }
-      el.classList.toggle('cv-hid', CV_HID.has(n.id)); el.classList.toggle('cv-subh', CV_SUBH.has(n.id)); el.classList.toggle('cv-subp', CV_SUBP.has(n.id)); { const tc = CV_TCLS.get(n.id) || ''; el.classList.toggle('cvt', !!tc); el.classList.toggle('cvt-band', tc.includes('band')); el.classList.toggle('cvt-over', tc.includes('over')); } el.classList.toggle('rm-bar', RM_W.has(n.id));
+      el.classList.toggle('cv-hid', CV_HID.has(n.id)); { const tx = CV_CTX.get(n.id); el.classList.toggle('ct-one', tx === 'one' || tx === 'shrink'); el.classList.toggle('ct-shr', tx === 'shrink'); } el.classList.toggle('cv-subh', CV_SUBH.has(n.id)); el.classList.toggle('cv-subp', CV_SUBP.has(n.id)); { const tc = CV_TCLS.get(n.id) || ''; el.classList.toggle('cvt', !!tc); el.classList.toggle('cvt-band', tc.includes('band')); el.classList.toggle('cvt-over', tc.includes('over')); } el.classList.toggle('rm-bar', RM_W.has(n.id));
       // (solo en esas formas: si no, se borraría el grosor puesto arriba, por ejemplo border=0)
       if (sh === 'card') el.style.borderLeftWidth = bw != null ? bw + 'px' : '';
       if (sh === 'line') el.style.borderBottomWidth = bw != null ? Math.max(bw, 0) + 'px' : '';
@@ -2319,28 +2325,34 @@ function syncNodes() {
   // «Mismo ancho»: los temas de un nivel que lo tengan toman el ancho del más ancho de ese nivel en su mapa
   const EQ = new Map();
   for (const id of seen) { const inf = info(id); if (!inf || !eff(inf.n, 'eqw', inf.d) || inf.n.sz || BIGHEAD(inf.n) || RM_W.has(id) || inf.n.img) continue; const k = inf.r.id + ':' + inf.d; if (!EQ.has(k)) EQ.set(k, []); EQ.get(k).push(EL.get(id)); }
-  for (const id of seen) { const el = EL.get(id); if (!el) continue; const sq = el.classList.contains('s-sticky'), sh2 = el.classList.contains('s-stickys'); if ((!sq && !sh2) || CV_NOTEH.has(id)) continue;
-    const k = sq ? 1 : 0.5, tw = el.querySelector('.t'), tall = () => el.offsetHeight > el.offsetWidth * k + 1 || (tw && tw.scrollWidth > tw.clientWidth + 0.5);   // tampoco puede salirse una palabra por los lados (las palabras no se parten)   // la nota no crece hacia abajo: primero se achica la letra y, si aun así no cabe, se ensancha
-    if (!tall()) continue;
-    const f0 = parseFloat(getComputedStyle(el).fontSize); let f = f0;
-    while (tall() && f > f0 * 0.5) { f -= 0.5; el.style.fontSize = f + 'px'; }
-    if (el.offsetHeight > el.offsetWidth * k + 1 && sq) el.style.width = Math.ceil(el.offsetHeight / k) + 'px';   // la cuadrada se ensancha; la corta mantiene el ancho y crece hacia abajo
+  // Notas y tiras: la letra se ajusta en tandas (se mide todo, se escribe todo), para no recalcular la página una vez por cada nota
+  { const NO = [];
+    for (const id of seen) { const el = EL.get(id); if (!el) continue; const sq = el.classList.contains('s-sticky'), sh2 = el.classList.contains('s-stickys'); if ((!sq && !sh2) || CV_NOTEH.has(id)) continue;
+      const k = sq ? 1 : 0.5, tw = el.querySelector('.t'); NO.push({ el, sq, bad: () => el.offsetHeight > el.offsetWidth * k + 1 || (tw && tw.scrollWidth > tw.clientWidth + 0.5) }); }   // tampoco puede salirse una palabra por los lados
+    const nb = NO.filter(o => o.bad()); nb.forEach(o => { o.f0 = parseFloat(getComputedStyle(o.el).fontSize); o.lo = o.f0 * 0.5; o.hi = o.f0; });
+    fitMany(nb);
+    const gw = nb.map(o => o.sq && o.el.offsetHeight > o.el.offsetWidth + 1 ? Math.ceil(o.el.offsetHeight) : 0); nb.forEach((o, i) => { if (gw[i]) o.el.style.width = gw[i] + 'px'; });   // la cuadrada se ensancha; la corta crece hacia abajo
+    const ST = []; for (const id of seen) { const el = EL.get(id), o = CV_STR.get(id); if (!el || !o || !el.classList.contains('s-strip')) continue; const t = el.querySelector('.t'); if (t) ST.push({ el, o, t }); }
+    ST.forEach(x => { const cs = getComputedStyle(x.el); x.f0 = parseFloat(cs.fontSize); x.padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom); x.padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight); x.H1 = Math.ceil(x.padY + x.f0 * 1.15) + 1; x.oh = x.el.offsetHeight; });
+    const FX = [];
+    ST.forEach(x => { const { el, o, t } = x;
+      if (o.mode === 'shrink') { el.classList.add('st-one'); FX.push(Object.assign(x, { lo: x.f0 * 0.45, hi: x.f0, bad: () => t.offsetWidth > el.clientWidth - x.padX + 0.5 })); }
+      else if (o.mode !== 'wrap' && x.oh > x.H1 + 1) {   // dos líneas en el alto de una: la letra se achica lo justo
+        el.classList.add('st-fix'); el.style.height = x.H1 + 'px'; el.style.paddingTop = el.style.paddingBottom = '2px'; t.style.lineHeight = '1.02'; el.dataset.cvh = 1;
+        FX.push(Object.assign(x, { lo: x.f0 * 0.45, hi: x.f0, bad: () => t.offsetHeight > x.H1 - 4 || t.scrollWidth > t.clientWidth + 0.5 })); } });
+    fitMany(FX.filter(x => x.bad()));
+    { const CT = []; for (const id of seen) { if (CV_CTX.get(id) !== 'shrink') continue; const el = EL.get(id), t = el && el.querySelector('.t'); if (t) CT.push({ el, t }); }
+      CT.forEach(x => { x.f0 = parseFloat(getComputedStyle(x.el).fontSize); x.lo = x.f0 * 0.5; x.hi = x.f0; x.bad = () => x.t.scrollWidth > x.t.clientWidth + 0.5; }); fitMany(CT.filter(x => x.bad())); }   // tarjetas en una línea con la letra justa
+    // «según el texto» con salto de línea: la tira se estrecha hasta la línea más larga
+    const NW = ST.filter(x => !x.o.full && x.o.mode !== 'shrink').map(x => { const rg = document.createRange(); rg.selectNodeContents(x.t); const ln = new Map(); for (const q of rg.getClientRects()) { if (!q.width) continue; const k = Math.round(q.top); const v = ln.get(k) || [Infinity, -Infinity]; ln.set(k, [Math.min(v[0], q.left), Math.max(v[1], q.right)]); }
+      if (ln.size < 2) return null; const bw = x.el.getBoundingClientRect().width, kk = bw ? x.el.offsetWidth / bw : 1, w = Math.ceil(Math.max(...[...ln.values()].map(([a, c]) => c - a)) * kk + x.padX + 2); return w < x.el.offsetWidth - 2 ? [x.el, w] : null; }).filter(Boolean);
+    NW.forEach(([el, w]) => { el.style.width = w + 'px'; });
   }
-  for (const id of seen) { const el = EL.get(id), o = CV_STR.get(id); if (!el || !o || !el.classList.contains('s-strip')) continue;
-    const t = el.querySelector('.t'); if (!t) continue; const cs = getComputedStyle(el), f0 = parseFloat(cs.fontSize), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom), padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-    const H1 = Math.ceil(padY + f0 * 1.15) + 1; let f = f0;
-    if (o.mode === 'shrink') { el.classList.add('st-one'); while (t.offsetWidth > el.clientWidth - padX + 0.5 && f > f0 * 0.45) { f -= 0.25; el.style.fontSize = f + 'px'; } }
-    else if (o.mode !== 'wrap' && el.offsetHeight > H1 + 1) {   // dos líneas en el alto de una: la letra se achica lo justo (y un poco más si aún no cabe)
-      el.classList.add('st-fix'); el.style.height = H1 + 'px'; el.style.paddingTop = el.style.paddingBottom = '2px'; t.style.lineHeight = '1.02'; el.dataset.cvh = 1;
-      while ((t.offsetHeight > H1 - 4 || t.scrollWidth > t.clientWidth + 0.5) && f > f0 * 0.45) { f -= 0.25; el.style.fontSize = f + 'px'; } }
-    if (!o.full && o.mode !== 'shrink') {   // «según el texto» con salto de línea: la tira se estrecha hasta la línea más larga, no ocupa todo el ancho
-      const rg = document.createRange(); rg.selectNodeContents(t); const ln = new Map(); for (const q of rg.getClientRects()) { if (!q.width) continue; const k = Math.round(q.top); const v = ln.get(k) || [Infinity, -Infinity]; ln.set(k, [Math.min(v[0], q.left), Math.max(v[1], q.right)]); }
-      if (ln.size > 1) { const bw = el.getBoundingClientRect().width, kk = bw ? el.offsetWidth / bw : 1, lw = Math.max(...[...ln.values()].map(([a, c]) => c - a)) * kk, w = Math.ceil(lw + padX + 2); if (w < el.offsetWidth - 2) el.style.width = w + 'px'; } }
-  }
-  // Sombra de las notas adhesivas proporcional a su tamaño (150 px = la normal)
-  for (const id of seen) { const el = EL.get(id); if (!el) continue; if (el.classList.contains('s-sticky')) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, el.offsetWidth / 150)).toFixed(2)); else if (el.classList.contains('s-stickys')) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, el.offsetWidth / 220)).toFixed(2)); else if (el.classList.contains('s-strip')) el.style.setProperty('--sk', Math.max(0.4, Math.min(1.5, el.offsetHeight / 38)).toFixed(2)); else el.style.removeProperty('--sk'); }
+  // Sombra de las notas adhesivas proporcional a su tamaño (150 px = la normal) y radio de «Muy redondeada» según el alto
+  { const ws = []; for (const id of seen) { const el = EL.get(id); if (!el) continue; const c = el.classList; ws.push([el, c.contains('s-sticky') ? 1 : c.contains('s-stickys') ? 2 : c.contains('s-strip') ? 3 : c.contains('s-rounder') ? 4 : 0]); }
+    const rd = ws.map(([el, k]) => k === 1 || k === 2 ? el.offsetWidth : k === 3 || k === 4 ? el.offsetHeight : 0);   // primero se mide todo y luego se escribe (sin forzar el diseño una vez por tema)
+    ws.forEach(([el, k], i) => { const v = rd[i]; if (k === 1) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, v / 150)).toFixed(2)); else if (k === 2) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, v / 220)).toFixed(2)); else if (k === 3) el.style.setProperty('--sk', Math.max(0.4, Math.min(1.5, v / 38)).toFixed(2)); else if (el.style.getPropertyValue('--sk')) el.style.removeProperty('--sk'); const br = k === 4 ? Math.round(Math.min(Math.max(14, v * 0.4), 40)) + 'px' : ''; if (el.style.borderRadius !== br) el.style.borderRadius = br; }); }
   // «Muy redondeada»: radio según el alto (bien distinto de la redondeada); el resto de formas, sin radio propio (si no, se quedaría puesto al cambiar de forma)
-  for (const id of seen) { const el = EL.get(id); if (el) el.style.borderRadius = el.classList.contains('s-rounder') ? Math.round(Math.min(Math.max(14, el.offsetHeight * 0.4), 40)) + 'px' : ''; }
   for (const els of EQ.values()) { if (els.length < 2) continue; const w = Math.max(...els.map(e => e.offsetWidth)) + 1; els.forEach(e => { e.style.width = w + 'px'; });   /* +1: offsetWidth redondea hacia abajo y el más ancho se partiría */ }
 }
 
@@ -8165,7 +8177,7 @@ function cvGeom(r, port, k = 1) {
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
 }
-var CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
+var CV_CTX = new Map(), CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
 // Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
 function cvHandles() {
   nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
@@ -8345,7 +8357,7 @@ function cvGuides(G) {
   (G || []).forEach(([k, x, y, l]) => { const d = document.createElement('div'); d.className = 'cv-guide no-tr ' + k; d.style.transform = `translate(${f1(x)}px, ${f1(y)}px)`; d.style[k === 'x' ? 'height' : 'width'] = f1(l) + 'px'; nodesEl.appendChild(d); });
 }
 function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro, su ancho, su escala y los títulos ocultos
-  CV_MAXW = new Map(); CV_HID = new Set(); CV_TCLS = new Map(); CV_SUBH = new Set(); CV_SUBP = new Set();
+  CV_MAXW = new Map(); CV_HID = new Set(); CV_TCLS = new Map(); CV_CTX = new Map(); CV_SUBH = new Set(); CV_SUBP = new Set();
   { const n = primary(), cr = n && cvRole(n); if (cr && cr.card && info(n.id).p !== cr.block && cvSubMode(cr.r, cr.block) === 'stack') { let c = n; while (info(c.id).p !== cr.block) c = info(c.id).p; CV_OPEN = c.id; } }   // una subtarjeta seleccionada (desde el esquema, por ejemplo) abre su montón CV_COLS = new Map(); CV_SC = new Map(); CV_NOTE = new Map(); CV_NOTEH = new Map(); CV_STR = new Map(); CV_NCOL = new Map();
   doc.roots.forEach(r => {
     if (r.structure !== 'canvas') return; const G = cvGeom(r, cvPort()), CW = 150;
@@ -8358,8 +8370,10 @@ function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro,
       const stack = cvSubMode(r, b) === 'stack';
       const subs = (c, wid) => { const op = stack && CV_OPEN === c.id, k2 = stack ? 0.85 : 1; const w = (n, d) => n.kids.forEach(k => { CV_MAXW.set(k.id, Math.max(50, (wid - (d - 1) * 14 * sc) * k2)); if (sc * k2 < 1) CV_SC.set(k.id, sc * k2); if (stack) (op ? CV_SUBP : CV_SUBH).add(k.id); w(k, d + 1); }); w(c, 1); };
       if (mode === 'grid') {   // notas: el mismo tamaño en todo el lienzo; en un recuadro lleno se hacen más pequeñas
-        const ns = cvSize(r, b), fsc = sc * Math.min(1, ns / 120), hf = CV_BSH.get(b.id) || 1, k0 = cvCardShape(r, b) === 'stickys' ? 0.5 : 1;
-        b.kids.forEach(c => { CV_NOTE.set(c.id, Math.round(ns * sc)); if (hf < 0.99) CV_NOTEH.set(c.id, Math.round(ns * sc * k0 * hf)); if (fsc < 0.99) CV_SC.set(c.id, fsc); subs(c, ns * sc); if (stack) { const w2 = m => m.kids.forEach(k => { CV_NOTE.set(k.id, Math.round(ns * sc * 0.72)); CV_SC.set(k.id, fsc * 0.8); w2(k); }); w2(c); } });
+        const pn = cvPerN(r, b), gg = cvCGap(r, b) ?? 6, ns = pn ? Math.min(cvSize(r, b), (R.w - 2 * NPx - (pn - 1) * gg) / pn / sc - 1) : cvSize(r, b), fsc = sc * Math.min(1, ns / 120), hf = CV_BSH.get(b.id) || 1, k0 = cvCardShape(r, b) === 'stickys' ? 0.5 : 1;
+        const nt = CV_NOTEISH.includes(cvCardShape(r, b));
+        b.kids.forEach(c => { if (!nt) { CV_MAXW.set(c.id, Math.round(ns * sc)); if (fsc < 0.99) CV_SC.set(c.id, fsc); subs(c, ns * sc); return; }   // tarjetas normales en cuadrícula: con el ancho de la celda
+          CV_NOTE.set(c.id, Math.round(ns * sc)); if (hf < 0.99) CV_NOTEH.set(c.id, Math.round(ns * sc * k0 * hf)); if (fsc < 0.99) CV_SC.set(c.id, fsc); subs(c, ns * sc); if (stack) { const w2 = m => m.kids.forEach(k => { CV_NOTE.set(k.id, Math.round(ns * sc * 0.72)); CV_SC.set(k.id, fsc * 0.8); w2(k); }); w2(c); } });
         return;
       }
       if (mode === 'strips') {   // tiras: una por fila (o 2-3 en recuadros alargados), a tres cuartos del ancho de su hueco
@@ -8368,11 +8382,12 @@ function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro,
         b.kids.forEach(c => { CV_STR.set(c.id, { w: mw, full, mode }); if (sc < 1) CV_SC.set(c.id, sc); subs(c, mw); if (stack) { const w2 = m => m.kids.forEach(k => { CV_STR.set(k.id, { w: Math.round(mw * 0.85), full, mode }); w2(k); }); w2(c); } });
         return;
       }
-      const CW = cvSize(r, b), cols = Math.max(1, Math.floor((inner + gap) / (CW * sc + gap)));
+      const CW = cvSize(r, b), pc = cvPerN(r, b), cols = pc || Math.max(1, Math.floor((inner + gap) / (CW * sc + gap)));
       CV_COLS.set(b.id, cols);
       const colW = (inner - (cols - 1) * gap) / cols;
       const w = (n, d) => n.kids.forEach(c => { CV_MAXW.set(c.id, Math.max(50, colW - (d - 1) * 14 * sc)); if (sc < 1) CV_SC.set(c.id, sc); w(c, d + 1); }); w(b, 1);
       if (stack) b.kids.forEach(c => subs(c, colW));   // apiladas: escondidas o flotando
+      { const tl = !CVFREE() && ((b.cslong) || (r.cnv || {}).slong); if (tl === 'one' || tl === 'shrink') b.kids.forEach(c => CV_CTX.set(c.id, tl)); }   // texto largo en las tarjetas
     });
   });
 }
@@ -8520,6 +8535,7 @@ function cvSubMode(r, b) { if (CVFREE()) return 'stack'; const cv = r && r.cnv |
 function cvCGap(r, b) { if (CVFREE()) return null; const cv = r && r.cnv || {}, v = b && b.ccgap != null ? b.ccgap : cv.cgap; return v != null && isFinite(+v) ? clamp(+v, 0, 60) : null; }   // separación entre tarjetas, notas o tiras (nada = la de siempre)
 function cvKeepGap(r) { const cv = r && r.cnv || {}; return cv.titles === 'no' && (cv.keep === 'yes' || (cv.keep !== 'no' && !!(cv.bg || cv.bgv))); }
 function cvOver(r, b) { const cv = r && r.cnv || {}; return (b && b.cover) || cv.over || 'overlap'; }   // notas que no caben: solapadas, menos altas o más pequeñas
+function cvPerN(r, b) { if (CVFREE()) return 0; const cv = r && r.cnv || {}, v = (b && b.cper) || cv.per; return v && v !== 'auto' ? clamp(+v, 1, 8) : 0; }   // tarjetas o notas por fila elegidas a mano (0 = según el tamaño)
 function cvPer(r, b, R) { const cv = r && r.cnv || {}, v = (b && b.cper) || cv.per; if (v && v !== 'auto') return clamp(+v, 1, 3); const k = R.w / Math.max(1, R.h); return k > 3 ? 3 : k > 2 ? 2 : 1; }   // tiras por fila: según lo alargado del recuadro
 function cvCur() { const n = primary(), cr = n && cvRole(n); if (cr) return cr; const r = n && info(n.id) && info(n.id).r || doc.roots[0]; return r && r.structure === 'canvas' ? { r, block: null } : null; }
 function cvFix(r, G) { r.cnv = r.cnv || {}; const key = G.key; r.cnv[key === 'area' ? 'g' : 'gv'] = G.g.join('x'); r.kids.forEach(b => { b[key] = cvAs(G.areas.get(b.id)); }); }
