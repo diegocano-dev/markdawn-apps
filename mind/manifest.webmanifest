@@ -1,9 +1,9 @@
 {
-  "name": "MarkDawn Mind",
-  "short_name": "Mind",
+  "name": "MarkDawn Mind Pro",
+  "short_name": "Mind Pro",
   "description": "Mind maps like XMind, saved as plain Markdown.",
   "lang": "en",
-  "id": "markdawn-mind",
+  "id": "markdawn-mind-pro",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
