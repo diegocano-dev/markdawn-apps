@@ -227,6 +227,11 @@
   @media (hover: none) { .cv-add, .cv-add.on { opacity: .9 !important; pointer-events: auto; } }
   .n.cv-hid { opacity: 0; } .n.cv-hid.sel, .n.cv-hid:hover { opacity: .45; }
   .n.ct-one { white-space: nowrap; } .n.ct-one .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; }
+  .n.cvr-band { justify-content: flex-start; text-align: left; } .n.cvr-text { background: none !important; background-image: none !important; border-color: transparent !important; box-shadow: none !important; color: var(--bc) !important; padding-left: 0 !important; }
+  .n.cvr-text:not(.zg) { filter: none !important; } .n.cvr-line { border-bottom: 2.5px solid var(--bc) !important; border-radius: 0 !important; } .n.cvr-none { visibility: hidden; } .n.cvr-none.sel { visibility: visible; opacity: .4; } body.exporting .n.cvr-none { display: none; }
+  .n.cv-moreh { visibility: hidden !important; pointer-events: none !important; } .n.cv-morep { z-index: 9; }
+  .cv-morechip { position: absolute; left: 0; top: 0; z-index: 4; display: flex; align-items: center; justify-content: center; border: 1.5px dashed var(--acc); border-radius: 7px; background: color-mix(in srgb, var(--acc) 8%, #fff); color: var(--acc); font: 700 13px/1 system-ui, sans-serif; cursor: pointer; }
+  .cv-morechip:hover, .cv-morechip.open { background: var(--acc); color: #fff; } body.exporting .cv-morechip { display: none; }
   .n.cv-subh { visibility: hidden !important; pointer-events: none !important; } .n.cv-subp { z-index: 9; filter: saturate(.8) brightness(1.06); }
   .cv-lay { position: absolute; left: 0; top: 0; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,.14); filter: brightness(.96); }
   .cv-badge { position: absolute; left: 0; top: 0; z-index: 10; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; border: 2px solid #fff; background: var(--acc); color: #fff; font: 700 11px/16px system-ui, sans-serif; text-align: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
@@ -516,6 +521,7 @@
   .fc-tt span { display: block; text-align: left; padding: 5px 7px; font-weight: 700; font-size: 10.5px; letter-spacing: .03em; text-transform: uppercase; } .fc-tt[aria-pressed="true"] { border: 2px solid var(--acc); }
   .fc-dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); cursor: pointer; padding: 0; }
   .fc-more { height: 30px; border: 1px dashed var(--line); border-radius: 4px; background: #fff; font-size: 10.5px; cursor: pointer; }
+  .fc-col1 { display: flex !important; flex-direction: column; width: 100%; margin-top: 4px; } .fc-col1 button { text-align: left; }
   .fc-chk { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 4px 0; } .fc-sc { margin-bottom: -2px; }
   body.dark .fc-sty, body.dark .fc-tt, body.dark .fc-more, body.dark .fc-col { background: #24282c; }
   .fp-top small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
@@ -2298,6 +2304,7 @@ function syncNodes() {
       // Tamaño puesto a mano con los tiradores (la letra no cambia)
       if (n.sz && !cover) { el.style.width = n.sz[0] + 'px'; el.style.minHeight = n.sz[1] + 'px'; el.style.maxWidth = 'none'; el.classList.add('sized'); }
       else { el.style.minHeight = ''; el.style.maxWidth = CV_NOTE.has(n.id) ? 'none' : CV_MAXW.has(n.id) ? CV_MAXW.get(n.id) + 'px' : RM_W.has(n.id) ? 'none' : ''; el.style.width = CV_NOTE.has(n.id) && (sh === 'sticky' || sh === 'stickys' || sh === 'strip') ? CV_NOTE.get(n.id) + 'px' : RM_W.has(n.id) ? Math.round(RM_W.get(n.id)) + 'px' : ''; el.classList.remove('sized'); }
+      { const rt = CV_RT.get(n.id); el.classList.toggle('cvr-band', rt === 'band'); el.classList.toggle('cvr-text', rt === 'text' || rt === 'line'); el.classList.toggle('cvr-line', rt === 'line'); el.classList.toggle('cvr-none', rt === 'none'); if (rt === 'band' && n._cvW) { el.style.maxWidth = 'none'; el.style.width = n._cvW + 'px'; } }
       el.classList.remove('st-one', 'st-fix'); { const tt = el.querySelector(':scope > .t'); if (tt && tt.style.lineHeight) tt.style.lineHeight = ''; } if (el.dataset.cvh && !CV_NOTEH.has(n.id)) el.style.paddingTop = el.style.paddingBottom = '';
       if (CV_STR.has(n.id)) { const o = CV_STR.get(n.id); el.style.maxWidth = o.w + 'px'; el.style.width = o.full ? o.w + 'px' : ''; }
       if (CV_NOTEH.has(n.id)) { el.style.aspectRatio = 'auto'; el.style.height = CV_NOTEH.get(n.id) + 'px'; el.style.overflow = 'hidden'; el.dataset.cvh = 1; } else if (el.dataset.cvh) { el.style.aspectRatio = el.style.height = el.style.overflow = ''; delete el.dataset.cvh; }
@@ -2329,7 +2336,7 @@ function syncNodes() {
   { const NO = [];
     for (const id of seen) { const el = EL.get(id); if (!el) continue; const sq = el.classList.contains('s-sticky'), sh2 = el.classList.contains('s-stickys'); if ((!sq && !sh2) || CV_NOTEH.has(id)) continue;
       const k = sq ? 1 : 0.5, tw = el.querySelector('.t'); NO.push({ el, sq, bad: () => el.offsetHeight > el.offsetWidth * k + 1 || (tw && tw.scrollWidth > tw.clientWidth + 0.5) }); }   // tampoco puede salirse una palabra por los lados
-    const nb = NO.filter(o => o.bad()); nb.forEach(o => { o.f0 = parseFloat(getComputedStyle(o.el).fontSize); o.lo = o.f0 * 0.5; o.hi = o.f0; });
+    const nb = NO.filter(o => { const cr = cvRole(node(+o.el.dataset.id) || {}); const tl = cr && ((cr.block.cslong) || (cr.r.cnv || {}).slong); return tl === 'shrink' && o.bad(); });   // la letra de las notas solo se achica si se elige «Letra menor»; si no, la nota crece nb.forEach(o => { o.f0 = parseFloat(getComputedStyle(o.el).fontSize); o.lo = o.f0 * 0.5; o.hi = o.f0; });
     fitMany(nb);
     const gw = nb.map(o => o.sq && o.el.offsetHeight > o.el.offsetWidth + 1 ? Math.ceil(o.el.offsetHeight) : 0); nb.forEach((o, i) => { if (gw[i]) o.el.style.width = gw[i] + 'px'; });   // la cuadrada se ensancha; la corta crece hacia abajo
     const ST = []; for (const id of seen) { const el = EL.get(id), o = CV_STR.get(id); if (!el || !o || !el.classList.contains('s-strip')) continue; const t = el.querySelector('.t'); if (t) ST.push({ el, o, t }); }
@@ -5841,7 +5848,7 @@ function nodeAttrs(n, relIds) {
   if (n.btext) a.btext = n.btext; if (n.bimg) a.bimg = imgSrc(n.bimg);
   if (n.col) a.collapsed = 'yes';
   if (n.src) a.src = n.src;
-  if (n.area) a.area = n.area; if (n.areav) a.areav = n.areav; if (n.csh) a.cardshape = n.csh; if (n.cplace) a.placement = n.cplace; if (n.cover) a.whenfull = n.cover; if (n.cncol) a.notecolors = n.cncol; if (n.cnmix) a.notemix = n.cnmix; if (n.cbfill) a.boxfill = n.cbfill; if (n.cbline) a.boxline = n.cbline; if (n.ctst) a.titlestyle = n.ctst; if (n.cbimg) a.boximage = n.cbimg; if (n.ccgap != null) a.cardgap = n.ccgap; if (n.csub) a.subcards = n.csub; if (n.ctimg) a.titleimage = n.ctimg; if (n.ctimgp) a.titleimagepos = n.ctimgp; if (n.ctimgh) a.titleimageheight = n.ctimgh; if (n.ctimgt) a.titleimagetext = n.ctimgt; if (n.cswid) a.stripwidth = n.cswid; if (n.cslong) a.striptext = n.cslong; if (n.cper) a.perrow = n.cper; if (n.csz) a.notesize = n.csz; if (n.zone) a.zone = n.zone; if (n.zonev) a.zonev = n.zonev; if (n.from) a.from = n.from; if (n.to) a.to = n.to;
+  if (n.area) a.area = n.area; if (n.areav) a.areav = n.areav; if (n.csh) a.cardshape = n.csh; if (n.cplace) a.placement = n.cplace; if (n.cover) a.whenfull = n.cover; if (n.cncol) a.notecolors = n.cncol; if (n.cnmix) a.notemix = n.cnmix; if (n.cbfill) a.boxfill = n.cbfill; if (n.cbline) a.boxline = n.cbline; if (n.ctst) a.titlestyle = n.ctst; if (n.cbimg) a.boximage = n.cbimg; if (n.ccgap != null) a.cardgap = n.ccgap; if (n.csub) a.subcards = n.csub; if (n.cofit) a.cardsfit = n.cofit; if (n.ctimg) a.titleimage = n.ctimg; if (n.ctimgp) a.titleimagepos = n.ctimgp; if (n.ctimgh) a.titleimageheight = n.ctimgh; if (n.ctimgt) a.titleimagetext = n.ctimgt; if (n.cswid) a.stripwidth = n.cswid; if (n.cslong) a.striptext = n.cslong; if (n.cper) a.perrow = n.cper; if (n.csz) a.notesize = n.csz; if (n.zone) a.zone = n.zone; if (n.zonev) a.zonev = n.zonev; if (n.from) a.from = n.from; if (n.to) a.to = n.to;
   if (n.o) for (const st in n.o) { const o = n.o[st]; if (Math.abs(o[0]) + Math.abs(o[1]) >= 1) a[st] = Math.round(o[0]) + ',' + Math.round(o[1]); }
   return a;
 }
@@ -6058,7 +6065,7 @@ function buildPageMd() {
     if (r.col) m.collapsed = 'yes';
     if (i > 0) { m.floating = 'yes'; const f = r.orig != null && node(r.orig); if (f || r.origTxt) m.origin = f ? plainTopic(f) : r.origTxt; }   // tema suelto: va después del principal y dice de dónde viene
     if (r.tcols) { if (r.tcols.max) m.percolumn = r.tcols.max; if (r.tcols.head && r.tcols.head !== 'left') m.head = r.tcols.head; }
-    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, titlestyle: r.cnv.tst || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null, canvasbgmode: r.cnv.bgop || null, cardgap: r.cnv.cgap != null ? r.cnv.cgap : null, cardscale: r.cnv.bscale || null, subcards: r.cnv.sub || null, canvasbgfit: r.cnv.bgfit || null });
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, titlestyle: r.cnv.tst || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null, canvasbgmode: r.cnv.bgop || null, cardgap: r.cnv.cgap != null ? r.cnv.cgap : null, cardscale: r.cnv.bscale || null, cardsfit: r.cnv.ofit || null, canvastitle: r.cnv.ttl || null, subcards: r.cnv.sub || null, canvasbgfit: r.cnv.bgfit || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -6160,7 +6167,7 @@ function parseMd(src, forPaste) {
     if (a.size && /^\d+,\d+$/.test(a.size)) n.sz = a.size.split(',').map(x => clamp(+x, 20, 2000));
     if (a.collapsed === 'yes') n.col = true;
     if (a.src && /^[\w.-]{1,40}$/.test(a.src)) n.src = a.src;
-    if (SHAPES[a.cardshape]) n.csh = a.cardshape; if (['cols', 'grid', 'strips'].includes(a.placement)) n.cplace = a.placement; if (['overlap', 'short', 'small'].includes(a.whenfull)) n.cover = a.whenfull; if (PALSETS[a.notecolors]) n.cncol = a.notecolors; if (a.notemix === 'mix') n.cnmix = 'mix'; if (['white', 'soft', 'full'].includes(a.boxfill)) n.cbfill = a.boxfill; if (['soft', 'full', 'none'].includes(a.boxline)) n.cbline = a.boxline; if (['text', 'soft', 'band', 'none'].includes(a.titlestyle)) n.ctst = a.titlestyle; if (a.boximage) n.cbimg = a.boximage; if (a.cardgap != null && isFinite(+a.cardgap)) n.ccgap = clamp(+a.cardgap, 0, 60); if (a.subcards === 'list') n.csub = 'list'; if (a.titleimage) n.ctimg = a.titleimage; if (['left', 'right', 'wide'].includes(a.titleimagepos)) n.ctimgp = a.titleimagepos; if (a.titleimageheight && isFinite(+a.titleimageheight)) n.ctimgh = clamp(+a.titleimageheight, 24, 300); if (['over', 'below', 'none'].includes(a.titleimagetext)) n.ctimgt = a.titleimagetext; if (a.stripwidth === 'full') n.cswid = 'full'; if (['wrap', 'shrink'].includes(a.striptext)) n.cslong = a.striptext; if (['1', '2', '3'].includes(String(a.perrow))) n.cper = +a.perrow; if (a.notesize && isFinite(+a.notesize)) n.csz = clamp(+a.notesize, 50, 260);
+    if (SHAPES[a.cardshape]) n.csh = a.cardshape; if (['cols', 'grid', 'strips'].includes(a.placement)) n.cplace = a.placement; if (['overlap', 'short', 'small'].includes(a.whenfull)) n.cover = a.whenfull; if (PALSETS[a.notecolors]) n.cncol = a.notecolors; if (a.notemix === 'mix') n.cnmix = 'mix'; if (['white', 'soft', 'full'].includes(a.boxfill)) n.cbfill = a.boxfill; if (['soft', 'full', 'none'].includes(a.boxline)) n.cbline = a.boxline; if (['text', 'soft', 'band', 'none'].includes(a.titlestyle)) n.ctst = a.titlestyle; if (a.boximage) n.cbimg = a.boximage; if (a.cardgap != null && isFinite(+a.cardgap)) n.ccgap = clamp(+a.cardgap, 0, 60); if (['list', 'stack'].includes(a.subcards)) n.csub = a.subcards; if (['more', 'all', 'box', 'grow', 'overlap', 'short'].includes(a.cardsfit)) n.cofit = a.cardsfit; if (a.titleimage) n.ctimg = a.titleimage; if (['left', 'right', 'wide'].includes(a.titleimagepos)) n.ctimgp = a.titleimagepos; if (a.titleimageheight && isFinite(+a.titleimageheight)) n.ctimgh = clamp(+a.titleimageheight, 24, 300); if (['over', 'below', 'none'].includes(a.titleimagetext)) n.ctimgt = a.titleimagetext; if (a.stripwidth === 'full') n.cswid = 'full'; if (['wrap', 'shrink'].includes(a.striptext)) n.cslong = a.striptext; if (['1', '2', '3'].includes(String(a.perrow))) n.cper = +a.perrow; if (a.notesize && isFinite(+a.notesize)) n.csz = clamp(+a.notesize, 50, 260);
     if (a.area && cvA(a.area)) n.area = a.area; if (a.areav && cvA(a.areav)) n.areav = a.areav; if (a.zone) n.zone = a.zone; if (a.zonev) n.zonev = a.zonev; if (rmD(a.from)) n.from = a.from; if (rmD(a.to)) n.to = a.to;
     if (a.group && /^(auto|#?[0-9a-f]{3,8})$/i.test(a.group)) {
       n.grp = a.group.toLowerCase() === 'auto' ? 'auto' : '#' + a.group.replace('#', '').toLowerCase();
@@ -6212,7 +6219,7 @@ function parseMd(src, forPaste) {
       if (a.origin) r.origTxt = String(a.origin);
       if (a.lines && LINES[a.lines]) r.line = a.lines;
       { const t = tcParse(a); if (t) r.tcols = t; }
-      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.titlestyle || a.margin != null || a.corners != null) r.cnv = { g: a.grid, tst: ['soft', 'band'].includes(a.titlestyle) ? a.titlestyle : undefined, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv, bgop: ['soft', 'full'].includes(a.canvasbgmode) ? a.canvasbgmode : undefined, cgap: a.cardgap != null && isFinite(+a.cardgap) ? clamp(+a.cardgap, 0, 60) : undefined, sub: a.subcards === 'list' ? 'list' : undefined, bscale: a.cardscale === 'box' ? 'box' : undefined, bgfit: ['cover', 'contain'].includes(a.canvasbgfit) ? a.canvasbgfit : undefined };
+      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.titlestyle || a.margin != null || a.corners != null) r.cnv = { g: a.grid, tst: ['soft', 'band'].includes(a.titlestyle) ? a.titlestyle : undefined, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv, bgop: ['soft', 'full'].includes(a.canvasbgmode) ? a.canvasbgmode : undefined, cgap: a.cardgap != null && isFinite(+a.cardgap) ? clamp(+a.cardgap, 0, 60) : undefined, sub: ['list', 'stack'].includes(a.subcards) ? a.subcards : undefined, bscale: a.cardscale === 'box' ? 'box' : undefined, ofit: ['more', 'all', 'box', 'grow', 'overlap', 'short'].includes(a.cardsfit) ? a.cardsfit : undefined, ttl: ['band', 'text', 'line', 'none'].includes(a.canvastitle) ? a.canvastitle : undefined, bgfit: ['cover', 'contain'].includes(a.canvasbgfit) ? a.canvasbgfit : undefined };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -7665,7 +7672,7 @@ function lockGate(c, v) {
 function trialStart() {
   if (TRIAL) return;
   const nodes = new Map(), w = n => { nodes.set(n.id, { shape: n.shape, font: n.font }); n.kids.forEach(w); }; doc.roots.forEach(w);
-  const CVK = ['csh', 'cplace', 'cper', 'csz', 'cover', 'cswid', 'cslong', 'cncol', 'cnmix', 'cbfill', 'cbline', 'ctst', 'ctimg', 'ctimgp', 'ctimgh', 'ctimgt', 'cbimg', 'ccgap', 'csub'], cvs = doc.roots.filter(r => r.structure === 'canvas').map(r => [r.id, JSON.stringify(r.cnv || null), r.kids.map(b => [b.id, CVK.map(k => b[k])])]);
+  const CVK = ['csh', 'cplace', 'cper', 'csz', 'cover', 'cswid', 'cslong', 'cncol', 'cnmix', 'cbfill', 'cbline', 'ctst', 'ctimg', 'ctimgp', 'ctimgh', 'ctimgt', 'cbimg', 'ccgap', 'csub', 'cofit'], cvs = doc.roots.filter(r => r.structure === 'canvas').map(r => [r.id, JSON.stringify(r.cnv || null), r.kids.map(b => [b.id, CVK.map(k => b[k])])]);
   TRIAL = { theme: JSON.stringify(doc.theme), roots: doc.roots.map(r => [r.id, r.structure]), nodes, cvs, CVK };
   let bar = $('#trialbar');
   if (!bar) { bar = document.createElement('div'); bar.id = 'trialbar'; bar.className = 'trialbar'; board.appendChild(bar); }
@@ -8177,7 +8184,7 @@ function cvGeom(r, port, k = 1) {
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
 }
-var CV_BND = new Map(), CV_CTX = new Map(), CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
+var CV_RT = new Map(), CV_MOREB = new Set(), CV_MORE = new Map(), CV_MOREOPEN = null, CV_BND = new Map(), CV_CTX = new Map(), CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
 // Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
 function cvHandles() {
   nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
@@ -8198,7 +8205,12 @@ function cvHandles() {
 function cvOn() { return true; }
 const CVFREE = () => LITE && !TRIAL;   // lienzo de la versión gratuita: aspecto fijo
 function cvUi() {
-  nodesEl.querySelectorAll('.cv-add, .cv-lay, .cv-badge, .cv-popbg').forEach(e => e.remove());
+  nodesEl.querySelectorAll('.cv-add, .cv-lay, .cv-badge, .cv-popbg, .cv-morechip').forEach(e => e.remove());
+  for (const [bid, m0] of CV_MORE) { const b = node(bid), pb0 = POS.get(bid); if (!b || !pb0) continue; const m = Object.assign({}, m0, { x: m0.x + pb0.x - m0.bx, y: m0.y + pb0.y - m0.by }), open = CV_MOREOPEN === bid, k = document.createElement('button'); k.type = 'button'; k.className = 'cv-morechip no-tr' + (open ? ' open' : ''); k.textContent = '+' + m.n + ' ' + trStr('más'); k.title = trStr(open ? 'Plegar' : 'Ver las tarjetas que no caben');
+    k.style.width = f1(m.w) + 'px'; k.style.height = f1(m.h) + 'px'; k.style.transform = `translate(${f1(m.x)}px, ${f1(m.y)}px)`; ['pointerdown', 'mousedown', 'dblclick'].forEach(t => k.addEventListener(t, e => { e.preventDefault(); e.stopPropagation(); }));
+    k.addEventListener('click', e => { e.stopPropagation(); CV_MOREOPEN = open ? null : bid; render(); }); nodesEl.appendChild(k);
+    if (open) { let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity; m.ids.forEach(id => { const z = POS.get(id); if (z) { x0 = Math.min(x0, z.x); y0 = Math.min(y0, z.y); x1 = Math.max(x1, z.x + z.w); y1 = Math.max(y1, z.y + z.h); } });
+      if (isFinite(x0)) { const pb = document.createElement('div'); pb.className = 'cv-popbg no-tr'; pb.style.width = f1(Math.max(x1 - x0 + 20, 130)) + 'px'; pb.style.height = f1(y1 - y0 + 44) + 'px'; pb.style.transform = `translate(${f1(x0 - 10)}px, ${f1(y0 - 10)}px)`; ['pointerdown', 'mousedown'].forEach(t => pb.addEventListener(t, e => e.stopPropagation())); nodesEl.appendChild(pb); addBtn(b, x0 - 2, y1 + 6, 'Añadir una tarjeta', true); } } }
   if (cvOn()) doc.roots.forEach(r => { if (r.structure !== 'canvas') return;
     r.kids.forEach(b => { if (cvSubMode(r, b) !== 'stack') return; b.kids.forEach(c => { const el = EL.get(c.id), q = POS.get(c.id); if (!el || !q || !c.kids.length) return;
       const cs = getComputedStyle(el), bf = getComputedStyle(el, '::before'), bgc = cs.backgroundColor, bg = bgc && bgc !== 'rgba(0, 0, 0, 0)' && bgc !== 'transparent' ? bgc : bf.backgroundImage !== 'none' ? bf.backgroundImage : cs.getPropertyValue('--stc') || '#eee';
@@ -8218,6 +8230,7 @@ function cvUi() {
       const bx = q.x + q.cv.dx, by = q.y + q.cv.dy, last = !b.col && b.kids[b.kids.length - 1], lp = last && POS.get(last.id);
       let x = bx + 10, yb = q.y + q.h; if (lp) { x = lp.x; const db = descBox(last); yb = db.y1; }
       if (cvSubMode(r, b) === 'stack' && last) yb = (lp ? lp.y + lp.h : yb);
+      if (CV_MORE.has(b.id)) return;   // lleno: se añade desde «+N más»
       addBtn(b, x, Math.min(yb + 6, by + q.cv.h - 24), 'Añadir una tarjeta (también con doble clic en el hueco del recuadro)');
     });
   });
@@ -8232,14 +8245,14 @@ function addBtn(b, x, y, tip, pop) {
   nodesEl.appendChild(d);
 }
 function cvAddCard(b) { if (editId != null) stopEdit(); if (b.col) b.col = false; addChild(b.id); }
-Object.assign(EN, { "Ver las subtarjetas": "Show the sub-cards", "Plegar las subtarjetas": "Fold the sub-cards", "Añadir una subtarjeta": "Add a sub-card" });
+Object.assign(EN, { "más": "more", "Plegar": "Fold", "Ver las tarjetas que no caben": "Show the cards that do not fit", "Añadir una tarjeta": "Add a card", "Ver las subtarjetas": "Show the sub-cards", "Plegar las subtarjetas": "Fold the sub-cards", "Añadir una subtarjeta": "Add a sub-card" });
 // «+ Añadir» solo en el recuadro donde está el ratón (o el de lo seleccionado): sin ratón, el lienzo queda limpio
 let cvHovB = null;
 function cvAddShow() { const n = primary(), cr = n && cvRole(n), sb = cr ? cr.block.id : n && info(n.id) && info(n.id).p && (POS.get(n.id) || {}).kbd ? n.id : null; nodesEl.querySelectorAll('.cv-add:not(.cv-addp)').forEach(d => d.classList.toggle('on', +d.dataset.cvb === cvHovB || +d.dataset.cvb === sb)); }
 document.addEventListener('pointermove', e => { if (!e.target.closest || !e.target.closest('#board')) { if (cvHovB != null) { cvHovB = null; cvAddShow(); } return; } const b = cvBoxAt(e.clientX, e.clientY), id = b ? b.id : null; if (id !== cvHovB) { cvHovB = id; cvAddShow(); } }, { passive: true });
 // La ventanita de subtarjetas se pliega al pinchar fuera de ella o con Esc
-document.addEventListener('pointerdown', e => { if (CV_OPEN == null || !e.target.closest) return; if (e.target.closest('.cv-subp, .cv-badge, .cv-popbg, .cv-addp, #qbar, #pop, #fpane')) return; const el = EL.get(CV_OPEN); if (el && el.contains(e.target)) return; CV_OPEN = null; setTimeout(render, 0); }, true);
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && CV_OPEN != null && editId == null) { CV_OPEN = null; render(); } });
+document.addEventListener('pointerdown', e => { if (CV_MOREOPEN != null && e.target.closest && !e.target.closest('.cv-morep, .cv-morechip, .cv-popbg, .cv-addp, #qbar, #pop, #fpane')) { CV_MOREOPEN = null; setTimeout(render, 0); } if (CV_OPEN == null || !e.target.closest) return; if (e.target.closest('.cv-subp, .cv-badge, .cv-popbg, .cv-addp, #qbar, #pop, #fpane')) return; const el = EL.get(CV_OPEN); if (el && el.contains(e.target)) return; CV_OPEN = null; setTimeout(render, 0); }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && (CV_OPEN != null || CV_MOREOPEN != null) && editId == null) { CV_OPEN = null; CV_MOREOPEN = null; render(); } });
 function cvBoxAt(cx, cy) {
   if (!cvOn()) return null; const w = toWorld(cx, cy);
   for (const r of doc.roots) { if (r.structure !== 'canvas') continue;
@@ -8357,7 +8370,8 @@ function cvGuides(G) {
   (G || []).forEach(([k, x, y, l]) => { const d = document.createElement('div'); d.className = 'cv-guide no-tr ' + k; d.style.transform = `translate(${f1(x)}px, ${f1(y)}px)`; d.style[k === 'x' ? 'height' : 'width'] = f1(l) + 'px'; nodesEl.appendChild(d); });
 }
 function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro, su ancho, su escala y los títulos ocultos
-  CV_MAXW = new Map(); CV_HID = new Set(); CV_TCLS = new Map(); CV_CTX = new Map(); CV_SUBH = new Set(); CV_SUBP = new Set();
+  CV_MAXW = new Map(); CV_HID = new Set(); CV_TCLS = new Map(); CV_CTX = new Map(); CV_RT = new Map();
+  if (!CVFREE()) doc.roots.forEach(r => { if (r.structure === 'canvas' && r.cnv && r.cnv.ttl) CV_RT.set(r.id, r.cnv.ttl); });   // el título del lienzo: franja, solo texto, con línea u oculto CV_SUBH = new Set(); CV_SUBP = new Set();
   { const n = primary(), cr = n && cvRole(n); if (cr && cr.card && info(n.id).p !== cr.block && cvSubMode(cr.r, cr.block) === 'stack') { let c = n; while (info(c.id).p !== cr.block) c = info(c.id).p; CV_OPEN = c.id; } }   // una subtarjeta seleccionada (desde el esquema, por ejemplo) abre su montón CV_COLS = new Map(); CV_SC = new Map(); CV_NOTE = new Map(); CV_NOTEH = new Map(); CV_STR = new Map(); CV_NCOL = new Map();
   doc.roots.forEach(r => {
     if (r.structure !== 'canvas') return; const G = cvGeom(r, cvPort()), CW = 150;
@@ -8378,7 +8392,7 @@ function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro,
       }
       if (mode === 'strips') {   // tiras: una por fila (o 2-3 en recuadros alargados), a tres cuartos del ancho de su hueco
         const per = cvPer(r, b, R), cellW = (R.w - 2 * NPx - (per - 1) * 6) / per, cv = r.cnv || {}, mw = Math.round(Math.min(cvSize(r, b), cellW / sc) * sc);   // largo máximo: el de la tira (proporción fija), nunca el del recuadro
-        const full = (b.cswid || cv.swid) === 'full', mode = b.cslong || cv.slong || 'fit'; CV_COLS.set(b.id, per);
+        const full = (b.cswid || cv.swid) === 'full', mode = b.cslong || cv.slong || 'wrap'; CV_COLS.set(b.id, per);
         b.kids.forEach(c => { CV_STR.set(c.id, { w: mw, full, mode }); if (sc < 1) CV_SC.set(c.id, sc); subs(c, mw); if (stack) { const w2 = m => m.kids.forEach(k => { CV_STR.set(k.id, { w: Math.round(mw * 0.85), full, mode }); w2(k); }); w2(c); } });
         return;
       }
@@ -8394,7 +8408,7 @@ function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro,
 function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
   // Las tarjetas se colocan en columnas (de arriba abajo y luego en la columna de al lado) si el recuadro es ancho.
   // Si un recuadro no tiene sitio: «reducir» (por defecto) hace sus tarjetas más pequeñas, hasta el 60 %; «agrandar» hace crecer el lienzo.
-  const port = cvPort(), s0 = sizeOf(r), top = s0.h + 16 * sp, vg = 6 * sp, ind = 14 * sp, gap = 8, grow = r.cnv && r.cnv.fit === 'grow';
+  const port = cvPort(), s0 = sizeOf(r), RT = CV_RT.get(r.id), top = RT === 'none' ? 0 : s0.h + 16 * sp, vg = 6 * sp, ind = 14 * sp, gap = 8, grow = r.cnv && r.cnv.fit === 'grow';
   const flat = (n, dep = 1, out = []) => { for (const c of kidsOf(n)) { out.push([c, dep]); flat(c, dep + 1, out); } return out; };
   const stk = c => { const cr = cvRole(c); return !!(cr && cr.card && cvSubMode(r, cr.block) === 'stack'); };
   const unitH = c => stk(c) ? sizeOf(c).h + (c.kids.length ? 5 * sp : 0) : sizeOf(c).h + flat(c).reduce((a, [d]) => a + vg + sizeOf(d).h, 0);   // apiladas: solo cuenta la tarjeta (y su montón)
@@ -8423,36 +8437,52 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
     const v = VG(b); for (const c of kidsOf(b)) { const h = unitH(c); if (hs[col] > 0 && hs[col] + h > H && col < cols - 1) col++; out.push([c, col, hs[col]]); hs[col] += h + v; }
     return { out, used: Math.max(0, ...hs.map(x => x - v)) }; };
   const need = (b, H) => { if (pack(b, H).used <= H) return H; let lo = H, hi = kidsOf(b).reduce((a, c) => a + unitH(c) + vg, 0) + 1; for (let i = 0; i < 18; i++) { const m = (lo + hi) / 2; if (pack(b, m).used <= m) hi = m; else lo = m; } return hi; };
-  let G = cvGeom(r, port), k = 1, again = false; const UNI = !grow && !CVFREE() && (r.cnv || {}).bscale !== 'box', DES = new Map();
+  let G = cvGeom(r, port), k = 1, again = false; const DES = new Map(), MB = new Set();
   r.kids.forEach(b => {
-    const R = G.rect(G.areas.get(b.id), b), avail = R.h - head(b) - 8 - (free(b) ? 30 : 0), nd = need(b, avail), cur = CV_BSC.get(b.id) || 1;
+    const R = G.rect(G.areas.get(b.id), b), avail = R.h - head(b) - 8 - (free(b) ? 30 : 0), nd = need(b, avail), cur = CV_BSC.get(b.id) || 1, fm = cvFit(r, b), floor = free(b) ? 0.4 : 0.6;
     let sc = cur;
-    const ov = MODE(b) === 'grid' ? cvOver(r, b) : 'small';
-    if (ov === 'short' && !grow) {   // menos altas: primero se acorta el alto de las notas (hasta el 45 %), después se hacen más pequeñas
+    if (fm === 'short') {   // menos altas: primero se acorta el alto de las notas (hasta el 45 %), después se hacen más pequeñas
       const h0 = CV_BSH.get(b.id) || 1; let hf = h0;
       if (nd > avail + 1) hf = Math.max(0.45, h0 * avail / nd); else if (h0 < 1 && nd < avail * 0.85) hf = Math.min(1, h0 * avail / nd);
       if (Math.abs(hf - h0) > 0.02) { if (hf >= 0.999) CV_BSH.delete(b.id); else CV_BSH.set(b.id, hf); again = true; }
-      if (hf > 0.46) { if (UNI) DES.set(b.id, 1); else if (cur < 1) { CV_BSC.delete(b.id); again = true; } return; }
+      if (hf > 0.46) { if (cur < 1) { CV_BSC.delete(b.id); again = true; } return; }
     } else if (CV_BSH.has(b.id)) { CV_BSH.delete(b.id); again = true; }
-    const pv = CV_BND.get(b.id), stuck = nd > avail + 1 && !!pv && (pv[2] || (cur < pv[0] - 0.01 && nd > pv[1] * 0.985)); CV_BND.set(b.id, [cur, nd, stuck && nd > avail + 1]);   // achicar ya no gana sitio: no se sigue achicando
-    if (!grow && stuck) sc = cur;
-    else if (!grow) { if (nd > avail + 1) sc = Math.max(free(b) ? 0.4 : 0.6, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd)); }
-    else sc = 1;
-    if (UNI) DES.set(b.id, sc); else if (Math.abs(sc - cur) > 0.02) { if (sc >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, sc); again = true; }
-    if (nd > avail + 1 && (grow || stuck || cur <= (free(b) ? 0.41 : 0.61))) k = Math.max(k, (nd + head(b) + 8) / R.h);
+    if (fm === 'all' || fm === 'box' || fm === 'short') {   // más pequeñas: hasta un mínimo legible; si ni así caben, «+N más»
+      if (nd > avail + 1) sc = Math.max(floor, cur * Math.sqrt(avail / nd)); else if (cur < 1 && nd < avail * 0.8) sc = Math.min(1, cur * Math.sqrt(avail / nd));
+      if (nd > avail + 1 && cur <= floor + 0.01) MB.add(b.id);
+    } else sc = 1;
+    if (fm === 'more') MB.add(b.id);
+    if (fm === 'all') DES.set(b.id, sc); else if (Math.abs(sc - cur) > 0.02) { if (sc >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, sc); again = true; }
+    if (fm === 'grow' && nd > avail + 1) k = Math.max(k, (nd + head(b) + 8) / R.h);   // el lienzo solo crece si se elige «Agrandar el lienzo»
   });
-  if (UNI) {   // «Más pequeñas»: todas a la vez, con el mismo tamaño en todos los recuadros (el del recuadro más lleno)
-    const m = Math.min(1, ...r.kids.map(b => DES.has(b.id) ? DES.get(b.id) : CV_BSC.get(b.id) || 1));
-    r.kids.forEach(b => { const cur = CV_BSC.get(b.id) || 1; if (Math.abs(cur - m) > 0.02) { if (m >= 0.999) CV_BSC.delete(b.id); else CV_BSC.set(b.id, m); again = true; } }); }
+  if (DES.size) {   // «Todas más pequeñas»: el mismo tamaño en todos esos recuadros (el del más lleno)
+    const m = Math.min(1, ...DES.values());
+    DES.forEach((v, id) => { const cur = CV_BSC.get(id) || 1; if (Math.abs(cur - m) > 0.02) { if (m >= 0.999) CV_BSC.delete(id); else CV_BSC.set(id, m); again = true; } }); }
+  CV_MOREB = MB;
   if (again && CV_PASS < 6) { CV_PASS++; requestAnimationFrame(() => render()); } else if (!again) CV_PASS = 0;
   if (k > 1) G = cvGeom(r, port, Math.min(k, 4));
+  if (RT === 'band' && Math.abs((r._cvW || 0) - G.W) > 1) { r._cvW = Math.round(G.W); requestAnimationFrame(() => render()); }   // franja a todo lo ancho del lienzo
   set(r, 0, 0, 6); L.get(r.id).cvc = { dx: 0, dy: top, w: G.W, h: G.H, xs: G.xs, ys: G.ys, port };
   r.kids.forEach(b => {
     const R = G.rect(G.areas.get(b.id), b), bs = sizeOf(b), cols = CV_COLS.get(b.id) || 1, colW = (R.w - 20 - (cols - 1) * HG(b)) / cols, H = R.h - head(b) - 8;
     const [ox, oy] = tOff(b); set(b, R.x + 10 + ox, top + R.y + 8 + oy, 3); L.get(b.id).cv = { dx: -10 - ox, dy: -8 - oy, w: R.w, h: R.h, cols, colW, hy: CV_HID.has(b.id) && keep ? head(b) : 0 };
     const y0 = top + R.y + head(b) - (CV_HID.has(b.id) ? 0 : 0);
     const pk = pack(b, H); kidsOf(b).forEach(c => { const e = EL.get(c.id); if (e) e.classList.toggle('cv-top', !!pk.sq); });
-    for (const [c, col, yy, xx] of pk.out) {
+    let OUT = pk.out, HIDE = []; CV_MORE.delete(b.id);
+    if (CV_MOREB.has(b.id)) { const lim = top + R.y + R.h - 6, i = OUT.findIndex(([c, col, yy]) => y0 + yy + (col < 0 ? 6 : 0) + sizeOf(c).h > lim + 0.5);   // la primera que ya no cabe
+      if (i >= 0) { const at = q => { const [c1, col1, yy1, xx1] = OUT[q]; return [c1, col1 < 0 ? R.x + NP + xx1 : R.x + 10 + col1 * (colW + HG(b)), y0 + yy1 + (col1 < 0 ? 6 : 0)]; };
+        let j = i, [c0, mx, my] = at(i), ch = Math.min(sizeOf(c0).h, 34);   // «+N más» va en el primer hueco que no cabe si cabe ahí en pequeño; si no, en el último que cabe
+        let ov = false; if (my + ch > lim + 0.5 && i > 0) { j = i - 1; [c0, mx, my] = at(j); ch = Math.max(sizeOf(c0).h, 24);
+          if (j === 0) { const s1 = sizeOf(c0); j = 1; ov = true; ch = 26; mx = mx + Math.max(0, s1.w - 74); my = Math.min(my + s1.h - 13, lim - 26); } }   // solo cabe una: «+N más» pequeño sobre su esquina
+        HIDE = OUT.slice(j).map(o => o[0]); OUT = OUT.slice(0, j); const s0 = ov ? { w: 74 } : sizeOf(c0);
+        CV_MORE.set(b.id, { bx: R.x + 10 + tOff(b)[0], by: top + R.y + 8 + tOff(b)[1], x: mx, y: my, w: Math.max(s0.w, 70), h: ch, n: HIDE.length, ids: HIDE.map(c => c.id), grid: MODE(b) === 'grid' }); } }
+    { const open = CV_MOREOPEN === b.id, hs = new Set(), w = n => n.kids.forEach(k2 => { hs.add(k2.id); w(k2); }); HIDE.forEach(c => { hs.add(c.id); w(c); });
+      const all = []; const w2 = n => n.kids.forEach(k2 => { all.push(k2.id); w2(k2); }); w2(b);
+      all.forEach(id => { const e = EL.get(id); if (e) { e.classList.toggle('cv-moreh', hs.has(id) && !open); e.classList.toggle('cv-morep', hs.has(id) && open); } });
+      if (HIDE.length) { const m = CV_MORE.get(b.id); if (!open) HIDE.forEach(c => { set(c, m.x, m.y, 3); for (const [d] of flat(c)) set(d, m.x, m.y, 3); });
+        else { const g = 7, px = m.x + 10; let yy = m.y + m.h + 18, xx = px, rh = 0;   // abiertas: flotando debajo del «+N más»
+          HIDE.forEach(c => { const s2 = sizeOf(c); if (m.grid) { if (xx > px && xx + s2.w > px + 3 * (s2.w + g)) { xx = px; yy += rh + g; rh = 0; } set(c, xx, yy, 3); xx += s2.w + g; rh = Math.max(rh, s2.h); } else { set(c, px, yy, 3); yy += s2.h + g; } for (const [d] of flat(c)) set(d, xx, yy, 3); }); } } }
+    for (const [c, col, yy, xx] of OUT) {
       const x = col < 0 ? R.x + NP + xx : R.x + 10 + col * (colW + HG(b)); let y = y0 + yy + (col < 0 ? 6 : 0); set(c, x, y, 3); L.get(c.id).cvcol = col; y += sizeOf(c).h + vg;
       if (stk(c)) {   // apiladas: plegadas, escondidas detrás de la tarjeta; desplegadas, flotando debajo (notas en cuadrícula, el resto en lista)
         const cy0 = y - sizeOf(c).h - vg, F = flat(c);
@@ -8538,10 +8568,13 @@ function cvTitleSvg(r, c, q, RK) {
 // Subtarjetas (tarjetas dentro de una tarjeta): apiladas con su número (por defecto; se despliegan flotando encima, sin mover nada) o en lista
 // Cada hoja guarda lo que encogió sus recuadros: al volver a ella se dibuja a la primera (y los números de una hoja no se cuelan en otra)
 function cvKeep(d) { if (d) { d._cvk = [CV_BSC, CV_BSH]; return; } const k = doc && doc._cvk; CV_BSC = k ? k[0] : new Map(); CV_BSH = k ? k[1] : new Map(); CV_OPEN = null; }
-function cvSubMode(r, b) { if (CVFREE()) return 'stack'; const cv = r && r.cnv || {}, v = (b && b.csub) || cv.sub; return v === 'list' ? 'list' : 'stack'; }
+function cvSubMode(r, b) { if (CVFREE()) return 'list'; const cv = r && r.cnv || {}, v = (b && b.csub) || cv.sub; return v === 'stack' ? 'stack' : 'list'; }   // en lista por defecto; apiladas solo si se elige
 function cvCGap(r, b) { if (CVFREE()) return null; const cv = r && r.cnv || {}, v = b && b.ccgap != null ? b.ccgap : cv.cgap; return v != null && isFinite(+v) ? clamp(+v, 0, 60) : null; }   // separación entre tarjetas, notas o tiras (nada = la de siempre)
 function cvKeepGap(r) { const cv = r && r.cnv || {}; return cv.titles === 'no' && (cv.keep === 'yes' || (cv.keep !== 'no' && !!(cv.bg || cv.bgv))); }
-function cvOver(r, b) { const cv = r && r.cnv || {}; return (b && b.cover) || cv.over || 'overlap'; }   // notas que no caben: solapadas, menos altas o más pequeñas
+// Si no caben: «+N más» (por defecto), todas más pequeñas (igual en todo el lienzo), solo en ese recuadro, agrandar el lienzo; y las de antes para notas (solapadas, menos altas)
+function cvFit(r, b) { if (CVFREE()) return 'more'; const cv = r && r.cnv || {}, v = (b && b.cofit) || cv.ofit; if (['more', 'all', 'box', 'grow', 'overlap', 'short'].includes(v)) return v;
+  if (cv.fit === 'grow') return 'grow'; const o = (b && b.cover) || cv.over; if (o === 'overlap' || o === 'short') return o; if (o === 'small') return cv.bscale === 'box' ? 'box' : 'all'; if (cv.bscale === 'box') return 'box'; return 'more'; }
+function cvOver(r, b) { const f = cvFit(r, b); return f === 'overlap' || f === 'short' ? f : f === 'more' || f === 'grow' ? 'none' : 'small'; }   // notas que no caben: solapadas, menos altas o más pequeñas
 function cvPerN(r, b) { if (CVFREE()) return 0; const cv = r && r.cnv || {}, v = (b && b.cper) || cv.per; return v && v !== 'auto' ? clamp(+v, 1, 8) : 0; }   // tarjetas o notas por fila elegidas a mano (0 = según el tamaño)
 function cvPer(r, b, R) { const cv = r && r.cnv || {}, v = (b && b.cper) || cv.per; if (v && v !== 'auto') return clamp(+v, 1, 3); const k = R.w / Math.max(1, R.h); return k > 3 ? 3 : k > 2 ? 2 : 1; }   // tiras por fila: según lo alargado del recuadro
 function cvCur() { const n = primary(), cr = n && cvRole(n); if (cr) return cr; const r = n && info(n.id) && info(n.id).r || doc.roots[0]; return r && r.structure === 'canvas' ? { r, block: null } : null; }
