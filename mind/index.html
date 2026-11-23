@@ -2747,11 +2747,11 @@ function branchText(seg, c, lw, cone, d) {
   const len = pts.slice(1).reduce((a, p, i) => a + Math.hypot(p[0] - pts[i][0], p[1] - pts[i][1]), 0);
   const cs = getComputedStyle(t), w = cone ? (d === 0 ? lw : lw * 0.65) : lw, id = 'bt' + c.id;
   const ff = cs.fontFamily.replace(/"/g, "'"), tt = cs.textTransform !== 'none' ? `text-transform:${cs.textTransform};` : '';
-  const b = (c.bpos || 0) * len, fs = parseFloat(cs.fontSize) || 14;
+  const Z = (POS.get(c.id) || {}).zs || 1, b = (c.bpos || 0) * len, fs = (parseFloat(cs.fontSize) || 14) * Z, fsz = fs + 'px', lsp = (parseFloat(cs.letterSpacing) || 0) * Z;   // con el foco, el texto crece con su tema
   // Dónde está el texto a lo largo de la rama (para pincharlo justo ahí y para el tirador ⟷)
   const mctx = branchText._c || (branchText._c = document.createElement('canvas').getContext('2d'));
-  mctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-  const shown = cs.textTransform === 'uppercase' ? c.text.toUpperCase() : c.text, tl = Math.min(len, mctx.measureText(shown).width + (parseFloat(cs.letterSpacing) || 0) * shown.length);
+  mctx.font = `${cs.fontStyle} ${cs.fontWeight} ${fsz} ${cs.fontFamily}`;
+  const shown = cs.textTransform === 'uppercase' ? c.text.toUpperCase() : c.text, tl = Math.min(len, mctx.measureText(shown).width + lsp * shown.length);
   const s0 = rev ? 4 + b : len - 4 - b - tl, s1 = s0 + tl;
   BTP.set(c.id, { pts, len, rev, s0, s1, w, fs });
   let acc = 0; const hp = pts.filter((p, i) => { if (i) acc += Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]); return acc >= s0 - 8 && acc <= s1 + 8; });
@@ -2761,7 +2761,7 @@ function branchText(seg, c, lw, cone, d) {
     BTH.push(`<path class="bt-sel" d="M${sp.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')}" stroke-width="${f1(fs + 10)}"/>`);
   }
   BTH.push(`<path data-bthit="${c.id}" class="bthit" d="M${hp.map(p => f1(p[0]) + ',' + f1(p[1] - (w / 2 + 4 + fs / 2) + 4)).join(' L')}" stroke-width="${f1(fs + 12)}"/>`);
-  return `<path id="${id}" d="M${pts.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')}" fill="none" stroke="none"/><text data-bt="${c.id}"${editId === c.id ? ' visibility="hidden"' : ''} font-size="${cs.fontSize}" font-weight="${cs.fontWeight}" font-style="${cs.fontStyle}" font-family="${esc(ff)}" fill="${cs.color}" dy="${f1(-(w / 2 + 4))}" style="${tt}letter-spacing:${cs.letterSpacing === 'normal' ? 0 : cs.letterSpacing}"><textPath href="#${id}" startOffset="${f1(rev ? 4 + b : len - 4 - b)}" text-anchor="${rev ? 'start' : 'end'}">${esc(c.text)}</textPath></text>`;
+  return `<path id="${id}" d="M${pts.map(p => f1(p[0]) + ',' + f1(p[1])).join(' L')}" fill="none" stroke="none"/><text data-bt="${c.id}"${editId === c.id ? ' visibility="hidden"' : ''} font-size="${fsz}" font-weight="${cs.fontWeight}" font-style="${cs.fontStyle}" font-family="${esc(ff)}" fill="${cs.color}" dy="${f1(-(w / 2 + 4))}" style="${tt}letter-spacing:${lsp ? lsp + 'px' : 0}"><textPath href="#${id}" startOffset="${f1(rev ? 4 + b : len - 4 - b)}" text-anchor="${rev ? 'start' : 'end'}">${esc(c.text)}</textPath></text>`;
 }
 /* ---------- Ramas a mano: curva (curve=dx,dy) y giro de todo el brazo (rotate=grados) ---------- */
 // El mapa se coloca como siempre (POS0) y después cada brazo girado se rota alrededor del punto donde su rama se reparte.
@@ -2787,8 +2787,13 @@ function pivot0(n, d, st) {
   return outPt(n, p, dir, st, d);
 }
 function applyRotations() {
-  POS0.clear(); XF.clear();
+  POS0.clear();
   for (const [id, p] of POS) POS0.set(id, { ...p });
+  buildXF();
+}
+// Giros de ramas (rotate=): matrices calculadas desde las posiciones de antes de girar; las ramas giradas se colocan con ellas
+function buildXF() {
+  XF.clear();
   doc.roots.forEach(r => {
     const st = r.structure || 'organic'; if (!CURVY(st)) return;
     const walk = (n, d, M, a) => {
@@ -3519,8 +3524,14 @@ function zfBase() { ZF.base = new Map(); for (const [id, p] of POS) ZF.base.set(
 // Lienzos, Kanban, tablas y figuras: el tamaño no se toca (se solaparían); ahí el foco pone en gris lo demás
 const ZF_NOSIZE = ['canvas', 'kanban', 'table', 'matrix', 'roadmap', 'pyramid', 'funnel', 'cycle', 'cycleIn', 'cycleRing', 'process', 'bubble'];
 function zfNoSize(id) { for (let f = info(id); f; f = f.p ? info(f.p.id) : null) { const st = f.p ? (f.n.sub || null) : (f.n.structure || 'organic'); if (st && ZF_NOSIZE.includes(st)) return true; if (!f.p) break; } return false; }
+const zfCard = id => { const f = info(id); return !!f && f.d >= 2 && ['canvas', 'kanban'].includes(f.r.structure || ''); };   // tarjeta o nota de un lienzo o un Kanban
 function zfTarget(fid) {
-  const B = ZF.base, f = B && B.has(fid) ? node(fid) : null; if (!f || !info(fid) || zfNoSize(fid)) return null;
+  const B = ZF.base, f = B && B.has(fid) ? node(fid) : null; if (!f || !info(fid)) return null;
+  if (zfNoSize(fid)) {   // lienzos, Kanban…: la tarjeta crece en su sitio, por encima de las demás, sin mover nada
+    const S = clamp(+PR.zfGrow || 1.5, 1, 3), T = new Map(); for (const [id, p] of B) T.set(id, { x: p.x + p.w / 2, y: p.y + p.h / 2, s: 1 });
+    const c0 = T.get(fid), all = [f]; (function w(m) { kidsOf(m).forEach(k => { if (B.has(k.id)) { all.push(k); w(k); } }); })(f);
+    if (zfCard(fid)) all.forEach(m => { const q = T.get(m.id); T.set(m.id, { x: c0.x + (q.x - c0.x) * S, y: c0.y + (q.y - c0.y) * S, s: S }); });
+    return T; }
   const ctr = id => { const p = B.get(id); return { x: p.x + p.w / 2, y: p.y + p.h / 2, w: p.w, h: p.h }; };
   const BS = clamp(+PR.zfGrow || 1.5, 1, 3), K = 1 - clamp(PR.zfRed == null ? 30 : +PR.zfRed, 0, 80) / 100, LV = clamp(+PR.zfLv || 2, 1, 3);
   const scl = L => { if (L <= 1) return BS; const t = Math.min(1, (L - 1) / LV); return Math.pow(BS, 1 - t) * Math.pow(K, t); };   // hijos al todo; nietos (y más, según «Niveles») cada vez menos
@@ -3551,14 +3562,15 @@ function zfTarget(fid) {
   return T;
 }
 function zfApply() {
-  if (!ZF.base || (!ZF.to && !ZF.cur)) return;
+  if (!ZF.base || (!ZF.to && !ZF.cur)) { if (ZF.base && [...XF.values()].some(v => v.a || v.t)) buildXF(); return; }
   for (const [id, b] of ZF.base) { const p = POS.get(id); if (!p) continue; const o = { x: b.x + b.w / 2, y: b.y + b.h / 2, s: 1 };
     const Z = (ZF.cur && ZF.cur.get(id)) || (ZF.to && ZF.to.get(id)) || o, x = Z.x, y = Z.y, sc = Z.s;
     if (Math.abs(sc - 1) < 1e-3 && Math.abs(x - o.x) < 0.05 && Math.abs(y - o.y) < 0.05) continue;
     p.w = b.w * sc; p.h = b.h * sc; p.x = x - p.w / 2; p.y = y - p.h / 2; p.zs = sc;
-    const q = POS0.get(id), b0 = ZF.base0.get(id); if (q && b0) { q.w = b0.w * sc; q.h = b0.h * sc; q.x = b0.x + b0.w / 2 + (x - o.x) - q.w / 2; q.y = b0.y + b0.h / 2 + (y - o.y) - q.h / 2; } }
+    const q = POS0.get(id), b0 = ZF.base0.get(id), xf = XF.get(id); if (q && b0) { q.w = b0.w * sc; q.h = b0.h * sc; q.x = b0.x + b0.w / 2 + (x - o.x) - q.w / 2; q.y = b0.y + b0.h / 2 + (y - o.y) - q.h / 2; } }
+  if ([...XF.values()].some(v => v.a || v.t)) buildXF();   // con ramas giradas, los giros se recalculan desde las nuevas posiciones (sin huecos entre padre e hijos)
 }
-function zfXf(id, p, el) { const s = p.zs || 1; if (s === 1) return `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)` + natRot(id, el);
+function zfXf(id, p, el) { const s = p.zs || 1; el.style.zIndex = s > 1.01 ? '6' : ''; if (s === 1) return `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)` + natRot(id, el);
   const x = p.x + (p.w - p.w / s) / 2, y = p.y + (p.h - p.h / s) / 2; return `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)` + natRot(id, el) + ` scale(${s.toFixed(3)})`; }
 function zfFrame() {
   if (!ZF.base) return; POS.clear(); for (const [id, b] of ZF.base) POS.set(id, { ...b }); POS0.clear(); for (const [id, b] of ZF.base0) POS0.set(id, { ...b });
@@ -3609,7 +3621,7 @@ board.addEventListener('pointermove', e => {
 board.addEventListener('pointerleave', () => { if (ZF.mode !== 'lens' || ZF.lock != null) return; clearTimeout(ZF.timer); ZF.want = undefined; ZF.timer = setTimeout(() => { if (ZF.mode === 'lens') zfSet(null); }, 500); });
 // Gris: mute, solo y (si se pide) lo que queda fuera del foco
 function zfPaint() {
-  ZGR = new Set(); const mu = ZM.mute, so = ZM.solo, fg = ZF.mode && ZF.id != null && IDX.has(ZF.id) && (PR.zfGrey || PR.zfSize === false || zfNoSize(ZF.id)) ? ZF.id : null;
+  ZGR = new Set(); const mu = ZM.mute, so = ZM.solo, fg = ZF.mode && ZF.id != null && IDX.has(ZF.id) && (PR.zfGrey || PR.zfSize === false || (zfNoSize(ZF.id) && !zfCard(ZF.id))) ? ZF.id : null;
   if (mu.size || so.size || fg != null) for (const id of EL.keys()) { const inf = info(id); if (!inf) continue; let m = false, s = false, f = false;
     for (let q = inf; q; q = q.p ? info(q.p.id) : null) { const qi = q.n.id; if (mu.has(qi)) m = true; if (so.has(qi)) s = true; if (qi === fg) f = true; if (!q.p) break; }
     if (m || (so.size && !s && inf.d > 0) || (fg != null && !f && inf.d > 0)) ZGR.add(id); }
@@ -3658,10 +3670,20 @@ var NB = { hov: null, t: 0, ghost: null, cur: null };
     if (k === 'up' || k === 'dn') { const G = NB.cur; if (!G || !IDX.has(G.id)) return; const id = G.id; sel = new Set([id]); moveSibVis(k === 'up'); if (nbWhen() === 'hover') NB.hov = id; nbPlace(); return; }
     const G = NB.cur; if (!G || !IDX.has(G.id)) return; sel = new Set([G.id]); NB.ghost = null; NB.hov = null; addTowards(G.keys[k]); }); }
 function nbLeave() { clearTimeout(NB.t); NB.t = setTimeout(() => { NB.hov = null; NB.sup = null; nbPlace(); }, 350); }
-board.addEventListener('pointerover', e => { const el = e.target.closest && e.target.closest('.n'); if (!el || drag) return; const id = +el.dataset.id; if (!IDX.has(id)) return; clearTimeout(NB.t); if (NB.hov !== id) { if (NB.sup != null && NB.sup !== id) NB.sup = null; NB.hov = id; nbPlace(); } });
-board.addEventListener('pointerout', e => { const el = e.target.closest && e.target.closest('.n'); if (el && !(e.relatedTarget && (el.contains(e.relatedTarget) || e.relatedTarget.closest('.nbtn')))) nbLeave(); });
+// Temas con el texto sobre la rama: cuenta pasar por el texto que sigue la curva, no por su caja original (que está vacía)
+const nbHit = t => { if (!t || !t.closest) return null; const b = t.closest('[data-bthit]'); if (b) return +b.dataset.bthit; const el = t.closest('.n'); return el && !el.classList.contains('onbr') ? +el.dataset.id : null; };
+board.addEventListener('pointerover', e => { if (drag) return; const id = nbHit(e.target); if (id == null || !IDX.has(id)) return; clearTimeout(NB.t); if (NB.hov !== id) { if (NB.sup != null && NB.sup !== id) NB.sup = null; NB.hov = id; nbPlace(); } });
+board.addEventListener('pointerout', e => { const id = nbHit(e.target); if (id == null) return; const r = e.relatedTarget; if (r && (nbHit(r) === id || (r.closest && r.closest('.nbtn')))) return; nbLeave(); });
 const NB_SKIP = ['canvas', 'kanban', 'table', 'matrix'];
-function nbBox(id) { const p = POS.get(id); if (!p) return null; return { x0: p.x, y0: p.y, x1: p.x + p.w, y1: p.y + p.h }; }   // en el mapa (los botones van dentro de él)
+function nbBox(id) {
+  const el = EL.get(id), bt = el && el.classList.contains('onbr') && BTP.get(id);
+  if (bt && bt.pts && bt.pts.length > 1) {   // texto sobre la rama: la caja que ocupa el texto a lo largo de la curva
+    const { pts, s0, s1, w, fs } = bt, off = w / 2 + 4 + fs / 2 - 1; let acc = 0, x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    pts.forEach((p, i) => { if (i) acc += Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]); if (acc < s0 - 2 || acc > s1 + 2) return; const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)], L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, cx = p[0] + (b[1] - a[1]) / L * off, cy = p[1] - (b[0] - a[0]) / L * off;
+      x0 = Math.min(x0, cx - fs * 0.3); x1 = Math.max(x1, cx + fs * 0.3); y0 = Math.min(y0, cy - fs * 0.6); y1 = Math.max(y1, cy + fs * 0.6); });
+    if (x1 > x0) return { x0, y0, x1, y1 }; }
+  const p = POS.get(id); if (!p) return null; return { x0: p.x, y0: p.y, x1: p.x + p.w, y1: p.y + p.h };
+}   // en el mapa (los botones van dentro de él)
 function nbScr(id) { const p = POS.get(id); if (!p) return null; return { x0: p.x * V.s + V.x, y0: p.y * V.s + V.y, x1: (p.x + p.w) * V.s + V.x, y1: (p.y + p.h) * V.s + V.y }; }
 function nbDir(id) { const f = info(id); if (!f || !f.p) return { x: 1, y: 0 }; const a = POS.get(f.p.id), b = POS.get(id); if (!a || !b) return { x: 1, y: 0 }; const dx = (b.x + b.w / 2) - (a.x + a.w / 2), dy = (b.y + b.h / 2) - (a.y + a.h / 2); return Math.abs(dx) >= Math.abs(dy) * 0.6 ? { x: Math.sign(dx) || 1, y: 0 } : { x: 0, y: Math.sign(dy) || 1 }; }
 const nbSkip = id => { const f = info(id); if (!f) return true; for (let q = f; q; q = q.p ? info(q.p.id) : null) { const st = q.p ? q.n.sub : (q.n.structure || 'organic'); if (st && NB_SKIP.includes(st)) return true; if (!q.p) break; } return false; };
