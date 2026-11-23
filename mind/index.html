@@ -397,7 +397,7 @@
   .qbar .qb-ms { display: inline-flex; gap: 3px; margin: 0 2px 0 4px; } .qbar .qb-ms button { min-width: 26px; height: 24px; border: 1.3px solid #b9c1ca; border-radius: 6px; font-weight: 800; font-size: 12px; color: #5b6670; background: #fff; }
   .qbar .qb-ms .qb-m[aria-pressed="true"] { background: #e8590c; border-color: #e8590c; color: #fff; } .qbar .qb-ms .qb-s[aria-pressed="true"] { background: #1c7ed6; border-color: #1c7ed6; color: #fff; }
   body.dark .qbar .qb-ms button { background: transparent; color: var(--ink); border-color: #555; }
-  .n.zg, .zgsvg { filter: grayscale(1) contrast(.36) brightness(1.45) !important; }   /* gris claro y opaco, como las ramas en gris; !important: los relieves con sombra ponen filter: none */
+  .board .n.zg, .zgsvg { filter: grayscale(1) contrast(.36) brightness(1.45) !important; }   /* gris claro y opaco, como las ramas en gris; !important y más peso: los relieves (también «sin relieve») ponen filter: none */
   body.dark .n.zg, body.dark .zgsvg { filter: grayscale(1) contrast(.5) brightness(.62) !important; }
   .n > .zmb { position: absolute; top: -8px; right: -8px; min-width: 15px; height: 15px; padding: 0 2px; border-radius: 4px; background: #1c7ed6; color: #fff; font: 800 9.5px/15px Inter, system-ui, sans-serif; text-align: center; pointer-events: none; z-index: 3; } .n > .zmb[data-k="M"] { background: #e8590c; }
   .zfbar { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.14); font-size: 12.5px; white-space: nowrap; }
