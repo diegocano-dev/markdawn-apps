@@ -397,7 +397,8 @@
   .qbar .qb-ms { display: inline-flex; gap: 3px; margin: 0 2px 0 4px; } .qbar .qb-ms button { min-width: 26px; height: 24px; border: 1.3px solid #b9c1ca; border-radius: 6px; font-weight: 800; font-size: 12px; color: #5b6670; background: #fff; }
   .qbar .qb-ms .qb-m[aria-pressed="true"] { background: #e8590c; border-color: #e8590c; color: #fff; } .qbar .qb-ms .qb-s[aria-pressed="true"] { background: #1c7ed6; border-color: #1c7ed6; color: #fff; }
   body.dark .qbar .qb-ms button { background: transparent; color: var(--ink); border-color: #555; }
-  .n.zg { filter: grayscale(1); opacity: .42; }
+  .n.zg { filter: grayscale(1) contrast(.36) brightness(1.45) !important; }   /* gris claro y opaco, como las ramas en gris; !important: los relieves con sombra ponen filter: none */
+  body.dark .n.zg { filter: grayscale(1) contrast(.5) brightness(.62) !important; }
   .n > .zmb { position: absolute; top: -8px; right: -8px; min-width: 15px; height: 15px; padding: 0 2px; border-radius: 4px; background: #1c7ed6; color: #fff; font: 800 9.5px/15px Inter, system-ui, sans-serif; text-align: center; pointer-events: none; z-index: 3; } .n > .zmb[data-k="M"] { background: #e8590c; }
   .zfbar { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.14); font-size: 12.5px; white-space: nowrap; }
   .nbtn { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 10; pointer-events: none; } .nbtn > button { pointer-events: auto; transform-origin: 0 0; } .nbtn button { position: absolute; left: 0; top: 0; display: grid; place-items: center; padding: 0; cursor: pointer; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
@@ -3609,11 +3610,11 @@ function zfMode(m) {
 board.addEventListener('pointermove', e => {
   if (ZF.mode !== 'lens' || ZF.lock != null || drag || editId != null || e.buttons || e.target.closest('.qbar, .zfbar, .tools, .mini, .fpane, .nbtn')) return;
   const r = board.getBoundingClientRect(), wx = (e.clientX - r.left - V.x) / V.s, wy = (e.clientY - r.top - V.y) / V.s;
-  const dist = p => Math.hypot(Math.max(p.x - wx, 0, wx - p.x - p.w), Math.max(p.y - wy, 0, wy - p.y - p.h)) * V.s;   // en píxeles de pantalla
+  const dist = id => { const b = nbBox(id); return b ? Math.hypot(Math.max(b.x0 - wx, 0, wx - b.x1), Math.max(b.y0 - wy, 0, wy - b.y1)) * V.s : Infinity; };   // en píxeles de pantalla; con el texto sobre la rama, donde está el texto
   const later = (fn, ms, w) => { if (ZF.want === w) return; ZF.want = w; clearTimeout(ZF.timer); ZF.timer = setTimeout(() => { ZF.want = undefined; if (ZF.mode === 'lens' && ZF.lock == null && !drag && editId == null) fn(); }, ms); };
-  const cp = ZF.id != null && POS.get(ZF.id), dc = cp ? dist(cp) : Infinity;
+  const dc = ZF.id != null && POS.get(ZF.id) ? dist(ZF.id) : Infinity;
   if (dc <= 1) { clearTimeout(ZF.timer); ZF.want = undefined; return; }   // encima del que ya está ampliado
-  let best = null, bd = 22; for (const [id, p] of POS) { const d = dist(p); if (d < bd) { bd = d; best = id; } }
+  let best = null, bd = 22; for (const id of POS.keys()) { const d = dist(id); if (d < bd) { bd = d; best = id; } }
   if (best != null && best !== ZF.id && bd < dc) return later(() => zfSet(best), 50, best);
   if (best === ZF.id || (ZF.id != null && dc < 34)) { clearTimeout(ZF.timer); ZF.want = undefined; return; }
   if (ZF.id != null) later(() => zfSet(null), 90, null);
