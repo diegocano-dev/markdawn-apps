@@ -219,13 +219,25 @@
   .cv-guide { position: absolute; left: 0; top: 0; z-index: 7; pointer-events: none; } .cv-guide.x { width: 0; border-left: 1.5px dashed #e8743b; } .cv-guide.y { height: 0; border-top: 1.5px dashed #e8743b; }
   .n.rm-bar { white-space: nowrap; overflow: visible; } .n.rm-bar .t { white-space: nowrap; }
   .cvbar { position: absolute; z-index: 29; display: flex; align-items: center; gap: 2px; background: var(--panel, #fff); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.13); padding: 3px 4px 3px 10px; font-size: 12.5px; white-space: nowrap; }
-  .cvbar .cvb-l { font-weight: 600; color: var(--acc); margin-right: 6px; } .cvbar i { width: 1px; align-self: stretch; background: var(--line); margin: 3px 3px; }
+  .cvbar .cvb-l { font-weight: 600; color: var(--acc); margin-right: 6px; } .cvbar button.cvb-prim { background: var(--acc); color: #fff; font-weight: 700; } .cvbar button.cvb-prim:hover { background: var(--acc-dark, #0b5e5a); } .cvbar i { width: 1px; align-self: stretch; background: var(--line); margin: 3px 3px; }
   .cvbar button { border: 0; background: none; border-radius: 6px; padding: 4px 8px; cursor: pointer; color: inherit; font: inherit; } .cvbar button:hover { background: var(--hov, rgba(14,116,112,.1)); } .cvbar button.on { background: var(--acc); color: #fff; }
   .cv-add { position: absolute; left: 0; top: 0; z-index: 5; white-space: nowrap; width: auto; display: block; border: 1px dashed transparent; background: none; color: var(--muted, #7a8a90); font: 12px/1 inherit; font-family: inherit; padding: 4px 8px; border-radius: 6px; cursor: pointer; opacity: .55; transition: opacity .15s; }
   .cv-add:hover { opacity: 1; border-color: currentColor; color: var(--acc); background: var(--panel, #fff); }
   body.exporting .cv-add, body.demo-hidecv .cv-add { display: none; }
-  @media (hover: none) { .cv-add { opacity: .9; } }
+  @media (hover: none) { .cv-add, .cv-add.on { opacity: .9 !important; pointer-events: auto; } }
   .n.cv-hid { opacity: 0; } .n.cv-hid.sel, .n.cv-hid:hover { opacity: .45; }
+  .n.cv-subh { visibility: hidden !important; pointer-events: none !important; } .n.cv-subp { z-index: 9; filter: saturate(.8) brightness(1.06); }
+  .cv-lay { position: absolute; left: 0; top: 0; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,.14); filter: brightness(.96); }
+  .cv-badge { position: absolute; left: 0; top: 0; z-index: 10; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; border: 2px solid #fff; background: var(--acc); color: #fff; font: 700 11px/16px system-ui, sans-serif; text-align: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .cv-badge:hover { filter: brightness(1.15); } .cv-badge.open { background: #b45309; }
+  .cv-popbg { position: absolute; left: 0; top: 0; z-index: 8; background: #fffdf3; border: 1px solid #e5d48a; border-radius: 10px; box-shadow: 0 10px 26px rgba(0,0,0,.2); }
+  body.dark .cv-popbg { background: #2a2e33; border-color: #4b5057; }
+  .cv-add { opacity: 0 !important; pointer-events: none; } .cv-add.on { opacity: .6 !important; pointer-events: auto; } .cv-add.on:hover { opacity: 1 !important; }
+  body.exporting .cv-lay, body.exporting .cv-badge, body.exporting .cv-popbg { display: none; }
+  /* títulos de los recuadros: solo texto; el borde, el relleno y el relieve son del recuadro, nunca del título */
+  .n.cvt { background: none !important; background-image: none !important; border-color: transparent !important; box-shadow: none !important; }
+  .n.cvt:not(.zg) { filter: none !important; } .n.cvt.sel { border-color: var(--acc) !important; }
+  .n.cvt-band { --tc: #ffffff !important; } .n.cvt-over { --tc: #ffffff !important; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
   .nw-dlg { width: min(760px, 94vw); } .nw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; max-height: 46vh; overflow: auto; padding: 2px; }
   .nw-t { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel, #fff); cursor: pointer; color: inherit; font: inherit; }
   .nw-t:hover { border-color: var(--acc); background: var(--acc-tint); } .nw-t svg { width: 64px; height: 44px; } .nw-t small { font-size: 11.5px; text-align: center; line-height: 1.2; white-space: normal; overflow-wrap: anywhere; }
@@ -389,11 +401,14 @@
   .qbar button:hover { background: var(--hover); }
   .qbar button[aria-pressed="true"] { background: var(--acc-tint); color: var(--acc-dark); }
   .qbar .qb-cvonly, .qbar .qb-cvl { display: none; } .qbar.cvq .qb-cvl { display: inline; margin-left: 4px; font-size: 12.5px; font-weight: 600; } .qbar.cvq[data-cvq="box"] .qb-cvonly { display: inline-flex; }
-  .qbar.cvq [data-cmd="qbRama"], .qbar.cvq [data-cmd="qbEstr"], .qbar.cvq [data-cmd="qbMenu"] { display: none; } .qbar.compact2 .qb-cvl { display: none !important; }
+  .qbar.cvq [data-cmd="qbRama"], .qbar.cvq [data-cmd="qbEstr"], .qbar.cvq [data-cmd="qbMenu"] { display: none; }
+  /* en un lienzo no sirven los menús de mapa: relaciones, grupos, mute/solo, encuadrar la rama; en el título del lienzo tampoco ordenar ni el «a qué se aplica» */
+  .qbar.cvq [data-cmd="relation"], .qbar.cvq [data-cmd="groupMenu"], .qbar.cvq .qb-ms, .qbar.cvq [data-cmd="fitBranch"], .qbar[data-cvq="root"] [data-cmd="moveUp"], .qbar[data-cvq="root"] [data-cmd="moveDown"], .qbar[data-cvq="root"] .qb-seg, .qbar[data-cvq="root"] [data-cmd="addChild"], .qbar[data-cvq="root"] .qb-cvbox { display: none !important; } .qbar.compact2 .qb-cvl { display: none !important; }
   .qbp .cvtiles { display: flex; gap: 6px; } .qbp .cvtiles button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 4px 5px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); font: inherit; font-size: 12px; cursor: pointer; } .qbp .cvtiles button[aria-pressed="true"] { border-color: var(--acc); background: var(--acc-tint); }
   .qbp .cvseg { display: inline-flex; gap: 1px; padding: 2px; border-radius: 7px; background: var(--hover); } .qbp .cvseg button { border: 0; background: none; border-radius: 5px; padding: 3px 9px; font: inherit; font-size: 12px; color: var(--muted); cursor: pointer; } .qbp .cvseg button[aria-pressed="true"] { background: var(--panel); color: var(--acc-dark); font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.12); } body.dark .qbp .cvseg button[aria-pressed="true"] { color: #7fd0d2; }
   .qbar { flex-direction: column; align-items: stretch; gap: 2px; } .qbar .qb-row { display: flex; align-items: center; gap: 1px; } .qbar .qb-row + .qb-row { border-top: 1px solid var(--line-soft); padding-top: 2px; }
-  .qbar .qb-more { min-width: 18px; padding: 0 3px; } .qbar.cvq .qb-nocv { display: none; }
+  .qbar .qb-more { min-width: 18px; padding: 0 3px; } .qbar.cvq .qb-nocv { display: none; } .qbar .qb-cvany, .qbar .qb-cved { display: none; } .qbar.cvq .qb-cvany, .qbar.cvq .qb-cved { display: inline-flex; align-items: center; }
+  .qbar.cvfree .qb-cvpro, .qbar [data-cmd="qbCards"] { display: none !important; } .qbar.cvq:not([data-cvq="box"]) .qb-cvbox { display: none; } .qbar .qb-cvedit[aria-pressed="true"] { background: var(--acc); color: #fff; }
   .qbar .qb-ms { display: inline-flex; gap: 3px; margin: 0 2px 0 4px; } .qbar .qb-ms button { min-width: 26px; height: 24px; border: 1.3px solid #b9c1ca; border-radius: 6px; font-weight: 800; font-size: 12px; color: #5b6670; background: #fff; }
   .qbar .qb-ms .qb-m[aria-pressed="true"] { background: #e8590c; border-color: #e8590c; color: #fff; } .qbar .qb-ms .qb-s[aria-pressed="true"] { background: #1c7ed6; border-color: #1c7ed6; color: #fff; }
   body.dark .qbar .qb-ms button { background: transparent; color: var(--ink); border-color: #555; }
@@ -478,6 +493,30 @@
   .fpane input[type=range] { width: 100%; accent-color: var(--acc); }
   .fp-size { min-width: 34px; text-align: center; font-variant-numeric: tabular-nums; font-size: 12px; }
   .fp-top { padding: 8px 12px 6px; }
+  #fpane [hidden] { display: none !important; } .fpane:has(#fp-cv:not([hidden])) { width: 300px; }
+  #fp-cv { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+  .fc-tabs { display: flex; border-bottom: 1px solid var(--line); padding: 0 6px; flex: none; }
+  .fc-tabs button { border: 0; background: none; padding: 7px 7px; font: inherit; font-size: 12.5px; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  .fc-tabs button[aria-selected="true"] { color: var(--acc); font-weight: 700; border-bottom-color: var(--acc); }
+  .fc-body { overflow: auto; padding: 8px 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+  .fc-row { display: flex; align-items: center; gap: 6px; margin: 4px 0; } .fc-l { width: 74px; flex: none; font-size: 11.5px; color: var(--muted); } .fc-v { flex: 1; min-width: 0; }
+  .fc-v .seg button { font-size: 11.5px; } .fc-rng { display: flex; align-items: center; gap: 6px; } .fc-rng span { width: 42px; text-align: right; font-size: 11px; color: var(--muted); }
+  .fc-col { width: 28px; height: 24px; padding: 0 2px; border: 1px solid var(--line); border-radius: 4px; background: #fff; cursor: pointer; }
+  .fc-b { height: 26px !important; min-height: 26px !important; padding: 0 8px !important; } .fc-b[aria-pressed="true"] { background: var(--acc-tint); border-color: var(--acc); color: var(--acc); }
+  .fc-edit { width: 100%; border: 0; border-radius: 6px; background: var(--acc); color: #fff; font: inherit; font-weight: 700; padding: 8px 10px; cursor: pointer; text-align: left; } .fc-edit.on { background: #b45309; }
+  .fc-ctx { background: var(--acc-tint); border: 1px solid var(--line-soft); border-radius: 7px; padding: 6px 8px; } .fc-ctx > b { font-size: 11.5px; color: var(--acc); }
+  .fc-stys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; } .fc-sty { position: relative; border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 4px; cursor: pointer; font: inherit; }
+  .fc-sty .fc-stp { display: flex; gap: 2px; height: 22px; align-items: stretch; justify-content: center; color: var(--muted); } .fc-sty .fc-stp i { flex: 1; border-radius: 2px; }
+  .fc-sty .fc-stn { display: block; font-size: 10.5px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .fc-sty .x { position: absolute; top: -4px; right: -2px; width: 14px; height: 14px; line-height: 13px; border-radius: 50%; background: var(--line); font-size: 11px; display: none; }
+  .fc-sty:hover .x { display: block; } .fc-add { border-style: dashed; }
+  .fc-tpls { display: flex; flex-wrap: wrap; gap: 4px; } .fc-tpls .btn-sec { height: 26px !important; min-height: 26px !important; padding: 0 8px !important; font-size: 11.5px; }
+  .fc-th { width: 44px; height: 28px; border-radius: 4px; border: 1px solid var(--line); background: center / cover no-repeat; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+  .fc-tts { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; } .fc-tt { border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 0 0 4px; font: inherit; font-size: 11px; cursor: pointer; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+  .fc-tt span { display: block; text-align: left; padding: 5px 7px; font-weight: 700; font-size: 10.5px; letter-spacing: .03em; text-transform: uppercase; } .fc-tt[aria-pressed="true"] { border: 2px solid var(--acc); }
+  .fc-dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); cursor: pointer; padding: 0; }
+  .fc-more { height: 30px; border: 1px dashed var(--line); border-radius: 4px; background: #fff; font-size: 10.5px; cursor: pointer; }
+  .fc-chk { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 4px 0; } .fc-sc { margin-bottom: -2px; }
+  body.dark .fc-sty, body.dark .fc-tt, body.dark .fc-more, body.dark .fc-col { background: #24282c; }
   .fp-top small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
   #fpane .btn-sec, #modal .btn-sec, #pop .btn-sec { height: auto !important; min-height: 28px; padding-top: 4px; padding-bottom: 4px; line-height: 1.2; white-space: normal; }   /* los textos largos (o con otra letra del sistema) no se salen del botón */
   .fp-tabs { display: flex; border-bottom: 1px solid var(--line); padding: 0 8px; gap: 2px; }
@@ -697,7 +736,7 @@
   .n.s-stickys::before { background: linear-gradient(180deg, var(--sgl) 0, var(--sgl) 16%, var(--slt) 36%, var(--stc) 100%); }
   .n.s-sticky::after, .n.s-stickys::after { content: ""; position: absolute; z-index: -2; left: 6%; right: 6%; bottom: 4%; height: 14%; border-radius: 50%; box-shadow: 0 calc(11px * var(--sk, 1)) calc(9px * var(--sk, 1)) rgba(0,0,0,.26); }
   /* Tiras: rectas, sombra plana; el extremo derecho se despega poco a poco (el papel se oscurece y la sombra crece hasta el final) */
-  .n.s-strip { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 32%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; padding: 9px 26px 9px 28px; max-width: 260px; }
+  .n.s-strip { isolation: isolate; --stc: var(--fill, color-mix(in srgb, var(--bc) 32%, #fffdf4)); background: none !important; background-image: none !important; border-color: transparent !important; border-radius: 0; padding: 9px 20px 9px 15px; max-width: 260px; }
   .n.s-strip::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,0) 14px, rgba(0,0,0,0) 45%, rgba(0,0,0,.04) 75%, rgba(0,0,0,.11) 100%), linear-gradient(180deg, color-mix(in srgb, var(--stc) 72%, #fff) 0%, var(--stc) 100%); box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 4px 5px -4px rgba(0,0,0,.18); }
   .n.s-strip::after { content: ""; position: absolute; z-index: -2; left: 35%; right: -1px; bottom: calc(-5.5px * var(--sk, 1)); height: calc(9.5px * var(--sk, 1)); background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.14) 55%, rgba(0,0,0,.44)); filter: blur(3.5px); border-radius: 0 40% 40% 0; }
   .board.fxfast .n.s-strip::after { filter: none; opacity: .45; } .board.fxfast .n.s-sticky::after, .board.fxfast .n.s-stickys::after { box-shadow: 0 8px 0 rgba(0,0,0,.10); } .board.fxfast .n.s-sticky::before, .board.fxfast .n.s-stickys::before { transform: none; }
@@ -1271,7 +1310,10 @@
       <button class="qb-grp" data-cmd="qbForma" title="Forma: figura, relleno, borde y relieve"><svg width="22" height="18" viewBox="0 0 22 18"><rect id="qb-forma" x="2" y="3" width="18" height="12" rx="4" fill="#dbe8f6" stroke="#3b82c4" stroke-width="2"/></svg><span class="qb-cvl" data-cvl="forma"></span><span class="caret">▾</span></button>
       <button class="qb-grp" data-cmd="qbEstr" title="Estructura: cómo se colocan los hijos de este tema"><svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="1.5" width="6" height="4" rx="1"/><rect x="1.5" y="12.5" width="6" height="4" rx="1"/><rect x="14.5" y="12.5" width="6" height="4" rx="1"/><path d="M11 5.5v3.5M4.5 12.5V9h13v3.5"/></svg><span class="caret">▾</span></button>
       <button class="qb-grp" data-cmd="qbTexto" title="Texto: letra, tamaño, estilo, color y alineación"><b id="qb-texto" style="font-size:14px;font-weight:700">Aa</b><span class="qb-cvl" data-cvl="texto"></span><span class="caret">▾</span></button>
+      <button class="qb-grp qb-cvonly qb-cvpro" data-cmd="fpCv" data-v="tit" title="Título del recuadro: solo texto, franja o imagen"><svg width="20" height="16" viewBox="0 0 20 16"><rect x="1" y="1" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="18" height="5" rx="2" fill="currentColor" opacity=".55"/></svg><span class="qb-cvl" data-cvl="titulo"></span></button>
       <button class="qb-grp qb-cvonly" data-cmd="qbCards" title="Tarjetas de este recuadro: forma, colocación, tamaño y colores"><svg width="24" height="18" viewBox="0 0 24 18"><rect x="1" y="2" width="9" height="6" rx="1.5" fill="#fbd3bd"/><rect x="13" y="2" width="9" height="6" rx="1.5" fill="#fbd3bd"/><rect x="1" y="10" width="9" height="6" rx="1.5" fill="#fbd3bd"/></svg><span class="qb-cvl" data-cvl="tarjetas"></span><span class="caret">▾</span></button>
+      <button class="qb-grp qb-cvany qb-cvpro" data-cmd="fpCv" title="Panel de formato del lienzo: todas las opciones de recuadros, títulos y tarjetas">⚙</button>
+      <span class="qb-cvpro qb-cved"><i class="sep"></i><button data-cmd="cvEdit" class="qb-cvedit" title="Editar lienzo: mover y cambiar el tamaño de los recuadros (Esc para terminar)">✎<span class="qb-cvl" data-cvl="editar"></span></button><button class="qb-cvbox" data-cmd="cvSplitH" title="Divide el recuadro en dos, uno al lado del otro">⬌</button><button class="qb-cvbox" data-cmd="cvSplitV" title="Divide el recuadro en dos, uno encima del otro">⬍</button><button class="qb-cvbox" data-cmd="cvMerge" title="Une los dos recuadros seleccionados (Ctrl + clic)">⧉</button><button class="qb-cvbox" data-cmd="cvRemove" title="Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas">✕</button></span>
       <button class="qb-grp" data-cmd="colorsAll" title="Colores: relleno, borde, texto y rama"><svg width="20" height="18" viewBox="0 0 20 18"><circle cx="7" cy="7" r="5" fill="#e03131"/><circle cx="13" cy="7" r="5" fill="#1c7ed6" opacity=".85"/><circle cx="10" cy="12" r="5" fill="#fcc419" opacity=".85"/></svg><span class="caret">▾</span></button>
       <i class="sep"></i>
       <span id="qb-pins" style="display:contents"></span>
@@ -1283,6 +1325,7 @@
     </div>
     <div class="fpane" id="fpane" hidden>
       <div class="pane-head">Formato<span class="sp"></span><button data-cmd="fpane" title="Cerrar">✕</button></div>
+      <div id="fp-cv" hidden></div>
       <div class="fp-top">
         <div class="seg"><button data-cmd="scope" data-v="node">Este tema</button><button data-cmd="scope" data-v="branch">Rama</button><button data-cmd="scope" data-v="level">Su nivel</button><button data-cmd="scope" data-v="all">Todo</button></div>
         <small id="fp-note"></small>
@@ -1414,7 +1457,7 @@ const LITE_OK = {
   pal: ['vivo', 'suave', 'oceano'],
   tex: ['', 'paper', 'linen', 'notebook'],
 };
-const LITE_CMDS = ['qbCards', 'cvBox', 'cvNotes', 'natural', 'cvFit', 'tcMenu', 'tcHead', 'fxMenu', 'bigfx', 'barrowMenu', 'barrowSet', 'afill', 'atip', 'rmDates', 'cvEdit', 'cvGrid', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
+const LITE_CMDS = ['fpCv', 'qbCards', 'cvBox', 'cvNotes', 'natural', 'cvFit', 'tcMenu', 'tcHead', 'fxMenu', 'bigfx', 'barrowMenu', 'barrowSet', 'afill', 'atip', 'rmDates', 'cvEdit', 'cvGrid', 'cvSplitH', 'cvSplitV', 'cvMerge', 'cvRemove', 'cvFrames', 'cvBg', 'cvBgOff', 'cvRatio', 'cvMobile', 'cvPreview', 'cvSaveTpl', 'barrow', 'gradFill', 'branchShape', 'branchLabel', 'importShape', 'groupMenu', 'group', 'b3d', 'radiusMenu', 'spaceMenu', 'drawShape', 'mediaCover', 'styleMenu', 'styleEditor', 'bgimg', 'svgExport', 'hiresExport'];
 // Probar lo Pro en la gratuita: estilos, estructuras, formas, líneas, letras, colores y texturas se pueden aplicar para verlos; no se guardan sin licencia
 const TRIAL_KEYS = ['mapStyle', 'struct', 'shape', 'line', 'font', 'pal', 'tex', 'qbCards', 'cvBox', 'cvNotes', 'natural'];
 let TRIAL = null;
@@ -2118,7 +2161,7 @@ function bgLum(sh, fill, bc) {
 }
 function shapeOf(n, d, st) {
   { const ci = info(n.id), cbi = ci && ci.p && info(ci.p.id); if (CVFREE() && cbi && cbi.p && ci.r && cbi.p === ci.r && ci.r.structure === 'canvas') return 'rect'; }   // gratis: tarjetas rectas
-  if (!n.shape) { const ci = info(n.id), bi = ci && ci.p && info(ci.p.id); if (bi && bi.p && ci.r && bi.p === ci.r && ci.r.structure === 'canvas') { const cs = cvCardShape(ci.r, ci.p); if (cs && SHAPES[cs]) return cs; } }   // tarjeta de lienzo: manda la forma de las tarjetas del lienzo o de su recuadro
+  if (!n.shape) { const ci = info(n.id), bi = ci && ci.p && info(ci.p.id); if (bi && bi.p && ci.r && bi.p === ci.r && ci.r.structure === 'canvas') { const cs = cvCardShape(ci.r, ci.p); if (cs && SHAPES[cs]) return cs; } if (bi && bi.p && ci.r && ci.r.structure === 'canvas' && bi.p !== ci.r) { const cr = cvRole(n); if (cr && cvSubMode(cr.r, cr.block) === 'stack') { const cs = cvCardShape(cr.r, cr.block); if (cs && SHAPES[cs]) return cs; } } }   // subtarjetas apiladas: la misma forma que las tarjetas   // tarjeta de lienzo: manda la forma de las tarjetas del lienzo o de su recuadro
   const sh = eff(n, 'shape', d);
   if (sh && sh !== 'auto') return (LITE && !TRIAL && !LITE_OK.shape.includes(sh)) || (sh.startsWith('c:') && !CSHAPES[sh.slice(2)]) ? 'round' : sh;
   if (d === 0) return info(n.id) && info(n.id).r.structure === 'bubble' && !(LITE && !TRIAL) ? 'circs' : 'solid';
@@ -2252,7 +2295,7 @@ function syncNodes() {
       el.classList.remove('st-one', 'st-fix'); { const tt = el.querySelector(':scope > .t'); if (tt && tt.style.lineHeight) tt.style.lineHeight = ''; } if (el.dataset.cvh && !CV_NOTEH.has(n.id)) el.style.paddingTop = el.style.paddingBottom = '';
       if (CV_STR.has(n.id)) { const o = CV_STR.get(n.id); el.style.maxWidth = o.w + 'px'; el.style.width = o.full ? o.w + 'px' : ''; }
       if (CV_NOTEH.has(n.id)) { el.style.aspectRatio = 'auto'; el.style.height = CV_NOTEH.get(n.id) + 'px'; el.style.overflow = 'hidden'; el.dataset.cvh = 1; } else if (el.dataset.cvh) { el.style.aspectRatio = el.style.height = el.style.overflow = ''; delete el.dataset.cvh; }
-      el.classList.toggle('cv-hid', CV_HID.has(n.id)); el.classList.toggle('rm-bar', RM_W.has(n.id));
+      el.classList.toggle('cv-hid', CV_HID.has(n.id)); el.classList.toggle('cv-subh', CV_SUBH.has(n.id)); el.classList.toggle('cv-subp', CV_SUBP.has(n.id)); { const tc = CV_TCLS.get(n.id) || ''; el.classList.toggle('cvt', !!tc); el.classList.toggle('cvt-band', tc.includes('band')); el.classList.toggle('cvt-over', tc.includes('over')); } el.classList.toggle('rm-bar', RM_W.has(n.id));
       // (solo en esas formas: si no, se borraría el grosor puesto arriba, por ejemplo border=0)
       if (sh === 'card') el.style.borderLeftWidth = bw != null ? bw + 'px' : '';
       if (sh === 'line') el.style.borderBottomWidth = bw != null ? Math.max(bw, 0) + 'px' : '';
@@ -2290,6 +2333,9 @@ function syncNodes() {
     else if (o.mode !== 'wrap' && el.offsetHeight > H1 + 1) {   // dos líneas en el alto de una: la letra se achica lo justo (y un poco más si aún no cabe)
       el.classList.add('st-fix'); el.style.height = H1 + 'px'; el.style.paddingTop = el.style.paddingBottom = '2px'; t.style.lineHeight = '1.02'; el.dataset.cvh = 1;
       while ((t.offsetHeight > H1 - 4 || t.scrollWidth > t.clientWidth + 0.5) && f > f0 * 0.45) { f -= 0.25; el.style.fontSize = f + 'px'; } }
+    if (!o.full && o.mode !== 'shrink') {   // «según el texto» con salto de línea: la tira se estrecha hasta la línea más larga, no ocupa todo el ancho
+      const rg = document.createRange(); rg.selectNodeContents(t); const ln = new Map(); for (const q of rg.getClientRects()) { if (!q.width) continue; const k = Math.round(q.top); const v = ln.get(k) || [Infinity, -Infinity]; ln.set(k, [Math.min(v[0], q.left), Math.max(v[1], q.right)]); }
+      if (ln.size > 1) { const bw = el.getBoundingClientRect().width, kk = bw ? el.offsetWidth / bw : 1, lw = Math.max(...[...ln.values()].map(([a, c]) => c - a)) * kk, w = Math.ceil(lw + padX + 2); if (w < el.offsetWidth - 2) el.style.width = w + 'px'; } }
   }
   // Sombra de las notas adhesivas proporcional a su tamaño (150 px = la normal)
   for (const id of seen) { const el = EL.get(id); if (!el) continue; if (el.classList.contains('s-sticky')) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, el.offsetWidth / 150)).toFixed(2)); else if (el.classList.contains('s-stickys')) el.style.setProperty('--sk', Math.max(0.3, Math.min(1.6, el.offsetWidth / 220)).toFixed(2)); else if (el.classList.contains('s-strip')) el.style.setProperty('--sk', Math.max(0.4, Math.min(1.5, el.offsetHeight / 38)).toFixed(2)); else el.style.removeProperty('--sk'); }
@@ -3568,7 +3614,33 @@ function zfTarget(fid) {
     const xo = U.x0 < Kb.x1 && U.x1 > Kb.x0, yo = U.y0 < Kb.y1 && U.y1 > Kb.y0; let dx = 0, dy = 0;
     if (xo) dy = (U.y0 + U.y1) / 2 < (Kb.y0 + Kb.y1) / 2 ? up : dn; else if (yo) dx = (U.x0 + U.x1) / 2 < (Kb.x0 + Kb.x1) / 2 ? lf : rt;
     if (dx || dy) ids.forEach(id => { const t = T.get(id); t.x += dx; t.y += dy; }); });
+  zfAway(T, B, f, r, kids);
   return T;
+}
+// «Apartar»: si la rama ampliada no cabe en pantalla, el resto del mapa se encoge hacia la esquina contraria y la rama se mete dentro
+function zfAway(T, B, f, r, kids) {
+  const AW = clamp(+PR.zfAway || 0, 0, 100) / 100; if (!AW || f === r || !board.clientWidth) return;
+  const W = board.clientWidth, H = board.clientHeight, m = 24 / V.s, zb = $('#zfbar'), top = zb && !zb.hidden ? zb.offsetTop + zb.offsetHeight + 8 : 16;
+  // lo que tapan la barra de herramientas y el panel de formato, si están encima del lienzo
+  const br = board.getBoundingClientRect(); let L = 0, Rr = W; document.querySelectorAll('.board .tools, #fpane').forEach(e => { if (e.hidden || !e.offsetWidth) return; const q = e.getBoundingClientRect(); if (q.left - br.left < W / 2) L = Math.max(L, q.right - br.left); else Rr = Math.min(Rr, q.left - br.left); });
+  const vp = { x0: (L - V.x) / V.s + m, y0: (top - V.y) / V.s, x1: (Rr - V.x) / V.s - m, y1: (H - V.y) / V.s - m };
+  const Fi = new Set([f.id]); (function w(n) { kids(n).forEach(k => { Fi.add(k.id); w(k); }); })(f);
+  const Ri = [...T.keys()].filter(id => !Fi.has(id)); if (!Ri.length) return;
+  const bx = ids => { const o = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity }; ids.forEach(id => { const t = T.get(id), b = B.get(id); if (!t || !b) return; const hw = b.w * t.s / 2, hh = b.h * t.s / 2; o.x0 = Math.min(o.x0, t.x - hw); o.x1 = Math.max(o.x1, t.x + hw); o.y0 = Math.min(o.y0, t.y - hh); o.y1 = Math.max(o.y1, t.y + hh); }); return o; };
+  const bF = bx([...Fi]), bR = bx(Ri), inside = q => q.x0 >= vp.x0 && q.x1 <= vp.x1 && q.y0 >= vp.y0 && q.y1 <= vp.y1;
+  if (!isFinite(bF.x0) || !isFinite(bR.x0) || (inside(bF) && inside(bR))) return;
+  const gx = Math.sign((bF.x0 + bF.x1) - (bR.x0 + bR.x1)) || 1, gy = Math.sign((bF.y0 + bF.y1) - (bR.y0 + bR.y1)) || 1;
+  const fit = (a0, a1, v0, v1) => a1 - a0 > v1 - v0 ? (v0 + v1) / 2 - (a0 + a1) / 2 : a0 < v0 ? v0 - a0 : a1 > v1 ? v1 - a1 : 0;
+  const tx = fit(bF.x0, bF.x1, vp.x0, vp.x1), ty = fit(bF.y0, bF.y1, vp.y0, vp.y1), F2 = { x0: bF.x0 + tx, x1: bF.x1 + tx, y0: bF.y0 + ty, y1: bF.y1 + ty }, gap = 28 / V.s;
+  const rw = Math.max(1, bR.x1 - bR.x0), rh = Math.max(1, bR.y1 - bR.y0), vw = vp.x1 - vp.x0, vh = vp.y1 - vp.y0;
+  const fw = gx > 0 ? F2.x0 - gap - vp.x0 : vp.x1 - F2.x1 - gap, fh = gy > 0 ? F2.y0 - gap - vp.y0 : vp.y1 - F2.y1 - gap;
+  const qh = Math.min(1, fw / rw, vh / rh), qv = Math.min(1, vw / rw, fh / rh), side = qh >= qv, q = clamp(Math.max(qh, qv), 0.12, 1);
+  // la esquina hacia la que va el resto: la contraria a donde crece la rama; en el otro eje se queda donde está si cabe
+  const ax = gx > 0 ? bR.x0 : bR.x1, ay = gy > 0 ? bR.y0 : bR.y1;
+  let Ax = gx > 0 ? vp.x0 : vp.x1, Ay = gy > 0 ? vp.y0 : vp.y1;
+  if (side) Ay = clamp(ay, gy > 0 ? vp.y0 : vp.y0 + rh * q, gy > 0 ? vp.y1 - rh * q : vp.y1); else Ax = clamp(ax, gx > 0 ? vp.x0 : vp.x0 + rw * q, gx > 0 ? vp.x1 - rw * q : vp.x1);
+  Ri.forEach(id => { const t = T.get(id); t.x += AW * (Ax + (t.x - ax) * q - t.x); t.y += AW * (Ay + (t.y - ay) * q - t.y); t.s *= 1 + AW * (q - 1); });
+  Fi.forEach(id => { const t = T.get(id); t.x += AW * tx; t.y += AW * ty; });
 }
 function zfApply() {
   if (!ZF.base || (!ZF.to && !ZF.cur)) { if (ZF.base && [...XF.values()].some(v => v.a || v.t)) buildXF(); return; }
@@ -3646,9 +3718,9 @@ function zfUi() {
     zb.innerHTML = `<b class="zf-t">${esc(trStr('Foco'))}</b><span class="qb-seg"><button data-zf="click" title="${esc(trStr('Al pinchar un tema, crecen él y sus hijos'))}">${esc(trStr('Al pinchar'))}</button><button data-zf="lens" title="${esc(trStr('Crece el tema más cercano al ratón'))}">${esc(trStr('Lupa'))}</button></span>`
     + `<label><input type="checkbox" data-zfo="size">${esc(trStr('Tamaño'))}</label><label><input type="checkbox" data-zfo="grey">${esc(trStr('Gris'))}</label>`
     + `<span class="zf-lv" title="${esc(trStr('Cuántos niveles crecen: 1 solo el tema, 2 el tema y sus hijos, 3 también los nietos'))}">${esc(trStr('Niveles'))}<span class="qb-seg">${[1, 2, 3].map(v => `<button data-zflv="${v}">${v}</button>`).join('')}</span></span>`
-    + `<label class="zf-mag" title="${esc(trStr('Cuánto crecen el tema elegido y sus hijos'))}">${esc(trStr('Aumento'))}<input type="range" min="1" max="3" step="0.05" data-zfgrow></label><label class="zf-mag" title="${esc(trStr('Cuánto se encoge el resto del mapa (a la izquierda, nada)'))}">${esc(trStr('Reducción'))}<input type="range" min="0" max="80" step="1" data-zfred></label><label class="zf-mag zf-back" title="${esc(trStr('Lupa: cuánto espera, al alejar el ratón, antes de volver al tamaño normal (a la derecha, se queda ampliado hasta llegar a otro tema)'))}">${esc(trStr('Volver'))}<input type="range" min="0" max="3000" step="100" data-zfback></label><span class="zf-lv" title="${esc(trStr('Botones para añadir y ordenar en el tema mientras el foco está activo; al salir, vuelven a como estaban'))}">${esc(trStr('Botones'))}<span class="qb-seg"><button data-zfnb="off">${esc(trStr('No'))}</button><button data-zfnb="hover">${esc(trStr('Al pasar'))}</button><button data-zfnb="select">${esc(trStr('Al pinchar'))}</button></span></span><button class="zf-lock" data-zfunlock hidden title="${esc(trStr('La lupa está fija en el tema pinchado. Pulsa para soltarla'))}">🔒 ${esc(trStr('Fija'))}</button><button class="zf-x" data-zfx title="${esc(trStr('Salir del foco'))}">✕</button>`;
+    + `<label class="zf-mag" title="${esc(trStr('Cuánto crecen el tema elegido y sus hijos'))}">${esc(trStr('Aumento'))}<input type="range" min="1" max="3" step="0.05" data-zfgrow></label><label class="zf-mag" title="${esc(trStr('Cuánto se encoge el resto del mapa (a la izquierda, nada)'))}">${esc(trStr('Reducción'))}<input type="range" min="0" max="80" step="1" data-zfred></label><label class="zf-mag" title="${esc(trStr('Si la rama ampliada no cabe en pantalla, el resto del mapa se encoge y se aparta hacia la esquina contraria (a la izquierda, nada; a la derecha, siempre cabe todo)'))}">${esc(trStr('Apartar'))}<input type="range" min="0" max="100" step="5" data-zfaway></label><label class="zf-mag zf-back" title="${esc(trStr('Lupa: cuánto espera, al alejar el ratón, antes de volver al tamaño normal (a la derecha, se queda ampliado hasta llegar a otro tema)'))}">${esc(trStr('Volver'))}<input type="range" min="0" max="3000" step="100" data-zfback></label><span class="zf-lv" title="${esc(trStr('Botones para añadir y ordenar en el tema mientras el foco está activo; al salir, vuelven a como estaban'))}">${esc(trStr('Botones'))}<span class="qb-seg"><button data-zfnb="off">${esc(trStr('No'))}</button><button data-zfnb="hover">${esc(trStr('Al pasar'))}</button><button data-zfnb="select">${esc(trStr('Al pinchar'))}</button></span></span><button class="zf-lock" data-zfunlock hidden title="${esc(trStr('La lupa está fija en el tema pinchado. Pulsa para soltarla'))}">🔒 ${esc(trStr('Fija'))}</button><button class="zf-x" data-zfx title="${esc(trStr('Salir del foco'))}">✕</button>`;
   }
-  if (zb) { zb.hidden = !ZF.mode; if (ZF.mode) { zb.querySelectorAll('[data-zf]').forEach(b => b.setAttribute('aria-pressed', b.dataset.zf === ZF.mode)); const sz = zb.querySelector('[data-zfo="size"]'), gr = zb.querySelector('[data-zfo="grey"]'), mg = zb.querySelector('[data-zfgrow]'), rd = zb.querySelector('[data-zfred]'); sz.checked = PR.zfSize !== false; gr.checked = !!PR.zfGrey; mg.value = PR.zfGrow || 1.5; rd.value = PR.zfRed == null ? 30 : PR.zfRed; mg.disabled = rd.disabled = !sz.checked; const bk = zb.querySelector('[data-zfback]'); bk.value = PR.zfBack == null ? 300 : PR.zfBack; bk.closest('label').hidden = ZF.mode !== 'lens'; bk.closest('label').title = trStr('Lupa: cuánto espera, al alejar el ratón, antes de volver al tamaño normal (a la derecha, se queda ampliado hasta llegar a otro tema)') + ' · ' + (bk.value >= 3000 ? '∞' : (bk.value / 1000).toFixed(1) + ' s'); zb.querySelectorAll('[data-zflv]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.zflv === (+PR.zfLv || 2))); zb.querySelectorAll('[data-zfnb]').forEach(b => b.setAttribute('aria-pressed', b.dataset.zfnb === (PR.zfNb || 'off'))); zb.querySelector('[data-zfunlock]').hidden = !(ZF.mode === 'lens' && ZF.lock != null); } }
+  if (zb) { zb.hidden = !ZF.mode; if (ZF.mode) { zb.querySelectorAll('[data-zf]').forEach(b => b.setAttribute('aria-pressed', b.dataset.zf === ZF.mode)); const sz = zb.querySelector('[data-zfo="size"]'), gr = zb.querySelector('[data-zfo="grey"]'), mg = zb.querySelector('[data-zfgrow]'), rd = zb.querySelector('[data-zfred]'); sz.checked = PR.zfSize !== false; gr.checked = !!PR.zfGrey; mg.value = PR.zfGrow || 1.5; rd.value = PR.zfRed == null ? 30 : PR.zfRed; const aw = zb.querySelector('[data-zfaway]'); aw.value = PR.zfAway || 0; mg.disabled = rd.disabled = aw.disabled = !sz.checked; const bk = zb.querySelector('[data-zfback]'); bk.value = PR.zfBack == null ? 300 : PR.zfBack; bk.closest('label').hidden = ZF.mode !== 'lens'; bk.closest('label').title = trStr('Lupa: cuánto espera, al alejar el ratón, antes de volver al tamaño normal (a la derecha, se queda ampliado hasta llegar a otro tema)') + ' · ' + (bk.value >= 3000 ? '∞' : (bk.value / 1000).toFixed(1) + ' s'); zb.querySelectorAll('[data-zflv]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.zflv === (+PR.zfLv || 2))); zb.querySelectorAll('[data-zfnb]').forEach(b => b.setAttribute('aria-pressed', b.dataset.zfnb === (PR.zfNb || 'off'))); zb.querySelector('[data-zfunlock]').hidden = !(ZF.mode === 'lens' && ZF.lock != null); } }
   $$('[data-cmd="zfMode"]').forEach(b => { const m = b.dataset.v || b.dataset.k; if (m !== 'off') b.setAttribute('aria-pressed', ZF.mode === m); });
   const ids = [...sel]; $$('[data-cmd="zmMute"]').forEach(b => b.setAttribute('aria-pressed', !!ids.length && ids.every(id => ZM.mute.has(id))));
   $$('[data-cmd="zmSolo"]').forEach(b => b.setAttribute('aria-pressed', !!ids.length && ids.every(id => ZM.solo.has(id))));
@@ -3665,7 +3737,7 @@ function zfUi() {
     if (e.target.closest('[data-zfunlock]')) { ZF.lock = null; zfUi(); } });
   zb.addEventListener('change', e => { const o = e.target.dataset.zfo; if (!o) return; if (o === 'size') PR.zfSize = e.target.checked; else PR.zfGrey = e.target.checked;
     if (PR.zfSize === false && !PR.zfGrey) { PR.zfGrey = true; } savePrefs(); ZF.to = ZF.id != null && PR.zfSize !== false ? zfTarget(ZF.id) : null; zfGo(); zfUi(); });
-  zb.addEventListener('input', e => { if (e.target.matches('[data-zfgrow]')) PR.zfGrow = +e.target.value; else if (e.target.matches('[data-zfred]')) PR.zfRed = +e.target.value; else if (e.target.matches('[data-zfback]')) { PR.zfBack = +e.target.value; savePrefs(); zfUi(); return; } else return; savePrefs(); if (ZF.id != null && PR.zfSize !== false) { ZF.to = zfTarget(ZF.id); if (ZF.cur) zfGo(); else zfFrame(); } }); }
+  zb.addEventListener('input', e => { if (e.target.matches('[data-zfgrow]')) PR.zfGrow = +e.target.value; else if (e.target.matches('[data-zfred]')) PR.zfRed = +e.target.value; else if (e.target.matches('[data-zfaway]')) PR.zfAway = +e.target.value; else if (e.target.matches('[data-zfback]')) { PR.zfBack = +e.target.value; savePrefs(); zfUi(); return; } else return; savePrefs(); if (ZF.id != null && PR.zfSize !== false) { ZF.to = zfTarget(ZF.id); if (ZF.cur) zfGo(); else zfFrame(); } }); }
 
 /* ---------- Botones en el tema: «+» hermano y «+» hijo debajo del tema seleccionado; flechas para subirlo o bajarlo al pasar el ratón ---------- */
 var NB = { hov: null, t: 0, ghost: null, cur: null };
@@ -4176,12 +4248,14 @@ document.addEventListener('drop', e => {
 
 // Mis estilos: el formato por niveles del mapa guardado con un nombre, para usarlo en otros mapas
 function styleMenu(el) {
-  const my = PR.myStyles || {};
-  openPop(el, `<div style="width:240px"><h4>Mis estilos</h4>${Object.keys(my).length ? Object.entries(my).map(([id, m]) => `<button class="opt mystyle" data-mys="${id}"><span class="palrow">${[m.theme && m.theme.pcol ? m.theme.pcol[0] : (PALETTES[m.theme && m.theme.pal] || PALETTES.vivo).root, ...((m.theme && m.theme.pcol) ? m.theme.pcol.slice(1, 4) : (PALETTES[m.theme && m.theme.pal] || PALETTES.vivo).c.slice(0, 3))].map(c => `<i style="background:${c};width:8px;height:14px"></i>`).join('')}</span>${esc(m.name)}<span class="x" data-mysdel="${id}" title="Borrar este estilo">×</span></button>`).join('') : '<p style="margin:0 0 6px;font-size:12px;color:var(--muted)">Aún no tienes estilos propios. Personaliza el mapa y guárdalo con un nombre.</p>'}
+  const my = PR.myStyles || {}, cvT = typeof cvStyleTiles === 'function' && !CVFREE() && !!cvCur();
+  
+  openPop(el, `<div style="width:240px"><h4>Mis estilos</h4>${cvT ? `<div class="seg" style="margin:0 0 8px"><button type="button" data-mystab="mapas" aria-pressed="true">${esc(trStr('Mapas'))}</button><button type="button" data-mystab="lienzos">${esc(trStr('Lienzos'))}</button></div>` : ''}${Object.keys(my).length ? Object.entries(my).map(([id, m]) => `<button class="opt mystyle" data-mys="${id}"><span class="palrow">${[m.theme && m.theme.pcol ? m.theme.pcol[0] : (PALETTES[m.theme && m.theme.pal] || PALETTES.vivo).root, ...((m.theme && m.theme.pcol) ? m.theme.pcol.slice(1, 4) : (PALETTES[m.theme && m.theme.pal] || PALETTES.vivo).c.slice(0, 3))].map(c => `<i style="background:${c};width:8px;height:14px"></i>`).join('')}</span>${esc(m.name)}<span class="x" data-mysdel="${id}" title="Borrar este estilo">×</span></button>`).join('') : '<p style="margin:0 0 6px;font-size:12px;color:var(--muted)">Aún no tienes estilos propios. Personaliza el mapa y guárdalo con un nombre.</p>'}
     <hr style="border:0;border-top:1px solid var(--line-soft);margin:6px 0">
     <button class="opt" data-cmd="styleEditor">🎨 Personalizar por niveles…</button>
     <button class="opt" data-mysave>💾 Guardar el estilo actual…</button></div>`);
   pop.onclick = e => {
+    const tb = e.target.closest('[data-mystab]'); if (tb) { PR.mysTab = tb.dataset.mystab; savePrefs(); styleMenu(el); return; }
     const dl = e.target.closest('[data-mysdel]'); if (dl) { e.stopPropagation(); delete PR.myStyles[dl.dataset.mysdel]; savePrefs(); styleMenu(el); return; }
     const b = e.target.closest('[data-mys]'); if (b) { applyMyStyle(my[b.dataset.mys]); hidePop(); return; }
     if (e.target.closest('[data-mysave]')) { hidePop(); saveMyStyle(); }
@@ -5755,7 +5829,7 @@ function nodeAttrs(n, relIds) {
   if (n.btext) a.btext = n.btext; if (n.bimg) a.bimg = imgSrc(n.bimg);
   if (n.col) a.collapsed = 'yes';
   if (n.src) a.src = n.src;
-  if (n.area) a.area = n.area; if (n.areav) a.areav = n.areav; if (n.csh) a.cardshape = n.csh; if (n.cplace) a.placement = n.cplace; if (n.cover) a.whenfull = n.cover; if (n.cncol) a.notecolors = n.cncol; if (n.cnmix) a.notemix = n.cnmix; if (n.cbfill) a.boxfill = n.cbfill; if (n.cbline) a.boxline = n.cbline; if (n.cswid) a.stripwidth = n.cswid; if (n.cslong) a.striptext = n.cslong; if (n.cper) a.perrow = n.cper; if (n.csz) a.notesize = n.csz; if (n.zone) a.zone = n.zone; if (n.zonev) a.zonev = n.zonev; if (n.from) a.from = n.from; if (n.to) a.to = n.to;
+  if (n.area) a.area = n.area; if (n.areav) a.areav = n.areav; if (n.csh) a.cardshape = n.csh; if (n.cplace) a.placement = n.cplace; if (n.cover) a.whenfull = n.cover; if (n.cncol) a.notecolors = n.cncol; if (n.cnmix) a.notemix = n.cnmix; if (n.cbfill) a.boxfill = n.cbfill; if (n.cbline) a.boxline = n.cbline; if (n.ctst) a.titlestyle = n.ctst; if (n.cbimg) a.boximage = n.cbimg; if (n.ccgap != null) a.cardgap = n.ccgap; if (n.csub) a.subcards = n.csub; if (n.ctimg) a.titleimage = n.ctimg; if (n.ctimgp) a.titleimagepos = n.ctimgp; if (n.ctimgh) a.titleimageheight = n.ctimgh; if (n.ctimgt) a.titleimagetext = n.ctimgt; if (n.cswid) a.stripwidth = n.cswid; if (n.cslong) a.striptext = n.cslong; if (n.cper) a.perrow = n.cper; if (n.csz) a.notesize = n.csz; if (n.zone) a.zone = n.zone; if (n.zonev) a.zonev = n.zonev; if (n.from) a.from = n.from; if (n.to) a.to = n.to;
   if (n.o) for (const st in n.o) { const o = n.o[st]; if (Math.abs(o[0]) + Math.abs(o[1]) >= 1) a[st] = Math.round(o[0]) + ',' + Math.round(o[1]); }
   return a;
 }
@@ -5972,7 +6046,7 @@ function buildPageMd() {
     if (r.col) m.collapsed = 'yes';
     if (i > 0) { m.floating = 'yes'; const f = r.orig != null && node(r.orig); if (f || r.origTxt) m.origin = f ? plainTopic(f) : r.origTxt; }   // tema suelto: va después del principal y dice de dónde viene
     if (r.tcols) { if (r.tcols.max) m.percolumn = r.tcols.max; if (r.tcols.head && r.tcols.head !== 'left') m.head = r.tcols.head; }
-    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null });
+    if (r.cnv) Object.assign(m, { grid: r.cnv.g || null, gridv: r.cnv.gv || null, cols: r.cnv.cw || null, rows: r.cnv.rw || null, colsv: r.cnv.cwv || null, rowsv: r.cnv.rwv || null, ratio: r.cnv.ratio || null, mobile: r.cnv.mobile || null, titles: r.cnv.titles || null, titlestyle: r.cnv.tst || null, fit: r.cnv.fit || null, notes: cvCardShape(r) === 'sticky' ? 'yes' : null, cardshape: r.cnv.csh && r.cnv.csh !== 'sticky' ? r.cnv.csh : null, placement: r.cnv.place || null, notecolors: r.cnv.ncol || null, notemix: r.cnv.nmix || null, boxfill: r.cnv.bfill || null, boxline: r.cnv.bline || null, stripwidth: r.cnv.swid || null, striptext: r.cnv.slong || null, titlespace: r.cnv.keep || null, titlegap: r.cnv.tgap != null ? r.cnv.tgap : null, whenfull: r.cnv.over || null, perrow: r.cnv.per || null, notesize: r.cnv.nsz || null, margin: r.cnv.gap != null ? r.cnv.gap : null, corners: r.cnv.rad != null ? r.cnv.rad : null, frames: r.cnv.frames || null, canvasbg: r.cnv.bg || null, canvasbgv: r.cnv.bgv || null, canvasbgmode: r.cnv.bgop || null, cardgap: r.cnv.cgap != null ? r.cnv.cgap : null, subcards: r.cnv.sub || null, canvasbgfit: r.cnv.bgfit || null });
     s += `<!-- map: ${attrs({ ...m, ...a })} -->\n`;
     if (r.note) s += '\n' + noteLines(r.note, '') + '\n';
     if (r.kids.length) s += '\n' + r.kids.map(k => subtreeMd(k, 0, relIds)).join('');
@@ -6074,7 +6148,7 @@ function parseMd(src, forPaste) {
     if (a.size && /^\d+,\d+$/.test(a.size)) n.sz = a.size.split(',').map(x => clamp(+x, 20, 2000));
     if (a.collapsed === 'yes') n.col = true;
     if (a.src && /^[\w.-]{1,40}$/.test(a.src)) n.src = a.src;
-    if (SHAPES[a.cardshape]) n.csh = a.cardshape; if (['cols', 'grid', 'strips'].includes(a.placement)) n.cplace = a.placement; if (['overlap', 'short', 'small'].includes(a.whenfull)) n.cover = a.whenfull; if (PALSETS[a.notecolors]) n.cncol = a.notecolors; if (a.notemix === 'mix') n.cnmix = 'mix'; if (['white', 'soft', 'full'].includes(a.boxfill)) n.cbfill = a.boxfill; if (['soft', 'full', 'none'].includes(a.boxline)) n.cbline = a.boxline; if (a.stripwidth === 'full') n.cswid = 'full'; if (['wrap', 'shrink'].includes(a.striptext)) n.cslong = a.striptext; if (['1', '2', '3'].includes(String(a.perrow))) n.cper = +a.perrow; if (a.notesize && isFinite(+a.notesize)) n.csz = clamp(+a.notesize, 50, 260);
+    if (SHAPES[a.cardshape]) n.csh = a.cardshape; if (['cols', 'grid', 'strips'].includes(a.placement)) n.cplace = a.placement; if (['overlap', 'short', 'small'].includes(a.whenfull)) n.cover = a.whenfull; if (PALSETS[a.notecolors]) n.cncol = a.notecolors; if (a.notemix === 'mix') n.cnmix = 'mix'; if (['white', 'soft', 'full'].includes(a.boxfill)) n.cbfill = a.boxfill; if (['soft', 'full', 'none'].includes(a.boxline)) n.cbline = a.boxline; if (['text', 'soft', 'band', 'none'].includes(a.titlestyle)) n.ctst = a.titlestyle; if (a.boximage) n.cbimg = a.boximage; if (a.cardgap != null && isFinite(+a.cardgap)) n.ccgap = clamp(+a.cardgap, 0, 60); if (a.subcards === 'list') n.csub = 'list'; if (a.titleimage) n.ctimg = a.titleimage; if (['left', 'right', 'wide'].includes(a.titleimagepos)) n.ctimgp = a.titleimagepos; if (a.titleimageheight && isFinite(+a.titleimageheight)) n.ctimgh = clamp(+a.titleimageheight, 24, 300); if (['over', 'below', 'none'].includes(a.titleimagetext)) n.ctimgt = a.titleimagetext; if (a.stripwidth === 'full') n.cswid = 'full'; if (['wrap', 'shrink'].includes(a.striptext)) n.cslong = a.striptext; if (['1', '2', '3'].includes(String(a.perrow))) n.cper = +a.perrow; if (a.notesize && isFinite(+a.notesize)) n.csz = clamp(+a.notesize, 50, 260);
     if (a.area && cvA(a.area)) n.area = a.area; if (a.areav && cvA(a.areav)) n.areav = a.areav; if (a.zone) n.zone = a.zone; if (a.zonev) n.zonev = a.zonev; if (rmD(a.from)) n.from = a.from; if (rmD(a.to)) n.to = a.to;
     if (a.group && /^(auto|#?[0-9a-f]{3,8})$/i.test(a.group)) {
       n.grp = a.group.toLowerCase() === 'auto' ? 'auto' : '#' + a.group.replace('#', '').toLowerCase();
@@ -6126,7 +6200,7 @@ function parseMd(src, forPaste) {
       if (a.origin) r.origTxt = String(a.origin);
       if (a.lines && LINES[a.lines]) r.line = a.lines;
       { const t = tcParse(a); if (t) r.tcols = t; }
-      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.margin != null || a.corners != null) r.cnv = { g: a.grid, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv };
+      if (a.grid || a.gridv || a.ratio || a.canvasbg || a.fit || a.notes || a.cardshape || a.placement || a.titlestyle || a.margin != null || a.corners != null) r.cnv = { g: a.grid, tst: ['soft', 'band'].includes(a.titlestyle) ? a.titlestyle : undefined, gv: a.gridv, cw: a.cols, rw: a.rows, cwv: a.colsv, rwv: a.rowsv, ratio: a.ratio, mobile: a.mobile, titles: a.titles, fit: a.fit, notes: undefined, csh: SHAPES[a.cardshape] ? a.cardshape : a.notes === 'yes' ? 'sticky' : undefined, place: ['cols', 'grid', 'strips'].includes(a.placement) ? a.placement : undefined, over: ['overlap', 'short', 'small'].includes(a.whenfull) ? a.whenfull : undefined, ncol: PALSETS[a.notecolors] ? a.notecolors : undefined, nmix: a.notemix === 'mix' ? 'mix' : undefined, bfill: ['white', 'full'].includes(a.boxfill) ? a.boxfill : undefined, bline: ['full', 'none'].includes(a.boxline) ? a.boxline : undefined, swid: a.stripwidth === 'full' ? 'full' : undefined, slong: ['wrap', 'shrink'].includes(a.striptext) ? a.striptext : undefined, keep: ['yes', 'no'].includes(a.titlespace) ? a.titlespace : undefined, tgap: a.titlegap != null && isFinite(+a.titlegap) ? clamp(+a.titlegap, 0, 200) : undefined, per: ['1', '2', '3'].includes(String(a.perrow)) ? +a.perrow : undefined, nsz: a.notesize && isFinite(+a.notesize) ? clamp(+a.notesize, 50, 260) : undefined, gap: a.margin != null && isFinite(+a.margin) ? clamp(+a.margin, 0, 60) : undefined, rad: a.corners != null && isFinite(+a.corners) ? clamp(+a.corners, 0, 60) : undefined, frames: a.frames, bg: a.canvasbg, bgv: a.canvasbgv, bgop: ['soft', 'full'].includes(a.canvasbgmode) ? a.canvasbgmode : undefined, cgap: a.cardgap != null && isFinite(+a.cardgap) ? clamp(+a.cardgap, 0, 60) : undefined, sub: a.subcards === 'list' ? 'list' : undefined, bgfit: ['cover', 'contain'].includes(a.canvasbgfit) ? a.canvasbgfit : undefined };
       if (a.x != null) r.x = +a.x; if (a.y != null) r.y = +a.y;
       applyAttrs(r, a); continue;
     }
@@ -6495,7 +6569,8 @@ function cmd(c, el) {
     case 'cvMobile': cvMobile(); break;
     case 'cvPreview': CV_FORCE = CV_FORCE === 'v' ? 'h' : 'v'; render(); setTimeout(() => fit(), 30); toast(trStr(CV_FORCE === 'v' ? 'Viendo el lienzo como en el móvil' : 'Viendo el lienzo como en el ordenador')); break;
     case 'cvSaveTpl': cvSaveTpl(); break;
-    case 'cvEdit': CV_EDIT = !CV_EDIT; render(); toast(trStr(CV_EDIT ? 'Editar lienzo: arrastra las asas de las líneas para ensanchar columnas y filas, y las de cada recuadro para moverlo o cambiar su tamaño' : 'Lienzo listo')); break;
+    case 'fpCv': if (typeof fpCvOpen === 'function' && !CVFREE()) { const [tb, sc] = (v || '').split(':'); const q = CVQ(); fpCvOpen(tb || (q ? (q.k === 'card' ? 'tar' : 'rec') : 'lienzo'), sc); } else upsell(); break;
+    case 'cvEdit': CV_EDIT = !CV_EDIT; render(); try { updateFmt(); } catch (e) {} $$('.qb-cvedit').forEach(b => b.setAttribute('aria-pressed', CV_EDIT)); toast(trStr(CV_EDIT ? 'Editar lienzo: arrastra las asas de las líneas para ensanchar columnas y filas, y las de cada recuadro para moverlo o cambiar su tamaño' : 'Lienzo listo')); break;
     case 'cvGrid': cvSet((cv, r) => { const G = cvGeom(r, cvPort()); r.kids.forEach(b => { delete b[cvPort() ? 'zonev' : 'zone']; }); delete cv[cvPort() ? 'cwv' : 'cw']; delete cv[cvPort() ? 'rwv' : 'rw']; }); break;
     case 'rmDates': rmDates(); break;
     case 'workFolder': workFolderMenu(el); break;
@@ -6780,6 +6855,7 @@ function hidePop(full) { try { cbarPrevEnd(); } catch (e) {} const back = !full 
   pop.classList.remove('gx'); pop.hidden = true; pop._qb = null; qbar.querySelectorAll('.qb-grp.open').forEach(x => x.classList.remove('open')); setTimeout(setFmtMode, 0); if (PR.ribbonMode === 'tabs' && $('#ribbon').classList.contains('peek')) closePeekSoon(); if (pop._from === 'qbar') { pop._from = ''; placeQbar(); } }
 document.addEventListener('mousedown', e => { if (!pop.hidden && !pop.contains(e.target) && !e.target.closest('[data-cmd$="Menu"], [data-cmd="lang"], .qb-grip')) hidePop(true); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden && pop._from === 'qbar') { hidePop(true); } }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && CV_EDIT && editId == null && $('#modal').hidden && pop.hidden) { CV_EDIT = false; render(); try { updateFmt(); } catch (x) {} $$('.qb-cvedit').forEach(b => b.setAttribute('aria-pressed', false)); } });
 // Las galerías abiertas (estilos, estructuras, formas) siguen abiertas mientras se prueban; se cierran al sacar el ratón o al hacer clic fuera
 { let gxT = 0; pop.addEventListener('mouseleave', e => { if (!pop.classList.contains('gx') || e.relatedTarget === null && e.clientY < 0) return; clearTimeout(gxT); gxT = setTimeout(() => { if (pop.classList.contains('gx') && !pop.matches(':hover')) hidePop(); }, 450); });
   pop.addEventListener('mouseenter', () => clearTimeout(gxT)); }
@@ -7198,11 +7274,12 @@ function CVQ() { const n = primary(), c = n && cvRole(n); if (!c) return null; i
 function cvFmtNode() { if (!CVC) return null; const c = CVQ(); if (!c) return null; const sc = PR.cvCards || 'cvbox'; return (sc === 'cvall' ? c.r.kids.flatMap(b => b.kids) : c.block.kids)[0] || null; }
 let QB_SEG0 = null;
 function qbCanvas() {
-  const c = CVQ(), k = c ? c.k : '', seg = qbar.querySelector('.qb-seg'); if (QB_SEG0 == null) QB_SEG0 = seg.innerHTML;
+  const c = CVQ(), n0 = primary(), k = c ? c.k : n0 && info(n0.id) && !info(n0.id).p && n0.structure === 'canvas' && sel.size === 1 ? 'root' : '', seg = qbar.querySelector('.qb-seg');   // root: el título del lienzo if (QB_SEG0 == null) QB_SEG0 = seg.innerHTML;
+  qbar.classList.toggle('cvfree', CVFREE()); { const e = qbar.querySelector('.qb-cvedit'); if (e) e.setAttribute('aria-pressed', CV_EDIT); }
   if (qbar.dataset.cvq === k) return; qbar.dataset.cvq = k; qbar.classList.toggle('cvq', !!k);
   const b = (v, t, ti) => `<button data-cmd="scope" data-v="${v}" title="${esc(trStr(ti))}">${esc(trStr(t))}</button>`;
-  seg.innerHTML = !k ? QB_SEG0 : k === 'box' ? b('node', 'Recuadro', 'Solo este recuadro') + b('cvboxes', 'Todos los recuadros', 'Todos los recuadros del lienzo') : b('node', 'Tarjeta', 'Solo esta tarjeta') + b('cvbox', 'Este recuadro', 'Todas las tarjetas de este recuadro') + b('cvall', 'Todo el lienzo', 'Todas las tarjetas del lienzo');
-  const L = { forma: k === 'box' ? 'Recuadro' : 'Forma', texto: k === 'box' ? 'Título' : 'Texto', tarjetas: 'Tarjetas' };
+  seg.innerHTML = !k ? QB_SEG0 : k === 'root' ? '' : k === 'box' ? b('node', 'Recuadro', 'Solo este recuadro') + b('cvboxes', 'Todos los recuadros', 'Todos los recuadros del lienzo') : b('node', 'Tarjeta', 'Solo esta tarjeta') + b('cvbox', 'Este recuadro', 'Todas las tarjetas de este recuadro') + b('cvall', 'Todo el lienzo', 'Todas las tarjetas del lienzo');
+  const L = { forma: k === 'box' ? 'Recuadro' : 'Forma', texto: k === 'box' ? 'Letra' : 'Texto', tarjetas: 'Tarjetas', titulo: 'Título', editar: 'Editar lienzo' };
   qbar.querySelectorAll('[data-cvl]').forEach(x => x.textContent = k ? trStr(L[x.dataset.cvl]) : '');
 }
 const CV_SCTXT = { cvboxes: 'todos los recuadros', cvbox: 'las tarjetas de este recuadro', cvall: 'todas las tarjetas del lienzo' };
@@ -7299,8 +7376,8 @@ function placeQbar() {
   if (!n || editId != null || drag || relFrom != null || !POS.get(n.id) || PR.qbar === 'off') { qbar.hidden = true; return; }
   const show = !qbSuppress && (PR.qbar === 'always' || (TOUCH.used && PR.qbar !== 'off') || qbNear) || Date.now() < qbPeek || (!pop.hidden && pop._from === 'qbar');
   qbar.classList.toggle('faded', !show);
-  const b = bbox(new Set([...sel].filter(id => POS.has(id)))); if (!b) { qbar.hidden = true; return; }
-  qbCanvas(); qbar.querySelectorAll('[data-cmd="scope"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === (PR.scope || 'node'))); qbDrawPins();
+  let b = bbox(new Set([...sel].filter(id => POS.has(id)))); if (!b) { qbar.hidden = true; return; }
+  qbCanvas(); if (qbar.dataset.cvq === 'root') { const p = POS.get(n.id); b = { x0: p.x, y0: p.y, x1: p.x + p.w, y1: p.y + p.h }; }   // el título del lienzo: su propia caja, no la del lienzo entero qbar.querySelectorAll('[data-cmd="scope"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === (PR.scope || 'node'))); qbDrawPins();
   const inf = info(n.id), lc = lineCol(n), fc = fillCss(eff(n, 'fill')), bcol = n.bc || eff(n, 'bc') || inf.color;
   $('#qb-rama').setAttribute('stroke', lc || inf.color);
   { const f = $('#qb-forma'); f.setAttribute('fill', fc && !/gradient/.test(fc) ? fc : '#ffffff'); f.setAttribute('stroke', bcol); }
@@ -7310,9 +7387,10 @@ function placeQbar() {
   const cx = ((b.x0 + b.x1) / 2) * V.s + V.x; let top = b.y0 * V.s + V.y, bot = b.y1 * V.s + V.y;
   if (NB.cur && NB.cur.id === n.id) { const q = NB.cur.pt, sy = v => v * V.s + V.y; if (q.sibUp) top = Math.min(top, sy(q.sibUp.y - 10)); if (q.kid) bot = Math.max(bot, sy(q.kid.y + 10)); if (q.sibDn) bot = Math.max(bot, sy(q.sibDn.y + 10)); }   // sin tapar los puntos para añadir
   { const fw = sel.size === 1 && EL.get(n.id) && EL.get(n.id).querySelector(':scope > .imfw'); if (fw) { const q = fw.getBoundingClientRect(); top = Math.min(top, q.top - r.top - 30); bot = Math.max(bot, q.bottom - r.top + 12); } }   /* sin tapar la imagen suelta ni sus asas */
-  let y = top - h - 12; if (y < 8) y = bot + 12;
+  let y = top - h - 12, side = false; if (y < 8) { if (qbar.dataset.cvq === 'root' && b.x1 * V.s + V.x + 12 + w < r.width - 8) side = true; else y = bot + 12; }   // el título del lienzo: a su derecha, sin tapar los recuadros
   if (y > r.height - h - 8 || bot < 0 || top > r.height) { y = clamp(y, 8, r.height - h - 8); }
   let x = clamp(cx - w / 2, 8, r.width - w - 8);
+  if (side) { x = b.x1 * V.s + V.x + 12; y = clamp((top + bot - h) / 2, 8, r.height - h - 8); }
   if (ZF.mode) { x = clamp((r.width - w) / 2, 8, r.width - w - 8); y = 58; }
   const xx = clamp(x + QBOFF.x, 4, r.width - w - 4), yy = clamp(y + QBOFF.y, 4, r.height - h - 4);
   qbar.style.transform = `translate(${xx.toFixed(0)}px,${yy.toFixed(0)}px)`;
@@ -7320,6 +7398,9 @@ function placeQbar() {
 function updateFmt() {
   try { setFmtMode(); } catch (e) {}
   if (!PR.fpane) return;
+  { const on = typeof fpCvOn === 'function' && fpCvOn(); ['.fp-top', '.fp-tabs', '.fp-body'].forEach(q => { const e = $('#fpane ' + q); if (e) e.hidden = on; }); const fc = $('#fp-cv'); if (fc) fc.hidden = !on;
+    const ph = $('#fpane .pane-head'); if (ph && ph.firstChild && ph.firstChild.nodeType === 3) ph.firstChild.nodeValue = trStr(on ? 'Formato · Lienzo' : 'Formato');
+     }   // en un lienzo, el panel es el del lienzo: Lienzo · Recuadros · Títulos · Tarjetas
   const n = primary(), inf = n && info(n.id);
   const val = k => n ? eff(n, k) : (PR.scope === 'all' ? lvOf(1)[k] : undefined);
   $('#fp-note').textContent = PR.scope === 'all' ? 'Los cambios afectan a todos los temas.' : !n ? 'Selecciona un tema para darle formato.' : PR.scope === 'level' ? 'Se aplica a: ' + scopeLabel().toLowerCase() + '.' : PR.scope === 'branch' ? 'A toda la rama: el tema y todos los que cuelgan de él.' : 'Solo a ' + (sel.size > 1 ? 'los ' + sel.size + ' temas seleccionados.' : 'este tema.');
@@ -7572,7 +7653,7 @@ function lockGate(c, v) {
 function trialStart() {
   if (TRIAL) return;
   const nodes = new Map(), w = n => { nodes.set(n.id, { shape: n.shape, font: n.font }); n.kids.forEach(w); }; doc.roots.forEach(w);
-  const CVK = ['csh', 'cplace', 'cper', 'csz', 'cover', 'cswid', 'cslong', 'cncol', 'cnmix', 'cbfill', 'cbline'], cvs = doc.roots.filter(r => r.structure === 'canvas').map(r => [r.id, JSON.stringify(r.cnv || null), r.kids.map(b => [b.id, CVK.map(k => b[k])])]);
+  const CVK = ['csh', 'cplace', 'cper', 'csz', 'cover', 'cswid', 'cslong', 'cncol', 'cnmix', 'cbfill', 'cbline', 'ctst', 'ctimg', 'ctimgp', 'ctimgh', 'ctimgt', 'cbimg', 'ccgap', 'csub'], cvs = doc.roots.filter(r => r.structure === 'canvas').map(r => [r.id, JSON.stringify(r.cnv || null), r.kids.map(b => [b.id, CVK.map(k => b[k])])]);
   TRIAL = { theme: JSON.stringify(doc.theme), roots: doc.roots.map(r => [r.id, r.structure]), nodes, cvs, CVK };
   let bar = $('#trialbar');
   if (!bar) { bar = document.createElement('div'); bar.id = 'trialbar'; bar.className = 'trialbar'; board.appendChild(bar); }
@@ -7993,7 +8074,7 @@ Object.assign(EN, {"Imágenes": "Images", "Dentro del archivo, todas al final": 
 Object.assign(EN, {"Lienzo de negocio": "Business canvas", "Lienzo de startup": "Startup canvas", "Aliados": "Partners", "Actividades": "Activities", "Recursos": "Resources", "Propuesta": "Offer", "Relación": "Relationship", "Canales": "Channels", "Clientes": "Customers", "Costes": "Costs", "Ingresos": "Revenue", "Problema": "Problem", "Solución": "Solution", "Métricas": "Metrics", "Ventaja": "Advantage", "Solo los recuadros (sin el título del lienzo)": "Only the boxes (without the canvas title)"});
 Object.assign(EN, {"Foco": "Focus", "Al pinchar": "On click", "Lupa": "Magnifier", "Tamaño": "Size", "Gris": "Grey", "Aumento": "Magnification", "Salir del foco": "Exit focus", "Al pinchar un tema, crecen él y sus hijos": "Click a topic to enlarge it and its children", "Crece el tema más cercano al ratón": "The topic nearest the mouse grows", "Cuánto crece el tema elegido frente al resto": "How much the chosen topic grows compared with the rest", "Ampliar al pinchar": "Enlarge on click", "Lupa (al pasar el ratón)": "Magnifier (on hover)", "Quitar mute y solo": "Clear mute and solo", "Al pinchar un tema, crecen él y sus hijos; el resto del mapa se encoge sin cambiar de forma": "Click a topic to enlarge it and its children; the rest of the map shrinks without changing shape", "Lupa: crece el tema más cercano al ratón, sin pinchar": "Magnifier: the topic nearest the mouse grows, without clicking", "Vuelve a poner en color todos los temas con mute o solo": "Puts every muted or soloed topic back in color", "Tema hijo (Tab)": "Child topic (Tab)", "Tema hermano (Intro)": "Sibling topic (Enter)", "Más para insertar: tema padre, vídeo, casilla de tarea, texto en la rama…": "More to insert: parent topic, video, task box, text on the branch…", "Subir entre sus hermanos (Alt+↑)": "Move up among its siblings (Alt+↑)", "Bajar entre sus hermanos (Alt+↓)": "Move down among its siblings (Alt+↓)", "Ver: plegar, encuadrar, ampliar al pinchar, lupa…": "View: fold, frame, enlarge on click, magnifier…", "Mute: pone en gris este tema y su rama": "Mute: greys out this topic and its branch", "Solo: pone en gris todo lo demás (se pueden poner varios)": "Solo: greys out everything else (you can solo several)"});
 Object.assign(EN, {"Niveles": "Levels", "Cuántos niveles crecen: 1 solo el tema, 2 el tema y sus hijos, 3 también los nietos": "How many levels grow: 1 only the topic, 2 the topic and its children, 3 also the grandchildren", "Fija": "Locked", "La lupa está fija en el tema pinchado. Pulsa para soltarla": "The magnifier is locked on the clicked topic. Click to release it", "Lupa: crece el tema más cercano al ratón (al pinchar uno, se queda fijo)": "Magnifier: the topic nearest the mouse grows (click one to lock it)", "Ampliar al pinchar: crece el tema pinchado con sus hijos": "Enlarge on click: the clicked topic grows with its children", "Añadir un tema hermano (Intro)": "Add a sibling topic (Enter)", "Añadir un tema hijo (Tab)": "Add a child topic (Tab)"});
-Object.assign(EN, {"Reducción": "Reduction", "Cuánto crecen el tema elegido y sus hijos": "How much the chosen topic and its children grow", "Cuánto se encoge el resto del mapa (a la izquierda, nada)": "How much the rest of the map shrinks (far left: not at all)", "Subir (Alt+↑)": "Move up (Alt+↑)", "Bajar (Alt+↓)": "Move down (Alt+↓)"});
+Object.assign(EN, {"Apartar": "Make room", "Si la rama ampliada no cabe en pantalla, el resto del mapa se encoge y se aparta hacia la esquina contraria (a la izquierda, nada; a la derecha, siempre cabe todo)": "If the enlarged branch does not fit on screen, the rest of the map shrinks and moves to the opposite corner (left: nothing; right: everything always fits)", "Reducción": "Reduction", "Cuánto crecen el tema elegido y sus hijos": "How much the chosen topic and its children grow", "Cuánto se encoge el resto del mapa (a la izquierda, nada)": "How much the rest of the map shrinks (far left: not at all)", "Subir (Alt+↑)": "Move up (Alt+↑)", "Bajar (Alt+↓)": "Move down (Alt+↓)"});
 Object.assign(EN, {"Tema hermano encima (Ctrl+↑)": "Sibling topic above (Ctrl+↑)", "Tema hermano debajo (Ctrl+↓)": "Sibling topic below (Ctrl+↓)", "Tema hijo (Ctrl+→)": "Child topic (Ctrl+→)", "Al seleccionar": "When selected", "Al pasar el ratón": "On hover", "Nunca": "Never", "Añadir con el ratón": "Add with the mouse", "Los puntos para añadir hermano e hijo salen en el tema seleccionado": "The dots to add a sibling or child appear on the selected topic", "Los puntos para añadir salen al pasar el ratón por un tema": "The dots to add appear when hovering a topic", "Sin puntos para añadir (Tab, Intro y Ctrl + flechas siguen funcionando)": "No dots to add (Tab, Enter and Ctrl + arrows still work)"});
 Object.assign(EN, {"Botones": "Buttons", "No": "No", "Al pasar": "On hover", "Botones para añadir y ordenar en el tema mientras el foco está activo; al salir, vuelven a como estaban": "Buttons to add and reorder on the topic while focus is on; when you leave, they go back to how they were", "Los botones para añadir y ordenar salen al pasar el ratón por un tema": "The buttons to add and reorder appear when hovering a topic", "Los botones para añadir y ordenar salen en el tema seleccionado": "The buttons to add and reorder appear on the selected topic"});
 Object.assign(EN, {"Encajar al mover": "Snap when moving", "Al soltar un tema, se coloca solo entre sus hermanos o en la rama donde lo dejes": "When you drop a topic, it slots in among its siblings or into the branch where you leave it", "Encajar al mover: al soltar un tema, se coloca solo entre sus hermanos o en la rama donde lo dejes (Alt al soltar: dejarlo suelto)": "Snap when moving: when you drop a topic, it slots in among its siblings or into the branch where you leave it (Alt when dropping: leave it free)", "Encajar al mover: activado. Al soltar un tema, se coloca solo entre sus hermanos o en la rama donde lo dejes": "Snap when moving: on. When you drop a topic, it slots in among its siblings or into the branch where you leave it", "Encajar al mover: desactivado. Los temas se pueden dejar donde quieras": "Snap when moving: off. Topics can be left wherever you like"});
@@ -8084,7 +8165,7 @@ function cvGeom(r, port, k = 1) {
     return { x: xs[a[0] - 1] + gap / 2, y: ys[a[2] - 1] + gap / 2, w: xs[a[1]] - xs[a[0] - 1] - gap, h: ys[a[3]] - ys[a[2] - 1] - gap }; };
   return { g, W, H, areas, rect, key, xs, ys, cwt, rwt, zkey };
 }
-var CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
+var CV_OPEN = null, CV_SUBH = new Set(), CV_SUBP = new Set(), CV_TCLS = new Map(), CV_NCOL = new Map(), CV_STR = new Map(), CV_BSH = new Map(), CV_NOTEH = new Map(), CV_NOTE = new Map(), CV_MAXW = new Map(), CV_HID = new Set(), CV_EDIT = false, CV_COLS = new Map(), CV_SC = new Map(), CV_BSC = new Map(), CV_PASS = 0;
 // Modo «Editar lienzo»: asas en las líneas de la cuadrícula (ensanchar columnas y filas) y en cada recuadro (mover y cambiar tamaño: pasa a zona libre)
 function cvHandles() {
   nodesEl.querySelectorAll('.cv-hdl').forEach(e => e.remove()); if (!CV_EDIT) return;
@@ -8105,27 +8186,48 @@ function cvHandles() {
 function cvOn() { return true; }
 const CVFREE = () => LITE && !TRIAL;   // lienzo de la versión gratuita: aspecto fijo
 function cvUi() {
-  nodesEl.querySelectorAll('.cv-add').forEach(e => e.remove());
+  nodesEl.querySelectorAll('.cv-add, .cv-lay, .cv-badge, .cv-popbg').forEach(e => e.remove());
+  if (cvOn()) doc.roots.forEach(r => { if (r.structure !== 'canvas') return;
+    r.kids.forEach(b => { if (cvSubMode(r, b) !== 'stack') return; b.kids.forEach(c => { const el = EL.get(c.id), q = POS.get(c.id); if (!el || !q || !c.kids.length) return;
+      const cs = getComputedStyle(el), bf = getComputedStyle(el, '::before'), bgc = cs.backgroundColor, bg = bgc && bgc !== 'rgba(0, 0, 0, 0)' && bgc !== 'transparent' ? bgc : bf.backgroundImage !== 'none' ? bf.backgroundImage : cs.getPropertyValue('--stc') || '#eee';
+      const tf = el.style.transform || '', open = CV_OPEN === c.id, n = c.kids.length;
+      if (!open) [[6, 5, 3.5], [3, 2.5, -2.5]].slice(n > 1 ? 0 : 1).forEach(([dx, dy, rot]) => { const d = document.createElement('div'); d.className = 'cv-lay no-tr'; d.style.width = el.offsetWidth + 'px'; d.style.height = el.offsetHeight + 'px'; d.style.borderRadius = cs.borderRadius; d.style.background = bg; d.style.transform = tf + ` translate(${dx}px,${dy}px)` + (doc.theme.nat ? ` rotate(${rot}deg)` : ''); nodesEl.insertBefore(d, el); });   // el montón: detrás de la tarjeta, sigue su giro
+      const k = document.createElement('button'); k.type = 'button'; k.className = 'cv-badge no-tr' + (open ? ' open' : ''); k.textContent = n; k.title = trStr(open ? 'Plegar las subtarjetas' : 'Ver las subtarjetas');
+      k.style.transform = tf + ` translate(${el.offsetWidth - 11}px,-9px)`; ['pointerdown', 'mousedown', 'dblclick'].forEach(t => k.addEventListener(t, e => { e.preventDefault(); e.stopPropagation(); }));
+      k.addEventListener('click', e => { e.stopPropagation(); CV_OPEN = open ? null : c.id; if (!open) sel = new Set([c.id]); render(); }); nodesEl.appendChild(k);
+      if (open) { let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity; const w = m => m.kids.forEach(d => { const z = POS.get(d.id); if (z) { x0 = Math.min(x0, z.x); y0 = Math.min(y0, z.y); x1 = Math.max(x1, z.x + z.w); y1 = Math.max(y1, z.y + z.h); } w(d); }); w(c);
+        if (isFinite(x0)) { const pb = document.createElement('div'); pb.className = 'cv-popbg no-tr'; pb.dataset.cvpop = c.id; pb.style.width = f1(Math.max(x1 - x0 + 20, 130)) + 'px'; pb.style.height = f1(y1 - y0 + 44) + 'px'; pb.style.transform = `translate(${f1(x0 - 10)}px, ${f1(y0 - 10)}px)`; ['pointerdown', 'mousedown'].forEach(t => pb.addEventListener(t, e => e.stopPropagation())); nodesEl.appendChild(pb);
+          addBtn(c, x0 - 2, y1 + 6, 'Añadir una subtarjeta', true); } }
+    }); }); });
   if (cvOn()) doc.roots.forEach(r => {
     if (r.structure !== 'canvas') return;
     r.kids.forEach(b => {
       const q = POS.get(b.id); if (!q || !q.cv) return;
       const bx = q.x + q.cv.dx, by = q.y + q.cv.dy, last = !b.col && b.kids[b.kids.length - 1], lp = last && POS.get(last.id);
       let x = bx + 10, yb = q.y + q.h; if (lp) { x = lp.x; const db = descBox(last); yb = db.y1; }
+      if (cvSubMode(r, b) === 'stack' && last) yb = (lp ? lp.y + lp.h : yb);
       addBtn(b, x, Math.min(yb + 6, by + q.cv.h - 24), 'Añadir una tarjeta (también con doble clic en el hueco del recuadro)');
     });
   });
   if (cvOn()) for (const [id, q] of POS) { if (!q.kbd) continue; const c = node(id); if (!c) continue; addBtn(c, q.x, Math.max(descBox(c).y1, q.y + q.h) + 8, 'Añadir una tarjeta (también con doble clic en el hueco de la columna)'); }
-  cvBarPlace();
+  cvAddShow(); cvBarPlace();
 }
-function addBtn(b, x, y, tip) {
-  const d = document.createElement('button'); d.type = 'button'; d.className = 'cv-add no-tr'; d.textContent = '+ ' + trStr('Añadir');
+function addBtn(b, x, y, tip, pop) {
+  const d = document.createElement('button'); d.type = 'button'; d.className = 'cv-add no-tr' + (pop ? ' on cv-addp' : ''); d.textContent = '+ ' + trStr('Añadir'); d.dataset.cvb = b.id; if (pop) d.style.zIndex = 9;
   d.title = trStr(tip); d.style.transform = `translate(${f1(x)}px, ${f1(y)}px)`;
   ['pointerdown', 'mousedown'].forEach(t => d.addEventListener(t, e => { e.preventDefault(); e.stopPropagation(); }));
   d.addEventListener('click', e => { e.stopPropagation(); cvAddCard(b); });
   nodesEl.appendChild(d);
 }
 function cvAddCard(b) { if (editId != null) stopEdit(); if (b.col) b.col = false; addChild(b.id); }
+Object.assign(EN, { "Ver las subtarjetas": "Show the sub-cards", "Plegar las subtarjetas": "Fold the sub-cards", "Añadir una subtarjeta": "Add a sub-card" });
+// «+ Añadir» solo en el recuadro donde está el ratón (o el de lo seleccionado): sin ratón, el lienzo queda limpio
+let cvHovB = null;
+function cvAddShow() { const n = primary(), cr = n && cvRole(n), sb = cr ? cr.block.id : n && info(n.id) && info(n.id).p && (POS.get(n.id) || {}).kbd ? n.id : null; nodesEl.querySelectorAll('.cv-add:not(.cv-addp)').forEach(d => d.classList.toggle('on', +d.dataset.cvb === cvHovB || +d.dataset.cvb === sb)); }
+document.addEventListener('pointermove', e => { if (!e.target.closest || !e.target.closest('#board')) { if (cvHovB != null) { cvHovB = null; cvAddShow(); } return; } const b = cvBoxAt(e.clientX, e.clientY), id = b ? b.id : null; if (id !== cvHovB) { cvHovB = id; cvAddShow(); } }, { passive: true });
+// La ventanita de subtarjetas se pliega al pinchar fuera de ella o con Esc
+document.addEventListener('pointerdown', e => { if (CV_OPEN == null || !e.target.closest) return; if (e.target.closest('.cv-subp, .cv-badge, .cv-popbg, .cv-addp, #qbar, #pop, #fpane')) return; const el = EL.get(CV_OPEN); if (el && el.contains(e.target)) return; CV_OPEN = null; setTimeout(render, 0); }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && CV_OPEN != null && editId == null) { CV_OPEN = null; render(); } });
 function cvBoxAt(cx, cy) {
   if (!cvOn()) return null; const w = toWorld(cx, cy);
   for (const r of doc.roots) { if (r.structure !== 'canvas') continue;
@@ -8141,7 +8243,7 @@ function cvBarRoot() {   // el lienzo o la hoja de ruta con la que se está trab
 }
 function cvBarPlace() {
   let bar = $('#cvbar'); const r = cvBarRoot(), R = r && POS.get(r.id);
-  if (!r || !R || (drag && drag.kind === 'node')) { if (bar) bar.hidden = true; return; }
+  if (!r || !R || r.structure === 'canvas' || (drag && drag.kind === 'node')) { if (bar) bar.hidden = true; return; }   // lienzo: todo va en la barra rápida y en el panel «Formato»
   if (!bar) {
     bar = document.createElement('div'); bar.id = 'cvbar'; bar.className = 'cvbar no-tr'; board.appendChild(bar);
     ['pointerdown', 'mousedown', 'dblclick', 'wheel'].forEach(t => bar.addEventListener(t, e => { e.stopPropagation(); if (t === 'mousedown') e.preventDefault(); }));
@@ -8149,8 +8251,11 @@ function cvBarPlace() {
   const k = r.structure + (CV_EDIT ? 'E' : '') + (PR.lang || '') + (CV_FORCE || '');
   if (bar.dataset.k !== k) {
     bar.dataset.k = k; const B = (c, t, tip) => `<button type="button" data-cmd="${c}" title="${esc(trStr(tip || t))}">${esc(trStr(t))}</button>`;
+    const P = (v, t, tip) => `<button type="button" data-cmd="fpCv" data-v="${v}" title="${esc(trStr(tip))}">${esc(trStr(t))}</button>`;
     bar.innerHTML = r.structure === 'roadmap'
       ? `<span class="cvb-l">${esc(trStr('Hoja de ruta'))}</span>${B('rmDates', '📅 Fechas', 'Fechas de inicio y fin de la tarea seleccionada (también se mueven arrastrando la barra)')}`
+      : !CVFREE() && CV_EDIT ? `<span class="cvb-l">✎ ${esc(trStr('Editando el lienzo'))}</span><i></i>` + B('cvSplitH', '⬌ Dividir', 'Divide el recuadro seleccionado en dos, uno al lado del otro') + B('cvSplitV', '⬍ Dividir', 'Divide el recuadro seleccionado en dos, uno encima del otro') + B('cvMerge', '⧉ Unir', 'Une los dos recuadros seleccionados (Ctrl + clic)') + B('cvRemove', '✕ Quitar', 'Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas') + '<i></i>' + B('cvGrid', 'Volver a la cuadrícula', 'Quita los cambios hechos a mano y vuelve a colocar los recuadros en la cuadrícula') + '<i></i>' + `<button type="button" data-cmd="cvEdit" class="cvb-prim">✓ ${esc(trStr('Terminar'))}</button>`
+      : !CVFREE() ? `<span class="cvb-l">${esc(trStr('Lienzo'))}</span><button type="button" data-cmd="cvEdit" class="cvb-prim" title="${esc(trStr('Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro'))}">✎ ${esc(trStr('Editar lienzo'))}</button><i></i>` + P('lienzo:estilo', '🎨 Estilo', 'Estilos de lienzo: marcos, títulos y tarjetas') + P('lienzo:estructura', '▦ Estructura', 'Cambiar el reparto de los recuadros (las tarjetas se conservan)') + P('lienzo:fondo', '🖼 Fondo', 'Imagen de fondo para ordenador y para móvil') + P('lienzo:movil', '📱 Móvil', 'Cómo se ve y se coloca en el móvil') + '<i></i>' + P('', '⚙ Formato', 'Abre el panel de formato del lienzo')
       : `<span class="cvb-l">${esc(trStr('Lienzo'))}</span><button type="button" data-cmd="cvEdit" class="${CV_EDIT ? 'on' : ''}" title="${esc(trStr('Asas para ensanchar columnas y filas, y para mover o cambiar el tamaño de cada recuadro'))}">✎ ${esc(trStr(CV_EDIT ? 'Terminar' : 'Editar lienzo'))}</button><i></i>`
         + B('cvSplitH', '⬌', 'Divide el recuadro seleccionado en dos, uno al lado del otro') + B('cvSplitV', '⬍', 'Divide el recuadro seleccionado en dos, uno encima del otro') + B('cvMerge', '⧉', 'Une los dos recuadros seleccionados (Ctrl + clic)') + B('cvRemove', '✕', 'Quita el recuadro; su vecino ocupa el hueco y se queda sus tarjetas') + '<i></i>'
         + B('cvTitles', 'Títulos', 'Muestra u oculta los títulos de los recuadros') + B('cvFrames', 'Bordes', 'Muestra u oculta los bordes de los recuadros (para usar tu propia imagen de fondo)') + B('cvBg', 'Fondo…', 'Imagen de fondo (suave con bordes; tal cual sin bordes)')
@@ -8161,6 +8266,7 @@ function cvBarPlace() {
   let x, y;
   if (R.cvc) { const x1 = (R.x + R.cvc.dx + R.cvc.w) * V.s + V.x; x = x1 - bw; y = R.y * V.s + V.y; }   // en la fila del título, a la derecha
   else { x = (R.x + R.w) * V.s + V.x + 12; y = R.y * V.s + V.y + (R.h * V.s - bh) / 2; }
+  { const fp = $('#fpane'); if (fp && !fp.hidden && fp.offsetWidth) { const br = board.getBoundingClientRect(), q = fp.getBoundingClientRect(); if (y < q.bottom - br.top && x + bw > q.left - br.left) x = q.left - br.left - bw - 8; } }   // sin taparse con el panel de formato
   x = Math.max(8, Math.min(x, W - bw - 8)); y = Math.max(8, Math.min(y, H - bh - 8));
   // Sin pisar la barra rápida del tema seleccionado: se aparta hacia arriba (o hacia abajo si no cabe)
   const qb = $('#qbar'); if (qb && !qb.hidden) { const br = board.getBoundingClientRect(), q = qb.getBoundingClientRect(), qx = q.left - br.left, qy = q.top - br.top;
@@ -8239,30 +8345,34 @@ function cvGuides(G) {
   (G || []).forEach(([k, x, y, l]) => { const d = document.createElement('div'); d.className = 'cv-guide no-tr ' + k; d.style.transform = `translate(${f1(x)}px, ${f1(y)}px)`; d.style[k === 'x' ? 'height' : 'width'] = f1(l) + 'px'; nodesEl.appendChild(d); });
 }
 function cvPrep() {   // antes de pintar: columnas de tarjetas de cada recuadro, su ancho, su escala y los títulos ocultos
-  CV_MAXW = new Map(); CV_HID = new Set(); CV_COLS = new Map(); CV_SC = new Map(); CV_NOTE = new Map(); CV_NOTEH = new Map(); CV_STR = new Map(); CV_NCOL = new Map();
+  CV_MAXW = new Map(); CV_HID = new Set(); CV_TCLS = new Map(); CV_SUBH = new Set(); CV_SUBP = new Set();
+  { const n = primary(), cr = n && cvRole(n); if (cr && cr.card && info(n.id).p !== cr.block && cvSubMode(cr.r, cr.block) === 'stack') { let c = n; while (info(c.id).p !== cr.block) c = info(c.id).p; CV_OPEN = c.id; } }   // una subtarjeta seleccionada (desde el esquema, por ejemplo) abre su montón CV_COLS = new Map(); CV_SC = new Map(); CV_NOTE = new Map(); CV_NOTEH = new Map(); CV_STR = new Map(); CV_NCOL = new Map();
   doc.roots.forEach(r => {
     if (r.structure !== 'canvas') return; const G = cvGeom(r, cvPort()), CW = 150;
     r.kids.forEach((b, bi) => { const key = CVFREE() ? 'mapa' : b.cncol || (r.cnv || {}).ncol; if (!key) return; const cols = cvNoteCols(key), mix = (b.cnmix || (r.cnv || {}).nmix) === 'mix';   // color de las notas: una paleta, por recuadro o mezclada
       b.kids.forEach((c, i) => CV_NCOL.set(c.id, cols[(mix ? i + bi : bi) % cols.length])); });
     r.kids.forEach(b => {
-      const R = G.rect(G.areas.get(b.id), b), sc = CV_BSC.get(b.id) || 1, mode = cvMode(r, b), gap = 8, inner = R.w - 20, NPx = 18;
-      CV_MAXW.set(b.id, Math.max(60, R.w - 20)); if (r.cnv && r.cnv.titles === 'no') CV_HID.add(b.id);
-      const subs = (c, wid) => { const w = (n, d) => n.kids.forEach(k => { CV_MAXW.set(k.id, Math.max(50, wid - (d - 1) * 14 * sc)); if (sc < 1) CV_SC.set(k.id, sc); w(k, d + 1); }); w(c, 1); };
+      const R = G.rect(G.areas.get(b.id), b), sc = CV_BSC.get(b.id) || 1, mode = cvMode(r, b), gap = cvCGap(r, b) ?? 8, inner = R.w - 20, NPx = 18;
+      const T0 = cvTitle(r, b), isz = cvIco(b); CV_MAXW.set(b.id, Math.max(60, R.w - 20 - (T0.img && T0.ip !== 'wide' ? isz + 8 : 0))); if (T0.hid) CV_HID.add(b.id);
+      if (!CVFREE()) CV_TCLS.set(b.id, 'cvt' + (T0.img && T0.ip === 'wide' && T0.it === 'over' ? ' cvt-over' : T0.st === 'band' ? ' cvt-band' : ''));
+      const stack = cvSubMode(r, b) === 'stack';
+      const subs = (c, wid) => { const op = stack && CV_OPEN === c.id, k2 = stack ? 0.85 : 1; const w = (n, d) => n.kids.forEach(k => { CV_MAXW.set(k.id, Math.max(50, (wid - (d - 1) * 14 * sc) * k2)); if (sc * k2 < 1) CV_SC.set(k.id, sc * k2); if (stack) (op ? CV_SUBP : CV_SUBH).add(k.id); w(k, d + 1); }); w(c, 1); };
       if (mode === 'grid') {   // notas: el mismo tamaño en todo el lienzo; en un recuadro lleno se hacen más pequeñas
         const ns = cvSize(r, b), fsc = sc * Math.min(1, ns / 120), hf = CV_BSH.get(b.id) || 1, k0 = cvCardShape(r, b) === 'stickys' ? 0.5 : 1;
-        b.kids.forEach(c => { CV_NOTE.set(c.id, Math.round(ns * sc)); if (hf < 0.99) CV_NOTEH.set(c.id, Math.round(ns * sc * k0 * hf)); if (fsc < 0.99) CV_SC.set(c.id, fsc); subs(c, ns * sc); });
+        b.kids.forEach(c => { CV_NOTE.set(c.id, Math.round(ns * sc)); if (hf < 0.99) CV_NOTEH.set(c.id, Math.round(ns * sc * k0 * hf)); if (fsc < 0.99) CV_SC.set(c.id, fsc); subs(c, ns * sc); if (stack) { const w2 = m => m.kids.forEach(k => { CV_NOTE.set(k.id, Math.round(ns * sc * 0.72)); CV_SC.set(k.id, fsc * 0.8); w2(k); }); w2(c); } });
         return;
       }
       if (mode === 'strips') {   // tiras: una por fila (o 2-3 en recuadros alargados), a tres cuartos del ancho de su hueco
         const per = cvPer(r, b, R), cellW = (R.w - 2 * NPx - (per - 1) * 6) / per, cv = r.cnv || {}, mw = Math.round(Math.min(cvSize(r, b), cellW / sc) * sc);   // largo máximo: el de la tira (proporción fija), nunca el del recuadro
         const full = (b.cswid || cv.swid) === 'full', mode = b.cslong || cv.slong || 'fit'; CV_COLS.set(b.id, per);
-        b.kids.forEach(c => { CV_STR.set(c.id, { w: mw, full, mode }); if (sc < 1) CV_SC.set(c.id, sc); subs(c, mw); });
+        b.kids.forEach(c => { CV_STR.set(c.id, { w: mw, full, mode }); if (sc < 1) CV_SC.set(c.id, sc); subs(c, mw); if (stack) { const w2 = m => m.kids.forEach(k => { CV_STR.set(k.id, { w: Math.round(mw * 0.85), full, mode }); w2(k); }); w2(c); } });
         return;
       }
       const CW = cvSize(r, b), cols = Math.max(1, Math.floor((inner + gap) / (CW * sc + gap)));
       CV_COLS.set(b.id, cols);
       const colW = (inner - (cols - 1) * gap) / cols;
       const w = (n, d) => n.kids.forEach(c => { CV_MAXW.set(c.id, Math.max(50, colW - (d - 1) * 14 * sc)); if (sc < 1) CV_SC.set(c.id, sc); w(c, d + 1); }); w(b, 1);
+      if (stack) b.kids.forEach(c => subs(c, colW));   // apiladas: escondidas o flotando
     });
   });
 }
@@ -8271,18 +8381,23 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
   // Si un recuadro no tiene sitio: «reducir» (por defecto) hace sus tarjetas más pequeñas, hasta el 60 %; «agrandar» hace crecer el lienzo.
   const port = cvPort(), s0 = sizeOf(r), top = s0.h + 16 * sp, vg = 6 * sp, ind = 14 * sp, gap = 8, grow = r.cnv && r.cnv.fit === 'grow';
   const flat = (n, dep = 1, out = []) => { for (const c of kidsOf(n)) { out.push([c, dep]); flat(c, dep + 1, out); } return out; };
-  const unitH = c => sizeOf(c).h + flat(c).reduce((a, [d]) => a + vg + sizeOf(d).h, 0);
+  const stk = c => { const cr = cvRole(c); return !!(cr && cr.card && cvSubMode(r, cr.block) === 'stack'); };
+  const unitH = c => stk(c) ? sizeOf(c).h + (c.kids.length ? 5 * sp : 0) : sizeOf(c).h + flat(c).reduce((a, [d]) => a + vg + sizeOf(d).h, 0);   // apiladas: solo cuenta la tarjeta (y su montón)
   // Títulos ocultos: se puede dejar su hueco (con imagen de fondo viene puesto) para no tapar el título o el icono que ya trae la imagen
   const cvx = r.cnv || {}, keep = cvKeepGap(r);
-  const head = b => CV_HID.has(b.id) ? (keep ? (cvx.tgap != null ? +cvx.tgap : sizeOf(b).h + 16) : 10) : sizeOf(b).h + 16;
+  const head = b => { const t = cvTitle(r, b), th = sizeOf(b).h + 16;
+    if (t.img && t.ip === 'wide') return t.it === 'below' ? t.ih + th : t.it === 'none' ? t.ih + 8 : Math.max(t.ih, th) + 4;   // imagen a lo ancho: hace de franja
+    return CV_HID.has(b.id) ? (keep ? (cvx.tgap != null ? +cvx.tgap : th) : 10) : th; };
+  const tOff = b => { const t = cvTitle(r, b), th = sizeOf(b).h + 16; return [t.img && t.ip === 'left' ? cvIco(b) + 8 : 0, t.img && t.ip === 'wide' ? (t.it === 'below' ? t.ih : t.it === 'over' ? Math.max(t.ih, th) - th : 0) : 0]; };
   const ng = 6, NP = 18, MODE = b => cvMode(r, b), free = b => MODE(b) !== 'cols';   // NP: margen de las notas con el borde del recuadro
   // Notas adhesivas: en filas, de izquierda a derecha, con más aire; una nota agrandada ocupa su sitio
-  const flow = (b, W) => { const out = []; let x = 0, y = 0, rh = 0;
-    for (const c of kidsOf(b)) { const s = sizeOf(c), h = unitH(c); if (x > 0 && x + s.w > W + 1) { x = 0; y += rh + ng; rh = 0; } out.push([c, x, y]); x += s.w + ng; rh = Math.max(rh, h); }
+  const NG = b => cvCGap(r, b) ?? ng, VG = b => { const v = cvCGap(r, b); return v != null ? v * sp : vg; }, HG = b => cvCGap(r, b) ?? gap;
+  const flow = (b, W) => { const out = [], g = NG(b); let x = 0, y = 0, rh = 0;
+    for (const c of kidsOf(b)) { const s = sizeOf(c), h = unitH(c); if (x > 0 && x + s.w > W + 1) { x = 0; y += rh + g; rh = 0; } out.push([c, x, y]); x += s.w + g; rh = Math.max(rh, h); }
     return { out, used: y + rh }; };
   // Tiras: en filas de 1 a 3 huecos iguales, cada tira a la izquierda de su hueco
-  const rows = (b, W) => { const per = CV_COLS.get(b.id) || 1, cw = (W - (per - 1) * ng) / per, out = []; let y = 0, rh = 0, i = 0;
-    for (const c of kidsOf(b)) { if (i && i % per === 0) { y += rh + ng; rh = 0; } out.push([c, (i % per) * (cw + ng), y]); rh = Math.max(rh, unitH(c)); i++; }
+  const rows = (b, W) => { const g = NG(b), per = CV_COLS.get(b.id) || 1, cw = (W - (per - 1) * g) / per, out = []; let y = 0, rh = 0, i = 0;
+    for (const c of kidsOf(b)) { if (i && i % per === 0) { y += rh + g; rh = 0; } out.push([c, (i % per) * (cw + g), y]); rh = Math.max(rh, unitH(c)); i++; }
     return { out, used: y + rh }; };
   // Notas solapadas: si no caben, cada fila tapa la parte de abajo de la anterior (siempre se ve el principio de cada nota)
   const squeeze = (b, f, H) => { if (MODE(b) !== 'grid' || cvOver(r, b) !== 'overlap' || f.used <= H) return f; const ys = [...new Set(f.out.map(o => o[2]))].sort((a, c) => a - c); if (ys.length < 2) return f;
@@ -8290,8 +8405,8 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
     return { out: f.out.map(([c, x, y]) => [c, x, ys.indexOf(y) * step]), used: (ys.length - 1) * step + rh, sq: step < rh + ng - 1 }; };
   const pack = (b, H) => { if (free(b)) { const R0 = cvGeom(r, port).rect(cvGeom(r, port).areas.get(b.id), b), f = squeeze(b, (MODE(b) === 'strips' ? rows : flow)(b, R0.w - 2 * NP), H); return { out: f.out.map(([c, x, y]) => [c, -1, y, x]), used: f.used, sq: f.sq }; }
     const cols = CV_COLS.get(b.id) || 1, out = [], hs = new Array(cols).fill(0); let col = 0;
-    for (const c of kidsOf(b)) { const h = unitH(c); if (hs[col] > 0 && hs[col] + h > H && col < cols - 1) col++; out.push([c, col, hs[col]]); hs[col] += h + vg; }
-    return { out, used: Math.max(0, ...hs.map(x => x - vg)) }; };
+    const v = VG(b); for (const c of kidsOf(b)) { const h = unitH(c); if (hs[col] > 0 && hs[col] + h > H && col < cols - 1) col++; out.push([c, col, hs[col]]); hs[col] += h + v; }
+    return { out, used: Math.max(0, ...hs.map(x => x - v)) }; };
   const need = (b, H) => { if (pack(b, H).used <= H) return H; let lo = H, hi = kidsOf(b).reduce((a, c) => a + unitH(c) + vg, 0) + 1; for (let i = 0; i < 18; i++) { const m = (lo + hi) / 2; if (pack(b, m).used <= m) hi = m; else lo = m; } return hi; };
   let G = cvGeom(r, port), k = 1, again = false;
   r.kids.forEach(b => {
@@ -8313,12 +8428,19 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
   if (k > 1) G = cvGeom(r, port, Math.min(k, 4));
   set(r, 0, 0, 6); L.get(r.id).cvc = { dx: 0, dy: top, w: G.W, h: G.H, xs: G.xs, ys: G.ys, port };
   r.kids.forEach(b => {
-    const R = G.rect(G.areas.get(b.id), b), bs = sizeOf(b), cols = CV_COLS.get(b.id) || 1, colW = (R.w - 20 - (cols - 1) * gap) / cols, H = R.h - head(b) - 8;
-    set(b, R.x + 10, top + R.y + 8, 3); L.get(b.id).cv = { dx: -10, dy: -8, w: R.w, h: R.h, cols, colW, hy: CV_HID.has(b.id) && keep ? head(b) : 0 };
+    const R = G.rect(G.areas.get(b.id), b), bs = sizeOf(b), cols = CV_COLS.get(b.id) || 1, colW = (R.w - 20 - (cols - 1) * HG(b)) / cols, H = R.h - head(b) - 8;
+    const [ox, oy] = tOff(b); set(b, R.x + 10 + ox, top + R.y + 8 + oy, 3); L.get(b.id).cv = { dx: -10 - ox, dy: -8 - oy, w: R.w, h: R.h, cols, colW, hy: CV_HID.has(b.id) && keep ? head(b) : 0 };
     const y0 = top + R.y + head(b) - (CV_HID.has(b.id) ? 0 : 0);
     const pk = pack(b, H); kidsOf(b).forEach(c => { const e = EL.get(c.id); if (e) e.classList.toggle('cv-top', !!pk.sq); });
     for (const [c, col, yy, xx] of pk.out) {
-      const x = col < 0 ? R.x + NP + xx : R.x + 10 + col * (colW + gap); let y = y0 + yy + (col < 0 ? 6 : 0); set(c, x, y, 3); L.get(c.id).cvcol = col; y += sizeOf(c).h + vg;
+      const x = col < 0 ? R.x + NP + xx : R.x + 10 + col * (colW + HG(b)); let y = y0 + yy + (col < 0 ? 6 : 0); set(c, x, y, 3); L.get(c.id).cvcol = col; y += sizeOf(c).h + vg;
+      if (stk(c)) {   // apiladas: plegadas, escondidas detrás de la tarjeta; desplegadas, flotando debajo (notas en cuadrícula, el resto en lista)
+        const cy0 = y - sizeOf(c).h - vg, F = flat(c);
+        if (CV_OPEN !== c.id) { for (const [d] of F) set(d, x + 4, cy0 + 4, 3); continue; }
+        const grid = MODE(b) === 'grid', px = x + 14, g = 7; let yy = cy0 + sizeOf(c).h + 18, xx = px, rh = 0;
+        for (const [d, dep] of F) { const s2 = sizeOf(d); if (grid) { if (xx > px && xx + s2.w > px + 3 * (s2.w + g)) { xx = px; yy += rh + g; rh = 0; } set(d, xx, yy, 3); xx += s2.w + g; rh = Math.max(rh, s2.h); } else { set(d, px + (dep - 1) * ind, yy, 3); yy += s2.h + 5 * sp; } }
+        continue;
+      }
       for (const [d, dep] of flat(c)) { set(d, x + dep * ind * (CV_BSC.get(b.id) || 1), y, 3); y += sizeOf(d).h + vg; }
     }
   });
@@ -8326,8 +8448,10 @@ function cvLayout(r, kidsOf, sizeOf, set, L, sp) {
 function cvEdge(r, c, p, q, top, first) {
   if (!top) return null; const cv = r.cnv || {}, RK = CVFREE() ? 0 : cv.rad != null ? clamp(+cv.rad, 0, 60) : 9; let h = ''; const rr = (x0, y0, x1, y1, k) => `M${f1(x0 + k)},${f1(y0)} H${f1(x1 - k)} Q${f1(x1)},${f1(y0)} ${f1(x1)},${f1(y0 + k)} V${f1(y1 - k)} Q${f1(x1)},${f1(y1)} ${f1(x1 - k)},${f1(y1)} H${f1(x0 + k)} Q${f1(x0)},${f1(y1)} ${f1(x0)},${f1(y1 - k)} V${f1(y0 + k)} Q${f1(x0)},${f1(y0)} ${f1(x0 + k)},${f1(y0)} Z`;
   const bg = p.cvc && p.cvc.port ? cv.bgv || cv.bg : cv.bg;
-  if (first && bg && p.cvc) h += `<image href="${esc(bg)}" x="${f1(p.x + p.cvc.dx)}" y="${f1(p.y + p.cvc.dy)}" width="${f1(p.cvc.w)}" height="${f1(p.cvc.h)}" preserveAspectRatio="none" opacity="${cv.frames === 'no' ? 1 : 0.22}"/>`;
+  if (first && bg && p.cvc) h += `<image href="${esc(bg)}" x="${f1(p.x + p.cvc.dx)}" y="${f1(p.y + p.cvc.dy)}" width="${f1(p.cvc.w)}" height="${f1(p.cvc.h)}" preserveAspectRatio="${cv.bgfit === 'cover' ? 'xMidYMid slice' : cv.bgfit === 'contain' ? 'xMidYMid meet' : 'none'}" opacity="${(cv.bgop || (cv.frames === 'no' ? 'full' : 'soft')) === 'full' ? 1 : 0.22}"/>`;
   if (q.cv && cv.frames !== 'no') { const col = info(c.id).color, x = q.x + q.cv.dx, y = q.y + q.cv.dy, fx = bigFx(c, col, cvBoxFx(r, c, col)); h += fx.defs + fx.shape(rr(x, y, x + q.cv.w, y + q.cv.h, Math.min(RK, q.cv.w / 2, q.cv.h / 2)), CV_EDIT ? ' stroke-dasharray="6 4"' : ''); }
+  if (q.cv && !CVFREE() && c.cbimg) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy, id = 'cbi' + c.id; h += `<clipPath id="${id}"><path d="${rr(x, y, x + q.cv.w, y + q.cv.h, Math.min(RK, q.cv.w / 2, q.cv.h / 2))}"/></clipPath><image href="${esc(c.cbimg)}" x="${f1(x)}" y="${f1(y)}" width="${f1(q.cv.w)}" height="${f1(q.cv.h)}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})" opacity=".3"${ZGR.has(c.id) ? ' class="zgsvg"' : ''} style="pointer-events:none"/>`; }   // imagen propia del recuadro, suave
+  if (q.cv && !CVFREE()) h += cvTitleSvg(r, c, q, RK);
   if (q.cv && CV_EDIT && q.cv.hy) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy + q.cv.hy - 4; h += `<path d="M${f1(x + 6)},${f1(y)} H${f1(x + q.cv.w - 6)}" stroke="#0e7470" stroke-opacity=".75" stroke-width="1.5" stroke-dasharray="5 4"/>`; }   // en «Editar lienzo»: dónde empiezan las tarjetas (el hueco del título)
   if (q.cv && cv.frames === 'no' && CV_EDIT) { const x = q.x + q.cv.dx, y = q.y + q.cv.dy; h += `<path d="${rr(x, y, x + q.cv.w, y + q.cv.h, Math.min(RK, q.cv.w / 2, q.cv.h / 2))}" fill="none" stroke="#0e7470" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="6 4"/>`; }
   return h ? { svg: h } : null;
@@ -8360,13 +8484,40 @@ function cvDrop(n, tgt) {
 // La forma manda: una tarjeta nueva sale como las demás. La colocación sale de la forma (notas en cuadrícula, tiras a lo ancho,
 // el resto en columnas) salvo que se elija otra.
 const CV_NOTEISH = ['sticky', 'stickys'];
-function cvCardShape(r, b) { if (CVFREE()) return 'rect'; const cv = r && r.cnv || {}; return (b && b.csh) || cv.csh || (cv.notes ? 'sticky' : null); }
+function cvCardShape(r, b) { if (CVFREE()) { const cv0 = r && r.cnv || {}, v = (b && b.csh) || cv0.csh; return v && LITE_OK.shape.includes(v) && !['sticky', 'stickys', 'strip'].includes(v) ? v : 'rect'; } const cv = r && r.cnv || {}; return (b && b.csh) || cv.csh || (cv.notes ? 'sticky' : null); }
 function cvMode(r, b) { if (CVFREE()) return 'cols'; const cv = r && r.cnv || {}, pl = (b && b.cplace) || cv.place; if (pl && pl !== 'auto') return pl; const sh = cvCardShape(r, b); return CV_NOTEISH.includes(sh) ? 'grid' : sh === 'strip' ? 'strips' : 'cols'; }
 function cvSize(r, b) { const cv = r && r.cnv || {}, v = (b && b.csz) || cv.nsz; if (v) return clamp(+v, 50, 260); const sh = cvCardShape(r, b), m = cvMode(r, b); return m === 'grid' ? 100 : m === 'strips' ? 225 : 150; }   // la nota corta, igual de ancha que la normal y la mitad de alta
 // Paletas para las notas: las de colores fuertes se aclaran hasta un tono de papel (el texto va en negro); neón y pastel ya lo son
 function cvNoteCols(key) { const c = key === 'mapa' ? mapPalCols() : key === 'mia' ? (PR.myPal && PR.myPal.length ? PR.myPal : mapPalCols()) : (PALSETS[key] || PALSETS.neon).c; return ['neon', 'pastel'].includes(key) ? c : c.map(x => hexMix(x, '#ffffff', 0.55)); }
 // Fondo y borde de los recuadros: blanco, suave (el de siempre) o el color tal cual; borde suave, del color o sin borde
 function cvBoxFx(r, b, col) { if (CVFREE()) return { fo: 1, so: 1, sw: 5, fill: '#ffffff', sc: '#3a3f44' }; const cv = r && r.cnv || {}, f = (b && b.cbfill) || cv.bfill || 'soft', l = (b && b.cbline) || cv.bline || 'soft'; return { fo: 0.08, so: l === 'full' ? 1 : 0.55, sw: l === 'none' ? 0 : 1.5, fill: f === 'white' ? '#ffffff' : f === 'full' ? col : null }; }
+// Título del recuadro: solo texto, franja suave, franja de color u oculto; y una imagen a la izquierda, a la derecha o a lo ancho
+function cvTitle(r, b) {
+  const cv = r && r.cnv || {}, st0 = (b && b.ctst) || cv.tst || (cv.titles === 'no' ? 'none' : 'text'), img = b && b.ctimg || '', ip = (b && b.ctimgp) || 'left', it = (b && b.ctimgt) || 'over';
+  const st = ['text', 'soft', 'band', 'none'].includes(st0) ? st0 : 'text';
+  return { st, img, ip, it, ih: clamp(+((b && b.ctimgh) || 70), 24, 300), hid: st === 'none' || !!(img && ip === 'wide' && it === 'none') };
+}
+const cvIco = b => { const p = POS.get(b.id) || {}; return Math.max(22, Math.round((p.h || 26) + 4)); };
+function cvTitleSvg(r, c, q, RK) {
+  const t = cvTitle(r, c), col = info(c.id).color, x = q.x + q.cv.dx, y = q.y + q.cv.dy, w = q.cv.w, th = q.h + 16, k = Math.min(RK, w / 2, 40), id = 'ct' + c.id; let h = '';
+  const top = (y0, hh, rounded) => rounded ? `M${f1(x)},${f1(y0 + hh)} V${f1(y0 + k)} Q${f1(x)},${f1(y0)} ${f1(x + k)},${f1(y0)} H${f1(x + w - k)} Q${f1(x + w)},${f1(y0)} ${f1(x + w)},${f1(y0 + k)} V${f1(y0 + hh)} Z` : `M${f1(x)},${f1(y0)} H${f1(x + w)} V${f1(y0 + hh)} H${f1(x)} Z`;
+  const gz = ZGR.has(c.id), g = PR.dark ? '#4b5057' : '#c9ced4', cc = gz ? g : col, wide = t.img && t.ip === 'wide';
+  if ((t.st === 'soft' || t.st === 'band') && !t.hid && !(wide && t.it === 'over')) {   // franja: el color del recuadro (suave: aclarado)
+    const by = wide && t.it === 'below' ? y + t.ih : y, f = t.st === 'band' ? cc : hexMix(cc, PR.dark ? '#1e2226' : '#ffffff', PR.dark ? 0.62 : 0.8);
+    h += `<path d="${top(by, th, by === y)}" fill="${f}" style="pointer-events:none"/>`;
+  }
+  if (t.img) {
+    if (wide) { const hh = t.it === 'over' ? Math.max(t.ih, th) : t.ih;
+      h += `<clipPath id="${id}"><path d="${top(y, hh, true)}"/></clipPath><image href="${esc(t.img)}" x="${f1(x)}" y="${f1(y)}" width="${f1(w)}" height="${f1(hh)}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"${gz ? ' class="zgsvg"' : ''} style="pointer-events:none"/>`;
+      if (t.it === 'over') h += `<linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></linearGradient><path d="${top(y, hh, true)}" fill="url(#${id}g)" style="pointer-events:none"/>`;
+    } else { const s = cvIco(c), ix = t.ip === 'left' ? x + 10 : x + w - 10 - s, iy = q.y + (q.h - s) / 2;
+      h += `<clipPath id="${id}"><rect x="${f1(ix)}" y="${f1(iy)}" width="${s}" height="${s}" rx="6"/></clipPath><image href="${esc(t.img)}" x="${f1(ix)}" y="${f1(iy)}" width="${s}" height="${s}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"${gz ? ' class="zgsvg"' : ''} style="pointer-events:none"/>`; }
+  }
+  return h;
+}
+// Subtarjetas (tarjetas dentro de una tarjeta): apiladas con su número (por defecto; se despliegan flotando encima, sin mover nada) o en lista
+function cvSubMode(r, b) { if (CVFREE()) return 'stack'; const cv = r && r.cnv || {}, v = (b && b.csub) || cv.sub; return v === 'list' ? 'list' : 'stack'; }
+function cvCGap(r, b) { if (CVFREE()) return null; const cv = r && r.cnv || {}, v = b && b.ccgap != null ? b.ccgap : cv.cgap; return v != null && isFinite(+v) ? clamp(+v, 0, 60) : null; }   // separación entre tarjetas, notas o tiras (nada = la de siempre)
 function cvKeepGap(r) { const cv = r && r.cnv || {}; return cv.titles === 'no' && (cv.keep === 'yes' || (cv.keep !== 'no' && !!(cv.bg || cv.bgv))); }
 function cvOver(r, b) { const cv = r && r.cnv || {}; return (b && b.cover) || cv.over || 'overlap'; }   // notas que no caben: solapadas, menos altas o más pequeñas
 function cvPer(r, b, R) { const cv = r && r.cnv || {}, v = (b && b.cper) || cv.per; if (v && v !== 'auto') return clamp(+v, 1, 3); const k = R.w / Math.max(1, R.h); return k > 3 ? 3 : k > 2 ? 2 : 1; }   // tiras por fila: según lo alargado del recuadro
@@ -8468,6 +8619,7 @@ function cvSaveTpl() {
   PR.cvTpl = [...(PR.cvTpl || []).filter(x => x.name !== name), t].slice(-20); savePrefs(); toast(trStr('Guardado en «Lienzo nuevo» como') + ' «' + name + '»');
 }
 function cvSet(fn) { const c = cvCur(); if (!c) { toast(trStr('Abre o selecciona un lienzo.')); return; } snap(); c.r.cnv = c.r.cnv || {}; fn(c.r.cnv, c.r); render(); }
+
 function cvMobile() {   // A → B → C → D en los lienzos de 9 recuadros; en el resto, recoloca girando la cuadrícula
   cvSet((cv, r) => {
     if (r.kids.length === 9) { const o = ['a', 'b', 'c', 'd'], v = o[(o.indexOf(cv.mobile) + 1) % 4]; cv.mobile = v; cv.gv = CV_MOB9[v][0]; r.kids.forEach((b, i) => b.areav = CV_MOB9[v][1][i]); toast(trStr('Colocación en móvil') + ': ' + v.toUpperCase()); }
