@@ -397,8 +397,14 @@
   .qbar .qb-ms { display: inline-flex; gap: 3px; margin: 0 2px 0 4px; } .qbar .qb-ms button { min-width: 26px; height: 24px; border: 1.3px solid #b9c1ca; border-radius: 6px; font-weight: 800; font-size: 12px; color: #5b6670; background: #fff; }
   .qbar .qb-ms .qb-m[aria-pressed="true"] { background: #e8590c; border-color: #e8590c; color: #fff; } .qbar .qb-ms .qb-s[aria-pressed="true"] { background: #1c7ed6; border-color: #1c7ed6; color: #fff; }
   body.dark .qbar .qb-ms button { background: transparent; color: var(--ink); border-color: #555; }
-  .board .n.zg, .zgsvg { filter: grayscale(1) contrast(.36) brightness(1.45) !important; }   /* gris claro y opaco, como las ramas en gris; !important y más peso: los relieves (también «sin relieve») ponen filter: none */
-  body.dark .n.zg, body.dark .zgsvg { filter: grayscale(1) contrast(.5) brightness(.62) !important; }
+  :root { --zg-c: #c9ced4; --zg-t: #8f959c; }   /* el gris de lo que no tiene foco: el mismo que las ramas en gris */
+  body.dark { --zg-c: #4b5057; --zg-t: #868c94; }
+  :root { --zg-ts: #747a81; } body.dark { --zg-ts: #a3a9b1; }   /* texto sobre el gris macizo: algo más marcado para que se lea */
+  .board .n.zg { --bc: var(--zg-c) !important; --tc: var(--zg-t) !important; filter: grayscale(1) !important; }   /* todos los temas con el mismo tono, sea cual sea su color */
+  .board .n.zg.hf { --fill: var(--zgf) !important; }
+  .board .n.zg.zs { --tc: var(--zg-ts) !important; }
+  .board .n.zg.hgr { background-image: none !important; }
+  .zgsvg { filter: grayscale(1) !important; }   /* gris claro y opaco, como las ramas en gris; !important y más peso: los relieves (también «sin relieve») ponen filter: none */
   .n > .zmb { position: absolute; top: -8px; right: -8px; min-width: 15px; height: 15px; padding: 0 2px; border-radius: 4px; background: #1c7ed6; color: #fff; font: 800 9.5px/15px Inter, system-ui, sans-serif; text-align: center; pointer-events: none; z-index: 3; } .n > .zmb[data-k="M"] { background: #e8590c; }
   .zfbar { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.14); font-size: 12.5px; white-space: nowrap; }
   .nbtn { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 10; pointer-events: none; } .nbtn > button { pointer-events: auto; transform-origin: 0 0; } .nbtn button { position: absolute; left: 0; top: 0; display: grid; place-items: center; padding: 0; cursor: pointer; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
@@ -2205,10 +2211,10 @@ function syncNodes() {
       const weight = E('weight'), cs = E('case'), al = E('align');
       const csh = pathShape(sh);
       const cls = `n d${Math.min(inf.d, 2) === 2 ? 'n' : inf.d} ${csh ? 's-custom' + (csh.svg ? ' s-art' : '') : 's-' + sh}${hasMedia(n) ? (imgFloat(n, inf) && !ytId(vidOf(n)) && !hasCard(n) ? ' imfl' : ' has-img') : ''}` + (weight ? '' : bold === true ? ' b' : bold === false ? ' nb' : '') + (E('italic') ? ' i' : '') + (n.task ? ' done' : '') + (sel.has(n.id) ? (FMTM ? ' fsel' : ' sel') : '') + (editId === n.id ? ' editing' : '');
-      const rf = BIGHEAD(n) ? null : E('relief'), cls2 = cls + (rf ? ' rf-' + rf : '');
-      if (el.className !== cls2) { const hv = el.classList.contains('hov'), yf = el.classList.contains('yfree'); el.className = cls2; if (hv) el.classList.add('hov'); if (yf) el.classList.add('yfree'); }
+      const rf = BIGHEAD(n) ? null : E('relief'), hgr = !!(fgr && !pathShape(sh) && !NOFILL_SH.includes(sh)), cls2 = cls + (rf ? ' rf-' + rf : '') + (fill && fill !== 'transparent' ? ' hf' : '') + ((fill && fill !== 'transparent' ? (lumOf(fill) ?? 0) <= 0.6 : SOLIDISH.includes(sh)) ? ' zs' : '') + (hgr ? ' hgr' : '');
+      if (el.className !== cls2) { const hv = el.classList.contains('hov'), yf = el.classList.contains('yfree'), zg = el.classList.contains('zg'); el.className = cls2; if (hv) el.classList.add('hov'); if (yf) el.classList.add('yfree'); if (zg) el.classList.add('zg'); }
       el.style.setProperty('--bc', E('bc') || inf.color); el.classList.toggle('bighead', BIGHEAD(n));
-      if (fill) el.style.setProperty('--fill', fill); else el.style.removeProperty('--fill');
+      if (fill) { el.style.setProperty('--fill', fill); const fl = lumOf(fill); const lt = fl != null && fl > 0.6; el.style.setProperty('--zgf', lt ? 'color-mix(in srgb, var(--zg-c) 40%, var(--nbase))' : 'var(--zg-c)'); } else { el.style.removeProperty('--fill'); el.style.removeProperty('--zgf'); }   /* en gris: un relleno claro sigue claro y uno fuerte se queda en el gris de las ramas */
       el.style.backgroundImage = fgr && !pathShape(sh) && !NOFILL_SH.includes(sh) ? gradCss(fgr) : '';
       if (tc) el.style.setProperty('--tc', tc); else el.style.removeProperty('--tc');
       { const sc = CV_SC.get(n.id); el.style.fontSize = fs || sc ? (BASE[Math.min(inf.d, 2)] * (1 + 0.15 * (fs || 0)) * (sc || 1)).toFixed(1) + 'px' : ''; }
@@ -3081,7 +3087,7 @@ function groupsSvg(onBr) {
   let g = '';
   (doc.groups || []).forEach((gr, gi) => {
     const bx = groupBoxes(gr); if (!bx.length) return;
-    const c = groupColor(gr), sh = gr.s || 'fan', pd = sh === 'fan' ? 14 : 10;
+    const c = ZGR.size && gr.ids.every(id => ZGR.has(id)) ? (PR.dark ? '#4b5057' : '#c9ced4') : groupColor(gr), sh = gr.s || 'fan', pd = sh === 'fan' ? 14 : 10;   // grupo sin foco (todos sus temas en gris): en el gris de las ramas
     const bs = gr.b || (sh === 'line' || sh === 'rect' ? 'dash' : 'solid');
     const stk = bs === 'none' ? ' stroke="none"' : ` stroke="${c}" stroke-width="${sh === 'line' ? 1.8 : 1.5}"${sh === 'line' ? '' : ' stroke-opacity=".65"'}${bs === 'dash' ? ' stroke-dasharray="7 5"' : ''}`;
     // Puntos reales del grupo: cajas (las que van sobre una rama giran con ella) y sus ramas internas
@@ -3288,6 +3294,7 @@ function bigFx(n0, col, def, d, arrow) {
   const E = k => n0.id && info(n0.id) ? eff(n0, k) : n0[k], n = arrow ? { id: n0.id, relief: n0.relief } : { id: n0.id, fill: E('fill'), bc: E('bc'), bw: E('bw'), relief: E('relief') };   // en las flechas solo cuenta el relieve: el color es el de la línea
   const id = 'bf' + n.id + (bigFx.k = (bigFx.k || 0) + 1); let rf = n.relief || doc.theme.bigfx || ''; if (rf === 'real3d') rf = '3d';
   if (n.fill === 'branch') n.fill = col; else if (n.fill === 'auto') n.fill = hexMix(col, '#ffffff', doc.theme.fshade ?? 0.82);
+  if (n0 && ZGR.has(n0.id)) { const g = PR.dark ? '#4b5057' : '#c9ced4', gf = gradOf(n.fill), f0 = gf ? gf[0] : n.fill; col = g; n.bc = null; n.fill = f0 && f0 !== 'transparent' && f0 !== 'none' ? ((lumOf(f0) ?? 0) > 0.6 ? hexMix(g, PR.dark ? '#22262a' : '#ffffff', 0.6) : g) : f0; }   // en gris: el mismo tono que las ramas, no el color de cada rama pasado a gris
   // Flechas anchas: relleno claro (el de siempre), sólido o degradado, según Diseño › Flechas anchas
   const af = arrow ? doc.theme.afill || '' : '';
   if (af === 'solid') { n.fill = col; n.bc = hexMix(col, '#000000', 0.22); } else if (af === 'grad') { n.fill = hexMix(col, '#ffffff', 0.55) + ',' + col + ',h'; n.bc = hexMix(col, '#000000', 0.15); }
